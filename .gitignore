@@ -1,0 +1,27 @@
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.coverage
+coverage.xml
+.pytest_cache/
+.ipynb_checkpoints/
+docs/_build/
+docs/_autosummary/
+
+# build products of the article
+ccd_diffusion/ccd-diffusion.pdf
+ccd_diffusion/ccd-diffusion.tex
+ccd_diffusion/ccd-diffusion.zip
+ccd_diffusion/*.aux
+ccd_diffusion/*.bbl
+ccd_diffusion/*.blg
+ccd_diffusion/*.fdb_latexmk
+ccd_diffusion/*.fls
+ccd_diffusion/*.log
+ccd_diffusion/*.out
+ccd_diffusion/*.synctex.gz
+ccd_diffusion/figures/*.pdf
+ccd_diffusion/*.pdf
+!ccd_diffusion/tracks/data/*

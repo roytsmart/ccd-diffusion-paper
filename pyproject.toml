@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ccd-diffusion-paper"
+authors = [
+    {name = "Roy T. Smart", email = "roytsmart@gmail.com"},
+]
+description = "An article measuring the charge-diffusion kernel of the IRIS CCDs in orbit from glancing particle tracks."
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "pylatex",
+    "aastex>=0.6",  # TODO: >=0.7 once class_files is released
+    "optika~=2.2",
+    "named-arrays",
+    "scipy",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pymupdf",
+]
+doc = [
+    "pytest",
+    "matplotlib",
+    "graphviz",
+    "sphinx-autodoc-typehints",
+    "sphinxcontrib-bibtex",
+    "pydata-sphinx-theme",
+    "ipykernel",
+    "jupyter-sphinx",
+    "nbsphinx",
+    "sphinx-favicon",
+]
+
+[project.urls]
+Homepage = "https://github.com/roytsmart/ccd-diffusion-paper"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+
+[tool.setuptools_scm]
+
+[tool.setuptools.package-data]
+ccd_diffusion = ["tracks/data/*", "*.cls", "*.bst", "*.bib"]

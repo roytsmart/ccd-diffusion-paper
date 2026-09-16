@@ -1,0 +1,109 @@
+name: pdf
+
+# The article pdf is expensive to build (about ten minutes on a runner), so it
+# is built once by the `tests` workflow and only published here.
+on:
+  workflow_run:
+    workflows: ["tests"]
+    types: [completed]
+
+# Every run pushes to the same branch, so serialize them.
+concurrency:
+  group: gh-pages
+  cancel-in-progress: false
+
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  publish:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Download the article built by `tests`
+        uses: actions/download-artifact@v4
+        with:
+          name: article
+          path: article
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Determine where to publish
+        id: target
+        env:
+          EVENT: ${{ github.event.workflow_run.event }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          if [ "$EVENT" = "push" ]; then
+            echo "dir=." >> "$GITHUB_OUTPUT"
+            echo "pr=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          pr=$(gh pr list --repo "$GITHUB_REPOSITORY" --head "$HEAD_BRANCH" \
+                 --state open --json number --jq '.[0].number // empty')
+          if [ -z "$pr" ]; then
+            echo "No open pull request for $HEAD_BRANCH; nothing to preview."
+            echo "dir=" >> "$GITHUB_OUTPUT"
+            echo "pr=" >> "$GITHUB_OUTPUT"
+          else
+            echo "dir=pr/$pr" >> "$GITHUB_OUTPUT"
+            echo "pr=$pr" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish to the gh-pages branch
+        if: steps.target.outputs.dir != ''
+        env:
+          DIR: ${{ steps.target.outputs.dir }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          remote="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if git clone --depth 1 --branch gh-pages "$remote" pages 2>/dev/null; then
+            echo "cloned existing gh-pages"
+          else
+            echo "gh-pages does not exist yet; creating it"
+            mkdir pages
+            cd pages
+            git init -q
+            git checkout -q -b gh-pages
+            git remote add origin "$remote"
+            cd ..
+          fi
+
+          mkdir -p "pages/${DIR}"
+          cp article/ccd-diffusion.pdf "pages/${DIR}/ccd-diffusion.pdf"
+
+          cd pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
+          if git diff --cached --quiet; then
+            echo "The article is unchanged; nothing to publish."
+          else
+            git commit -q -m "Publish ccd-diffusion.pdf for ${SHA:0:7} to ${DIR}"
+            git push -q origin gh-pages
+          fi
+
+      - name: Comment the preview link on the pull request
+        if: steps.target.outputs.pr != ''
+        env:
+          PR: ${{ steps.target.outputs.pr }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          repo_name="${GITHUB_REPOSITORY#*/}"
+          url="https://${GITHUB_REPOSITORY_OWNER}.github.io/${repo_name}/pr/${PR}/ccd-diffusion.pdf"
+          body="<!-- pdf-preview -->
+          **Article preview:** [ccd-diffusion.pdf](${url})
+
+          Built from \`${SHA:0:7}\`. This link is updated on every push to this pull request."
+
+          # Update the existing comment in place so pushes do not pile up comments.
+          id=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR}/comments" --paginate \
+                 --jq '[.[] | select(.body | startswith("<!-- pdf-preview -->"))][0].id // empty')
+          if [ -n "$id" ]; then
+            gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${id}" -f body="$body" >/dev/null
+          else
+            gh api -X POST "repos/${GITHUB_REPOSITORY}/issues/${PR}/comments" -f body="$body" >/dev/null
+          fi

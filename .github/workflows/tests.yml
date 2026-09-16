@@ -1,0 +1,54 @@
+
+name: tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [
+          ubuntu-latest,
+        ]
+        python-version: ["3.12", "3.13", "3.14"]
+    name: ${{ matrix.os }}, Python ${{ matrix.python-version }} test
+    steps:
+      - name: Install LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install latexmk texlive-publishers texlive-science texlive-latex-extra cm-super libcairo2-dev
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          pip install setuptools wheel
+          pip install -e .[test]
+      - name: Test with pytest
+        run: |
+          pip install pytest pytest-cov
+          pytest --cov=. --cov-report=xml
+      - name: Upload the article
+        if: matrix.python-version == '3.12'
+        uses: actions/upload-artifact@v4
+        with:
+          name: article
+          path: ccd_diffusion/ccd-diffusion.pdf
+          if-no-files-found: error
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v7
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.xml
+          flags: unittests
+          env_vars: OS,PYTHON
+          name: codecov-umbrella

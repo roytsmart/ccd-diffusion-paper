@@ -1,0 +1,37 @@
+name: pdf-cleanup
+
+# Remove a pull request's article preview once the pull request is closed.
+on:
+  pull_request:
+    types: [closed]
+
+concurrency:
+  group: gh-pages
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Remove the preview directory
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          remote="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if ! git clone --depth 1 --branch gh-pages "$remote" pages 2>/dev/null; then
+            echo "No gh-pages branch; nothing to clean up."
+            exit 0
+          fi
+          cd pages
+          if [ ! -d "pr/${PR}" ]; then
+            echo "No preview for pull request ${PR}."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -rq "pr/${PR}"
+          git commit -q -m "Remove the article preview for pull request ${PR}"
+          git push -q origin gh-pages
