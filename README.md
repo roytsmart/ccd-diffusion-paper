@@ -84,12 +84,19 @@ pytest                       # builds and validates the pdf
 python -c "import ccd_diffusion; ccd_diffusion.pdf()"
 ```
 
-Fitting every track takes a few minutes, so the fits are stored in
-`tracks/data/iris_fits.csv` and only recomputed by
+The track cutouts are extracted from about 3200 level-1 images, 3.8 GB in
+all, which are fetched from the IRIS archive at LMSAL one block at a time
+and, unless `--keep` is given, deleted once their block is done. Fitting
+every track then takes a few minutes. Both results are stored under
+`tracks/data/` and only recomputed by
 
 ```bash
-python -m ccd_diffusion.tracks
+python -m ccd_diffusion.tracks extract   # fetch the images and rewrite the cutouts, frame list, and census
+python -m ccd_diffusion.tracks fit       # refit every track and rewrite the fits
 ```
+
+The images are cached in `~/.cache/ccd_diffusion/iris`, or wherever
+`CCD_DIFFUSION_CACHE` points.
 
 Formatting and linting, both enforced in CI:
 

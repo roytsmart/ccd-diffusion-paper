@@ -27,7 +27,8 @@ Run from this package directory:
 pip install -e .[test]          # install for development
 pytest                          # run tests; test_pdf compiles the LaTeX → PDF
 pytest ccd_diffusion/_document_test.py::test_pdf   # build the PDF specifically
-python -m ccd_diffusion.tracks  # refit every track and rewrite tracks/data/iris_fits.csv (minutes)
+python -m ccd_diffusion.tracks fit      # refit every track and rewrite tracks/data/iris_fits.csv (minutes)
+python -m ccd_diffusion.tracks extract  # fetch 3.8 GB of level-1 images block by block and rewrite the cutouts (an hour or more; ask first)
 black ccd_diffusion             # format (CI enforces --check)
 ruff check                      # lint (CI enforces)
 ```
@@ -53,10 +54,13 @@ acknowledgments), and the bibliography.
 - **`_variables.py`** defines `aastex.Variable` macros for every numeric value cited in
   the prose, computed from `tracks`. Reference `\variableName` in section strings
   rather than hardcoding a number.
-- **`tracks/`** is the measurement: `_tracks.py` (the cutouts and metadata), `_fit.py`
-  (the grid fit of the width model with nuisance offset and tilt), `_samepix.py` (the
-  same-pixel probability, depth profiles, per-chip summaries). Fits for every track are
-  committed in `tracks/data/iris_fits.csv` because refitting is too slow for CI.
+- **`tracks/`** is the measurement: `_archive.py` (fetching level-1 images from LMSAL
+  into `~/.cache/ccd_diffusion/iris`), `_extract.py` (backgrounds, masks, the track
+  finder, and the azimuth census; the one module that works on plain numpy arrays),
+  `_tracks.py` (the cutouts and metadata), `_fit.py` (the grid fit of the width model
+  with nuisance offset and tilt), `_samepix.py`, `_stacked.py`, `_depleted.py` (the
+  analyses), `_images.py` (two example frames). Every data product under `tracks/data/`
+  is committed because regenerating it needs the archive or minutes of fitting.
 - **`_ccd.py`** is the `optika` sensor model the measurement is compared with.
 - **`docs/reports/tracks.ipynb`** is the exploratory notebook, executed by nbsphinx on
   every documentation build; its text cells are raw reStructuredText.
