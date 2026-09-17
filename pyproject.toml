@@ -15,7 +15,7 @@ classifiers = [
 ]
 dependencies = [
     "pylatex",
-    "aastex @ git+https://github.com/sun-data/aastex.git@main",  # TODO: aastex>=0.7 once released
+    "aastex>=0.7",
     "optika~=2.2",
     "named-arrays",
     "scipy",
