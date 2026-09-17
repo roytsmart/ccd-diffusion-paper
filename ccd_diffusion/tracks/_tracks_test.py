@@ -182,3 +182,57 @@ def test_summary_sji_matches_model():
         result.same_pixel_paper,
         abs=3 * result.same_pixel_error,
     )
+
+
+def test_images():
+    images = ccd_diffusion.tracks.images()
+    assert {im.image for im in images} == {"FUV", "SJI_2796"}
+    for im in images:
+        assert im.saa
+        assert im.data.shape[ccd_diffusion.tracks.axis_row] == 1096
+        assert len(im.tracks) > 5
+        for track in im.tracks:
+            assert track.fsn == im.fsn
+
+
+@pytest.mark.parametrize("chip", ["FUV1", "FUV2", "SJI"])
+def test_stack(chip: str):
+    result = ccd_diffusion.tracks.stack(chip)
+    assert isinstance(result, ccd_diffusion.tracks.Stack)
+    assert result.image.shape == {
+        ccd_diffusion.tracks.axis_depth: result.depth.size - 1,
+        "offset": result.offset.size - 1,
+    }
+    assert np.all(np.isfinite(result.image))
+    # the image is a density per pixel, so it integrates to one over the cutout
+    width = np.diff(result.offset, axis="offset")
+    assert np.allclose((result.image * width).sum("offset"), 1, atol=0.05)
+
+
+@pytest.mark.parametrize("chip", ["FUV1", "FUV2", "SJI"])
+def test_widths(chip: str):
+    result = ccd_diffusion.tracks.widths(chip)
+    assert isinstance(result, ccd_diffusion.tracks.Widths)
+    assert np.all(result.lower <= result.best)
+    assert np.all(result.best <= result.upper)
+    assert result.fitted.shape == result.depth.shape
+    assert result.model.shape == result.depth.shape
+    # the back surface is wider than the front
+    assert result.best[dict(depth=0)] > result.best[dict(depth=-1)]
+
+
+def test_width_depleted():
+    depth = na.linspace(0, 1, axis="t", num=11)
+    result = ccd_diffusion.tracks.width_depleted(depth, 0.4, 5 * u.um, 1 * u.um)
+    assert result.shape == depth.shape
+    assert np.all(result >= 0)
+    assert result[dict(t=0)] > result[dict(t=5)] > 0
+    assert np.all(np.diff(result, axis="t") <= 0)
+
+
+def test_depleted():
+    result = ccd_diffusion.tracks.depleted("SJI")
+    assert isinstance(result, ccd_diffusion.tracks.Depleted)
+    assert result.misfit.min() == 0
+    assert 0 * u.um < result.best < 3 * u.um
+    assert len(result.preferred) == len(ccd_diffusion.tracks.flat("SJI"))

@@ -9,20 +9,42 @@ def discussion() -> aastex.Section:
     result = aastex.Section("Discussion", label="sec:discussion")
     result.escape = False
     result.append(r"""
-On the \SJI\ \CCD\ the same-pixel probability at the back surface is
-$\sjiSamePixel \pm \sjiSamePixelError$, in agreement with the
-\sjiSamePixelModel\ predicted by the field-free model.
-Two features of the tracks deserve comment.
-First, the fitted $t_c$, with a median of \sjiCriticalDepth\ on the \SJI\
-\CCD, is somewhat larger than the \modelCriticalDepth\ of the model, and
-beyond $t_c$ the measured same-column probability settles below the value
-expected for a track with no diffusion at all.
-Both indicate that the charge undergoes some additional spreading, of order
-a micron, while drifting across the depletion region, which the model
-neglects.
-Second, the tracks are left by protons that deposit thousands of electrons
-per row, whereas a \UV\ photon liberates one to three; whether the charge
-density of the track widens the cloud, as it does for slow protons in thick
-sensors \cite{Grosson2023}, is a systematic that the tracks themselves can
-test by comparing the kernels of faint and bright tracks.""")
+At the back surface, where \UV\ photons are absorbed, the tracks confirm the
+field-free model on the \SJI\ and \FUV{}2 \CCD{}s: the same-pixel
+probability of $\sjiSamePixel \pm \sjiSamePixelError$ on \SJI\ matches the
+\sjiSamePixelModel\ predicted from the depletion thickness of the model,
+which is the quantity the companion noise model needs.
+Deeper in the sensor the tracks see about a micron of spreading that the
+model neglects.
+It is about what the drift-time diffusion across the depleted thickness
+plus the micron-scale ionization column of the track itself should give,
+and it is small compared with the back-surface spread, so it has little
+effect on \UV\ imaging, but it does bias a two-parameter fit: the fitted
+$t_c$ of \sjiCriticalDepth\ on \SJI\ is larger than the model's
+\modelCriticalDepth\ partly because the wedge is stretched to absorb the
+floor.
+
+The \FUV{}1 \CCD\ is narrower than the other two, at the back surface and
+in the fitted $\sigma_\text{max}$ alike.
+We have no explanation beyond chip-to-chip variation of the field-free
+thickness, which depends on the resistivity of the wafer and the applied
+bias; the same measurement on \AIA\ \CCD{}s, which are of the same
+design, would show whether such variation is common.
+
+Two systematics deserve comment.
+First, the tracks are left by protons that deposit thousands of electrons
+per row, whereas a \UV\ photon liberates one to three.
+In thick, fully depleted sensors, slow protons leave tracks visibly
+widened by the mutual repulsion of that charge \cite{Grosson2023}, and if
+the same occurred in the field-free layer here the tracks would
+overestimate the single-photon kernel.
+The tracks themselves can test this, by comparing the kernels of faint and
+bright tracks, and that comparison is the first thing to add.
+Second, the depth assignment assumes every flat track crosses the full
+thickness of the sensor; a track that entered or left through the edge of
+the field-free layer, or that was clipped by the Bragg cut at one end,
+would have its depths compressed.
+The agreement between the model-free and parametric profiles, and between
+campaigns, suggests such tracks are rare, but a validation on synthetic
+tracks injected into real frames is the way to bound it.""")
     return result

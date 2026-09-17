@@ -25,3 +25,4 @@ ccd_diffusion/*.synctex.gz
 ccd_diffusion/figures/*.pdf
 ccd_diffusion/*.pdf
 !ccd_diffusion/tracks/data/*
+ccd_diffusion/*.png

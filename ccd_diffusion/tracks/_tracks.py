@@ -30,6 +30,20 @@ width_pixel = 13 * u.um
 
 _directory_data = pathlib.Path(__file__).parent / "data"
 
+datasets = {
+    "2014b": dict(date="2014-03-12", particles="SAA protons", roll=0, image="FUV"),
+    "2014": dict(date="2014-04-07", particles="cosmic rays", roll=0, image="FUV"),
+    "2018": dict(date="2018-03-16", particles="cosmic rays", roll=0, image="FUV"),
+    "2018may": dict(date="2018-05-04", particles="SAA protons", roll=-90, image="FUV"),
+    "sji": dict(date="2018-05-04/06", particles="SAA protons", roll=-90, image="SJI"),
+}
+"""
+The observing campaigns the tracks were found in, in chronological order,
+with the date, the dominant particle population (inferred from the energy
+loss and from whether the frames were taken inside the South Atlantic
+Anomaly), the roll angle of the spacecraft in degrees, and the camera.
+"""
+
 
 @dataclasses.dataclass(eq=False)
 class Track:

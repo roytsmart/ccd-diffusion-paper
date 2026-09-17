@@ -76,6 +76,9 @@ def document(linenumbers: bool = True) -> aastex.Document:
     doc.append(ccd_diffusion.sections.discussion())
     doc.append(ccd_diffusion.sections.conclusion())
 
+    doc.append(aastex.Appendix())
+    doc.append(ccd_diffusion.sections.gallery())
+
     doc.append(ccd_diffusion.sections.disclosures())
     doc.append(ccd_diffusion.sections.availability())
     doc.append(ccd_diffusion.sections.acknowledgments())

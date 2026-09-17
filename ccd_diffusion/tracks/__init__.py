@@ -10,6 +10,7 @@ by running ``python -m ccd_diffusion.tracks``.
 """
 
 from ._tracks import (
+    datasets,
     axis_slice,
     axis_pixel,
     half_width,
@@ -36,6 +37,25 @@ from ._fit import (
     fits,
     save,
 )
+from ._images import axis_row, axis_column, Image, images
+from ._stacked import (
+    depth_bins_fine,
+    widths_trial,
+    flat,
+    Stack,
+    stack,
+    Widths,
+    widths,
+)
+from ._depleted import (
+    axis_width_depleted,
+    critical_depth_depleted,
+    width_max_depleted,
+    width_depleted_grid,
+    width_depleted,
+    Depleted,
+    depleted,
+)
 from ._samepix import (
     axis_depth,
     depth_bins,
@@ -50,6 +70,25 @@ from ._samepix import (
 )
 
 __all__ = [
+    "datasets",
+    "axis_row",
+    "axis_column",
+    "Image",
+    "images",
+    "depth_bins_fine",
+    "widths_trial",
+    "flat",
+    "Stack",
+    "stack",
+    "Widths",
+    "widths",
+    "axis_width_depleted",
+    "critical_depth_depleted",
+    "width_max_depleted",
+    "width_depleted_grid",
+    "width_depleted",
+    "Depleted",
+    "depleted",
     "axis_slice",
     "axis_pixel",
     "half_width",
