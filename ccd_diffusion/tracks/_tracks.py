@@ -128,19 +128,28 @@ class Track:
 
 
 @functools.cache
-def load() -> tuple[Track, ...]:
+def load(directory: None | pathlib.Path = None) -> tuple[Track, ...]:
     """
     Load the particle tracks extracted from the IRIS level-1 images.
 
     The tracks are stored in ``data/iris_tracks.csv`` (one row of metadata
     per track) and ``data/iris_tracks.npz`` (the cutouts of every track
     concatenated along :data:`axis_slice`).
+
+    Parameters
+    ----------
+    directory
+        The directory holding the two files, the data directory of the
+        package if :obj:`None`.
     """
-    arrays = np.load(_directory_data / "iris_tracks.npz")
+    if directory is None:
+        directory = _directory_data
+    directory = pathlib.Path(directory)
+    arrays = np.load(directory / "iris_tracks.npz")
     charge = arrays["charge"]
     position = arrays["position"]
 
-    with open(_directory_data / "iris_tracks.csv", newline="") as f:
+    with open(directory / "iris_tracks.csv", newline="") as f:
         rows = list(csv.DictReader(f))
 
     result = []

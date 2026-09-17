@@ -1,0 +1,109 @@
+name: data
+
+# Regenerate the data distributed with the article from the IRIS level-1
+# archive. Every campaign is extracted in its own job, since the archive is
+# gigabytes and a job may run for six hours at most; a final job joins the
+# campaigns, refits every track, and opens a pull request with whatever
+# changed, so the new data are reviewed before they reach the article.
+#
+# The images of each campaign are kept in the Actions cache between runs
+# (10 GB per repository, entries unused for a week are evicted).
+#
+# A pull request opened with the workflow's own token does not run the
+# `tests` workflow. Store a fine-grained personal access token with read and
+# write access to this repository's contents and pull requests as the
+# `DATA_TOKEN` secret to have the pull request tested like any other.
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: data
+  cancel-in-progress: true
+
+jobs:
+  extract:
+    name: extract ${{ matrix.dataset }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        dataset: ["2014", "2014b", "2018", "2018may", "sji"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install package
+        run: pip install -e .
+      - name: Restore the level-1 images of the campaign
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ccd_diffusion/iris/${{ matrix.dataset }}
+          key: iris-${{ matrix.dataset }}-${{ hashFiles('ccd_diffusion/tracks/data/iris_frames.csv') }}
+      - name: Extract the tracks
+        run: >
+          python -m ccd_diffusion.tracks extract --keep
+          --dataset ${{ matrix.dataset }}
+          --output extracted/${{ matrix.dataset }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tracks-${{ matrix.dataset }}
+          path: extracted/${{ matrix.dataset }}
+          if-no-files-found: error
+
+  merge:
+    name: merge and fit
+    needs: extract
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.DATA_TOKEN || secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install package
+        run: pip install -e .
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: tracks-*
+          path: extracted
+      - name: Join the campaigns
+        run: python -m ccd_diffusion.tracks merge extracted/*
+      - name: Fit every track
+        run: python -m ccd_diffusion.tracks fit
+      - name: Open a pull request with the new data
+        env:
+          GH_TOKEN: ${{ secrets.DATA_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          data=ccd_diffusion/tracks/data
+          git add -N "$data/iris_azimuth.csv"
+          if git diff --quiet -- "$data"; then
+            echo "The data are unchanged; nothing to do."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          branch="data/run-${GITHUB_RUN_ID}"
+          git switch -c "$branch"
+          git add "$data/iris_tracks.npz" "$data/iris_tracks.csv" \
+                  "$data/iris_frames.csv" "$data/iris_azimuth.csv" "$data/iris_fits.csv"
+          git commit -q -m "Regenerate the track data from the IRIS archive
+
+          Extracted and fit by the data workflow, run ${GITHUB_RUN_ID}."
+          git push -q origin "$branch"
+          gh pr create --base main --head "$branch" \
+            --title "Regenerate the track data from the IRIS archive" \
+            --body "The track cutouts, frame list, census, and fits, regenerated from the level-1 archive by [run ${GITHUB_RUN_ID}](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}) of the data workflow.
+
+          Review the article preview before merging; every figure, table, and number in the prose changes with the data."

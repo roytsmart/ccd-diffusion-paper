@@ -43,6 +43,7 @@ __all__ = [
     "extract",
     "save_tracks",
     "save_census",
+    "load_census",
 ]
 
 length_minimum = 12
@@ -623,3 +624,32 @@ def save_census(
             for k in ("azimuth", "length", "width", "charge"):
                 row[k] = f"{row[k]:.3f}"
             writer.writerow(row)
+
+
+def load_census(directory: None | pathlib.Path = None) -> list[Component]:
+    """
+    Read a census written by :func:`save_census`.
+
+    Parameters
+    ----------
+    directory
+        The directory holding ``iris_azimuth.csv``, the data directory of the
+        package if :obj:`None`.
+    """
+    if directory is None:
+        directory = _directory_data
+    with open(pathlib.Path(directory) / "iris_azimuth.csv", newline="") as f:
+        rows = list(csv.DictReader(f))
+    return [
+        Component(
+            dataset=r["dataset"],
+            fsn=int(r["fsn"]),
+            saa=r["saa"] == "True",
+            azimuth=float(r["azimuth"]),
+            length=float(r["length"]),
+            width=float(r["width"]),
+            num_pixels=int(r["num_pixels"]),
+            charge=float(r["charge"]),
+        )
+        for r in rows
+    ]

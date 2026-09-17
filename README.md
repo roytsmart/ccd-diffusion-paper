@@ -98,6 +98,13 @@ python -m ccd_diffusion.tracks fit       # refit every track and rewrite the fit
 The images are cached in `~/.cache/ccd_diffusion/iris`, or wherever
 `CCD_DIFFUSION_CACHE` points.
 
+Neither step needs to run on your own machine. The `data` workflow in
+GitHub Actions (started from the Actions tab) extracts every campaign in
+its own job, with the images cached between runs, then joins the
+campaigns, refits every track, and opens a pull request with the new data
+and an article preview. A fine-grained personal access token stored as the
+`DATA_TOKEN` secret lets that pull request run the tests like any other.
+
 Formatting and linting, both enforced in CI:
 
 ```bash

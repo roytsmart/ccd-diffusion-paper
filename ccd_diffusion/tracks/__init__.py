@@ -52,6 +52,7 @@ from ._extract import (
     extract,
     save_tracks,
     save_census,
+    load_census,
 )
 from ._images import axis_row, axis_column, Image, images
 from ._stacked import (
@@ -104,6 +105,7 @@ __all__ = [
     "extract",
     "save_tracks",
     "save_census",
+    "load_census",
     "datasets",
     "axis_row",
     "axis_column",

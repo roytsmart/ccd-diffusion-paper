@@ -29,6 +29,8 @@ pytest                          # run tests; test_pdf compiles the LaTeX → PDF
 pytest ccd_diffusion/_document_test.py::test_pdf   # build the PDF specifically
 python -m ccd_diffusion.tracks fit      # refit every track and rewrite tracks/data/iris_fits.csv (minutes)
 python -m ccd_diffusion.tracks extract  # fetch 3.8 GB of level-1 images block by block and rewrite the cutouts (an hour or more; ask first)
+python -m ccd_diffusion.tracks extract --dataset sji --output out/sji   # one campaign, results elsewhere
+python -m ccd_diffusion.tracks merge out/*                              # join campaigns extracted separately
 black ccd_diffusion             # format (CI enforces --check)
 ruff check                      # lint (CI enforces)
 ```
@@ -62,6 +64,10 @@ acknowledgments), and the bibliography.
   analyses), `_images.py` (two example frames). Every data product under `tracks/data/`
   is committed because regenerating it needs the archive or minutes of fitting.
 - **`_ccd.py`** is the `optika` sensor model the measurement is compared with.
+- **`.github/workflows/data.yml`** regenerates everything under `tracks/data/` on
+  GitHub Actions (`workflow_dispatch`): one `extract` job per campaign with the
+  images in the Actions cache, then a `merge` job that joins, fits, and opens a pull
+  request. Prefer it to running `extract` locally.
 - **`docs/reports/tracks.ipynb`** is the exploratory notebook, executed by nbsphinx on
   every documentation build; its text cells are raw reStructuredText.
 

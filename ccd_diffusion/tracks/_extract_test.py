@@ -1,4 +1,5 @@
 import pathlib
+import dataclasses
 import numpy as np
 import named_arrays as na
 import ccd_diffusion
@@ -144,3 +145,53 @@ def test_chip():
     track.column = 500
     assert _extract._chip(track, "FUV", 4144) == "FUV1"
     assert _extract._chip(track, "SJI_2796", 2072) == "SJI"
+
+
+def test_load_roundtrip(tmp_path: pathlib.Path):
+    tracks = ccd_diffusion.tracks.load()[:7]
+    ccd_diffusion.tracks.save_tracks(list(tracks), tmp_path)
+    loaded = ccd_diffusion.tracks.load(tmp_path)
+    assert len(loaded) == len(tracks)
+    for a, b in zip(tracks, loaded):
+        assert a.name == b.name and a.chip == b.chip and a.fsn == b.fsn
+        assert np.allclose(a.charge.ndarray, b.charge.ndarray)
+        assert np.allclose(a.position.ndarray, b.position.ndarray)
+
+
+def test_load_census(tmp_path: pathlib.Path):
+    components = [
+        ccd_diffusion.tracks.Component("2014b", 1, True, 10.0, 20.0, 2.0, 30, 5000.0),
+        ccd_diffusion.tracks.Component("sji", 2, False, -80.0, 15.0, 1.5, 20, 900.0),
+    ]
+    ccd_diffusion.tracks.save_census(components, tmp_path)
+    loaded = ccd_diffusion.tracks.load_census(tmp_path)
+    assert [dataclasses.asdict(c) for c in loaded] == [
+        dataclasses.asdict(c) for c in components
+    ]
+
+
+def test_main_merge(tmp_path: pathlib.Path, monkeypatch):
+    from ccd_diffusion.tracks import __main__ as main
+    from ccd_diffusion.tracks import _extract
+
+    tracks = ccd_diffusion.tracks.load()
+    by_dataset = {}
+    for t in tracks:
+        by_dataset.setdefault(t.dataset, []).append(t)
+    parts = []
+    for dataset, ts in by_dataset.items():
+        part = tmp_path / dataset
+        part.mkdir()
+        ccd_diffusion.tracks.save_tracks(ts, part)
+        ccd_diffusion.tracks.save_census(
+            [ccd_diffusion.tracks.Component(dataset, 1, True, 0.0, 9.0, 1.0, 9, 1.0)],
+            part,
+        )
+        parts.append(part)
+    merged = tmp_path / "merged"
+    merged.mkdir()
+    monkeypatch.setattr(_extract, "_directory_data", merged)
+    main.main(["merge", *map(str, reversed(parts))])
+    loaded = ccd_diffusion.tracks.load(merged)
+    assert [t.name for t in loaded] == [t.name for t in tracks]
+    assert len(ccd_diffusion.tracks.load_census(merged)) == len(parts)
