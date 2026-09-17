@@ -172,11 +172,11 @@ def method() -> aastex.Figure:
     ax_d.plot(t, measured, "o", color="black", markersize=2.5, label="measured")
     ax_d.axvline(example.critical_depth, color="tab:blue", linestyle=":", linewidth=0.8)
     ax_d.axvline(tc_paper, color="tab:red", linestyle=":", linewidth=0.8)
-    ax_d.set_ylim(0.3, 1.02)
+    ax_d.set_ylim(0.2, 1.02)
     ax_d.set_xlabel("fractional depth, $t = z / D$")
     ax_d.set_ylabel(r"same-column probability, $\sum_j f_j^2$")
     ax_d.set_title("(d) the diffusion signal along the track in (c)", fontsize=8)
-    ax_d.legend(fontsize=6, loc="upper left")
+    ax_d.legend(fontsize=6, loc="lower left")
 
     result = aastex.Figure("method", position="htb!")
     result.add_fig(fig, width=None)

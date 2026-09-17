@@ -47,6 +47,7 @@ corresponding probability that they are collected in the same pixel, and the
 last column is $\mathcal{P}$ predicted by the field-free model for the same
 tracks."""))
     result.append(pylatex.Command("label", "tab:tracks"))
+    result.append(pylatex.Command("footnotesize"))
 
     tabular = pylatex.Tabular("lrrrccccc", booktabs=False)
     tabular.escape = False

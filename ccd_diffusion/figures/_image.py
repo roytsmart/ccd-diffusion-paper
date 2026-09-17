@@ -131,7 +131,7 @@ def image() -> aastex.Figure:
     result.add_fig(fig, width=None)
     result.add_caption(aastex.NoEscape(r"""
 Level-1 images taken seconds apart during a pass through \SAA\ on
-2018 May 4, frames \imageFsnSji\ and \imageFsnFuv, with the spacecraft
+2018 May 4, with the spacecraft
 rolled by $-90^\circ$ so that the limb runs horizontally across the field.
 (a) The slit-jaw image at 2796 \AA, whose lower half is off the limb.
 (b) The widest of the readout windows of the spectrograph image, on the

@@ -18,7 +18,6 @@ def variables() -> list[aastex.Variable]:
     sji = tracks.summary("SJI")
     tc_paper, sm_paper = tracks.paper_model()
     ccd = ccd_diffusion.ccd()
-    images = {im.image: im for im in tracks.images()}
 
     return [
         aastex.Variable("numFrames", len(frames)),
@@ -37,8 +36,6 @@ def variables() -> list[aastex.Variable]:
             "widthDepleted",
             f"{tracks.depleted('SJI').best.to_value(u.um):.1f}",
         ),
-        aastex.Variable("imageFsnSji", images["SJI_2796"].fsn),
-        aastex.Variable("imageFsnFuv", images["FUV"].fsn),
         aastex.Variable("imageVmax", ccd_diffusion.figures._image._vmax),
         aastex.Variable("thickness", f"{ccd.thickness_substrate.to_value(u.um):.0f}"),
         aastex.Variable("pixelPitch", f"{tracks.width_pixel.to_value(u.um):.0f}"),

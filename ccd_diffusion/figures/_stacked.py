@@ -26,7 +26,7 @@ def stacked() -> aastex.Figure:
 
     fig, ax = plt.subplots(
         ncols=3,
-        figsize=(6.5, 2.6),
+        figsize=(6.5, 2.7),
         constrained_layout=True,
     )
     ax_a, ax_b, ax_c = ax
@@ -63,16 +63,14 @@ def stacked() -> aastex.Figure:
             markersize=2,
             linewidth=0.8,
             label=f"{chip}, {len(tracks.flat(chip))} tracks",
+            zorder=3,
         )
-        ax_c.plot(
-            w.depth.ndarray, best, "o", color=color, markersize=2, label=f"{chip} data"
-        )
+        ax_c.plot(w.depth.ndarray, best, "o", color=color, markersize=2)
         ax_c.plot(
             w.depth.ndarray,
             w.fitted.ndarray.to_value(u.um),
             color=color,
             linewidth=0.8,
-            label=f"{chip} mean of fits",
         )
     reference = tracks.widths("SJI")
     for a in (ax_b, ax_c):
@@ -89,8 +87,8 @@ def stacked() -> aastex.Figure:
     ax_c.axvline(tc_paper, color="gray", linestyle=":", linewidth=0.8)
     ax_b.set_title(r"(b) $\sigma(t)$ from the stacked slices", fontsize=8)
     ax_c.set_title("(c) against the per-track fits", fontsize=8)
-    ax_b.legend(fontsize=5, loc="upper right")
-    ax_c.legend(fontsize=5, loc="upper right")
+    handles, labels = ax_b.get_legend_handles_labels()
+    fig.legend(handles, labels, loc="outside lower center", ncol=4, fontsize=6)
 
     result = aastex.Figure("stacked", position="htb!")
     result.add_fig(fig, width=None)
