@@ -121,7 +121,7 @@ class Widths:
     """The largest width within two units of misfit of :attr:`best`."""
 
     fitted: na.AbstractScalarArray
-    """The mean of the per-track fitted width curves in each bin."""
+    """The mean of the per-track fitted width curves, including :math:`\\sigma_d`, in each bin."""
 
     model: na.AbstractScalarArray
     """The width predicted by the field-free model of the article in each bin."""
@@ -159,7 +159,10 @@ def widths(chip: str) -> Widths:
 
     centers = na.ScalarArray((edges[:-1] + edges[1:]) / 2, axes=axis_depth)
     curves = na.stack(
-        [width(centers, f.critical_depth, f.width_max) for f in flat(chip)],
+        [
+            width(centers, f.critical_depth, f.width_max, f.width_depleted)
+            for f in flat(chip)
+        ],
         axis="track",
     )
     tc_paper, sm_paper = paper_model()

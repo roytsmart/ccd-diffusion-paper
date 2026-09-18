@@ -151,7 +151,7 @@ def method() -> aastex.Figure:
     none = tracks.same_pixel_model(example, 0, 0 * u.um).ndarray
     paper = tracks.same_pixel_model(example, tc_paper, sm_paper).ndarray
     best = tracks.same_pixel_model(
-        example, example.critical_depth, example.width_max
+        example, example.critical_depth, example.width_max, example.width_depleted
     ).ndarray
     measured = tracks.same_pixel(example).ndarray
     ax_d.plot(t[order], none[order], color="gray", linestyle="--", label="no diffusion")
@@ -167,7 +167,8 @@ def method() -> aastex.Figure:
         best[order],
         color="tab:blue",
         label=rf"fit: $t_c={example.critical_depth:.2f}$, "
-        rf"$\sigma_\mathrm{{max}}={example.width_max.to_value(u.um):.1f}$ $\mu$m",
+        rf"$\sigma_\mathrm{{max}}={example.width_max.to_value(u.um):.1f}$, "
+        rf"$\sigma_d={example.width_depleted.to_value(u.um):.2f}$ $\mu$m",
     )
     ax_d.plot(t, measured, "o", color="black", markersize=2.5, label="measured")
     ax_d.axvline(example.critical_depth, color="tab:blue", linestyle=":", linewidth=0.8)

@@ -51,6 +51,7 @@ def same_pixel_model(
     fit: Fit,
     critical_depth: float,
     width_max: u.Quantity,
+    width_depleted: u.Quantity = 0 * u.um,
 ) -> na.AbstractScalarArray:
     """
     The probability that two charges from the same slice are collected in the
@@ -65,8 +66,10 @@ def same_pixel_model(
         The fractional thickness of the field-free region, :math:`t_c`.
     width_max
         The width of the charge cloud at the back surface.
+    width_depleted
+        The spread acquired crossing the depletion region.
     """
-    w = width(fit.depth, critical_depth, width_max)
+    w = width(fit.depth, critical_depth, width_max, width_depleted)
     q = fractions(fit.position, w, fit.track.slope)
     return np.square(q).sum(axis_pixel)
 
@@ -102,7 +105,7 @@ class Profile:
     """The mean same-pixel probability predicted by the CCD model of this article."""
 
     fitted: na.AbstractScalarArray
-    """The mean same-pixel probability predicted by the per-track fits."""
+    """The mean same-pixel probability predicted by the per-track fits, including :math:`\\sigma_d`."""
 
     none: na.AbstractScalarArray
     """The mean same-pixel probability predicted with no charge diffusion."""
@@ -143,7 +146,9 @@ def profile(chip: str) -> Profile:
         depth.append(f.depth.ndarray)
         measured.append(same_pixel(f).ndarray)
         paper.append(same_pixel_model(f, tc_paper, sm_paper).ndarray)
-        fitted.append(same_pixel_model(f, f.critical_depth, f.width_max).ndarray)
+        fitted.append(
+            same_pixel_model(f, f.critical_depth, f.width_max, f.width_depleted).ndarray
+        )
         none.append(same_pixel_model(f, 0, 0 * u.um).ndarray)
     depth = np.concatenate(depth)
 
@@ -179,8 +184,14 @@ class Summary:
     num_flat: int
     """The number of tracks that pass the :attr:`Fit.flat` cut."""
 
+    width_depleted: u.Quantity
+    """The spread inside the depletion region fit to the CCD as a whole."""
+
     critical_depth: tuple[float, float, float]
     """The 25th, 50th and 75th percentiles of the fitted :math:`t_c`."""
+
+    critical_depth_error: float
+    """The standard error of the mean fitted :math:`t_c`."""
 
     width_max: u.Quantity
     """The 25th, 50th and 75th percentiles of the fitted :math:`\\sigma_\\text{max}`."""
@@ -238,7 +249,9 @@ def summary(chip: str) -> Summary:
         chip=chip,
         num_tracks=len(all_fits),
         num_flat=len(flat),
+        width_depleted=ccd_diffusion.tracks.depleted(chip).best,
         critical_depth=tuple(np.percentile(tc, [25, 50, 75])),
+        critical_depth_error=float(tc.std() / np.sqrt(len(tc))),
         width_max=np.percentile(sm, [25, 50, 75]),
         same_pixel_1d=float(measured[back].mean()),
         same_pixel_1d_error=float(measured[back].std() / np.sqrt(back.sum())),

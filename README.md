@@ -61,7 +61,7 @@ documentation.
 | `_acronyms.py` | acronym definitions used as `\ACRONYM` macros |
 | `_ccd.py` | the sensor model the measurement is compared with |
 | `tracks/` | the track cutouts, the fit of the diffusion model, and the same-pixel probabilities |
-| `tracks/data/` | the cutouts, the frames searched, the fits of every track, and two example level-1 images |
+| `tracks/data/` | the cutouts, the frames searched, the fits of every track and of each CCD's depletion spread, and two example level-1 images |
 | `sources.bib` | the bibliography |
 | `spieman.cls`, `spiejour.bst` | the SPIE journal class and bibliography style |
 
