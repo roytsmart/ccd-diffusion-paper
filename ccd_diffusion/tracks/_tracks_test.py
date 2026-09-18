@@ -3,7 +3,7 @@ import numpy as np
 import astropy.units as u
 import named_arrays as na
 import ccd_diffusion
-from . import _fit
+from . import _fit, _depleted
 
 
 def test_load():
@@ -40,6 +40,21 @@ def test_width():
     assert result.unit is None
     assert result[dict(t=0)] == 5 * u.um / ccd_diffusion.tracks.width_pixel
     assert np.all(result[depth >= 0.4] == 0)
+    assert np.all(np.diff(result, axis="t") <= 0)
+
+
+def test_width_depleted():
+    depth = na.linspace(0, 1, axis="t", num=11)
+    pixel = ccd_diffusion.tracks.width_pixel
+    result = ccd_diffusion.tracks.width(depth, 0.4, 5 * u.um, 1 * u.um)
+    assert result.shape == depth.shape
+    # the two spreads add in quadrature at the back surface
+    assert np.isclose(result[dict(t=0)], np.sqrt(26) * u.um / pixel)
+    # the field-free layer keeps the full depletion spread
+    assert np.isclose(result[dict(t=3)], np.sqrt(25 * 0.25 + 1) * u.um / pixel)
+    # which then falls linearly to zero at the gates
+    assert result[dict(t=5)] > result[dict(t=8)] > 0
+    assert result[dict(t=-1)] == 0
     assert np.all(np.diff(result, axis="t") <= 0)
 
 
@@ -81,12 +96,38 @@ def _synthetic(
     )
 
 
+def test_scan_synthetic():
+    track = _synthetic(0.4, 5 * u.um)
+    result = ccd_diffusion.tracks.scan(track)
+    assert isinstance(result, ccd_diffusion.tracks.Scan)
+    grid = ccd_diffusion.tracks.width_depleted
+    assert result.misfit.shape == grid.shape
+    # the track was made without any depletion spread, so it prefers none
+    assert result.preferred == 0 * u.um
+    assert np.all(np.diff(result.misfit, axis=result.misfit.axes[0]) >= 0)
+
+
+def test_scan_matches_loss():
+    # the misfit assembled from the table agrees with the direct misfit of
+    # the best fit, on a real track whose read noise sets the tolerance
+    track = ccd_diffusion.tracks.flat("SJI")[0].track
+    result = ccd_diffusion.tracks.scan(track)
+    for sd in (0 * u.um, 1 * u.um):
+        best = result.at(sd)
+        direct = ccd_diffusion.tracks.loss(track, best.position, best.width)
+        assert float(direct.ndarray) == pytest.approx(
+            float(result.misfit[dict(width_depleted=int(sd.value * 4))].ndarray),
+            abs=0.5,
+        )
+
+
 def test_fit_synthetic():
     critical_depth = 0.4
     width_max = 5 * u.um
     track = _synthetic(critical_depth, width_max)
     result = ccd_diffusion.tracks.fit(track)
     assert isinstance(result, ccd_diffusion.tracks.Fit)
+    assert result.width_depleted == 0 * u.um
     assert result.orientation == 1
     assert result.critical_depth == pytest.approx(critical_depth, abs=0.05)
     assert u.isclose(result.width_max, width_max, atol=0.5 * u.um)
@@ -111,9 +152,10 @@ def test_fits():
 def test_fit_matches_stored():
     fits = {f.track.name: f for f in ccd_diffusion.tracks.fits()}
     tracks = sorted(ccd_diffusion.tracks.load(), key=lambda t: t.length)[:3]
-    results = ccd_diffusion.tracks.fit_all(tuple(tracks))
-    for track, result in zip(tracks, results):
+    for track in tracks:
         stored = fits[track.name]
+        result = ccd_diffusion.tracks.fit(track, stored.width_depleted)
+        assert result.width_depleted == stored.width_depleted
         assert result.orientation == stored.orientation
         assert result.critical_depth == pytest.approx(stored.critical_depth, abs=1e-3)
         assert u.isclose(result.width_max, stored.width_max, atol=0.01 * u.um)
@@ -121,20 +163,32 @@ def test_fit_matches_stored():
 
 
 def test_save(monkeypatch, tmp_path):
-    path = tmp_path / "fits.csv"
-    monkeypatch.setattr(_fit, "_path_fits", path)
     stored = ccd_diffusion.tracks.fits()
-    ccd_diffusion.tracks.save(stored)
+    chips = ("FUV1", "FUV2", "SJI")
+    pooled = tuple(ccd_diffusion.tracks.depleted(chip) for chip in chips)
+    monkeypatch.setattr(_fit, "_path_fits", tmp_path / "fits.csv")
+    monkeypatch.setattr(_depleted, "_path_depleted", tmp_path / "depleted.csv")
+    ccd_diffusion.tracks.save(stored, pooled)
     _fit.fits.cache_clear()
+    _depleted.depleted.cache_clear()
     try:
         reloaded = ccd_diffusion.tracks.fits()
+        reloaded_pooled = tuple(ccd_diffusion.tracks.depleted(chip) for chip in chips)
     finally:
         _fit.fits.cache_clear()
+        _depleted.depleted.cache_clear()
     assert len(reloaded) == len(stored)
     for a, b in zip(reloaded, stored):
         assert a.track is b.track
+        assert a.width_depleted == b.width_depleted
         assert a.critical_depth == b.critical_depth
         assert a.width_max == b.width_max
+        assert a.width_depleted_preferred == b.width_depleted_preferred
+    for a, b in zip(reloaded_pooled, pooled):
+        assert a.chip == b.chip
+        assert a.num == b.num
+        assert np.allclose(a.misfit, b.misfit)
+        assert a.best == b.best
 
 
 def test_paper_model():
@@ -221,18 +275,23 @@ def test_widths(chip: str):
     assert result.best[dict(depth=0)] > result.best[dict(depth=-1)]
 
 
-def test_width_depleted():
-    depth = na.linspace(0, 1, axis="t", num=11)
-    result = ccd_diffusion.tracks.width_depleted(depth, 0.4, 5 * u.um, 1 * u.um)
-    assert result.shape == depth.shape
-    assert np.all(result >= 0)
-    assert result[dict(t=0)] > result[dict(t=5)] > 0
-    assert np.all(np.diff(result, axis="t") <= 0)
-
-
-def test_depleted():
-    result = ccd_diffusion.tracks.depleted("SJI")
+@pytest.mark.parametrize("chip", ["FUV1", "FUV2", "SJI"])
+def test_depleted(chip: str):
+    result = ccd_diffusion.tracks.depleted(chip)
     assert isinstance(result, ccd_diffusion.tracks.Depleted)
     assert result.misfit.min() == 0
     assert 0 * u.um < result.best < 3 * u.um
-    assert len(result.preferred) == len(ccd_diffusion.tracks.flat("SJI"))
+    assert result.num == len(ccd_diffusion.tracks.flat(chip))
+    # every flat track on the chip was fit at the pooled value
+    for f in ccd_diffusion.tracks.flat(chip):
+        assert f.width_depleted == result.best
+
+
+def test_pooled():
+    tracks = [f.track for f in ccd_diffusion.tracks.flat("SJI")][:12]
+    scans = [ccd_diffusion.tracks.scan(t) for t in tracks]
+    result = ccd_diffusion.tracks.pooled("SJI", scans)
+    assert result.chip == "SJI"
+    assert 0 < result.num <= len(tracks)
+    assert result.misfit.shape == ccd_diffusion.tracks.width_depleted.shape
+    assert result.critical_depth.shape == result.misfit.shape

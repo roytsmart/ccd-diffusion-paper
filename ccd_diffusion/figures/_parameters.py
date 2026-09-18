@@ -116,14 +116,14 @@ def parameters() -> aastex.Figure:
 The fitted parameters.
 (a) The critical depth of every flat track on each \CCD, with the
 field-free model dashed.
-The pile-up at $t_c = 1$ and the tail below 0.25 are tracks the
-two-parameter model cannot describe, diffuse or sharp along their whole
-length, and they are excluded from the shaded core used elsewhere.
+The pile-up at $t_c = 1$ and the tail below 0.25 are tracks the model
+cannot describe, diffuse or sharp along their whole length, and they are
+excluded from the shaded core used elsewhere.
 (b) The back-surface width of the core tracks.
 (c) Each core track jittered off the fit grid, colored by \CCD\ as in (a),
 with the mean of each dataset and its standard error as open symbols.
 Two particle populations, two spacecraft rolls, and two cameras agree to
-within a few hundredths in $t_c$, all above the model, and the diagonal
-smear is the degeneracy between $t_c$ and $\sigma_\text{max}$ in a
-single-track fit."""))
+within a few hundredths in $t_c$, all within 0.04 of the model, and the
+diagonal smear is the degeneracy between $t_c$ and $\sigma_\text{max}$ in
+a single-track fit."""))
     return result

@@ -18,14 +18,15 @@ depth in a single exposure, and we use them to measure the depth-dependent
 charge-diffusion kernel of the three \acs{CCD}s of the Interface Region
 Imaging Spectrograph in orbit, from \numTracks\ tracks found in level-1
 images taken mostly inside the South Atlantic Anomaly.
-The width of the charge cloud at the back surface, the depth at which it
-vanishes, and the probability that two electrons deposited at the same depth
+The width of the charge cloud at the back surface, the depth at which the
+field-free layer ends, the spread acquired drifting across the depletion
+region, and the probability that two electrons deposited at the same depth
 are collected in the same pixel are measured directly and compared with a
 field-free diffusion model.
 On the Slit-Jaw Imager the same-pixel probability at the back surface is
 $\sjiSamePixel \pm \sjiSamePixelError$, against \sjiSamePixelModel\ from the
-model, and the tracks reveal a residual spread of about a micron inside the
-depletion region which the model neglects.
+model, and the tracks require a spread of \widthDepletedSji\ $\mu$m inside
+the depletion region, which the field-free model neglects.
 The method needs no laboratory access and applies to any back-illuminated
 sensor in orbit.
 \acresetall""")

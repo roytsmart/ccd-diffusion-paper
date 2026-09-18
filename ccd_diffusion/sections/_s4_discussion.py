@@ -14,15 +14,17 @@ field-free model on the \SJI\ and \FUV{}2 \CCD{}s: the same-pixel
 probability of $\sjiSamePixel \pm \sjiSamePixelError$ on \SJI\ matches the
 \sjiSamePixelModel\ predicted from the depletion thickness of the model,
 which is the quantity the companion noise model needs.
-Deeper in the sensor the tracks see about a micron of spreading that the
-model neglects.
+Deeper in the sensor the tracks see a spread of about a micron,
+$\sigma_d$, that the field-free model neglects.
 It is about what the drift-time diffusion across the depleted thickness
 plus the micron-scale ionization column of the track itself should give,
 and it is small compared with the back-surface spread, so it has little
-effect on \UV\ imaging, but it does bias a two-parameter fit: the fitted
-$t_c$ of \sjiCriticalDepth\ on \SJI\ is larger than the model's
-\modelCriticalDepth\ partly because the wedge is stretched to absorb the
-floor.
+effect on \UV\ imaging.
+It cannot be left out of the fit, though: without it the wedge stretches
+to absorb the floor and $t_c$ comes out too large, which is why
+Equation~\ref{eq:width} carries it from the start.
+With it, the fitted $t_c$ of $\sjiCriticalDepth \pm \sjiCriticalDepthError$
+on \SJI\ is to be compared with the model's \modelCriticalDepth.
 
 The \FUV{}1 \CCD\ is narrower than the other two, at the back surface and
 in the fitted $\sigma_\text{max}$ alike.

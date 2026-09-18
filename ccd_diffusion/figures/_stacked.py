@@ -103,7 +103,7 @@ every slice in the bin over a grid of trial widths and minimizing, with no
 parametric model of the depth dependence.
 Error bars span the widths within two units of misfit of the minimum.
 (c) The same points against the average of the per-track fits of
-Equation~\ref{eq:width}, which reproduces the model-free profile except
-beyond $t_c$, where the tracks keep a floor of 0.5 to 1 $\mu$m that the
-model sets to zero."""))
+Equation~\ref{eq:width}, which reproduces the model-free profile at every
+depth, including the floor of 0.5 to 1 $\mu$m beyond $t_c$ that the
+$\sigma_d$ term supplies and the dashed field-free model sets to zero."""))
     return result

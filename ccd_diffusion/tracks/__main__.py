@@ -55,7 +55,7 @@ def main(argv: list[str]) -> None:
     }
 
     if args.command == "fit":
-        tracks.save(tracks.fit_all(tracks.load()))
+        tracks.save(*tracks.fit_all(tracks.load()))
     elif args.command == "extract":
         found = []
         components = []

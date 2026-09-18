@@ -1,93 +1,30 @@
+"""
+The spread inside the depletion region, :math:`\\sigma_d`, is a property of
+the drift field rather than of any one track, so it is fit once per CCD by
+pooling the misfits of the flat tracks on that CCD over the grid
+:data:`ccd_diffusion.tracks.width_depleted`.
+"""
+
+import csv
 import dataclasses
 import functools
-import concurrent.futures
 import numpy as np
 import astropy.units as u
 import named_arrays as na
-from ._tracks import width_pixel
-from ._fit import (
-    axis_critical_depth,
-    axis_width_max,
-    axis_offset,
-    axis_tilt,
-    offset,
-    tilt,
-    loss,
-    Fit,
-)
-from ._stacked import flat
+from ._tracks import _directory_data
+from ._fit import axis_width_depleted, width_depleted, Scan
 
 __all__ = [
-    "axis_width_depleted",
-    "critical_depth_depleted",
-    "width_max_depleted",
-    "width_depleted_grid",
-    "width_depleted",
     "Depleted",
+    "pooled",
+    "save_depleted",
     "depleted",
 ]
-
-axis_width_depleted = "width_depleted"
-"""The logical axis of the grid of spreads inside the depletion region."""
-
-critical_depth_depleted = na.linspace(0.25, 0.6, axis=axis_critical_depth, num=8)
-"""The grid of :math:`t_c` searched by :func:`depleted`."""
-
-width_max_depleted = na.linspace(2, 8, axis=axis_width_max, num=13) * u.um
-"""The grid of :math:`\\sigma_\\text{max}` searched by :func:`depleted`."""
-
-width_depleted_grid = na.linspace(0, 3, axis=axis_width_depleted, num=7) * u.um
-"""The grid of :math:`\\sigma_d` searched by :func:`depleted`."""
-
-
-def width_depleted(
-    depth: na.AbstractScalarArray,
-    critical_depth: float | na.AbstractScalarArray,
-    width_max: u.Quantity | na.AbstractScalarArray,
-    width_depleted: u.Quantity | na.AbstractScalarArray,
-) -> na.AbstractScalarArray:
-    """
-    The field-free diffusion model plus an extra spread inside the depletion
-    region, in pixels.
-
-    The variance is :math:`\\sigma_\\text{max}^2 (1 - t / t_c)` for
-    :math:`t < t_c` plus :math:`\\sigma_d^2 g(t)`, where :math:`g = 1` in the
-    field-free layer, since that charge drifts across the full depleted
-    thickness, and falls linearly to zero at the gates.
-
-    Parameters
-    ----------
-    depth
-        The fractional depth below the back surface, :math:`t = z / D`.
-    critical_depth
-        The fractional thickness of the field-free region, :math:`t_c`.
-    width_max
-        The width of the charge cloud at the back surface.
-    width_depleted
-        The extra spread acquired crossing the full depletion region.
-    """
-    field_free = np.square(width_max) * np.maximum(1 - depth / critical_depth, 0)
-    g = np.minimum((1 - depth) / (1 - critical_depth), 1)
-    result = np.sqrt(field_free + np.square(width_depleted) * g)
-    return (result / width_pixel).to(u.dimensionless_unscaled).value
-
-
-def _misfit(fit: Fit) -> na.AbstractScalarArray:
-    """The misfit of one track on the three-parameter grid, minimized over the nuisance grid."""
-    track = fit.track
-    position = track.position + offset + tilt * track.index
-    w = width_depleted(
-        fit.depth,
-        critical_depth_depleted,
-        width_max_depleted,
-        width_depleted_grid,
-    )
-    return loss(track, position, w).min((axis_offset, axis_tilt))
 
 
 @dataclasses.dataclass(eq=False)
 class Depleted:
-    """The fit allowing diffusion inside the depletion region, pooled over one CCD."""
+    """The fit of :math:`\\sigma_d` pooled over the flat tracks on one CCD."""
 
     chip: str
     """The CCD."""
@@ -96,16 +33,16 @@ class Depleted:
     """The grid of :math:`\\sigma_d`."""
 
     misfit: na.AbstractScalarArray
-    """The pooled misfit minimized over :math:`t_c` and :math:`\\sigma_\\text{max}`, relative to its minimum."""
+    """The misfit summed over the flat tracks at each :math:`\\sigma_d`, relative to its minimum."""
 
     critical_depth: na.AbstractScalarArray
-    """The pooled best-fit :math:`t_c` at each :math:`\\sigma_d`."""
+    """The median :math:`t_c` of the flat tracks at each :math:`\\sigma_d`."""
 
     width_max: na.AbstractScalarArray
-    """The pooled best-fit :math:`\\sigma_\\text{max}` at each :math:`\\sigma_d`."""
+    """The median :math:`\\sigma_\\text{max}` of the flat tracks at each :math:`\\sigma_d`."""
 
-    preferred: u.Quantity
-    """The :math:`\\sigma_d` preferred by each flat track on its own."""
+    num: int
+    """The number of flat tracks pooled."""
 
     @property
     def best(self) -> u.Quantity:
@@ -114,36 +51,115 @@ class Depleted:
         return self.width_depleted[index].ndarray
 
 
+def pooled(chip: str, scans: list[Scan], iterations: int = 10) -> Depleted:
+    """
+    Choose the :math:`\\sigma_d` of a CCD by summing the misfits of its flat
+    tracks over the grid of :math:`\\sigma_d` and taking the minimum.
+
+    Which tracks are flat depends on their fits, which depend on
+    :math:`\\sigma_d`, so the two are found together: starting from the
+    field-free model, the flat tracks are selected at the current
+    :math:`\\sigma_d`, their misfits pooled, and :math:`\\sigma_d` updated,
+    until it stops changing.
+
+    Parameters
+    ----------
+    chip
+        The CCD.
+    scans
+        The scans of the tracks on that CCD.
+    iterations
+        The most rounds of selection to try.
+    """
+    best = 0 * u.um
+    for _ in range(iterations):
+        selected = [s for s in scans if s.at(best).flat]
+        if not selected:
+            raise ValueError(f"no flat tracks on {chip}")
+        misfit = selected[0].misfit
+        for s in selected[1:]:
+            misfit = misfit + s.misfit
+        new = width_depleted[np.argmin(misfit, axis=axis_width_depleted)].ndarray
+        if new == best:
+            break
+        best = new
+
+    def median(name):
+        return na.ScalarArray(
+            np.median(u.Quantity([getattr(s, name).ndarray for s in selected]), axis=0),
+            axes=axis_width_depleted,
+        )
+
+    return Depleted(
+        chip=chip,
+        width_depleted=width_depleted,
+        misfit=misfit - misfit.min(),
+        critical_depth=median("critical_depth"),
+        width_max=median("width_max"),
+        num=len(selected),
+    )
+
+
+_path_depleted = _directory_data / "iris_depleted.csv"
+"""The file holding the result of :func:`pooled` for every CCD."""
+
+
+def save_depleted(depleted: tuple[Depleted, ...]) -> None:
+    """
+    Write the pooled fits to ``data/iris_depleted.csv``, where
+    :func:`depleted` will find them.
+
+    Parameters
+    ----------
+    depleted
+        The pooled fit of every CCD.
+    """
+    fields = ["chip", "num", "width_depleted", "misfit", "critical_depth", "width_max"]
+    with open(_path_depleted, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        for d in depleted:
+            for i in range(d.width_depleted.size):
+                index = {axis_width_depleted: i}
+                writer.writerow(
+                    dict(
+                        chip=d.chip,
+                        num=d.num,
+                        width_depleted=f"{d.width_depleted[index].ndarray.to_value(u.um):.2f}",
+                        misfit=f"{float(d.misfit[index].ndarray):.3f}",
+                        critical_depth=f"{float(d.critical_depth[index].ndarray):.3f}",
+                        width_max=f"{d.width_max[index].ndarray.to_value(u.um):.2f}",
+                    )
+                )
+
+
 @functools.cache
 def depleted(chip: str) -> Depleted:
     """
-    Fit every flat track on the given CCD with the three-parameter model of
-    :func:`width_depleted`, with the same nuisance grid as :func:`fit`, and
-    pool the misfits.
+    Load the pooled fit of :math:`\\sigma_d` on the given CCD from
+    ``data/iris_depleted.csv``.
 
     Parameters
     ----------
     chip
         The CCD, ``FUV1``, ``FUV2`` or ``SJI``.
     """
-    tracks = flat(chip)
-    with concurrent.futures.ThreadPoolExecutor() as pool:
-        misfits = list(pool.map(_misfit, tracks))
+    with open(_path_depleted, newline="") as f:
+        rows = [r for r in csv.DictReader(f) if r["chip"] == chip]
+    if not rows:
+        raise ValueError(f"no pooled fit for {chip!r}")
 
-    pooled = misfits[0]
-    for v in misfits[1:]:
-        pooled = pooled + v
-    profile = pooled.min((axis_critical_depth, axis_width_max))
-    index = np.argmin(pooled, axis=(axis_critical_depth, axis_width_max))
-    preferred = u.Quantity(
-        [width_depleted_grid[np.argmin(v, axis=v.axes)].ndarray for v in misfits]
-    )
+    def column(name, unit=1):
+        return na.ScalarArray(
+            np.array([float(r[name]) for r in rows]) * unit,
+            axes=axis_width_depleted,
+        )
 
     return Depleted(
         chip=chip,
-        width_depleted=width_depleted_grid,
-        misfit=profile - profile.min(),
-        critical_depth=critical_depth_depleted[index],
-        width_max=width_max_depleted[index],
-        preferred=preferred,
+        width_depleted=column("width_depleted", u.um),
+        misfit=column("misfit"),
+        critical_depth=column("critical_depth"),
+        width_max=column("width_max", u.um),
+        num=int(rows[0]["num"]),
     )

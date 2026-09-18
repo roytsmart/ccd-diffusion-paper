@@ -27,7 +27,7 @@ Run from this package directory:
 pip install -e .[test]          # install for development
 pytest                          # run tests; test_pdf compiles the LaTeX → PDF
 pytest ccd_diffusion/_document_test.py::test_pdf   # build the PDF specifically
-python -m ccd_diffusion.tracks fit      # refit every track and rewrite tracks/data/iris_fits.csv (minutes)
+python -m ccd_diffusion.tracks fit      # refit every track and rewrite tracks/data/iris_fits.csv and iris_depleted.csv (minutes)
 python -m ccd_diffusion.tracks extract  # fetch 3.8 GB of level-1 images block by block and rewrite the cutouts (an hour or more; ask first)
 python -m ccd_diffusion.tracks extract --dataset sji --output out/sji   # one campaign, results elsewhere
 python -m ccd_diffusion.tracks merge out/*                              # join campaigns extracted separately
@@ -59,9 +59,12 @@ acknowledgments), and the bibliography.
 - **`tracks/`** is the measurement: `_archive.py` (fetching level-1 images from LMSAL
   into `~/.cache/ccd_diffusion/iris`), `_extract.py` (backgrounds, masks, the track
   finder, and the azimuth census; the one module that works on plain numpy arrays),
-  `_tracks.py` (the cutouts and metadata), `_fit.py` (the grid fit of the width model
-  with nuisance offset and tilt), `_samepix.py`, `_stacked.py`, `_depleted.py` (the
-  analyses), `_images.py` (two example frames). Every data product under `tracks/data/`
+  `_tracks.py` (the cutouts and metadata), `_fit.py` (the three-parameter width model;
+  `scan` fits t_c, sigma_max, orientation, and the nuisance centerline to one track at
+  every sigma_d on the grid, assembling misfits from a per-slice table), `_depleted.py`
+  (`pooled` picks one sigma_d per CCD by summing the flat tracks' misfits, iterated with
+  the flat selection; `fit_all` calls it), `_samepix.py`, `_stacked.py` (the analyses),
+  `_images.py` (two example frames). Every data product under `tracks/data/`
   is committed because regenerating it needs the archive or minutes of fitting.
 - **`_ccd.py`** is the `optika` sensor model the measurement is compared with.
 - **`.github/workflows/data.yml`** regenerates everything under `tracks/data/` on
