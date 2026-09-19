@@ -64,6 +64,15 @@ _width_maximum = 8
 _saturation = 15000.0 * 6
 """Charge in electrons above which a pixel is saturated."""
 
+_touching = np.ones((3, 3), dtype=bool)
+"""
+Pixels which touch at a corner belong to the same group.
+
+A glancing track steps sideways as it goes, and where the charge is sharp
+the step shares no edge with the row before, so grouping by shared edges
+alone breaks such a track into pieces.
+"""
+
 _gain = {"FUV": 6.0, "SJI": 18.0}
 """The camera gain in electrons per data number."""
 
@@ -312,7 +321,7 @@ def census(
         The camera gain in electrons per data number.
     """
     r = np.where(valid, residual, 0)
-    labels, _ = scipy.ndimage.label(r > threshold * noise, structure=np.ones((3, 3)))
+    labels, _ = scipy.ndimage.label(r > threshold * noise, structure=_touching)
     result = []
     for k, sl in enumerate(scipy.ndimage.find_objects(labels), start=1):
         h, w = sl[0].stop - sl[0].start, sl[1].stop - sl[1].start
@@ -348,8 +357,9 @@ def find(
     """
     The glancing tracks in a frame.
 
-    Pixels above :data:`threshold` times the read noise are labeled, and each
-    connected group at least :data:`length_minimum` rows (or columns) long
+    Pixels above :data:`threshold` times the read noise are labeled, grouping
+    pixels which touch even at a corner, and each connected group at least
+    :data:`length_minimum` rows (or columns) long
     and no more than a few pixels wide is fit with a straight line through
     the charge-weighted centroid of each row.
     Groups with a slope below :data:`slope_maximum`, a clear seven-pixel
@@ -370,7 +380,7 @@ def find(
         The camera gain in electrons per data number.
     """
     h_ = half_width
-    labels, _ = scipy.ndimage.label(residual > threshold * noise)
+    labels, _ = scipy.ndimage.label(residual > threshold * noise, structure=_touching)
     result = []
     for k, sl in enumerate(scipy.ndimage.find_objects(labels), start=1):
         h, w = sl[0].stop - sl[0].start, sl[1].stop - sl[1].start
@@ -533,7 +543,11 @@ def extract(
     return tracks, components
 
 
-def save_tracks(tracks: list[Track], directory: None | pathlib.Path = None) -> None:
+def save_tracks(
+    tracks: list[Track],
+    directory: None | pathlib.Path = None,
+    frames: None | list[dict[str, str]] = None,
+) -> None:
     """
     Write the tracks to ``data/iris_tracks.npz`` and ``data/iris_tracks.csv``,
     and the number of tracks per frame to ``data/iris_frames.csv``, where
@@ -545,10 +559,15 @@ def save_tracks(tracks: list[Track], directory: None | pathlib.Path = None) -> N
         The tracks of every campaign, in the order they were found.
     directory
         The data directory of the package if :obj:`None`.
+    frames
+        The frames whose track counts to write, every frame of the package
+        if :obj:`None`.
     """
     if directory is None:
         directory = _directory_data
     directory = pathlib.Path(directory)
+    if frames is None:
+        frames = list(globals()["frames"]())
     charge = np.concatenate([t.charge.ndarray.astype(np.float32) for t in tracks])
     position = np.concatenate([t.position.ndarray.astype(np.float32) for t in tracks])
     np.savez_compressed(directory / "iris_tracks.npz", charge=charge, position=position)
@@ -591,11 +610,12 @@ def save_tracks(tracks: list[Track], directory: None | pathlib.Path = None) -> N
     counts = {}
     for t in tracks:
         counts[(t.dataset, str(t.fsn))] = counts.get((t.dataset, str(t.fsn)), 0) + 1
-    rows = [dict(f) for f in frames()]
+    rows = [dict(f) for f in frames]
     for r in rows:
         r["tracks"] = counts.get((r["dataset"], r["fsn"]), 0)
+    fields = ["dataset", "fsn", "time", "image", "saa", "tracks"]
     with open(directory / "iris_frames.csv", "w", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=list(rows[0]))
+        writer = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
         writer.writeheader()
         writer.writerows(rows)
 

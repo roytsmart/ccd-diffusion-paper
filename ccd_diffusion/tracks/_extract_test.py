@@ -1,5 +1,6 @@
 import pathlib
 import dataclasses
+import json
 import numpy as np
 import named_arrays as na
 import ccd_diffusion
@@ -170,28 +171,21 @@ def test_load_census(tmp_path: pathlib.Path):
     ]
 
 
-def test_main_merge(tmp_path: pathlib.Path, monkeypatch):
+def test_main_plan_and_export(tmp_path: pathlib.Path, capsys):
     from ccd_diffusion.tracks import __main__ as main
-    from ccd_diffusion.tracks import _extract
 
-    tracks = ccd_diffusion.tracks.load()
-    by_dataset = {}
-    for t in tracks:
-        by_dataset.setdefault(t.dataset, []).append(t)
-    parts = []
-    for dataset, ts in by_dataset.items():
-        part = tmp_path / dataset
-        part.mkdir()
-        ccd_diffusion.tracks.save_tracks(ts, part)
-        ccd_diffusion.tracks.save_census(
-            [ccd_diffusion.tracks.Component(dataset, 1, True, 0.0, 9.0, 1.0, 9, 1.0)],
-            part,
-        )
-        parts.append(part)
-    merged = tmp_path / "merged"
-    merged.mkdir()
-    monkeypatch.setattr(_extract, "_directory_data", merged)
-    main.main(["merge", *map(str, reversed(parts))])
-    loaded = ccd_diffusion.tracks.load(merged)
-    assert [t.name for t in loaded] == [t.name for t in tracks]
-    assert len(ccd_diffusion.tracks.load_census(merged)) == len(parts)
+    main.main(["plan", "--json", str(tmp_path / "plan.json")])
+    out = capsys.readouterr().out
+    assert all(d in out for d in ccd_diffusion.tracks.campaigns)
+    plan = json.loads((tmp_path / "plan.json").read_text())
+    assert [p["dataset"] for p in plan] == list(ccd_diffusion.tracks.campaigns)
+    assert all(p["status"] in ("fresh", "stale", "new") for p in plan)
+
+    main.main(["export", "--dataset", "2018", "--output", str(tmp_path / "2018")])
+    assert "2018:" in capsys.readouterr().out
+    exported = ccd_diffusion.tracks.load(tmp_path / "2018")
+    assert all(t.dataset == "2018" for t in exported)
+    assert len(exported) == sum(
+        t.dataset == "2018" for t in ccd_diffusion.tracks.load()
+    )
+    assert (tmp_path / "2018" / "iris_campaigns.csv").exists()

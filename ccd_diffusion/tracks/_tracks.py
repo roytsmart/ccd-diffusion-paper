@@ -182,7 +182,7 @@ def load(directory: None | pathlib.Path = None) -> tuple[Track, ...]:
 
 
 @functools.cache
-def frames() -> tuple[dict[str, str], ...]:
+def frames(directory: None | pathlib.Path = None) -> tuple[dict[str, str], ...]:
     """
     Load the list of IRIS level-1 frames searched for tracks.
 
@@ -190,6 +190,14 @@ def frames() -> tuple[dict[str, str], ...]:
     ``dataset``, ``fsn``, ``time``, ``image``, ``saa`` (whether the frame was
     taken inside the South Atlantic Anomaly) and ``tracks`` (the number of
     tracks found in the frame).
+
+    Parameters
+    ----------
+    directory
+        The directory holding the file, the data directory of the package
+        if :obj:`None`.
     """
-    with open(_directory_data / "iris_frames.csv", newline="") as f:
+    if directory is None:
+        directory = _directory_data
+    with open(pathlib.Path(directory) / "iris_frames.csv", newline="") as f:
         return tuple(csv.DictReader(f))

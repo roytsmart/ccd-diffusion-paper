@@ -49,6 +49,17 @@ from ._select import (
     select,
     save_frames,
 )
+from ._provenance import (
+    hash_source,
+    extractor_hash,
+    fingerprint,
+    Provenance,
+    save_campaigns,
+    load_campaigns,
+    plan,
+    export,
+    merge,
+)
 from ._archive import directory_default, url, path, download, read
 from ._extract import (
     length_minimum,
@@ -105,6 +116,15 @@ __all__ = [
     "records",
     "select",
     "save_frames",
+    "hash_source",
+    "extractor_hash",
+    "fingerprint",
+    "Provenance",
+    "save_campaigns",
+    "load_campaigns",
+    "plan",
+    "export",
+    "merge",
     "download",
     "read",
     "length_minimum",
