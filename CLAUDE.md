@@ -28,6 +28,7 @@ pip install -e .[test]          # install for development
 pytest                          # run tests; test_pdf compiles the LaTeX → PDF
 pytest ccd_diffusion/_document_test.py::test_pdf   # build the PDF specifically
 python -m ccd_diffusion.tracks fit      # refit every track and rewrite tracks/data/iris_fits.csv and iris_depleted.csv (minutes)
+python -m ccd_diffusion.tracks select   # ask the JSOC catalog which frames each campaign covers and rewrite the frame list
 python -m ccd_diffusion.tracks extract  # fetch 3.8 GB of level-1 images block by block and rewrite the cutouts (an hour or more; ask first)
 python -m ccd_diffusion.tracks extract --dataset sji --output out/sji   # one campaign, results elsewhere
 python -m ccd_diffusion.tracks merge out/*                              # join campaigns extracted separately
@@ -56,7 +57,9 @@ acknowledgments), and the bibliography.
 - **`_variables.py`** defines `aastex.Variable` macros for every numeric value cited in
   the prose, computed from `tracks`. Reference `\variableName` in section strings
   rather than hardcoding a number.
-- **`tracks/`** is the measurement: `_archive.py` (fetching level-1 images from LMSAL
+- **`tracks/`** is the measurement: `_select.py` (the `campaigns` table and the JSOC
+  catalog query that turns it into the frame list; expanding the dataset means adding
+  campaigns there), `_archive.py` (fetching level-1 images from LMSAL
   into `~/.cache/ccd_diffusion/iris`), `_extract.py` (backgrounds, masks, the track
   finder, and the azimuth census; the one module that works on plain numpy arrays),
   `_tracks.py` (the cutouts and metadata), `_fit.py` (the three-parameter width model;

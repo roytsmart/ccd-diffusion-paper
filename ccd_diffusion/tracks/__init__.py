@@ -41,6 +41,14 @@ from ._fit import (
     fits,
     save,
 )
+from ._select import (
+    url_catalog,
+    Campaign,
+    campaigns,
+    records,
+    select,
+    save_frames,
+)
 from ._archive import directory_default, url, path, download, read
 from ._extract import (
     length_minimum,
@@ -91,6 +99,12 @@ __all__ = [
     "directory_default",
     "url",
     "path",
+    "url_catalog",
+    "Campaign",
+    "campaigns",
+    "records",
+    "select",
+    "save_frames",
     "download",
     "read",
     "length_minimum",

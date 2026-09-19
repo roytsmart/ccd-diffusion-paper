@@ -91,9 +91,16 @@ every track then takes a few minutes. Both results are stored under
 `tracks/data/` and only recomputed by
 
 ```bash
-python -m ccd_diffusion.tracks extract   # fetch the images and rewrite the cutouts, frame list, and census
+python -m ccd_diffusion.tracks select    # ask the catalog which frames each campaign covers
+python -m ccd_diffusion.tracks extract   # fetch the images and rewrite the cutouts and census
 python -m ccd_diffusion.tracks fit       # refit every track and rewrite the fits
 ```
+
+The campaigns themselves are a table in `tracks/_select.py`, giving the
+time windows each one covers, the cameras to keep, and how heavily to
+subsample the frames outside the anomaly that the background is estimated
+from. Adding a campaign there and running the `data` workflow is how the
+dataset grows.
 
 The images are cached in `~/.cache/ccd_diffusion/iris`, or wherever
 `CCD_DIFFUSION_CACHE` points.
