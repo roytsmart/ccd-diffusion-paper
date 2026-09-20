@@ -87,7 +87,7 @@ _config = {
         block="repeat", quiet="quiet", search="limb", noise_maximum=None, mask=None
     ),
     "2018may": dict(
-        block="day", quiet="quiet", search="saa", noise_maximum=6, mask="median"
+        block="day", quiet="quiet", search="saa", noise_maximum=6, mask="lines"
     ),
     "sji": dict(
         block="channel", quiet="quiet", search="saa", noise_maximum=3, mask="limb"
@@ -99,21 +99,31 @@ which frames form the background (``all`` of them, or only the ``quiet``
 ones outside the SAA), which frames are searched for tracks (``all``,
 ``saa``, or those pointed off the ``limb``), the read noise in data numbers
 above which a pixel is ignored, and how the mask of pixels with solar signal
-is built.
+is built: ``columns`` and ``rows`` cut those with many raised pixels,
+``median`` also removes hot pixels, ``lines`` removes hot pixels and
+raised columns but keeps every row, and ``limb`` keeps the part of a
+slit-jaw field off the limb.
 """
 
 _config_default = dict(
-    block="channel", quiet="quiet", search="saa", noise_maximum="camera", mask="median"
+    block="channel", quiet="quiet", search="saa", noise_maximum="camera", mask="camera"
 )
 """
 How a campaign not listed in :data:`_config` is processed: one block per
 day and camera, the background from the frames outside the anomaly, the
-frames inside it searched, the read-noise limit set by the camera, and
-hot pixels and bad rows and columns masked from the median background.
+frames inside it searched, and the read-noise limit and the mask set by
+the camera.
 """
 
 _noise_maximum = {"FUV": 6.0, "SJI": 3.0}
 """The read noise in data numbers above which a pixel is ignored, by camera."""
+
+_mask_camera = {"FUV": "lines", "SJI": "limb"}
+"""
+The mask by camera: the spectrograph loses its emission-line columns and
+hot pixels, and the slit-jaw imager keeps only the part of its field off
+the limb.
+"""
 
 
 def _configuration(dataset: str) -> dict:
@@ -288,6 +298,16 @@ def _mask(kind: None | str, bg: np.ndarray, noise: np.ndarray) -> np.ndarray:
         )
         result = finite & ~hot
         result[elevated.sum(1) > 30, :] = False
+        result[:, elevated.sum(0) > 30] = False
+        return result
+    if kind == "lines":
+        # scattered light in the emission lines raises every row of a limb
+        # pointing a little, so cutting rows as ``median`` does can remove
+        # the whole frame; the lines themselves are columns, so cut those
+        hot = scipy.ndimage.binary_dilation(
+            (np.nan_to_num(bg - np.nanmedian(bg), nan=0) > 5) & finite
+        )
+        result = finite & ~hot
         result[:, elevated.sum(0) > 30] = False
         return result
     if kind == "limb":
@@ -520,8 +540,11 @@ def _extract_block(
     stack = np.stack([read(f, directory)[0] for f in quiet])
     bg, noise_map = background(stack)
     del stack
-    mask = _mask(config["mask"], bg, noise_map)
     camera = "FUV" if block.frames[0]["image"] == "FUV" else "SJI"
+    kind = config["mask"]
+    if kind == "camera":
+        kind = _mask_camera[camera]
+    mask = _mask(kind, bg, noise_map)
     noise_maximum = config["noise_maximum"]
     if noise_maximum == "camera":
         noise_maximum = _noise_maximum[camera]
