@@ -100,7 +100,13 @@ def test_export_and_merge(tmp_path: pathlib.Path):
     frames = ccd_diffusion.tracks.frames()
     tracks = ccd_diffusion.tracks.load()
     parts = []
-    for dataset in ccd_diffusion.tracks.campaigns:
+    present = [
+        d
+        for d in ccd_diffusion.tracks.campaigns
+        if any(f["dataset"] == d for f in frames)
+    ]
+    assert len(present) >= 5
+    for dataset in present:
         part = tmp_path / dataset
         row = ccd_diffusion.tracks.export(dataset, part)
         assert row.dataset == dataset
@@ -117,9 +123,9 @@ def test_export_and_merge(tmp_path: pathlib.Path):
     merged = tmp_path / "merged"
     merged.mkdir()
     result = ccd_diffusion.tracks.merge(list(reversed(parts)), merged)
-    assert [r.dataset for r, _ in result] == list(ccd_diffusion.tracks.campaigns)
+    assert [r.dataset for r, _ in result] == present
     statuses = dict((r.dataset, s) for r, s in result)
-    first = list(ccd_diffusion.tracks.campaigns)[0]
+    first = present[0]
     assert statuses[first] == "refreshed"
     # the package records no fingerprints yet, so exported campaigns are kept, not reused
     assert all(s == "kept" for d, s in statuses.items() if d != first)

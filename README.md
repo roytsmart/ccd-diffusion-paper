@@ -100,7 +100,17 @@ The campaigns themselves are a table in `tracks/_select.py`, giving the
 time windows each one covers, the cameras to keep, and how heavily to
 subsample the frames outside the anomaly that the background is estimated
 from. Adding a campaign there and running the `data` workflow is how the
-dataset grows.
+dataset grows. Candidates come from
+
+```bash
+python -m ccd_diffusion.tracks search --stop 2026-09 --output candidates.csv
+```
+
+which asks the catalog, month by month, for every frame taken inside the
+anomaly, groups them by observing program and day, and keeps the ones
+pointed at or beyond the limb with exposures of seconds and enough such
+frames, since the number of tracks scales with the exposed seconds inside
+the anomaly. Which candidates to adopt is still a judgment.
 
 The images are cached in `~/.cache/ccd_diffusion/iris`, or wherever
 `CCD_DIFFUSION_CACHE` points.

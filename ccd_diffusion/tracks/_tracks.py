@@ -36,6 +36,36 @@ datasets = {
     "2018": dict(date="2018-03-16", particles="cosmic rays", roll=0, image="FUV"),
     "2018may": dict(date="2018-05-04", particles="SAA protons", roll=-90, image="FUV"),
     "sji": dict(date="2018-05-04/06", particles="SAA protons", roll=-90, image="SJI"),
+    "2016-12-10": dict(
+        date="2016-12-10", particles="SAA protons", roll=0, image="FUV, SJI"
+    ),
+    "2016-12-12": dict(
+        date="2016-12-12", particles="SAA protons", roll=0, image="FUV, SJI"
+    ),
+    "2019-01-08": dict(
+        date="2019-01-08", particles="SAA protons", roll=30, image="FUV, SJI"
+    ),
+    "2020-01-05": dict(
+        date="2020-01-05", particles="SAA protons", roll=0, image="FUV, SJI"
+    ),
+    "2020-11-20": dict(
+        date="2020-11-20", particles="SAA protons", roll=0, image="FUV, SJI"
+    ),
+    "2021-12-31": dict(
+        date="2021-12-31", particles="SAA protons", roll=0, image="FUV, SJI"
+    ),
+    "2022-12-13": dict(
+        date="2022-12-13", particles="SAA protons", roll=0, image="FUV, SJI"
+    ),
+    "2024-12-28": dict(
+        date="2024-12-28", particles="SAA protons", roll=0, image="FUV, SJI"
+    ),
+    "2025-12-31": dict(
+        date="2025-12-31", particles="SAA protons", roll=0, image="FUV, SJI"
+    ),
+    "2026-01-10": dict(
+        date="2026-01-10", particles="SAA protons", roll=0, image="FUV, SJI"
+    ),
 }
 """
 The observing campaigns the tracks were found in, in chronological order,

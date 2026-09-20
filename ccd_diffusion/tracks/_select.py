@@ -36,7 +36,7 @@ url_catalog = "http://jsoc.stanford.edu/cgi-bin/ajax/jsoc_info"
 _series = "iris.lev1"
 """The data series the frames are drawn from."""
 
-_keys = ("T_OBS", "FSN", "IMG_PATH", "SAA")
+_keys = ("T_OBS", "FSN", "IMG_PATH", "SAA", "ISQOLTID")
 """The keywords fetched for every frame."""
 
 
@@ -60,6 +60,16 @@ class Campaign:
 
     The quiet frames are only used to estimate the background of a block,
     so a long observation needs no more than a few hundred of them.
+    """
+
+    obsid: None | str = None
+    """
+    Keep only the frames of this observing program, the catalog's
+    ``ISQOLTID``, if given.
+
+    A program that runs all day has gaps in which other programs run,
+    pointed anywhere, and those must not enter a campaign whose frames are
+    meant to be dark.
     """
 
 
@@ -93,11 +103,79 @@ campaigns = {
         images=("SJI_1400", "SJI_2796"),
         stride=4,
     ),
+    "2016-12-10": Campaign(
+        windows=(("2016.12.10_05:48:13Z", "2016.12.10_07:55:52Z"),),
+        images=("FUV", "SJI_1330", "SJI_2796"),
+        stride=1,
+        obsid="3620259342",
+    ),
+    "2016-12-12": Campaign(
+        windows=(("2016.12.12_17:26:24Z", "2016.12.12_21:23:28Z"),),
+        images=("FUV", "SJI_1400", "SJI_2796"),
+        stride=1,
+        obsid="3620110467",
+    ),
+    "2019-01-08": Campaign(
+        windows=(("2019.01.08_00:00:05Z", "2019.01.08_09:53:06Z"),),
+        images=("FUV", "SJI_1330"),
+        stride=2,
+        obsid="3660109523",
+    ),
+    "2020-01-05": Campaign(
+        windows=(("2020.01.05_06:58:08Z", "2020.01.05_09:10:43Z"),),
+        images=("FUV", "SJI_1400", "SJI_2796"),
+        stride=1,
+        obsid="3680109414",
+    ),
+    "2020-11-20": Campaign(
+        windows=(("2020.11.20_05:23:16Z", "2020.11.20_07:28:13Z"),),
+        images=("FUV", "SJI_2796"),
+        stride=3,
+        obsid="3610609752",
+    ),
+    "2021-12-31": Campaign(
+        windows=(("2021.12.31_04:51:40Z", "2021.12.31_11:25:17Z"),),
+        images=("FUV", "SJI_2796"),
+        stride=5,
+        obsid="3610611752",
+    ),
+    "2022-12-13": Campaign(
+        windows=(("2022.12.13_07:59:13Z", "2022.12.13_10:48:58Z"),),
+        images=("FUV", "SJI_1330"),
+        stride=2,
+        obsid="3660259533",
+    ),
+    "2024-12-28": Campaign(
+        windows=(("2024.12.28_05:18:18Z", "2024.12.28_11:01:32Z"),),
+        images=("FUV", "SJI_2796"),
+        stride=4,
+        obsid="3610611752",
+    ),
+    "2025-12-31": Campaign(
+        windows=(("2025.12.31_07:08:13Z", "2025.12.31_12:51:06Z"),),
+        images=("FUV", "SJI_2796"),
+        stride=4,
+        obsid="3610611752",
+    ),
+    "2026-01-10": Campaign(
+        windows=(("2026.01.10_06:24:14Z", "2026.01.10_12:06:40Z"),),
+        images=("FUV", "SJI_2796"),
+        stride=4,
+        obsid="3610611752",
+    ),
 }
 """
 The observing campaigns searched for tracks, keyed as
 :data:`ccd_diffusion.tracks.datasets`, which holds what the article says
 about each of them.
+
+The first five are the campaigns of the original measurement. The rest
+were chosen by ``python -m ccd_diffusion.tracks search`` on 2026-09-20 for
+the good tracks they should yield per frame fetched, at most two
+program-days from any one year and exposures of 8 to 15 s, since a longer
+exposure crowds the frame with hits that spoil the tracks around them,
+with the frames outside the anomaly strided to leave at least about 150
+per camera for the background.
 """
 
 
@@ -147,6 +225,8 @@ def select(dataset: str, verbose: bool = True) -> list[dict[str, str]]:
     result = []
     for window in campaign.windows:
         rows = records(window)
+        if campaign.obsid is not None:
+            rows = [r for r in rows if r["ISQOLTID"] == campaign.obsid]
         for image in campaign.images:
             mine = sorted(
                 (r for r in rows if r["IMG_PATH"] == image),

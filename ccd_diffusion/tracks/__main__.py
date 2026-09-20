@@ -79,6 +79,24 @@ def main(argv: list[str]) -> None:
         "--report", type=pathlib.Path, help="write a summary table here, in Markdown"
     )
 
+    search = commands.add_parser(
+        "search", help="find observations worth adding to the campaign table"
+    )
+    search.add_argument("--start", default="2013-07", help="the first month, YYYY-MM")
+    search.add_argument("--stop", required=True, help="the last month, YYYY-MM")
+    search.add_argument(
+        "--radius", type=float, default=940, help="least pointing radius, arcsec"
+    )
+    search.add_argument(
+        "--anomaly", type=int, default=30, help="fewest frames inside the anomaly"
+    )
+    search.add_argument(
+        "--exposure", type=float, default=4, help="least exposure, seconds"
+    )
+    search.add_argument(
+        "--output", type=pathlib.Path, help="write the candidates here as CSV"
+    )
+
     commands.add_parser("fit", help="refit every track")
     args = parser.parse_args(argv)
 
@@ -148,6 +166,25 @@ def main(argv: list[str]) -> None:
             lines.append(f"| {dataset} | missing | | |")
         if args.report is not None:
             args.report.write_text("\n".join(lines) + "\n")
+
+    elif args.command == "search":
+        found = tracks.search(
+            args.start, args.stop, args.radius, args.exposure, args.anomaly
+        )
+        print(
+            f"{'day':>10} {'from':>5} {'hours':>5} {'radius':>6} {'roll':>5} {'exp':>4} "
+            f"{'anomaly':>7} {'quiet':>5} {'seconds':>7}  obsid"
+        )
+        for o in found[:40]:
+            print(
+                f"{o.day:>10} {o.start[11:16]:>5} {o.hours:>5.1f} {o.radius:>6.0f} "
+                f"{o.roll:>5.0f} {o.exposure:>4.0f} {o.anomaly:>7} {o.quiet:>5} "
+                f"{o.seconds:>7.0f}  {o.obsid}"
+            )
+        if len(found) > 40:
+            print(f"... and {len(found) - 40} more")
+        if args.output is not None:
+            tracks.save_search(found, args.output)
 
     elif args.command == "fit":
         tracks.save(*tracks.fit_all(tracks.load()))

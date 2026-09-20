@@ -94,13 +94,31 @@ _config = {
     ),
 }
 """
-How each campaign is processed: how its frames are grouped into blocks,
+How each of the original campaigns is processed: how its frames are grouped into blocks,
 which frames form the background (``all`` of them, or only the ``quiet``
 ones outside the SAA), which frames are searched for tracks (``all``,
 ``saa``, or those pointed off the ``limb``), the read noise in data numbers
 above which a pixel is ignored, and how the mask of pixels with solar signal
 is built.
 """
+
+_config_default = dict(
+    block="channel", quiet="quiet", search="saa", noise_maximum="camera", mask="median"
+)
+"""
+How a campaign not listed in :data:`_config` is processed: one block per
+day and camera, the background from the frames outside the anomaly, the
+frames inside it searched, the read-noise limit set by the camera, and
+hot pixels and bad rows and columns masked from the median background.
+"""
+
+_noise_maximum = {"FUV": 6.0, "SJI": 3.0}
+"""The read noise in data numbers above which a pixel is ignored, by camera."""
+
+
+def _configuration(dataset: str) -> dict:
+    """How a campaign is processed, :data:`_config_default` if it is not listed."""
+    return _config.get(dataset, _config_default)
 
 
 @dataclasses.dataclass(eq=False)
@@ -148,14 +166,15 @@ def blocks(dataset: str, directory: None | pathlib.Path = None) -> list[Block]:
     Parameters
     ----------
     dataset
-        The campaign, a key of :data:`_config`.
+        The campaign, processed as :data:`_config` says if it is listed there
+        and as :data:`_config_default` says otherwise.
     directory
         The cache directory, :data:`ccd_diffusion.tracks.directory_default`
         if :obj:`None`.
     """
     if directory is None:
         directory = directory_default
-    config = _config[dataset]
+    config = _configuration(dataset)
     rows = sorted(
         (f for f in frames() if f["dataset"] == dataset), key=lambda f: f["time"]
     )
@@ -456,7 +475,7 @@ def _extract_block(
     verbose: bool,
 ) -> tuple[list[Track], list[Component]]:
     """Fetch one block, estimate its background, and search its frames."""
-    config = _config[block.dataset]
+    config = _configuration(block.dataset)
     tracks = []
     components = []
     if config["quiet"] == "quiet" and len(block.quiet) < (
@@ -477,10 +496,14 @@ def _extract_block(
     bg, noise_map = background(stack)
     del stack
     mask = _mask(config["mask"], bg, noise_map)
-    if config["noise_maximum"] is not None:
-        mask &= noise_map < config["noise_maximum"]
+    camera = "FUV" if block.frames[0]["image"] == "FUV" else "SJI"
+    noise_maximum = config["noise_maximum"]
+    if noise_maximum == "camera":
+        noise_maximum = _noise_maximum[camera]
+    if noise_maximum is not None:
+        mask &= noise_map < noise_maximum
     noise = float(np.nanmedian(noise_map[mask]))
-    gain = _gain["FUV" if block.frames[0]["image"] == "FUV" else "SJI"]
+    gain = _gain[camera]
     # the quiet frames of the roll -90 campaign enter the census as its cosmic-ray sample
     surveyed = list(block.search)
     if block.dataset == "2018may":

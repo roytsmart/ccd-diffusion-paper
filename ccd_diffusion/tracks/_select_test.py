@@ -32,6 +32,7 @@ def _catalog(num: int = 40, saa: "None | range" = None):
                     FSN=str(1000 + 2 * i + offset),
                     IMG_PATH=image,
                     SAA="1" if i in saa else "0",
+                    ISQOLTID="3620011417" if i < 30 else "9999999999",
                 )
             )
     return rows
@@ -101,3 +102,16 @@ def test_save_frames(tmp_path: pathlib.Path):
     assert len(rows) == len(frames)
     assert list(rows[0]) == ["dataset", "fsn", "time", "image", "saa", "tracks"]
     assert [r["fsn"] for r in rows] == [f["fsn"] for f in frames]
+
+
+def test_select_keeps_one_program(monkeypatch):
+    monkeypatch.setattr(_select, "records", lambda window, **kw: _catalog())
+    monkeypatch.setitem(
+        _select.campaigns,
+        "test",
+        _select.Campaign(windows=(("a", "b"),), images=("FUV",), obsid="3620011417"),
+    )
+    result = _select.select("test", verbose=False)
+    # the last ten steps belong to another program and are dropped
+    assert len(result) == 30
+    assert max(int(r["fsn"]) for r in result) < 1000 + 2 * 30
