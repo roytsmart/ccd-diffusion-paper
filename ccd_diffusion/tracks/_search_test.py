@@ -23,8 +23,26 @@ def test_catalog_time():
     assert _search._catalog_time("2018-05-04T07:12:17.29Z") == "2018.05.04_07:12:17Z"
 
 
-def _frame(t, obsid="3620011417", x="954.1", y="7.2", exp="14.999", rot="-90.0"):
-    return dict(T_OBS=t, ISQOLTID=obsid, XCEN=x, YCEN=y, EXPTIME=exp, SAT_ROT=rot)
+def _frame(
+    t,
+    obsid="3620011417",
+    x="954.1",
+    y="7.2",
+    exp="14.999",
+    rot="-90.0",
+    spat="1",
+    sptrl="1",
+):
+    return dict(
+        T_OBS=t,
+        ISQOLTID=obsid,
+        XCEN=x,
+        YCEN=y,
+        EXPTIME=exp,
+        SAT_ROT=rot,
+        SUMSPAT=spat,
+        SUMSPTRL=sptrl,
+    )
 
 
 def _answer(rows):
@@ -210,3 +228,14 @@ def test_anomaly_frames_gives_up(monkeypatch):
         pass
     else:
         raise AssertionError("a range the catalog keeps refusing was accepted")
+
+
+def test_runs_drops_binned_frames():
+    rows = [
+        _frame("2018-05-04T07:00:00.00Z"),
+        _frame("2018-05-04T08:00:00.00Z", spat="2", sptrl="2"),
+        _frame("2018-05-04T09:00:00.00Z", spat="1", sptrl="4"),
+        _frame("2018-05-05T07:00:00.00Z", obsid="binned", spat="2", sptrl="4"),
+    ]
+    result = ccd_diffusion.tracks.runs(rows)
+    assert [(o.obsid, o.anomaly) for o in result] == [("3620011417", 1)]

@@ -223,6 +223,18 @@ def blocks(dataset: str, directory: None | pathlib.Path = None) -> list[Block]:
     return result
 
 
+_rows_per_band = 64
+"""How many rows :func:`background` works on at once."""
+
+_quiet_maximum = 120
+"""
+The most frames a block's background is estimated from.
+
+More do not improve it, and each full-resolution frame is 18 MB, so a
+long block's quiet frames are thinned evenly to this many.
+"""
+
+
 def background(stack: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """
     The trimmed-mean background of a stack of frames and the read-noise map
@@ -234,14 +246,24 @@ def background(stack: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     stack
         The frames, with the frame index first.
     """
-    finite = np.isfinite(stack).all(0) & (stack > 0).all(0)
-    result = scipy.stats.trim_mean(np.nan_to_num(stack, nan=0.0), 0.2, axis=0)
-    result[~finite] = np.nan
-    residual = stack - result
-    noise = (
-        np.nanmedian(np.abs(residual - np.nanmedian(residual, axis=0)), axis=0) * 1.4826
-    )
-    noise[~finite] = np.nan
+    # a stack of a hundred frames is gigabytes, and the sort behind the
+    # trimmed mean and the deviations behind the noise would each copy it,
+    # so both are taken a band of rows at a time
+    result = np.empty(stack.shape[1:], dtype=np.float32)
+    noise = np.empty(stack.shape[1:], dtype=np.float32)
+    for r0 in range(0, stack.shape[1], _rows_per_band):
+        band = stack[:, r0 : r0 + _rows_per_band]
+        finite = np.isfinite(band).all(0) & (band > 0).all(0)
+        mean = scipy.stats.trim_mean(np.nan_to_num(band, nan=0.0), 0.2, axis=0)
+        residual = band - mean
+        deviation = (
+            np.nanmedian(np.abs(residual - np.nanmedian(residual, axis=0)), axis=0)
+            * 1.4826
+        )
+        mean[~finite] = np.nan
+        deviation[~finite] = np.nan
+        result[r0 : r0 + _rows_per_band] = mean
+        noise[r0 : r0 + _rows_per_band] = deviation
     return result, noise
 
 
@@ -492,6 +514,9 @@ def _extract_block(
             f"{block.dataset} block {block.name}: {len(failed)} frames could not be fetched"
         )
     quiet = [f for f in block.quiet if f not in failed]
+    if len(quiet) > _quiet_maximum:
+        step = len(quiet) / _quiet_maximum
+        quiet = [quiet[int(i * step)] for i in range(_quiet_maximum)]
     stack = np.stack([read(f, directory)[0] for f in quiet])
     bg, noise_map = background(stack)
     del stack
@@ -502,6 +527,13 @@ def _extract_block(
         noise_maximum = _noise_maximum[camera]
     if noise_maximum is not None:
         mask &= noise_map < noise_maximum
+    if not mask.any():
+        if verbose:
+            print(
+                f"{block.dataset} block {block.name}: no pixel passes the mask "
+                f"(noise {np.nanmedian(noise_map):.2f} DN), skipped"
+            )
+        return tracks, components
     noise = float(np.nanmedian(noise_map[mask]))
     gain = _gain[camera]
     # the quiet frames of the roll -90 campaign enter the census as its cosmic-ray sample
@@ -591,8 +623,15 @@ def save_tracks(
     directory = pathlib.Path(directory)
     if frames is None:
         frames = list(globals()["frames"]())
-    charge = np.concatenate([t.charge.ndarray.astype(np.float32) for t in tracks])
-    position = np.concatenate([t.position.ndarray.astype(np.float32) for t in tracks])
+    width = 2 * half_width + 1
+    charge = np.concatenate(
+        [t.charge.ndarray.astype(np.float32) for t in tracks]
+        or [np.zeros((0, width), np.float32)]
+    )
+    position = np.concatenate(
+        [t.position.ndarray.astype(np.float32) for t in tracks]
+        or [np.zeros(0, np.float32)]
+    )
     np.savez_compressed(directory / "iris_tracks.npz", charge=charge, position=position)
     fields = [
         "name",

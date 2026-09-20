@@ -3,8 +3,10 @@ Find observations worth adding to the campaign table.
 
 A good campaign points the slit at or beyond the limb, so the frames are
 dark, exposes for several seconds, so a track outshines the read noise,
-and holds many frames taken inside the South Atlantic Anomaly, which is
-what its yield of tracks scales with. The level-1 catalog at the Joint
+reads the sensor at full resolution, since the kernel is a fraction of a
+pixel wide and vanishes in frames summed on board, and holds many frames
+taken inside the South Atlantic Anomaly, which is what its yield of tracks
+scales with. The level-1 catalog at the Joint
 Science Operations Center can list, for a whole month, only the
 far-ultraviolet frames taken inside the anomaly, each with its pointing,
 exposure, roll, and observing program, so a sweep of the mission is one
@@ -36,7 +38,7 @@ __all__ = [
     "load_search",
 ]
 
-_keys = "T_OBS,ISQOLTID,XCEN,YCEN,EXPTIME,SAT_ROT"
+_keys = "T_OBS,ISQOLTID,XCEN,YCEN,EXPTIME,SAT_ROT,SUMSPAT,SUMSPTRL"
 """The keywords fetched for every anomaly frame."""
 
 _cache_default = (
@@ -46,9 +48,12 @@ _cache_default = (
             pathlib.Path.home() / ".cache" / "ccd_diffusion" / "iris",
         )
     ).parent
-    / "anomaly"
+    / "anomaly-2"
 )
-"""Where each month's anomaly frames are kept, beside the image cache."""
+"""
+Where each month's anomaly frames are kept, beside the image cache. The
+name changes whenever :data:`_keys` does, so stale answers are not reused.
+"""
 
 
 @dataclasses.dataclass(eq=False)
@@ -215,7 +220,7 @@ def _parse_query_time(t: str) -> datetime.datetime:
 def runs(rows: list[dict[str, str]]) -> list[Observation]:
     """
     Group anomaly frames into candidate campaigns, one per observing
-    program and day.
+    program and day, keeping only frames read at full resolution.
 
     Parameters
     ----------
@@ -224,6 +229,10 @@ def runs(rows: list[dict[str, str]]) -> list[Observation]:
     """
     groups = {}
     for r in rows:
+        # a binned frame sums pixels on board, and the kernel is a fraction
+        # of one physical pixel wide, so only full-resolution frames count
+        if r.get("SUMSPAT", "1") != "1" or r.get("SUMSPTRL", "1") != "1":
+            continue
         groups.setdefault((r["ISQOLTID"], r["T_OBS"][:10]), []).append(r)
 
     def number(rs, key):

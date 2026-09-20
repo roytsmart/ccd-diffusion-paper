@@ -189,3 +189,32 @@ def test_main_plan_and_export(tmp_path: pathlib.Path, capsys):
         t.dataset == "2018" for t in ccd_diffusion.tracks.load()
     )
     assert (tmp_path / "2018" / "iris_campaigns.csv").exists()
+
+
+def test_background_in_bands_matches_whole():
+    rng = np.random.default_rng(3)
+    stack = 100 + 3 * rng.standard_normal((30, 200, 50)).astype(np.float32)
+    stack[:, :7, :] = 0
+    stack[5, 100, 10] = 5000
+    bg, noise = ccd_diffusion.tracks.background(stack)
+    # the same, computed on the whole stack at once
+    import scipy.stats as st
+
+    finite = (stack > 0).all(0)
+    whole = st.trim_mean(stack, 0.2, axis=0)
+    dev = (
+        np.nanmedian(np.abs((stack - whole) - np.nanmedian(stack - whole, 0)), 0)
+        * 1.4826
+    )
+    assert np.allclose(bg[finite], whole[finite], atol=1e-3)
+    assert np.allclose(noise[finite], dev[finite], atol=1e-3)
+    assert np.isnan(bg[:7]).all() and np.isnan(noise[:7]).all()
+    assert bg.dtype == np.float32
+
+
+def test_save_tracks_none(tmp_path: pathlib.Path):
+    frames = [dict(f) for f in ccd_diffusion.tracks.frames()][:3]
+    ccd_diffusion.tracks.save_tracks([], tmp_path, frames=frames)
+    assert ccd_diffusion.tracks.load(tmp_path) == ()
+    rows = ccd_diffusion.tracks.frames(tmp_path)
+    assert len(rows) == 3 and all(r["tracks"] == "0" for r in rows)

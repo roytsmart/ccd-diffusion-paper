@@ -103,65 +103,71 @@ campaigns = {
         images=("SJI_1400", "SJI_2796"),
         stride=4,
     ),
-    "2016-12-10": Campaign(
-        windows=(("2016.12.10_05:48:13Z", "2016.12.10_07:55:52Z"),),
-        images=("FUV", "SJI_1330", "SJI_2796"),
-        stride=1,
-        obsid="3620259342",
-    ),
-    "2016-12-12": Campaign(
-        windows=(("2016.12.12_17:26:24Z", "2016.12.12_21:23:28Z"),),
+    "2013-12-27": Campaign(
+        windows=(("2013.12.27_06:06:53Z", "2013.12.27_12:43:56Z"),),
         images=("FUV", "SJI_1400", "SJI_2796"),
-        stride=1,
-        obsid="3620110467",
-    ),
-    "2019-01-08": Campaign(
-        windows=(("2019.01.08_00:00:05Z", "2019.01.08_09:53:06Z"),),
-        images=("FUV", "SJI_1330"),
         stride=2,
-        obsid="3660109523",
+        obsid="3840011493",
     ),
-    "2020-01-05": Campaign(
-        windows=(("2020.01.05_06:58:08Z", "2020.01.05_09:10:43Z"),),
+    "2014-04-16": Campaign(
+        windows=(("2014.04.16_07:50:31Z", "2014.04.16_12:38:52Z"),),
+        images=("FUV", "SJI_1400", "SJI_2796"),
+        stride=2,
+        obsid="3820011480",
+    ),
+    "2014-08-23": Campaign(
+        windows=(("2014.08.23_07:54:33Z", "2014.08.23_10:03:52Z"),),
+        images=("FUV", "SJI_1400", "SJI_2796"),
+        stride=2,
+        obsid="3820009453",
+    ),
+    "2015-01-01": Campaign(
+        windows=(("2015.01.01_20:54:15Z", "2015.01.01_23:02:07Z"),),
         images=("FUV", "SJI_1400", "SJI_2796"),
         stride=1,
-        obsid="3680109414",
+        obsid="3800009462",
     ),
-    "2020-11-20": Campaign(
-        windows=(("2020.11.20_05:23:16Z", "2020.11.20_07:28:13Z"),),
+    "2015-09-20": Campaign(
+        windows=(("2015.09.20_07:39:15Z", "2015.09.20_10:48:51Z"),),
         images=("FUV", "SJI_2796"),
+        stride=6,
+        obsid="3623008713",
+    ),
+    "2015-10-03": Campaign(
+        windows=(("2015.10.03_08:04:15Z", "2015.10.03_11:02:31Z"),),
+        images=("FUV", "SJI_1330", "SJI_1400", "SJI_2796"),
+        stride=1,
+        obsid="3623008113",
+    ),
+    "2016-01-02": Campaign(
+        windows=(("2016.01.02_05:38:25Z", "2016.01.02_11:21:13Z"),),
+        images=("FUV", "SJI_1330", "SJI_1400", "SJI_2796", "SJI_2832"),
+        stride=1,
+        obsid="3620008076",
+    ),
+    "2016-10-28": Campaign(
+        windows=(("2016.10.28_07:15:38Z", "2016.10.28_08:47:24Z"),),
+        images=("FUV",),
         stride=3,
-        obsid="3610609752",
+        obsid="3640009123",
     ),
-    "2021-12-31": Campaign(
-        windows=(("2021.12.31_04:51:40Z", "2021.12.31_11:25:17Z"),),
-        images=("FUV", "SJI_2796"),
-        stride=5,
-        obsid="3610611752",
-    ),
-    "2022-12-13": Campaign(
-        windows=(("2022.12.13_07:59:13Z", "2022.12.13_10:48:58Z"),),
-        images=("FUV", "SJI_1330"),
+    "2016-12-13": Campaign(
+        windows=(("2016.12.13_12:56:13Z", "2016.12.13_20:17:11Z"),),
+        images=("FUV", "SJI_1330", "SJI_1400", "SJI_2796", "SJI_2832"),
         stride=2,
-        obsid="3660259533",
+        obsid="3620008063",
     ),
-    "2024-12-28": Campaign(
-        windows=(("2024.12.28_05:18:18Z", "2024.12.28_11:01:32Z"),),
-        images=("FUV", "SJI_2796"),
-        stride=4,
-        obsid="3610611752",
+    "2017-04-15": Campaign(
+        windows=(("2017.04.15_16:44:18Z", "2017.04.15_21:38:40Z"),),
+        images=("FUV",),
+        stride=6,
+        obsid="3640010059",
     ),
-    "2025-12-31": Campaign(
-        windows=(("2025.12.31_07:08:13Z", "2025.12.31_12:51:06Z"),),
-        images=("FUV", "SJI_2796"),
-        stride=4,
-        obsid="3610611752",
-    ),
-    "2026-01-10": Campaign(
-        windows=(("2026.01.10_06:24:14Z", "2026.01.10_12:06:40Z"),),
-        images=("FUV", "SJI_2796"),
-        stride=4,
-        obsid="3610611752",
+    "2019-11-13": Campaign(
+        windows=(("2019.11.13_06:59:38Z", "2019.11.13_20:51:40Z"),),
+        images=("FUV", "SJI_1330", "SJI_1400", "SJI_2796", "SJI_2832"),
+        stride=2,
+        obsid="3630010059",
     ),
 }
 """
@@ -171,11 +177,11 @@ about each of them.
 
 The first five are the campaigns of the original measurement. The rest
 were chosen by ``python -m ccd_diffusion.tracks search`` on 2026-09-20 for
-the good tracks they should yield per frame fetched, at most two
-program-days from any one year and exposures of 8 to 15 s, since a longer
-exposure crowds the frame with hits that spoil the tracks around them,
-with the frames outside the anomaly strided to leave at least about 150
-per camera for the background.
+the good tracks they should yield per frame fetched, among programs read
+at full resolution, at most three program-days from any one year and
+exposures of 8 to 15 s, since a longer exposure crowds the frame with hits
+that spoil the tracks around them, with the frames outside the anomaly
+strided to leave at least about 130 per camera for the background.
 """
 
 
