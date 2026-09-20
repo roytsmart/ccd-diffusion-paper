@@ -190,7 +190,23 @@ def test_configuration_default():
     default = _extract._configuration("2027-something-new")
     assert default is _extract._config_default
     assert default["block"] == "channel" and default["search"] == "saa"
-    assert default["noise_maximum"] == "camera"
+    assert default["noise_maximum"] == "camera" and default["mask"] == "camera"
+    assert _extract._mask_camera == {"FUV": "lines", "SJI": "limb"}
+
+
+def test_mask_lines_keeps_rows():
+    import numpy as np
+
+    bg = np.full((100, 200), 100.0)
+    bg[:, 50:90] += 20  # a broad emission line, raising forty pixels of every row
+    bg[10, 10] += 30  # a hot pixel
+    noise = np.full_like(bg, 3.0)
+    lines = _extract._mask("lines", bg, noise)
+    median = _extract._mask("median", bg, noise)
+    assert lines.mean() > 0.7
+    assert not lines[:, 50:90].any() and not lines[10, 10]
+    # the median mask cuts every row here, since each holds the line's pixels
+    assert not median.any()
 
 
 def test_anomaly_frames_retries_then_splits(monkeypatch):
