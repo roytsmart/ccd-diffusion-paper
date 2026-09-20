@@ -87,8 +87,14 @@ def parameters() -> aastex.Figure:
         )
         ax_c.scatter(tc, sm, s=3, color=color, alpha=0.4, linewidths=0)
     ax_c.plot(tc_paper, zf, "*", color="tab:red", markersize=9, label="model")
-    for (dataset, info), marker in zip(tracks.datasets.items(), _markers):
+    import itertools
+
+    for (dataset, info), marker in zip(
+        tracks.datasets.items(), itertools.cycle(_markers)
+    ):
         subset = [f for f in core() if f.track.dataset == dataset]
+        if not subset:
+            continue
         tc = np.array([f.critical_depth for f in subset])
         sm = np.array([f.width_max.to_value(u.um) for f in subset])
         ax_c.errorbar(

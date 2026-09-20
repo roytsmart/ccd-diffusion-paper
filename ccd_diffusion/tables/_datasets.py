@@ -52,6 +52,8 @@ its interquartile range are taken."""))
         mine = [f for f in frames if f["dataset"] == name]
         subset = [f for f in fits if f.track.dataset == name]
         core = [f for f in subset if f.flat and 0.25 < f.critical_depth < 0.6]
+        if not core:
+            continue
         tc = np.array([f.critical_depth for f in core])
         sm = np.percentile([f.width_max.to_value(u.um) for f in core], [25, 50, 75])
         row = [

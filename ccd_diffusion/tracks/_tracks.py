@@ -36,6 +36,28 @@ datasets = {
     "2018": dict(date="2018-03-16", particles="cosmic rays", roll=0, image="FUV"),
     "2018may": dict(date="2018-05-04", particles="SAA protons", roll=-90, image="FUV"),
     "sji": dict(date="2018-05-04/06", particles="SAA protons", roll=-90, image="SJI"),
+    "2014-03-31": dict(
+        date="2014-03-31", particles="SAA protons", roll=0, image="FUV, SJI"
+    ),
+    "2014-04-21": dict(
+        date="2014-04-21", particles="SAA protons", roll=0, image="FUV, SJI"
+    ),
+    "2015-11-17": dict(date="2015-11-17", particles="SAA protons", roll=0, image="FUV"),
+    "2016-12-12": dict(
+        date="2016-12-12", particles="SAA protons", roll=0, image="FUV, SJI"
+    ),
+    "2018-08-19": dict(
+        date="2018-08-19", particles="SAA protons", roll=0, image="FUV, SJI"
+    ),
+    "2024-12-28": dict(
+        date="2024-12-28", particles="SAA protons", roll=0, image="FUV, SJI"
+    ),
+    "2025-12-31": dict(
+        date="2025-12-31", particles="SAA protons", roll=0, image="FUV, SJI"
+    ),
+    "2026-01-10": dict(
+        date="2026-01-10", particles="SAA protons", roll=0, image="FUV, SJI"
+    ),
 }
 """
 The observing campaigns the tracks were found in, in chronological order,

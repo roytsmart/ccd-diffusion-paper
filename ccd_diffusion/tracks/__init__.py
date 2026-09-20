@@ -60,6 +60,15 @@ from ._provenance import (
     export,
     merge,
 )
+from ._search import (
+    Observation,
+    anomaly_month,
+    runs,
+    span,
+    search,
+    save_search,
+    load_search,
+)
 from ._archive import directory_default, url, path, download, read
 from ._extract import (
     length_minimum,
@@ -125,6 +134,13 @@ __all__ = [
     "plan",
     "export",
     "merge",
+    "Observation",
+    "anomaly_month",
+    "runs",
+    "span",
+    "search",
+    "save_search",
+    "load_search",
     "download",
     "read",
     "length_minimum",
