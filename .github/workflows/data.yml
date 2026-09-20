@@ -16,10 +16,11 @@ name: data
 # The images themselves are not cached: the cutouts are what is worth
 # keeping, and they live in the repository.
 #
-# A pull request opened with the workflow's own token does not run the
-# `tests` workflow. Store a fine-grained personal access token with read and
-# write access to this repository's contents and pull requests as the
-# `DATA_TOKEN` secret to have the pull request tested like any other.
+# A push made with the workflow's own token does not start other workflows,
+# so after opening the pull request the merge job asks the `tests`, `black`,
+# and `ruff` workflows to run on the new branch itself, which the same rule
+# allows. Their checks land on the pull request and the article preview
+# follows from `tests`, with no personal token involved.
 
 on:
   workflow_dispatch:
@@ -106,10 +107,9 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      actions: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.DATA_TOKEN || secrets.GITHUB_TOKEN }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -139,18 +139,21 @@ jobs:
       - name: Fit every track
         run: python -m ccd_diffusion.tracks fit
       - name: Open a pull request with the new data
+        id: pr
         env:
-          GH_TOKEN: ${{ secrets.DATA_TOKEN || secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           data=ccd_diffusion/tracks/data
           git add -N "$data/iris_azimuth.csv" "$data/iris_depleted.csv" "$data/iris_campaigns.csv"
           if git diff --quiet -- "$data"; then
             echo "The data are unchanged; nothing to do."
+            echo "branch=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           branch="data/run-${GITHUB_RUN_ID}"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
           git switch -c "$branch"
           git add "$data/iris_tracks.npz" "$data/iris_tracks.csv" \
                   "$data/iris_frames.csv" "$data/iris_azimuth.csv" \
@@ -170,3 +173,12 @@ jobs:
           gh pr create --base main --head "$branch" \
             --title "Regenerate the track data from the IRIS archive" \
             --body-file body.md
+      - name: Ask the checks to run on the new branch
+        if: steps.pr.outputs.branch != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ steps.pr.outputs.branch }}
+        run: |
+          for workflow in tests.yml black.yml ruff.yml; do
+            gh workflow run "$workflow" --ref "$BRANCH"
+          done

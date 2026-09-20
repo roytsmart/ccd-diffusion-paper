@@ -113,8 +113,8 @@ joins the campaigns, refits every track, and opens a pull request with the
 new data and an article preview. Each campaign carries a fingerprint in
 `tracks/data/iris_campaigns.csv` over the frames it covers and the
 extraction code, so adding a campaign fetches only that campaign, and
-changing the finder fetches everything. A fine-grained personal access token stored as the
-`DATA_TOKEN` secret lets that pull request run the tests like any other.
+changing the finder fetches everything. The workflow then asks the checks
+to run on the pull request it opened, so it needs no personal token.
 
 Formatting and linting, both enforced in CI:
 
