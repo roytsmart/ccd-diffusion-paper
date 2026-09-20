@@ -106,10 +106,14 @@ The images are cached in `~/.cache/ccd_diffusion/iris`, or wherever
 `CCD_DIFFUSION_CACHE` points.
 
 Neither step needs to run on your own machine. The `data` workflow in
-GitHub Actions (started from the Actions tab) extracts every campaign in
-its own job, with the images cached between runs, then joins the
-campaigns, refits every track, and opens a pull request with the new data
-and an article preview. A fine-grained personal access token stored as the
+GitHub Actions (started from the Actions tab) rebuilds the frame list,
+works out which campaigns have changed, extracts each of those in its own
+job while taking the rest from the data already in the repository, then
+joins the campaigns, refits every track, and opens a pull request with the
+new data and an article preview. Each campaign carries a fingerprint in
+`tracks/data/iris_campaigns.csv` over the frames it covers and the
+extraction code, so adding a campaign fetches only that campaign, and
+changing the finder fetches everything. A fine-grained personal access token stored as the
 `DATA_TOKEN` secret lets that pull request run the tests like any other.
 
 Formatting and linting, both enforced in CI:

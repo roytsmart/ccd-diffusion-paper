@@ -29,9 +29,11 @@ pytest                          # run tests; test_pdf compiles the LaTeX → PDF
 pytest ccd_diffusion/_document_test.py::test_pdf   # build the PDF specifically
 python -m ccd_diffusion.tracks fit      # refit every track and rewrite tracks/data/iris_fits.csv and iris_depleted.csv (minutes)
 python -m ccd_diffusion.tracks select   # ask the JSOC catalog which frames each campaign covers and rewrite the frame list
+python -m ccd_diffusion.tracks plan     # which campaigns the frame list and the current extractor would change (fresh/stale/new)
 python -m ccd_diffusion.tracks extract  # fetch 3.8 GB of level-1 images block by block and rewrite the cutouts (an hour or more; ask first)
 python -m ccd_diffusion.tracks extract --dataset sji --output out/sji   # one campaign, results elsewhere
-python -m ccd_diffusion.tracks merge out/*                              # join campaigns extracted separately
+python -m ccd_diffusion.tracks export --dataset sji --output out/sji    # the same layout, from the package's own data
+python -m ccd_diffusion.tracks merge out/* --report report.md          # join campaigns extracted or exported separately
 black ccd_diffusion             # format (CI enforces --check)
 ruff check                      # lint (CI enforces)
 ```
@@ -59,7 +61,9 @@ acknowledgments), and the bibliography.
   rather than hardcoding a number.
 - **`tracks/`** is the measurement: `_select.py` (the `campaigns` table and the JSOC
   catalog query that turns it into the frame list; expanding the dataset means adding
-  campaigns there), `_archive.py` (fetching level-1 images from LMSAL
+  campaigns there), `_provenance.py` (a fingerprint per campaign over its frame serial
+  numbers and a token-level hash of the extractor, stored in `data/iris_campaigns.csv`;
+  `plan`/`export`/`merge` make regeneration incremental), `_archive.py` (fetching level-1 images from LMSAL
   into `~/.cache/ccd_diffusion/iris`), `_extract.py` (backgrounds, masks, the track
   finder, and the azimuth census; the one module that works on plain numpy arrays),
   `_tracks.py` (the cutouts and metadata), `_fit.py` (the three-parameter width model;
@@ -71,9 +75,11 @@ acknowledgments), and the bibliography.
   is committed because regenerating it needs the archive or minutes of fitting.
 - **`_ccd.py`** is the `optika` sensor model the measurement is compared with.
 - **`.github/workflows/data.yml`** regenerates everything under `tracks/data/` on
-  GitHub Actions (`workflow_dispatch`): one `extract` job per campaign with the
-  images in the Actions cache, then a `merge` job that joins, fits, and opens a pull
-  request. Prefer it to running `extract` locally.
+  GitHub Actions (`workflow_dispatch`): a `select` job builds the frame list and the
+  plan, one job per campaign extracts it or exports it from the package if its
+  fingerprint is current, and a `merge` job (which runs even if a campaign failed) joins,
+  fits, and opens a pull request. Nothing is cached; the cutouts in the repo are the
+  cache. Prefer it to running `extract` locally.
 - **`docs/reports/tracks.ipynb`** is the exploratory notebook, executed by nbsphinx on
   every documentation build; its text cells are raw reStructuredText.
 
