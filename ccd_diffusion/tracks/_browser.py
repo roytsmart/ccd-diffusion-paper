@@ -19,6 +19,7 @@ from ._tracks import (
     frames,
 )
 from ._archive import download, read
+from ._extract import _camera, _level
 from ._fit import Fit, fits, critical_depth_maximum
 from ._depleted import depleted
 
@@ -119,28 +120,42 @@ def export_tracks(path: pathlib.Path) -> int:
     return len(records)
 
 
-def frame_choices() -> list[dict[str, str]]:
+frames_per_camera = 3
+"""How many frames of each camera of each campaign the documentation shows."""
+
+
+def frame_choices(num: int = frames_per_camera) -> list[dict[str, str]]:
     """
-    The frame holding the most tracks from the spectrograph and from the
-    slit-jaw imager, whichever of its channels, in every campaign, as rows
-    of the frame list, skipping a camera that yielded none.
+    The frames holding the most tracks from each camera (the slit-jaw
+    imager counting as one, whichever of its channels) in every campaign,
+    as rows of the frame list, skipping frames that yielded none.
+
+    Parameters
+    ----------
+    num
+        How many frames to keep per camera and campaign.
     """
-    best: dict[tuple[str, str], dict[str, str]] = {}
+    by_camera: dict[tuple[str, str], list[dict[str, str]]] = {}
     for f in frames():
-        key = (f["dataset"], f["image"][:3])
-        if key not in best or int(f["tracks"]) > int(best[key]["tracks"]):
-            best[key] = f
-    return [f for f in best.values() if int(f["tracks"]) > 0]
+        if int(f["tracks"]) > 0:
+            by_camera.setdefault((f["dataset"], _camera(f["image"])), []).append(f)
+    result = []
+    for mine in by_camera.values():
+        mine.sort(key=lambda f: (-int(f["tracks"]), int(f["fsn"])))
+        result += mine[:num]
+    return result
 
 
 def render_frame(
     data: np.ndarray,
     tracks: "list[Track] | tuple[Track, ...]",
     path: pathlib.Path,
+    camera: str = "FUV",
 ) -> dict:
     """
     Render a level-1 image as an 8-bit PNG with the stretch of the article's
-    example images, cropped to the part of the frame that was read out, with
+    example images above the pedestal of each quadrant, as the finder's
+    mask sees it, cropped to the part of the frame that was read out, with
     unread pixels white, every track outlined, and the first row at the
     bottom, and return the crop as ``rows`` and ``columns`` of the original.
 
@@ -152,18 +167,18 @@ def render_frame(
         The tracks the finder extracted from this image.
     path
         The PNG to write.
+    camera
+        ``FUV``, ``NUV``, or ``SJI``, which sets the quadrants.
     """
     valid = data > 0
     rows = np.flatnonzero(valid.any(axis=1))
     columns = np.flatnonzero(valid.any(axis=0))
     r0, r1 = int(rows.min()), int(rows.max()) + 1
     c0, c1 = int(columns.min()), int(columns.max()) + 1
-    crop = data[r0:r1, c0:c1]
-    read_out = crop > 0
-    background = np.median(crop[read_out])
-    stretched = np.arcsinh((crop - background) / _stretch) / np.arcsinh(
-        _vmax / _stretch
-    )
+    level = _level(np.where(valid, data, np.nan).astype(np.float32), camera)
+    crop = level[r0:r1, c0:c1]
+    read_out = valid[r0:r1, c0:c1]
+    stretched = np.arcsinh(crop / _stretch) / np.arcsinh(_vmax / _stretch)
     stretched = np.nan_to_num(np.clip(stretched, 0, 1))  # a frame may hold NaN
     gray = 255 - np.rint(255 * stretched).astype(np.uint8)
     gray[~read_out] = 255
@@ -213,7 +228,7 @@ def export_frames(
         data, header = read(f, cache)
         tracks = by_frame.get((f["dataset"], int(f["fsn"])), [])
         name = f"{f['dataset']}-{f['fsn']}.png"
-        crop = render_frame(data, tracks, directory / name)
+        crop = render_frame(data, tracks, directory / name, _camera(f["image"]))
         records.append(
             dict(
                 dataset=f["dataset"],

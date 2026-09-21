@@ -7,7 +7,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 `ccd-diffusion-paper` is a **reproducible scientific article**, not a conventional
 software library. The `ccd_diffusion` Python package programmatically generates a
 complete JATIS (SPIE) LaTeX article (text, figures, tables, and numeric values)
-measuring the depth-dependent charge-diffusion kernel of the IRIS CCDs from glancing
+measuring the depth-dependent charge-diffusion kernel of the four IRIS CCDs (FUV1, FUV2,
+NUV, SJI) from glancing
 particle tracks. Calling `ccd_diffusion.pdf()` produces `ccd-diffusion.pdf`.
 
 This is one package within the larger Kankelborg-Group workspace (see the parent

@@ -248,3 +248,87 @@ def test_save_tracks_none(tmp_path: pathlib.Path):
     assert ccd_diffusion.tracks.load(tmp_path) == ()
     rows = ccd_diffusion.tracks.frames(tmp_path)
     assert len(rows) == 3 and all(r["tracks"] == "0" for r in rows)
+
+
+def _header(**values):
+    from astropy.io import fits
+
+    header = fits.Header()
+    for k, v in values.items():
+        header[k] = v
+    return header
+
+
+def test_off_limb_spectrograph():
+    # a slit lying along the west radial: the reference row looks at the
+    # limb, rows above it look farther out, rows below it look onto the disk
+    header = _header(
+        RSUN_OBS=951.2,
+        CRPIX2=548.0,
+        CRVAL2=0.0,
+        CRVAL3=951.2,
+        CDELT2=0.1663,
+        CDELT3=0.1663,
+        PC2_2=0.0,
+        PC3_2=1.0,
+    )
+    result = ccd_diffusion.tracks.off_limb(header, (1096, 4144), "FUV")
+    assert result.shape == (1096, 4144)
+    assert (result == result[:, :1]).all()  # the same for every column
+    # the margin of 15 arcsec is 90 rows above the reference row
+    assert not result[548 + 80, 0] and result[548 + 100, 0]
+    assert not result[548 - 100, 0]
+    # a slit that looks at the disk centre is on the disk everywhere
+    header["CRVAL3"] = 0.0
+    assert not ccd_diffusion.tracks.off_limb(header, (1096, 2072), "NUV").any()
+
+
+def test_off_limb_slit_jaw():
+    # roll -90: the columns run along the solar north, rows toward the disk
+    header = _header(
+        RSUN_OBS=951.2,
+        CRPIX1=504.7,
+        CRPIX2=502.9,
+        CRVAL1=974.4,
+        CRVAL2=-0.7,
+        CDELT1=0.1679,
+        CDELT2=0.1679,
+        PC1_1=0.0,
+        PC1_2=-1.0,
+        PC2_1=1.0,
+        PC2_2=0.0,
+    )
+    result = ccd_diffusion.tracks.off_limb(header, (1096, 2072), "SJI")
+    # the reference pixel looks 23 arcsec above the limb, past the margin
+    assert result[502, 504]
+    assert result[300, 504] and not result[800, 504]
+    assert result[:, 0].sum() < result.shape[0]
+
+
+def test_off_limb_without_pointing():
+    header = _header(EXPTIME=4.0)
+    assert ccd_diffusion.tracks.off_limb(header, (10, 20), "FUV").all()
+
+
+def test_blocks_split_by_camera():
+    frames = [
+        dict(
+            dataset="x",
+            fsn=str(i),
+            time=f"2020-01-01T00:{i:02d}:00Z",
+            image=image,
+            saa="1",
+            tracks="0",
+        )
+        for i, image in enumerate(["FUV", "NUV", "FUV", "NUV", "SJI_2796"])
+    ]
+    import unittest.mock
+
+    with unittest.mock.patch.object(_extract, "frames", lambda: frames):
+        blocks = ccd_diffusion.tracks.blocks("x", pathlib.Path("."))
+    names = {b.name: [f["image"] for f in b.frames] for b in blocks}
+    assert names == {
+        "2020-01-01_FUV": ["FUV", "FUV"],
+        "2020-01-01_NUV": ["NUV", "NUV"],
+        "2020-01-01_2796": ["SJI_2796"],
+    }

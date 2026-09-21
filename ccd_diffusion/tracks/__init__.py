@@ -72,6 +72,7 @@ from ._search import (
 )
 from ._archive import directory_default, url, path, download, read
 from ._extract import (
+    off_limb,
     length_minimum,
     slope_maximum,
     charge_minimum,
@@ -90,6 +91,7 @@ from ._extract import (
 from ._images import axis_row, axis_column, Image, images
 from ._browser import (
     core_range,
+    frames_per_camera,
     export_tracks,
     frame_choices,
     render_frame,
@@ -170,7 +172,9 @@ __all__ = [
     "axis_column",
     "Image",
     "images",
+    "off_limb",
     "core_range",
+    "frames_per_camera",
     "export_tracks",
     "frame_choices",
     "render_frame",

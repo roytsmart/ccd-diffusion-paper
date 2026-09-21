@@ -7,7 +7,7 @@ __all__ = [
     "tracks",
 ]
 
-_chips = ["FUV1", "FUV2", "SJI"]
+_chips = ["FUV1", "FUV2", "NUV", "SJI"]
 
 
 def num_frames(chip: str) -> tuple[int, int]:
@@ -18,9 +18,9 @@ def num_frames(chip: str) -> tuple[int, int]:
     Parameters
     ----------
     chip
-        The CCD, ``FUV1``, ``FUV2`` or ``SJI``.
+        The CCD, ``FUV1``, ``FUV2``, ``NUV``, or ``SJI``.
     """
-    image = "FUV" if chip.startswith("FUV") else "SJI"
+    image = chip[:3]
     frames = [f for f in ccd_diffusion.tracks.frames() if f["image"].startswith(image)]
     return len(frames), sum(f["saa"] == "1" for f in frames)
 
@@ -33,7 +33,7 @@ def tracks() -> pylatex.Table:
     result.escape = False
     result.append(pylatex.Command("centering"))
     result.add_caption(pylatex.NoEscape(r"""
-The charge diffusion measured from glancing particle tracks on the three
+The charge diffusion measured from glancing particle tracks on the
 \IRIS\ \CCD{}s.
 The number of frames is the number of level-1 images searched, with the
 number taken inside \SAA\ in parentheses.
@@ -72,6 +72,8 @@ tracks."""))
     )
     tabular.add_hline()
     for chip in _chips:
+        if not ccd_diffusion.tracks.flat(chip):
+            continue
         s = ccd_diffusion.tracks.summary(chip)
         n_frames, n_saa = num_frames(chip)
         tc = s.critical_depth

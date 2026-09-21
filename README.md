@@ -22,7 +22,7 @@ every depth of the silicon along its track, so the width of the charge it
 leaves behind maps the lateral diffusion of charge against depth in a single
 exposure. This article uses such tracks, found in level-1 images from the
 Interface Region Imaging Spectrograph (IRIS), to measure the depth-dependent
-charge-diffusion kernel of its three CCDs in orbit, with no laboratory access,
+charge-diffusion kernel of its four CCDs in orbit, with no laboratory access,
 and compares it with the field-free diffusion model used to predict the noise
 of ultraviolet images.
 

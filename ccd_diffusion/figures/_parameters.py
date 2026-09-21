@@ -12,6 +12,7 @@ __all__ = [
 _chips = {
     "FUV1": "tab:orange",
     "FUV2": "tab:blue",
+    "NUV": "tab:green",
     "SJI": "black",
 }
 
@@ -45,6 +46,8 @@ def parameters() -> aastex.Figure:
     ax_a.axvspan(0.25, 0.6, color="0.9")
     for chip, color in _chips.items():
         tc = [f.critical_depth for f in tracks.flat(chip)]
+        if not tc:
+            continue
         ax_a.hist(
             tc,
             bins=np.arange(0, 1.06, 0.05),
@@ -63,6 +66,8 @@ def parameters() -> aastex.Figure:
 
     for chip, color in _chips.items():
         sm = [f.width_max.to_value(u.um) for f in core() if f.track.chip == chip]
+        if not sm:
+            continue
         ax_b.hist(
             sm,
             bins=np.arange(0, 10.1, 0.5),

@@ -52,7 +52,7 @@ class Campaign:
     """
 
     images: tuple[str, ...]
-    """The cameras to keep, ``FUV`` or the ``SJI_*`` channels."""
+    """The cameras to keep, ``FUV``, ``NUV``, or the ``SJI_*`` channels."""
 
     stride: int = 1
     """
@@ -76,22 +76,34 @@ class Campaign:
 campaigns = {
     "2014b": Campaign(
         windows=(("2014.03.12_20:03:00Z", "2014.03.12_22:07:10Z"),),
-        images=("FUV",),
+        images=(
+            "FUV",
+            "NUV",
+        ),
     ),
     "2014": Campaign(
         windows=(("2014.04.07_11:18:30Z", "2014.04.07_12:49:20Z"),),
-        images=("FUV",),
+        images=(
+            "FUV",
+            "NUV",
+        ),
     ),
     "2018": Campaign(
         windows=(
             ("2018.03.16_11:20:55Z", "2018.03.16_12:11:00Z"),
             ("2018.03.16_12:49:38Z", "2018.03.16_13:25:30Z"),
         ),
-        images=("FUV",),
+        images=(
+            "FUV",
+            "NUV",
+        ),
     ),
     "2018may": Campaign(
         windows=(("2018.05.04_07:12:20Z", "2018.05.04_11:58:45Z"),),
-        images=("FUV",),
+        images=(
+            "FUV",
+            "NUV",
+        ),
         stride=4,
     ),
     "sji": Campaign(
@@ -105,67 +117,73 @@ campaigns = {
     ),
     "2013-12-27": Campaign(
         windows=(("2013.12.27_06:06:53Z", "2013.12.27_12:43:56Z"),),
-        images=("FUV", "SJI_1400", "SJI_2796"),
+        images=("FUV", "NUV", "SJI_1400", "SJI_2796"),
         stride=2,
         obsid="3840011493",
     ),
     "2014-04-16": Campaign(
         windows=(("2014.04.16_07:50:31Z", "2014.04.16_12:38:52Z"),),
-        images=("FUV", "SJI_1400", "SJI_2796"),
+        images=("FUV", "NUV", "SJI_1400", "SJI_2796"),
         stride=2,
         obsid="3820011480",
     ),
     "2014-08-23": Campaign(
         windows=(("2014.08.23_07:54:33Z", "2014.08.23_10:03:52Z"),),
-        images=("FUV", "SJI_1400", "SJI_2796"),
+        images=("FUV", "NUV", "SJI_1400", "SJI_2796"),
         stride=2,
         obsid="3820009453",
     ),
     "2015-01-01": Campaign(
         windows=(("2015.01.01_20:54:15Z", "2015.01.01_23:02:07Z"),),
-        images=("FUV", "SJI_1400", "SJI_2796"),
+        images=("FUV", "NUV", "SJI_1400", "SJI_2796"),
         stride=1,
         obsid="3800009462",
     ),
     "2015-09-20": Campaign(
         windows=(("2015.09.20_07:39:15Z", "2015.09.20_10:48:51Z"),),
-        images=("FUV", "SJI_2796"),
+        images=("FUV", "NUV", "SJI_2796"),
         stride=6,
         obsid="3623008713",
     ),
     "2015-10-03": Campaign(
         windows=(("2015.10.03_08:04:15Z", "2015.10.03_11:02:31Z"),),
-        images=("FUV", "SJI_1330", "SJI_1400", "SJI_2796"),
+        images=("FUV", "NUV", "SJI_1330", "SJI_1400", "SJI_2796"),
         stride=1,
         obsid="3623008113",
     ),
     "2016-01-02": Campaign(
         windows=(("2016.01.02_05:38:25Z", "2016.01.02_11:21:13Z"),),
-        images=("FUV", "SJI_1330", "SJI_1400", "SJI_2796", "SJI_2832"),
+        images=("FUV", "NUV", "SJI_1330", "SJI_1400", "SJI_2796", "SJI_2832"),
         stride=1,
         obsid="3620008076",
     ),
     "2016-10-28": Campaign(
         windows=(("2016.10.28_07:15:38Z", "2016.10.28_08:47:24Z"),),
-        images=("FUV",),
+        images=(
+            "FUV",
+            "NUV",
+        ),
         stride=3,
         obsid="3640009123",
     ),
     "2016-12-13": Campaign(
         windows=(("2016.12.13_12:56:13Z", "2016.12.13_20:17:11Z"),),
-        images=("FUV", "SJI_1330", "SJI_1400", "SJI_2796", "SJI_2832"),
+        images=("FUV", "NUV", "SJI_1330", "SJI_1400", "SJI_2796", "SJI_2832"),
         stride=2,
         obsid="3620008063",
     ),
     "2017-04-15": Campaign(
         windows=(("2017.04.15_16:44:18Z", "2017.04.15_21:38:40Z"),),
-        images=("FUV",),
+        images=(
+            "FUV",
+            "NUV",
+        ),
         stride=6,
         obsid="3640010059",
     ),
     "2019-11-13": Campaign(
         windows=(("2019.11.13_06:59:38Z", "2019.11.13_20:51:40Z"),),
-        images=("FUV", "SJI_1330", "SJI_1400", "SJI_2796", "SJI_2832"),
+        images=("FUV", "NUV", "SJI_1330", "SJI_1400", "SJI_2796", "SJI_2832"),
         stride=2,
         obsid="3630010059",
     ),

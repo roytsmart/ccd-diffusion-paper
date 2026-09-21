@@ -12,9 +12,10 @@ def method() -> aastex.Section:
     result.append(r"""
 \subsection{Data}
 
-\IRIS\ \cite{DePontieu2014} carries three \CCD{}s of the same design, two
-behind the spectrograph (\FUV{}1 and \FUV{}2, which share one level-1 image)
-and one behind \SJI.
+\IRIS\ \cite{DePontieu2014} carries four \CCD{}s of the same design: two
+behind the \FUV\ channel of the spectrograph (\FUV{}1 and \FUV{}2, which
+share one level-1 image), one behind its \NUV\ channel, and one behind
+\SJI.
 They are back-illuminated, \thickness\ $\mu$m thick, with \pixelPitch\
 $\mu$m pixels, and their level-1 images are the raw frames with only the
 dark and the readout corrections applied, so a particle hit appears exactly
@@ -26,8 +27,10 @@ Table~\ref{tab:datasets}.
 Figure~\ref{fig:image} shows a spectrograph image and a slit-jaw image
 taken seconds apart during one pass through \SAA: the particle hits are
 dense, and a handful of them are the long glancing tracks we want.
-Tracks were sought against the dark background of the spectrograph frames
-and, for \SJI, in the off-limb half of the field of view.""")
+Tracks were sought only where the pointing recorded in each frame's
+header places the pixel at least 15 arcseconds above the photospheric
+limb, so that no track lies on the disk or in the chromosphere and
+spicules seen just above the limb.""")
     result.append(ccd_diffusion.tables.datasets())
     result.append(ccd_diffusion.figures.image())
     result.append(r"""

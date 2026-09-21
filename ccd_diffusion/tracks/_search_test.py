@@ -186,12 +186,21 @@ def test_search_roundtrip(tmp_path: pathlib.Path):
 
 
 def test_configuration_default():
-    assert _extract._configuration("sji") is _extract._config["sji"]
+    sji = _extract._configuration("sji")
+    assert sji["mask"] == "limb" and sji["noise_maximum"] == 3
+    assert "camera" not in sji
+    # a hand-tuned campaign's mask applies to the camera it was tuned on
+    assert _extract._configuration("sji", "SJI")["mask"] == "limb"
+    other = _extract._configuration("sji", "NUV")
+    assert other["mask"] == "camera" and other["noise_maximum"] == "camera"
+    assert other["block"] == "channel"
     default = _extract._configuration("2027-something-new")
-    assert default is _extract._config_default
+    assert default == _extract._config_default
     assert default["block"] == "channel" and default["search"] == "saa"
     assert default["noise_maximum"] == "camera" and default["mask"] == "camera"
-    assert _extract._mask_camera == {"FUV": "lines", "SJI": "limb"}
+    assert _extract._mask_camera == {"FUV": "lines", "NUV": "lines", "SJI": "limb"}
+    assert _extract._camera("SJI_2796") == "SJI"
+    assert _extract._camera("NUV") == "NUV" and _extract._camera("FUV") == "FUV"
 
 
 def test_mask_lines_keeps_rows():

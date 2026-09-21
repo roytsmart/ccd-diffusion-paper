@@ -14,6 +14,7 @@ def acronyms() -> list[aastex.Acronym]:
         aastex.Acronym("CCD", "charge-coupled device", plural=True),
         aastex.Acronym("UV", "ultraviolet"),
         aastex.Acronym("FUV", "far ultraviolet"),
+        aastex.Acronym("NUV", "near ultraviolet"),
         aastex.Acronym("PSF", "point spread function"),
         aastex.Acronym("IRIS", "the Interface Region Imaging Spectrograph"),
         aastex.Acronym("SJI", "the Slit-Jaw Imager"),

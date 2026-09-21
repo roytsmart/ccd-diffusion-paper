@@ -31,6 +31,7 @@ from ._tracks import (
 from ._archive import directory_default, download, read, path
 
 __all__ = [
+    "off_limb",
     "length_minimum",
     "slope_maximum",
     "charge_minimum",
@@ -74,24 +75,55 @@ the step shares no edge with the row before, so grouping by shared edges
 alone breaks such a track into pieces.
 """
 
-_gain = {"FUV": 6.0, "SJI": 18.0}
+_gain = {"FUV": 6.0, "NUV": 18.0, "SJI": 18.0}
 """The camera gain in electrons per data number."""
+
+
+def _camera(image: str) -> str:
+    """The camera behind an image type: ``FUV``, ``NUV``, or ``SJI`` for any slit-jaw channel."""
+    return image if image in ("FUV", "NUV") else "SJI"
+
 
 _config = {
     "2014": dict(
-        block="hundred", quiet="all", search="all", noise_maximum=6, mask="columns"
+        block="hundred",
+        quiet="all",
+        search="all",
+        noise_maximum=6,
+        mask="columns",
+        camera="FUV",
     ),
     "2014b": dict(
-        block="halves", quiet="quiet", search="saa", noise_maximum=6, mask="rows"
+        block="halves",
+        quiet="quiet",
+        search="saa",
+        noise_maximum=6,
+        mask="rows",
+        camera="FUV",
     ),
     "2018": dict(
-        block="repeat", quiet="quiet", search="limb", noise_maximum=None, mask=None
+        block="repeat",
+        quiet="quiet",
+        search="limb",
+        noise_maximum=None,
+        mask=None,
+        camera="FUV",
     ),
     "2018may": dict(
-        block="day", quiet="quiet", search="saa", noise_maximum=6, mask="lines"
+        block="day",
+        quiet="quiet",
+        search="saa",
+        noise_maximum=6,
+        mask="lines",
+        camera="FUV",
     ),
     "sji": dict(
-        block="channel", quiet="quiet", search="saa", noise_maximum=3, mask="limb"
+        block="channel",
+        quiet="quiet",
+        search="saa",
+        noise_maximum=3,
+        mask="limb",
+        camera="SJI",
     ),
 }
 """
@@ -104,6 +136,10 @@ is built: ``columns`` and ``rows`` cut those with many raised pixels,
 ``median`` also removes hot pixels, ``lines`` removes hot pixels and
 raised columns but keeps every row, and ``limb`` keeps the part of a
 slit-jaw field off the limb.
+
+The read-noise limit and the mask were tuned on the ``camera`` named, and
+a block of another camera in the same campaign takes the defaults for its
+camera instead.
 """
 
 _config_default = dict(
@@ -116,20 +152,41 @@ frames inside it searched, and the read-noise limit and the mask set by
 the camera.
 """
 
-_noise_maximum = {"FUV": 6.0, "SJI": 3.0}
+_noise_maximum = {"FUV": 6.0, "NUV": 3.0, "SJI": 3.0}
 """The read noise in data numbers above which a pixel is ignored, by camera."""
 
-_mask_camera = {"FUV": "lines", "SJI": "limb"}
+_mask_camera = {"FUV": "lines", "NUV": "lines", "SJI": "limb"}
 """
-The mask by camera: the spectrograph loses its emission-line columns and
-hot pixels, every quadrant of both CCDs levelled on its own pedestal,
-and the slit-jaw imager keeps only the part of its field off the limb.
+The mask by camera: each spectrograph loses its emission-line columns and
+hot pixels, every quadrant of its CCDs levelled on its own pedestal, and
+the slit-jaw imager keeps only the part of its field off the limb.
+"""
+
+_limb_margin = 15.0
+"""
+How far above the photospheric limb, in arcseconds, a pixel must look for
+it to be searched for tracks.
+
+The chromosphere seen in the emission lines and the slit-jaw passbands
+stands a few arcseconds above the limb the headers give, and spicules
+reach higher still, so the margin keeps solar structure out of the search
+on every camera.
 """
 
 
-def _configuration(dataset: str) -> dict:
-    """How a campaign is processed, :data:`_config_default` if it is not listed."""
-    return _config.get(dataset, _config_default)
+def _configuration(dataset: str, camera: None | str = None) -> dict:
+    """
+    How a campaign is processed, :data:`_config_default` if it is not
+    listed, with the read-noise limit and the mask of a hand-tuned campaign
+    replaced by the camera defaults for a camera other than the one it was
+    tuned on.
+    """
+    result = dict(_config.get(dataset, _config_default))
+    tuned = result.pop("camera", None)
+    if camera is not None and tuned is not None and camera != tuned:
+        result["noise_maximum"] = "camera"
+        result["mask"] = "camera"
+    return result
 
 
 @dataclasses.dataclass(eq=False)
@@ -193,29 +250,34 @@ def blocks(dataset: str, directory: None | pathlib.Path = None) -> list[Block]:
     def quiet(fs):
         return [f for f in fs if config["quiet"] == "all" or f["saa"] == "0"]
 
-    if config["block"] == "hundred":
-        groups = {
-            f"{i // 100:02d}": rows[i : i + 100] for i in range(0, len(rows), 100)
-        }
-    elif config["block"] == "halves":
-        half = len(rows) // 2
-        groups = {"0": rows[:half], "1": rows[half:]}
-    elif config["block"] == "day":
-        groups = {}
-        for f in rows:
-            groups.setdefault(f["time"][:10], []).append(f)
-    elif config["block"] == "channel":
-        groups = {}
-        for f in rows:
-            groups.setdefault(f"{f['time'][:10]}_{f['image'][-4:]}", []).append(f)
-    elif config["block"] == "repeat":
-        # the raster repeat is only in the header, so the frames are fetched here
-        keys = _header_values(rows, directory, ["IIOLRPT"])
-        groups = {}
-        for f, k in zip(rows, keys):
-            groups.setdefault(str(k["IIOLRPT"]), []).append(f)
-    else:
-        raise ValueError(config["block"])
+    # every camera has its own background, so the frames are split by image
+    # type first and the grouping rule applies within each
+    by_image: dict[str, list] = {}
+    for f in rows:
+        by_image.setdefault(f["image"], []).append(f)
+    groups = {}
+    for image, mine in by_image.items():
+        prefix = "" if len(by_image) == 1 else f"{image}_"
+        if config["block"] == "hundred":
+            for i in range(0, len(mine), 100):
+                groups[f"{prefix}{i // 100:02d}"] = mine[i : i + 100]
+        elif config["block"] == "halves":
+            half = len(mine) // 2
+            groups[f"{prefix}0"] = mine[:half]
+            groups[f"{prefix}1"] = mine[half:]
+        elif config["block"] == "day":
+            for f in mine:
+                groups.setdefault(f"{prefix}{f['time'][:10]}", []).append(f)
+        elif config["block"] == "channel":
+            for f in mine:
+                groups.setdefault(f"{f['time'][:10]}_{f['image'][-4:]}", []).append(f)
+        elif config["block"] == "repeat":
+            # the raster repeat is only in the header, so the frames are fetched here
+            keys = _header_values(mine, directory, ["IIOLRPT"])
+            for f, k in zip(mine, keys):
+                groups.setdefault(f"{prefix}{k['IIOLRPT']}", []).append(f)
+        else:
+            raise ValueError(config["block"])
 
     result = []
     for name, fs in groups.items():
@@ -311,6 +373,55 @@ def _level(bg: np.ndarray, camera: str) -> np.ndarray:
                 if values.size:
                     quadrant -= scipy.stats.trim_mean(values, 0.2)
     return np.nan_to_num(result, nan=0)
+
+
+def off_limb(header, shape: tuple[int, int], camera: str) -> np.ndarray:
+    """
+    Which pixels of a level-1 image look at least :data:`_limb_margin`
+    above the photospheric limb, from the pointing in its header.
+
+    The header gives the position on the Sun of a reference pixel and how
+    it changes along the slit (for a spectrograph) or across the field (for
+    the slit-jaw imager), and the apparent solar radius. A frame whose
+    header lacks them is searched everywhere.
+
+    Parameters
+    ----------
+    header
+        The header of the level-1 image.
+    shape
+        The shape of the image, ``(rows, columns)``.
+    camera
+        ``FUV``, ``NUV``, or ``SJI``.
+    """
+    rows, columns = shape
+    try:
+        limit = float(header["RSUN_OBS"]) + _limb_margin
+        if camera == "SJI":
+            x = np.arange(columns) + 1 - float(header["CRPIX1"])
+            y = np.arange(rows)[:, np.newaxis] + 1 - float(header["CRPIX2"])
+            lon = float(header["CRVAL1"]) + float(header["CDELT1"]) * (
+                float(header["PC1_1"]) * x + float(header["PC1_2"]) * y
+            )
+            lat = float(header["CRVAL2"]) + float(header["CDELT2"]) * (
+                float(header["PC2_1"]) * x + float(header["PC2_2"]) * y
+            )
+            return np.hypot(lon, lat) > limit
+        # a spectrograph: axis 2 of the header runs along the slit, which is
+        # the row axis of the image, and axis 3 is the other solar coordinate
+        s = np.arange(rows) + 1 - float(header["CRPIX2"])
+        lat = (
+            float(header["CRVAL2"])
+            + float(header["CDELT2"]) * float(header["PC2_2"]) * s
+        )
+        lon = (
+            float(header["CRVAL3"])
+            + float(header["CDELT3"]) * float(header["PC3_2"]) * s
+        )
+        along = np.hypot(lon, lat) > limit
+        return np.broadcast_to(along[:, np.newaxis], shape)
+    except (KeyError, TypeError, ValueError):
+        return np.ones(shape, dtype=bool)
 
 
 def _mask(
@@ -547,9 +658,9 @@ def _array(ndarray, axes):
 
 
 def _chip(track: Track, image: str, width: int) -> str:
-    """Which CCD a track lies on: the spectrograph image holds FUV1 and FUV2 side by side."""
+    """Which CCD a track lies on: the FUV spectrograph image holds FUV1 and FUV2 side by side."""
     if image != "FUV":
-        return "SJI"
+        return _camera(image)
     column = track.column if track.vertical else track.row
     return "FUV1" if column < width // 2 else "FUV2"
 
@@ -561,7 +672,8 @@ def _extract_block(
     verbose: bool,
 ) -> tuple[list[Track], list[Component]]:
     """Fetch one block, estimate its background, and search its frames."""
-    config = _configuration(block.dataset)
+    camera = _camera(block.frames[0]["image"])
+    config = _configuration(block.dataset, camera)
     tracks = []
     components = []
     if config["quiet"] == "quiet" and len(block.quiet) < (
@@ -584,7 +696,6 @@ def _extract_block(
     stack = np.stack([read(f, directory)[0] for f in quiet])
     bg, noise_map = background(stack)
     del stack
-    camera = "FUV" if block.frames[0]["image"] == "FUV" else "SJI"
     kind = config["mask"]
     if kind == "camera":
         kind = _mask_camera[camera]
@@ -610,9 +721,10 @@ def _extract_block(
     for f in surveyed:
         if f in failed:
             continue
-        data, _ = read(f, directory)
+        data, header = read(f, directory)
         residual = np.nan_to_num(data - bg)
         valid = np.isfinite(data) & (data > 0) & mask
+        valid &= off_limb(header, data.shape, camera)
         if f in block.search:
             for track in find(f, residual, valid, noise, gain):
                 track.chip = _chip(track, f["image"], data.shape[1])
