@@ -122,8 +122,8 @@ _noise_maximum = {"FUV": 6.0, "SJI": 3.0}
 _mask_camera = {"FUV": "lines", "SJI": "limb"}
 """
 The mask by camera: the spectrograph loses its emission-line columns and
-hot pixels, each of its two CCDs levelled on its own pedestal, and the
-slit-jaw imager keeps only the part of its field off the limb.
+hot pixels, every readout tap of both CCDs levelled on its own pedestal,
+and the slit-jaw imager keeps only the part of its field off the limb.
 """
 
 
@@ -278,21 +278,33 @@ def background(stack: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     return result, noise
 
 
+_taps = 4
+"""
+The number of readout amplifiers of each CCD, each of which reads an equal
+band of columns at its own pedestal.
+"""
+
+
 def _level(bg: np.ndarray, camera: str) -> np.ndarray:
     """
     The background above its pedestal, in data numbers.
 
-    The spectrograph image holds two CCDs side by side whose pedestals
-    differ by a few data numbers, so each half is levelled on its own;
-    a single median would flag the whole of the higher chip as elevated.
+    The spectrograph image holds two CCDs side by side, and every CCD is
+    read through :data:`_taps` amplifiers, whose pedestals differ by up
+    to a few data numbers, so each tap is levelled on its own by the
+    trimmed mean of its read pixels; a single median for the whole image
+    would flag the whole of the higher chip as elevated. A tap with no
+    read pixels is left alone.
     """
+    chips = 2 if camera == "FUV" else 1
+    num = chips * _taps
+    width = bg.shape[1] // num
     result = bg.copy()
-    if camera == "FUV":
-        half = bg.shape[1] // 2
-        result[:, :half] -= np.nanmedian(bg[:, :half])
-        result[:, half:] -= np.nanmedian(bg[:, half:])
-    else:
-        result -= np.nanmedian(bg)
+    for i in range(num):
+        band = result[:, i * width : (i + 1) * width if i < num - 1 else None]
+        values = band[np.isfinite(band)]
+        if values.size:
+            band -= scipy.stats.trim_mean(values, 0.2)
     return np.nan_to_num(result, nan=0)
 
 

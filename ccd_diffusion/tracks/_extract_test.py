@@ -191,12 +191,14 @@ def test_main_plan_and_export(tmp_path: pathlib.Path, capsys):
     assert (tmp_path / "2018" / "iris_campaigns.csv").exists()
 
 
-def test_mask_levels_each_chip():
+def test_mask_levels_each_tap():
     # a spectrograph frame whose second CCD sits a few data numbers above the
-    # first, with an emission line on each and the disk lighting the upper rows
+    # first, one tap of it higher still, with an emission line on each CCD
+    # and the disk lighting the upper rows
     rng = np.random.default_rng(2)
     bg = 100 + 0.3 * rng.standard_normal((200, 400)).astype(np.float32)
     bg[:, 200:] += 4
+    bg[:, 350:] += 2  # the last of the eight 50-column taps
     bg[100:, :] += 3  # the disk half of a limb pointing
     bg[:, 50:53] += 30  # an emission line on each CCD
     bg[:, 300:303] += 30
@@ -209,12 +211,12 @@ def test_mask_levels_each_chip():
     assert mask[:, 10:49].mean() > 0.95
     assert mask[:, 200:299].mean() > 0.95
     assert mask[:, 304:].mean() > 0.95
-    # a single median would have flagged the whole of the higher CCD
+    # every tap sits at its own pedestal once levelled; a single pedestal for
+    # the whole image would have left the higher CCD and tap raised
     level = _extract._level(bg, "FUV")
-    assert abs(np.nanmedian(level[:, :200])) < 0.1
-    assert abs(np.nanmedian(level[:, 200:])) < 0.1
-    single = _extract._level(bg, "SJI")
-    assert np.nanmedian(single[:, 200:]) - np.nanmedian(single[:, :200]) > 3
+    dark = [np.nanmedian(level[:100, 50 * i : 50 * (i + 1)]) for i in range(8)]
+    assert np.ptp(dark) < 0.3, dark
+    assert not np.isfinite(bg[:, :10]).any() and (level[:, :10] == 0).all()
 
 
 def test_background_in_bands_matches_whole():
