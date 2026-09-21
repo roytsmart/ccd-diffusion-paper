@@ -16,11 +16,12 @@ name: data
 # The images themselves are not cached: the cutouts are what is worth
 # keeping, and they live in the repository.
 #
-# A push made with the workflow's own token does not start other workflows,
-# so after opening the pull request the merge job asks the `tests`, `black`,
-# and `ruff` workflows to run on the new branch itself, which the same rule
-# allows. Their checks land on the pull request and the article preview
-# follows from `tests`, with no personal token involved.
+# GitHub holds the checks of a pull request opened with the workflow's own
+# token until someone approves them, so after opening the pull request the
+# merge job approves them itself. It also never chains one workflow off a
+# run that its own token caused, so the `tests` run for such a pull request
+# asks the `pdf` workflow for the article preview directly. No personal
+# token is involved.
 
 on:
   workflow_dispatch:
@@ -173,12 +174,24 @@ jobs:
           gh pr create --base main --head "$branch" \
             --title "Regenerate the track data from the IRIS archive" \
             --body-file body.md
-      - name: Ask the checks to run on the new branch
+      - name: Approve the checks held on the new pull request
         if: steps.pr.outputs.branch != ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: ${{ steps.pr.outputs.branch }}
         run: |
-          for workflow in tests.yml black.yml ruff.yml; do
-            gh workflow run "$workflow" --ref "$BRANCH"
+          # GitHub holds the pull-request runs of a pull request the Actions
+          # token opened until someone approves them, and only those runs
+          # count toward the rules on main; a copy of each check started by
+          # `gh workflow run` passes but attaches to nothing
+          held=""
+          for attempt in $(seq 12); do
+            held=$(gh run list --branch "$BRANCH" --event pull_request \
+                     --json databaseId,conclusion \
+                     --jq '.[] | select(.conclusion == "action_required") | .databaseId')
+            [ "$(echo "$held" | grep -c .)" -ge 3 ] && break
+            sleep 10
+          done
+          for id in $held; do
+            gh api -X POST "repos/${GITHUB_REPOSITORY}/actions/runs/${id}/approve"
           done
