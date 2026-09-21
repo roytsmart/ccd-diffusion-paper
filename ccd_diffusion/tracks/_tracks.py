@@ -135,6 +135,17 @@ class Track:
     """The fractional centerline offset of each slice from the central pixel."""
 
     @property
+    def extent(self) -> tuple[float, float, float, float]:
+        """
+        The bounding box of the cutout in the parent image, as ``(x, y,
+        width, height)`` in pixels, where ``x`` runs along the columns.
+        """
+        h = half_width
+        if self.vertical:
+            return self.column - h - 0.5, self.row - 0.5, 2 * h + 1, self.length
+        return self.row - 0.5, self.column - h - 0.5, self.length, 2 * h + 1
+
+    @property
     def length(self) -> int:
         """The number of slices in this track."""
         return self.charge.shape[axis_slice]

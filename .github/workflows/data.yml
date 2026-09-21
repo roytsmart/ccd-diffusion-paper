@@ -189,7 +189,7 @@ jobs:
             held=$(gh run list --branch "$BRANCH" --event pull_request \
                      --json databaseId,conclusion \
                      --jq '.[] | select(.conclusion == "action_required") | .databaseId')
-            [ "$(echo "$held" | grep -c .)" -ge 3 ] && break
+            [ "$(echo "$held" | grep -c .)" -ge 4 ] && break
             sleep 10
           done
           for id in $held; do

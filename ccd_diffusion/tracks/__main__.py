@@ -15,6 +15,9 @@ the directories either one wrote into the package's data files, which is
 how the ``data`` workflow handles every campaign in its own job.
 ``python -m ccd_diffusion.tracks fit`` refits every track and rewrites the
 fits.
+``python -m ccd_diffusion.tracks browser`` writes every track and a frame
+from each camera of every campaign in the form the track browser of the
+documentation reads.
 """
 
 import sys
@@ -98,6 +101,14 @@ def main(argv: list[str]) -> None:
     )
 
     commands.add_parser("fit", help="refit every track")
+
+    browser = commands.add_parser(
+        "browser", help="export the tracks and example frames for the documentation"
+    )
+    browser.add_argument("--output", type=pathlib.Path, required=True)
+    browser.add_argument(
+        "--no-frames", action="store_true", help="skip fetching and rendering frames"
+    )
     args = parser.parse_args(argv)
 
     if args.command == "select":
@@ -188,6 +199,13 @@ def main(argv: list[str]) -> None:
 
     elif args.command == "fit":
         tracks.save(*tracks.fit_all(tracks.load()))
+
+    elif args.command == "browser":
+        num = tracks.export_tracks(args.output / "tracks.json")
+        print(f"{num} tracks written to {args.output / 'tracks.json'}")
+        if not args.no_frames:
+            rendered = tracks.export_frames(args.output / "frames")
+            print(f"{len(rendered)} frames rendered in {args.output / 'frames'}")
 
 
 if __name__ == "__main__":
