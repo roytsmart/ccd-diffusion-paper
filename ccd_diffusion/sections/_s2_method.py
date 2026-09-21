@@ -24,6 +24,11 @@ We searched \numFrames\ such images, \numFramesSaa\ of them taken inside
 \SAA, where the flux of trapped protons at the altitude of \IRIS\ is
 greatest \cite{Barth2003,Adriani2015}, drawn from the campaigns of
 Table~\ref{tab:datasets}.
+The campaigns added for this work were chosen among those exposing for 8 s,
+since a longer exposure crowds the frame inside \SAA\ with hits that spoil
+the tracks around them: the campaigns of the original measurement that
+pass through \SAA\ expose for 15 s, and yielded per frame half as many of
+the tracks kept below.
 Figure~\ref{fig:image} shows a spectrograph image and a slit-jaw image
 taken seconds apart during one pass through \SAA: the particle hits are
 dense, and a handful of them are the long glancing tracks we want.

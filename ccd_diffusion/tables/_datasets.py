@@ -28,7 +28,7 @@ its interquartile range are taken."""))
     result.append(pylatex.Command("label", "tab:datasets"))
     result.append(pylatex.Command("footnotesize"))
 
-    tabular = pylatex.Tabular("llrrrrrcc", booktabs=False)
+    tabular = pylatex.Tabular("llrrrrrrcc", booktabs=False)
     tabular.escape = False
     tabular.add_hline()
     tabular.add_row(
@@ -38,6 +38,7 @@ its interquartile range are taken."""))
                 "date",
                 "particles",
                 "roll",
+                "exp. (s)",
                 "frames",
                 "tracks",
                 "flat",
@@ -60,6 +61,7 @@ its interquartile range are taken."""))
             f"{info['date']}, {info['image']}",
             info["particles"],
             f"${info['roll']}^\\circ$",
+            f"{info['exposure']}",
             f"{len(mine)} ({sum(f['saa'] == '1' for f in mine)})",
             f"{len(subset)}",
             f"{sum(f.flat for f in subset)}",

@@ -32,7 +32,7 @@ def test_frames():
     assert len(frames) > 1000
     for frame in frames:
         assert frame["dataset"]
-        assert frame["image"].startswith(("FUV", "SJI"))
+        assert frame["image"].startswith(("FUV", "NUV", "SJI"))
         assert frame["saa"] in ("0", "1")
 
 

@@ -142,16 +142,18 @@ def test_search(monkeypatch, tmp_path: pathlib.Path):
         + [_frame("2018-05-06T07:00:00.00Z", obsid="disk", x="10", y="10")] * 50
         + [_frame("2018-05-07T07:00:00.00Z", obsid="fast", exp="1.0")] * 50
         + [_frame("2018-05-08T07:00:00.00Z", obsid="few")] * 5
-        + [_frame("2018-05-09T07:00:00.00Z", obsid="long", exp="4.0")] * 500,
+        + [_frame("2018-05-09T07:00:00.00Z", obsid="long", exp="4.0")] * 500
+        + [_frame("2018-05-10T07:00:00.00Z", obsid="slow", exp="30.0")] * 500,
         "2018-06": [],
     }
     monkeypatch.setattr(_search, "anomaly_month", lambda m, cache=None: by_month[m])
     spans = []
     monkeypatch.setattr(_search, "span", lambda o: (spans.append(o.obsid), o)[1])
     result = ccd_diffusion.tracks.search(
-        "2018-05", "2018-06", verbose=False, cache=None
+        "2018-05", "2018-06", exposure_maximum=15, verbose=False, cache=None
     )
-    # the disk pointing, the fast cadence, and the few frames are cut
+    # the disk pointing, the fast cadence, the slow cadence, and the few
+    # frames are cut
     assert [o.obsid for o in result] == ["long", "3620011417"]
     assert sorted(spans) == ["3620011417", "long"]
     assert result[0].seconds == 2000 and result[1].anomaly == 50
