@@ -7,6 +7,7 @@ import astropy.units as u
 import named_arrays as na
 
 __all__ = [
+    "charge_minimum",
     "axis_slice",
     "axis_pixel",
     "half_width",
@@ -27,6 +28,18 @@ half_width = 3
 
 width_pixel = 13 * u.um
 """The pixel pitch of the IRIS CCDs."""
+
+charge_minimum = 240.0
+"""
+The least charge in a slice, in electrons, for it to enter the statistics
+of the pixel fractions.
+
+This mirrors the finder's floor for a slice to constrain the centerline,
+:data:`ccd_diffusion.tracks._extract.charge_minimum`, which is kept
+separate so that the extraction code, whose text the campaign
+fingerprints hash, need not change.
+"""
+
 
 _directory_data = pathlib.Path(__file__).parent / "data"
 
@@ -154,6 +167,18 @@ class Track:
     def index(self) -> na.AbstractScalarArray:
         """The index of each slice measured from the middle of the track."""
         return na.arange(0, self.length, axis=axis_slice) - self.length / 2
+
+    @property
+    def usable(self) -> na.AbstractScalarArray:
+        """
+        Whether each slice holds at least :data:`charge_minimum` of charge.
+
+        The finder locates the centerline from such slices alone, and the
+        statistics of the pixel fractions are taken from them alone too,
+        since a slice with almost no charge has fractions of almost
+        anything. The fit uses every slice, weighting each by its charge.
+        """
+        return self.signal >= charge_minimum
 
 
 @functools.cache

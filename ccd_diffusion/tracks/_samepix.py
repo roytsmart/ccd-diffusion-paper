@@ -34,7 +34,8 @@ def same_pixel(fit: Fit) -> na.AbstractScalarArray:
     """
     The measured probability that two charges from the same slice
     are collected in the same pixel column, :math:`\\sum_j f_j^2`,
-    corrected for the read-noise bias :math:`\\sum_j \\epsilon_j^2`.
+    corrected for the read-noise bias :math:`\\sum_j \\epsilon_j^2`, and
+    NaN for a slice too faint to be :attr:`Track.usable`.
 
     Parameters
     ----------
@@ -44,7 +45,7 @@ def same_pixel(fit: Fit) -> na.AbstractScalarArray:
     track = fit.track
     f = np.square(track.fraction).sum(axis_pixel)
     e = np.square(track.error) * (2 * half_width + 1)
-    return f - e
+    return np.where(track.usable, f - e, np.nan)
 
 
 def same_pixel_model(
@@ -112,6 +113,8 @@ class Profile:
 
 
 def _binned(depth: np.ndarray, values: np.ndarray) -> tuple[np.ndarray, ...]:
+    keep = np.isfinite(values)
+    depth, values = depth[keep], values[keep]
     edges = depth_bins.ndarray
     index = np.clip(np.digitize(depth, edges) - 1, 0, len(edges) - 2)
     num = np.bincount(index, minlength=len(edges) - 1)
@@ -240,7 +243,7 @@ def summary(chip: str) -> Summary:
     paper = np.concatenate(
         [same_pixel_model(f, tc_paper, sm_paper).ndarray for f in flat]
     )
-    back = depth < depth_back
+    back = (depth < depth_back) & np.isfinite(measured)
 
     tc = np.array([f.critical_depth for f in flat])
     sm = u.Quantity([f.width_max for f in flat])

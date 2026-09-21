@@ -197,8 +197,10 @@ def test_configuration_default():
 def test_mask_lines_keeps_rows():
     import numpy as np
 
-    bg = np.full((100, 200), 100.0)
-    bg[:, 50:90] += 20  # a broad emission line, raising forty pixels of every row
+    # a spectrograph frame with a broad emission line raising forty pixels of
+    # every row, a tenth of the width of the quadrant it lies in
+    bg = np.full((100, 1600), 100.0)
+    bg[:, 50:90] += 20
     bg[10, 10] += 30  # a hot pixel
     noise = np.full_like(bg, 3.0)
     lines = _extract._mask("lines", bg, noise)

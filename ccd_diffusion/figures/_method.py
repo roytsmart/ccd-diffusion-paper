@@ -9,7 +9,6 @@ __all__ = [
     "method",
 ]
 
-_name_example = "2018may-305"
 """The track shown as the example."""
 
 _length_schematic = 20
@@ -55,7 +54,15 @@ def method() -> aastex.Figure:
     h = tracks.half_width
     L = _length_schematic
 
-    example = next(f for f in tracks.fits() if f.track.name == _name_example)
+    # the longest flat track on the FUV2 CCD in the roll -90 campaign
+    example = max(
+        (
+            f
+            for f in tracks.fits()
+            if f.flat and f.track.chip == "FUV2" and f.track.dataset == "2018may"
+        ),
+        key=lambda f: f.track.length,
+    )
     track = example.track
 
     fig, ax = plt.subplots(

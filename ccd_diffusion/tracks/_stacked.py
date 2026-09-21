@@ -73,12 +73,14 @@ def stack(chip: str, num_offset: int = 28) -> Stack:
     t, x, w = [], [], []
     for f in flat(chip):
         distance = _offsets - f.position
-        fraction = f.track.fraction
+        fraction = np.where(f.track.usable, f.track.fraction, np.nan)
         shape = na.shape_broadcasted(distance, fraction)
         t.append(na.broadcast_to(f.depth, shape).ndarray.ravel())
         x.append(na.broadcast_to(distance, shape).ndarray.ravel())
         w.append(na.broadcast_to(fraction, shape).ndarray.ravel())
     t, x, w = np.concatenate(t), np.concatenate(x), np.concatenate(w)
+    keep = np.isfinite(w)
+    t, x, w = t[keep], x[keep], w[keep]
 
     edges_depth = depth_bins_fine.ndarray
     edges_offset = np.linspace(-half_width - 0.5, half_width + 0.5, num_offset + 1)
@@ -89,7 +91,7 @@ def stack(chip: str, num_offset: int = 28) -> Stack:
     total = np.zeros((edges_depth.size - 1, num_offset))
     np.add.at(total, index, w[:, np.newaxis] * overlap)
     num = np.histogram(
-        np.concatenate([f.depth.ndarray for f in flat(chip)]),
+        np.concatenate([f.depth.ndarray[f.track.usable.ndarray] for f in flat(chip)]),
         bins=edges_depth,
     )[0]
 
@@ -148,6 +150,7 @@ def widths(chip: str) -> Widths:
         q = fractions(f.position, w, f.track.slope)
         r = (f.track.fraction - q) / f.track.error
         v = np.log1p(np.square(r) / 2).sum(axis_pixel)
+        v = v * f.track.usable
         index = np.clip(np.digitize(f.depth.ndarray, edges) - 1, 0, nll.shape[0] - 1)
         np.add.at(nll, index, v.transpose((axis_slice, "width")).ndarray)
 
