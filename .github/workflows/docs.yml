@@ -42,8 +42,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e .[doc]
       - name: Build the documentation
-        env:
-          MPLBACKEND: agg
+        # with MPLBACKEND set to agg the notebook's kernel would draw nothing
+        # inline and the report would lose every figure without a warning
         run: sphinx-build -b html docs docs/_build/html
 
       - name: Determine where to publish
