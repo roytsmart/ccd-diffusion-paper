@@ -6,6 +6,16 @@ on:
   workflow_run:
     workflows: ["tests"]
     types: [completed]
+  workflow_dispatch:
+    # asked for by `tests` itself for a pull request the data workflow opened,
+    # since GitHub does not chain workflows off events its own token caused
+    inputs:
+      run_id:
+        description: The `tests` run that built the article
+        required: true
+      pr:
+        description: The pull request to preview
+        required: true
 
 # Every run pushes to the same branch, so serialize them.
 concurrency:
@@ -17,7 +27,7 @@ env:
 
 jobs:
   publish:
-    if: github.event.workflow_run.conclusion == 'success'
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -28,7 +38,7 @@ jobs:
         with:
           name: article
           path: article
-          run-id: ${{ github.event.workflow_run.id }}
+          run-id: ${{ inputs.run_id || github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Determine where to publish
@@ -36,7 +46,17 @@ jobs:
         env:
           EVENT: ${{ github.event.workflow_run.event }}
           HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          INPUT_PR: ${{ inputs.pr }}
         run: |
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            sha=$(gh pr view "$INPUT_PR" --repo "$GITHUB_REPOSITORY" --json headRefOid --jq .headRefOid)
+            echo "dir=pr/$INPUT_PR" >> "$GITHUB_OUTPUT"
+            echo "pr=$INPUT_PR" >> "$GITHUB_OUTPUT"
+            echo "sha=$sha" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
           if [ "$EVENT" = "push" ]; then
             echo "dir=." >> "$GITHUB_OUTPUT"
             echo "pr=" >> "$GITHUB_OUTPUT"
@@ -57,7 +77,7 @@ jobs:
         if: steps.target.outputs.dir != ''
         env:
           DIR: ${{ steps.target.outputs.dir }}
-          SHA: ${{ github.event.workflow_run.head_sha }}
+          SHA: ${{ steps.target.outputs.sha }}
         run: |
           remote="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           if git clone --depth 1 --branch gh-pages "$remote" pages 2>/dev/null; then
@@ -90,7 +110,7 @@ jobs:
         if: steps.target.outputs.pr != ''
         env:
           PR: ${{ steps.target.outputs.pr }}
-          SHA: ${{ github.event.workflow_run.head_sha }}
+          SHA: ${{ steps.target.outputs.sha }}
         run: |
           repo_name="${GITHUB_REPOSITORY#*/}"
           url="https://${GITHUB_REPOSITORY_OWNER}.github.io/${repo_name}/pr/${PR}/ccd-diffusion.pdf"

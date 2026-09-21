@@ -6,7 +6,7 @@ on:
     branches:
       - main
   pull_request:
-  workflow_dispatch:   # the data workflow asks for a run on the branch it pushes
+  workflow_dispatch:
 
 jobs:
   build:
@@ -19,6 +19,9 @@ jobs:
         ]
         python-version: ["3.12", "3.13", "3.14"]
     name: ${{ matrix.os }}, Python ${{ matrix.python-version }} test
+    permissions:
+      contents: read
+      actions: write   # to ask the `pdf` workflow for a preview, below
     steps:
       - name: Install LaTeX
         run: |
@@ -47,6 +50,18 @@ jobs:
           name: article
           path: ccd_diffusion/ccd-diffusion.pdf
           if-no-files-found: error
+      - name: Ask for the preview of a pull request the data workflow opened
+        # GitHub does not run the `pdf` workflow after a run for a pull request
+        # that the Actions token opened, so that run asks for it directly
+        if: >-
+          matrix.python-version == '3.12'
+          && github.event_name == 'pull_request'
+          && github.event.pull_request.user.login == 'github-actions[bot]'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          gh workflow run pdf.yml --ref main -f run_id="$GITHUB_RUN_ID" -f pr="$PR"
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v7
         with:
