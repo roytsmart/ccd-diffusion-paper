@@ -191,6 +191,32 @@ def test_main_plan_and_export(tmp_path: pathlib.Path, capsys):
     assert (tmp_path / "2018" / "iris_campaigns.csv").exists()
 
 
+def test_mask_levels_each_chip():
+    # a spectrograph frame whose second CCD sits a few data numbers above the
+    # first, with an emission line on each and the disk lighting the upper rows
+    rng = np.random.default_rng(2)
+    bg = 100 + 0.3 * rng.standard_normal((200, 400)).astype(np.float32)
+    bg[:, 200:] += 4
+    bg[100:, :] += 3  # the disk half of a limb pointing
+    bg[:, 50:53] += 30  # an emission line on each CCD
+    bg[:, 300:303] += 30
+    bg[:, :10] = np.nan  # unread columns
+    noise = np.full_like(bg, 3.0)
+    mask = _extract._mask("lines", bg, noise, "FUV")
+    assert not mask[:, :10].any()
+    assert not mask[:, 49:54].any()
+    assert not mask[:, 299:304].any()
+    assert mask[:, 10:49].mean() > 0.95
+    assert mask[:, 200:299].mean() > 0.95
+    assert mask[:, 304:].mean() > 0.95
+    # a single median would have flagged the whole of the higher CCD
+    level = _extract._level(bg, "FUV")
+    assert abs(np.nanmedian(level[:, :200])) < 0.1
+    assert abs(np.nanmedian(level[:, 200:])) < 0.1
+    single = _extract._level(bg, "SJI")
+    assert np.nanmedian(single[:, 200:]) - np.nanmedian(single[:, :200]) > 3
+
+
 def test_background_in_bands_matches_whole():
     rng = np.random.default_rng(3)
     stack = 100 + 3 * rng.standard_normal((30, 200, 50)).astype(np.float32)

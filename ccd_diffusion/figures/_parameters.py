@@ -122,8 +122,8 @@ def parameters() -> aastex.Figure:
 The fitted parameters.
 (a) The critical depth of every flat track on each \CCD, with the
 field-free model dashed.
-The pile-up at $t_c = 1$ and the tail below 0.25 are tracks the model
-cannot describe, diffuse or sharp along their whole length, and they are
+The tails below 0.25 and above 0.6 are tracks the model describes
+poorly, sharp or diffuse along most of their length, and they are
 excluded from the shaded core used elsewhere.
 (b) The back-surface width of the core tracks.
 (c) Each core track jittered off the fit grid, colored by \CCD\ as in (a),

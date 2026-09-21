@@ -127,8 +127,11 @@ def test_export_and_merge(tmp_path: pathlib.Path):
     statuses = dict((r.dataset, s) for r, s in result)
     first = present[0]
     assert statuses[first] == "refreshed"
-    # the package records no fingerprints yet, so exported campaigns are kept, not reused
-    assert all(s == "kept" for d, s in statuses.items() if d != first)
+    # an exported campaign is reused if the package records its fingerprint, kept otherwise
+    recorded = {c.dataset for c in ccd_diffusion.tracks.load_campaigns()}
+    for d, s in statuses.items():
+        if d != first:
+            assert s == ("reused" if d in recorded else "kept"), (d, s)
 
     loaded = ccd_diffusion.tracks.load(merged)
     assert sorted(t.name for t in loaded) == sorted(t.name for t in tracks)

@@ -16,6 +16,7 @@ package which does.
 import csv
 import dataclasses
 import pathlib
+import warnings
 import numpy as np
 import scipy.stats
 import scipy.ndimage
@@ -121,8 +122,8 @@ _noise_maximum = {"FUV": 6.0, "SJI": 3.0}
 _mask_camera = {"FUV": "lines", "SJI": "limb"}
 """
 The mask by camera: the spectrograph loses its emission-line columns and
-hot pixels, and the slit-jaw imager keeps only the part of its field off
-the limb.
+hot pixels, each of its two CCDs levelled on its own pedestal, and the
+slit-jaw imager keeps only the part of its field off the limb.
 """
 
 
@@ -277,12 +278,36 @@ def background(stack: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     return result, noise
 
 
-def _mask(kind: None | str, bg: np.ndarray, noise: np.ndarray) -> np.ndarray:
+def _level(bg: np.ndarray, camera: str) -> np.ndarray:
+    """
+    The background above its pedestal, in data numbers.
+
+    The spectrograph image holds two CCDs side by side whose pedestals
+    differ by a few data numbers, so each half is levelled on its own;
+    a single median would flag the whole of the higher chip as elevated.
+    """
+    result = bg.copy()
+    if camera == "FUV":
+        half = bg.shape[1] // 2
+        result[:, :half] -= np.nanmedian(bg[:, :half])
+        result[:, half:] -= np.nanmedian(bg[:, half:])
+    else:
+        result -= np.nanmedian(bg)
+    return np.nan_to_num(result, nan=0)
+
+
+def _mask(
+    kind: None | str,
+    bg: np.ndarray,
+    noise: np.ndarray,
+    camera: str = "FUV",
+) -> np.ndarray:
     """The pixels free of solar signal, hot pixels, and bad rows or columns."""
     finite = np.isfinite(bg)
     if kind is None:
         return finite
-    elevated = np.nan_to_num(bg - np.nanmedian(bg), nan=0) > 2.5
+    level = _level(bg, camera)
+    elevated = level > 2.5
     if kind == "columns":
         result = finite & ~elevated
         result[:, elevated.sum(0) > 30] = False
@@ -293,9 +318,7 @@ def _mask(kind: None | str, bg: np.ndarray, noise: np.ndarray) -> np.ndarray:
         result[:, elevated.sum(0) > 30] = False
         return result
     if kind == "median":
-        hot = scipy.ndimage.binary_dilation(
-            (np.nan_to_num(bg - np.nanmedian(bg), nan=0) > 5) & finite
-        )
+        hot = scipy.ndimage.binary_dilation((level > 5) & finite)
         result = finite & ~hot
         result[elevated.sum(1) > 30, :] = False
         result[:, elevated.sum(0) > 30] = False
@@ -303,12 +326,16 @@ def _mask(kind: None | str, bg: np.ndarray, noise: np.ndarray) -> np.ndarray:
     if kind == "lines":
         # scattered light in the emission lines raises every row of a limb
         # pointing a little, so cutting rows as ``median`` does can remove
-        # the whole frame; the lines themselves are columns, so cut those
-        hot = scipy.ndimage.binary_dilation(
-            (np.nan_to_num(bg - np.nanmedian(bg), nan=0) > 5) & finite
-        )
+        # the whole frame, and the disk half of such a pointing raises a
+        # few pixels of every column, so counting them as ``columns`` does
+        # removes every column; the lines themselves are columns raised
+        # along most of their length, so cut those by their typical level
+        hot = scipy.ndimage.binary_dilation((level > 5) & finite)
         result = finite & ~hot
-        result[:, elevated.sum(0) > 30] = False
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", RuntimeWarning)  # unread columns
+            typical = np.nanmedian(np.where(finite, level, np.nan), axis=0)
+        result[:, np.nan_to_num(typical, nan=0) > 2.5] = False
         return result
     if kind == "limb":
         smooth = scipy.ndimage.median_filter(
@@ -544,7 +571,7 @@ def _extract_block(
     kind = config["mask"]
     if kind == "camera":
         kind = _mask_camera[camera]
-    mask = _mask(kind, bg, noise_map)
+    mask = _mask(kind, bg, noise_map, camera)
     noise_maximum = config["noise_maximum"]
     if noise_maximum == "camera":
         noise_maximum = _noise_maximum[camera]

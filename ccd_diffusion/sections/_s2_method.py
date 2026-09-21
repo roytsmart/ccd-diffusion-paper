@@ -21,7 +21,7 @@ dark and the readout corrections applied, so a particle hit appears exactly
 as the camera recorded it.
 We searched \numFrames\ such images, \numFramesSaa\ of them taken inside
 \SAA, where the flux of trapped protons at the altitude of \IRIS\ is
-greatest \cite{Barth2003,Adriani2015}, drawn from the five campaigns of
+greatest \cite{Barth2003,Adriani2015}, drawn from the campaigns of
 Table~\ref{tab:datasets}.
 Figure~\ref{fig:image} shows a spectrograph image and a slit-jaw image
 taken seconds apart during one pass through \SAA: the particle hits are
@@ -111,10 +111,14 @@ The useful tracks are those which cross the full thickness of the sensor at
 nearly constant energy loss.
 We kept only the tracks for which the fit constrains $t_c$ to within 0.15
 and improves on a model with no diffusion by at least ten units of misfit,
-and for which the median charge per slice in the last third of the track is
+for which the median charge per slice in the last third of the track is
 within 50\% of that in the first third, since a rise in the deposited
 charge along the track is the Bragg peak of a particle that stopped inside
-the sensor and did not cross its full thickness.
+the sensor and did not cross its full thickness, and for which the fit
+finds a depleted end, $t_c \le 0.7$, since a particle that crossed the
+sensor is pixel-sharp where it left through the gates, whereas a feature
+that is wide from end to end is, on the slit-jaw imager, usually a
+spicule or other structure at the limb that the mask let through.
 We call these the flat tracks; \numFlatTracks\ tracks pass these cuts,
 \numFlatTracksSji\ of them on the \SJI\ \CCD, and Figure~\ref{fig:gallery}
 shows the longest of them alongside a stopping track.""")

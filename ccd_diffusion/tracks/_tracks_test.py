@@ -19,7 +19,10 @@ def test_load():
             ccd_diffusion.tracks.axis_pixel: 2 * ccd_diffusion.tracks.half_width + 1,
         }
         assert track.position.shape == {ccd_diffusion.tracks.axis_slice: track.length}
-        assert np.all(track.signal > 0)
+        # the finder asks four slices in five to carry charge; the rest may not
+        assert np.mean(track.signal > 0) >= 0.8
+        assert np.all(track.signal[track.usable] > 0)
+        assert track.usable.shape == track.position.shape
         assert np.allclose(track.fraction.sum(ccd_diffusion.tracks.axis_pixel), 1)
         assert np.all((track.depth > 0) & (track.depth < 1))
 
@@ -231,10 +234,21 @@ def test_summary(chip: str):
 
 
 def test_summary_sji_matches_model():
+    # a guard on the article's claim rather than a proof of it: with thousands
+    # of tracks the statistical error is far below the model's own uncertainty
     result = ccd_diffusion.tracks.summary("SJI")
-    assert result.same_pixel == pytest.approx(
-        result.same_pixel_paper,
-        abs=3 * result.same_pixel_error,
+    assert result.same_pixel == pytest.approx(result.same_pixel_paper, abs=0.03)
+
+
+def test_flat_requires_a_depleted_end():
+    fits = ccd_diffusion.tracks.fits()
+    wide = [f for f in fits if f.tight and f.bragg < 1.5 and not f.crossing]
+    assert wide, "the data hold features the fit calls wide from end to end"
+    assert not any(f.flat for f in wide)
+    assert all(
+        f.critical_depth <= ccd_diffusion.tracks.critical_depth_maximum
+        for f in fits
+        if f.flat
     )
 
 
@@ -295,3 +309,9 @@ def test_pooled():
     assert 0 < result.num <= len(tracks)
     assert result.misfit.shape == ccd_diffusion.tracks.width_depleted.shape
     assert result.critical_depth.shape == result.misfit.shape
+
+
+def test_charge_minimum_mirrors_the_finder():
+    from . import _extract, _tracks
+
+    assert _tracks.charge_minimum == _extract.charge_minimum

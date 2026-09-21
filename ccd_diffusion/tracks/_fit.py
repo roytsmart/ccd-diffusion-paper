@@ -24,6 +24,7 @@ __all__ = [
     "axis_offset",
     "axis_tilt",
     "critical_depth",
+    "critical_depth_maximum",
     "width_max",
     "width_depleted",
     "offset",
@@ -78,6 +79,9 @@ pooling the misfit of its tracks.
 
 _grid_width_depleted = width_depleted
 """An alias of :data:`width_depleted` for methods whose parameters shadow it."""
+
+critical_depth_maximum = 0.7
+"""The largest fitted :math:`t_c` for which a track counts as having crossed the sensor."""
 
 offset = na.linspace(-0.6, 0.6, axis=axis_offset, num=25)
 """The grid of centerline offsets (in pixels) marginalized over by :func:`scan`."""
@@ -264,9 +268,27 @@ class Fit:
         return float(max(a, b) / min(a, b))
 
     @property
+    def crossing(self) -> bool:
+        """
+        Whether the fit found a depleted end, :math:`t_c \\le` :data:`critical_depth_maximum`.
+
+        A particle that crossed the full thickness of the sensor is
+        pixel-sharp where it left through the gates. A feature that is wide
+        from end to end, which the fit describes with :math:`t_c` near one,
+        is not such a track: on the slit-jaw imager it is usually a spicule
+        or other structure at the limb that the mask let through.
+        """
+        # the grid point at 0.7 is a hair above 0.7 in binary, while a saved
+        # fit holds it rounded, so the boundary needs a tolerance to agree
+        return self.critical_depth <= critical_depth_maximum + 1e-6
+
+    @property
     def flat(self) -> bool:
-        """Whether the track is :attr:`tight` and has no Bragg rise along its length."""
-        return self.tight and (self.bragg < 1.5)
+        """
+        Whether the track is :attr:`tight`, has no Bragg rise along its
+        length, and is :attr:`crossing`.
+        """
+        return self.tight and (self.bragg < 1.5) and self.crossing
 
 
 @dataclasses.dataclass(eq=False)

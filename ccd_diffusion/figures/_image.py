@@ -14,7 +14,6 @@ _stretch = 10
 _vmax = 400
 """The data number above the background shown as black."""
 
-_name_zoom = "sji-197"
 """The track shown at full resolution."""
 
 _half_zoom = 40
@@ -92,7 +91,7 @@ def image() -> aastex.Figure:
 
     data_sji, rows_sji, cols_sji = _window(sji.data.ndarray)
     data_fuv, rows_fuv, cols_fuv = _window(fuv.data.ndarray, columns=slice(3500, None))
-    zoom = next(t for t in sji.tracks if t.name == _name_zoom)
+    zoom = max(sji.tracks, key=lambda t: t.length)  # the longest track in the frame
     x, y, w, h = _extent(zoom)
     cx, cy = x + w / 2, y + h / 2
     rows_zoom = slice(int(cy - _half_zoom), int(cy + _half_zoom))
