@@ -197,8 +197,8 @@ def test_configuration_default():
 def test_mask_lines_keeps_rows():
     import numpy as np
 
-    # a spectrograph frame read through eight taps of 200 columns, with a
-    # broad emission line raising forty pixels of every row of the first tap
+    # a spectrograph frame with a broad emission line raising forty pixels of
+    # every row, a tenth of the width of the quadrant it lies in
     bg = np.full((100, 1600), 100.0)
     bg[:, 50:90] += 20
     bg[10, 10] += 30  # a hot pixel
