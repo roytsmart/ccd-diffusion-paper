@@ -57,7 +57,10 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '**.ipynb_checkpoints']
 # Execute every notebook under docs/reports/ during the build, so the figures
 # are regenerated from the code and data in the package.
 nbsphinx_execute = 'always'
-nbsphinx_timeout = 900
+# The depletion-region section of the report refits every flat track on its
+# own grid, ten minutes on a laptop and longer on a hosted runner, so no
+# cell has a time limit of its own; the build job as a whole has one.
+nbsphinx_timeout = -1
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -70,6 +73,11 @@ html_theme = 'pydata_sphinx_theme'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# The track browser and the frame gallery are drawn by this script from
+# files the build writes under _static/browser, see setup() below.
+html_js_files = ['browser.js']
+html_css_files = ['browser.css']
 
 html_theme_options = {
     "icon_links": [
@@ -91,3 +99,23 @@ intersphinx_mapping = {
     'pylatex': ('https://jeltef.github.io/PyLaTeX/current/', None),
     'aastex': ('https://aastex.readthedocs.io/en/latest/', None),
 }
+
+
+def _export_browser(app):
+    """
+    Write every track and one rendered frame per camera and campaign under
+    _static/browser, where browser.js reads them. The frames are fetched
+    from the archive, so this needs the network and takes a minute.
+    """
+    import pathlib
+    import ccd_diffusion.tracks as tracks
+
+    static = pathlib.Path(__file__).parent / '_static' / 'browser'
+    num = tracks.export_tracks(static / 'tracks.json')
+    rendered = tracks.export_frames(static / 'frames')
+    print(f'track browser: {num} tracks and {len(rendered)} frames exported')
+
+
+def setup(app):
+    app.connect('builder-inited', _export_browser)
+

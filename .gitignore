@@ -9,6 +9,7 @@ coverage.xml
 .ipynb_checkpoints/
 docs/_build/
 docs/_autosummary/
+docs/_static/browser/
 
 # build products of the article
 ccd_diffusion/ccd-diffusion.pdf

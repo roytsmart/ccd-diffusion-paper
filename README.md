@@ -13,6 +13,7 @@ An article for the *Journal of Astronomical Telescopes, Instruments, and
 Systems* (JATIS).
 
 📄 **[Read the current draft (pdf)](https://roytsmart.github.io/ccd-diffusion-paper/ccd-diffusion.pdf)**
+🔍 **[Browse every track](https://roytsmart.github.io/ccd-diffusion-paper/docs/browser.html)** and **[the frames they came from](https://roytsmart.github.io/ccd-diffusion-paper/docs/frames.html)** in the [documentation](https://roytsmart.github.io/ccd-diffusion-paper/docs/)
 
 ## What this is
 
@@ -47,7 +48,11 @@ macros rather than literals.
 
 The exploratory analysis behind the article is a notebook,
 `docs/reports/tracks.ipynb`, which is executed and published with the
-documentation.
+documentation. The documentation also holds a browser of every track in
+the package, with its cutout, its fit, and the model evaluated beside it,
+and a gallery of one level-1 frame from each camera of every campaign
+with the tracks outlined; `python -m ccd_diffusion.tracks browser
+--output DIR` writes what those pages read.
 
 ## Layout
 
@@ -120,11 +125,16 @@ GitHub Actions (started from the Actions tab) rebuilds the frame list,
 works out which campaigns have changed, extracts each of those in its own
 job while taking the rest from the data already in the repository, then
 joins the campaigns, refits every track, and opens a pull request with the
-new data and an article preview. Each campaign carries a fingerprint in
-`tracks/data/iris_campaigns.csv` over the frames it covers and the
-extraction code, so adding a campaign fetches only that campaign, and
-changing the finder fetches everything. The workflow then asks the checks
-to run on the pull request it opened, so it needs no personal token.
+new data, an article preview, and a documentation preview. Each campaign
+carries a fingerprint in `tracks/data/iris_campaigns.csv` over the frames
+it covers and the extraction code, so adding a campaign fetches only that
+campaign, and changing the finder fetches everything. The workflow
+approves the checks GitHub holds on the pull request it opened, so it
+needs no personal token.
+
+The `docs` workflow builds the documentation on every push and pull
+request and publishes it beside the article on GitHub Pages, under
+`docs/` for `main` and `pr/N/docs/` as a preview.
 
 Formatting and linting, both enforced in CI:
 

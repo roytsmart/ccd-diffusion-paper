@@ -20,14 +20,6 @@ _half_zoom = 40
 """The half-width of the region shown around that track, in pixels."""
 
 
-def _extent(track: "ccd_diffusion.tracks.Track") -> tuple[float, float, float, float]:
-    """The bounding box of a track in its parent image, as ``(x, y, width, height)``."""
-    h = ccd_diffusion.tracks.half_width
-    if track.vertical:
-        return track.column - h - 0.5, track.row - 0.5, 2 * h + 1, track.length
-    return track.row - 0.5, track.column - h - 0.5, track.length, 2 * h + 1
-
-
 def _window(
     data: np.ndarray, columns: None | slice = None
 ) -> tuple[np.ndarray, slice, slice]:
@@ -67,7 +59,7 @@ def _show(ax, data: np.ndarray, rows: slice, cols: slice):
 
 def _boxes(ax, tracks, pad: float = 8, linewidth: float = 0.6):
     for track in tracks:
-        x, y, w, h = _extent(track)
+        x, y, w, h = track.extent
         ax.add_patch(
             matplotlib.patches.Rectangle(
                 (x - pad, y - pad),
@@ -92,7 +84,7 @@ def image() -> aastex.Figure:
     data_sji, rows_sji, cols_sji = _window(sji.data.ndarray)
     data_fuv, rows_fuv, cols_fuv = _window(fuv.data.ndarray, columns=slice(3500, None))
     zoom = max(sji.tracks, key=lambda t: t.length)  # the longest track in the frame
-    x, y, w, h = _extent(zoom)
+    x, y, w, h = zoom.extent
     cx, cy = x + w / 2, y + h / 2
     rows_zoom = slice(int(cy - _half_zoom), int(cy + _half_zoom))
     cols_zoom = slice(int(cx - _half_zoom), int(cx + _half_zoom))

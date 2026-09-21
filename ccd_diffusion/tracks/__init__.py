@@ -88,6 +88,13 @@ from ._extract import (
     load_census,
 )
 from ._images import axis_row, axis_column, Image, images
+from ._browser import (
+    core_range,
+    export_tracks,
+    frame_choices,
+    render_frame,
+    export_frames,
+)
 from ._stacked import (
     depth_bins_fine,
     widths_trial,
@@ -163,6 +170,11 @@ __all__ = [
     "axis_column",
     "Image",
     "images",
+    "core_range",
+    "export_tracks",
+    "frame_choices",
+    "render_frame",
+    "export_frames",
     "depth_bins_fine",
     "widths_trial",
     "flat",

@@ -7,6 +7,23 @@ glancing particle tracks, for the Journal of Astronomical Telescopes,
 Instruments, and Systems.
 
 
+The article itself is built by the tests and published as
+`ccd-diffusion.pdf <../ccd-diffusion.pdf>`_.
+
+
+Data
+====
+
+Every track in the package and a frame from each camera of every
+campaign, to inspect one by one.
+
+.. toctree::
+    :maxdepth: 1
+
+    browser
+    frames
+
+
 Reports
 =======
 

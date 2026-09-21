@@ -28,6 +28,7 @@ pip install -e .[test]          # install for development
 pytest                          # run tests; test_pdf compiles the LaTeX → PDF
 pytest ccd_diffusion/_document_test.py::test_pdf   # build the PDF specifically
 python -m ccd_diffusion.tracks fit      # refit every track and rewrite tracks/data/iris_fits.csv and iris_depleted.csv (minutes)
+python -m ccd_diffusion.tracks browser --output out   # write the track browser's JSON and rendered frames (fetches one frame per camera and campaign)
 python -m ccd_diffusion.tracks search --stop 2026-09 --output candidates.csv   # sweep the JSOC catalog for observations worth adding as campaigns (minutes, cached per month)
 python -m ccd_diffusion.tracks select   # ask the JSOC catalog which frames each campaign covers and rewrite the frame list
 python -m ccd_diffusion.tracks plan     # which campaigns the frame list and the current extractor would change (fresh/stale/new)
@@ -86,6 +87,15 @@ acknowledgments), and the bibliography.
   cache. Prefer it to running `extract` locally.
 - **`docs/reports/tracks.ipynb`** is the exploratory notebook, executed by nbsphinx on
   every documentation build; its text cells are raw reStructuredText.
+- **`docs/browser.rst`** and **`docs/frames.rst`** are the track browser and the frame
+  gallery: static pages drawn by `docs/_static/browser.js` from files `docs/conf.py`
+  writes at build time under `docs/_static/browser/` (ignored by git) via
+  `tracks/_browser.py`: every track with its cutout and fit as one JSON file, and one
+  level-1 frame per camera and campaign fetched from the archive and rendered with its
+  tracks boxed. The model shown beside each cutout is re-evaluated in the page.
+- **`.github/workflows/docs.yml`** builds the documentation and publishes it to the
+  `gh-pages` branch beside the article, under `docs/` for `main` and `pr/N/docs/` for a
+  pull request; `pdf.yml` publishes the article the same way.
 
 ## Conventions
 
