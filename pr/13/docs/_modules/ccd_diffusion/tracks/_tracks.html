@@ -430,52 +430,124 @@
 <span class="n">_directory_data</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">"data"</span>
 
 <span class="n">datasets</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"2014b"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s2">"2014-03-12"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV"</span><span class="p">),</span>
-    <span class="s2">"2014"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s2">"2014-04-07"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"cosmic rays"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV"</span><span class="p">),</span>
-    <span class="s2">"2018"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s2">"2018-03-16"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"cosmic rays"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV"</span><span class="p">),</span>
+    <span class="s2">"2014b"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">date</span><span class="o">=</span><span class="s2">"2014-03-12"</span><span class="p">,</span>
+        <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span>
+        <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">exposure</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV"</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s2">"2014"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">date</span><span class="o">=</span><span class="s2">"2014-04-07"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"cosmic rays"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">exposure</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV"</span>
+    <span class="p">),</span>
+    <span class="s2">"2018"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">date</span><span class="o">=</span><span class="s2">"2018-03-16"</span><span class="p">,</span>
+        <span class="n">particles</span><span class="o">=</span><span class="s2">"cosmic rays"</span><span class="p">,</span>
+        <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">exposure</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV"</span><span class="p">,</span>
+    <span class="p">),</span>
     <span class="s2">"2018may"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">date</span><span class="o">=</span><span class="s2">"2018-05-04"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV"</span>
+        <span class="n">date</span><span class="o">=</span><span class="s2">"2018-05-04"</span><span class="p">,</span>
+        <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span>
+        <span class="n">roll</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span>
+        <span class="n">exposure</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV"</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="s2">"sji"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s2">"2018-05-04/06"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"SJI"</span><span class="p">),</span>
-    <span class="s2">"2013-12-27"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">date</span><span class="o">=</span><span class="s2">"2013-12-27"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span>
+    <span class="s2">"sji"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">date</span><span class="o">=</span><span class="s2">"2018-05-04/06"</span><span class="p">,</span>
+        <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span>
+        <span class="n">roll</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span>
+        <span class="n">exposure</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">"SJI"</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="s2">"2014-04-16"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">date</span><span class="o">=</span><span class="s2">"2014-04-16"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span>
+    <span class="s2">"2013-12-23"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">date</span><span class="o">=</span><span class="s2">"2013-12-23"</span><span class="p">,</span>
+        <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span>
+        <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">exposure</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="s2">"2014-08-23"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">date</span><span class="o">=</span><span class="s2">"2014-08-23"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span>
+        <span class="n">date</span><span class="o">=</span><span class="s2">"2014-08-23"</span><span class="p">,</span>
+        <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span>
+        <span class="n">roll</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+        <span class="n">exposure</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="s2">"2015-01-01"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">date</span><span class="o">=</span><span class="s2">"2015-01-01"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span>
+    <span class="s2">"2014-12-26"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">date</span><span class="o">=</span><span class="s2">"2014-12-26"</span><span class="p">,</span>
+        <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span>
+        <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">exposure</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s2">"2015-04-05"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">date</span><span class="o">=</span><span class="s2">"2015-04-05"</span><span class="p">,</span>
+        <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span>
+        <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">exposure</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="s2">"2015-09-20"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">date</span><span class="o">=</span><span class="s2">"2015-09-20"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span>
+        <span class="n">date</span><span class="o">=</span><span class="s2">"2015-09-20"</span><span class="p">,</span>
+        <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span>
+        <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">exposure</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="s2">"2015-10-03"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">date</span><span class="o">=</span><span class="s2">"2015-10-03"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span>
+    <span class="s2">"2015-10-30"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">date</span><span class="o">=</span><span class="s2">"2015-10-30"</span><span class="p">,</span>
+        <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span>
+        <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">exposure</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="s2">"2016-01-02"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">date</span><span class="o">=</span><span class="s2">"2016-01-02"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span>
+        <span class="n">date</span><span class="o">=</span><span class="s2">"2016-01-02"</span><span class="p">,</span>
+        <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span>
+        <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">exposure</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s2">"2016-05-17"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">date</span><span class="o">=</span><span class="s2">"2016-05-17"</span><span class="p">,</span>
+        <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span>
+        <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">exposure</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="s2">"2016-10-28"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">date</span><span class="o">=</span><span class="s2">"2016-10-28"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV"</span>
+        <span class="n">date</span><span class="o">=</span><span class="s2">"2016-10-28"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">exposure</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV"</span>
     <span class="p">),</span>
-    <span class="s2">"2016-12-13"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">date</span><span class="o">=</span><span class="s2">"2016-12-13"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span>
+    <span class="s2">"2017-10-19"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">date</span><span class="o">=</span><span class="s2">"2017-10-19"</span><span class="p">,</span>
+        <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span>
+        <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">exposure</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="s2">"2017-04-15"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">date</span><span class="o">=</span><span class="s2">"2017-04-15"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV"</span>
+    <span class="s2">"2018-02-25"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">date</span><span class="o">=</span><span class="s2">"2018-02-25"</span><span class="p">,</span>
+        <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span>
+        <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">exposure</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="s2">"2019-11-13"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">date</span><span class="o">=</span><span class="s2">"2019-11-13"</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span>
+    <span class="s2">"2020-07-01"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">date</span><span class="o">=</span><span class="s2">"2020-07-01"</span><span class="p">,</span>
+        <span class="n">particles</span><span class="o">=</span><span class="s2">"SAA protons"</span><span class="p">,</span>
+        <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">exposure</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">"FUV, NUV, SJI"</span><span class="p">,</span>
     <span class="p">),</span>
 <span class="p">}</span>
 <span class="sd">"""</span>
 <span class="sd">The observing campaigns the tracks were found in, in chronological order,</span>
 <span class="sd">with the date, the dominant particle population (inferred from the energy</span>
 <span class="sd">loss and from whether the frames were taken inside the South Atlantic</span>
-<span class="sd">Anomaly), the roll angle of the spacecraft in degrees, and the camera.</span>
+<span class="sd">Anomaly), the roll angle of the spacecraft in degrees, the exposure time</span>
+<span class="sd">in seconds, and the camera.</span>
 <span class="sd">"""</span>
 
 
