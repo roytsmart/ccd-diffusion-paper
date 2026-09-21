@@ -1,0 +1,6 @@
+load\_search
+============
+
+.. currentmodule:: ccd_diffusion.tracks
+
+.. autofunction:: ccd_diffusion.tracks.load_search
