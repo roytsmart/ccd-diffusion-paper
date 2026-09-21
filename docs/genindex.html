@@ -1,0 +1,1611 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index &#8212; ccd-diffusion-paper  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="_static/browser.css?v=350d53bc" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="_static/browser.js?v=ba41ad36"></script>
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">ccd-diffusion-paper  documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="browser.html">
+    Track browser
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="frames.html">
+    Frame gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="reports/tracks.html">
+    Charge diffusion from glancing particle tracks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="_autosummary/ccd_diffusion.html">
+    ccd_diffusion
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/roytsmart/ccd-diffusion-paper" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="browser.html">
+    Track browser
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="frames.html">
+    Frame gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="reports/tracks.html">
+    Charge diffusion from glancing particle tracks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="_autosummary/ccd_diffusion.html">
+    ccd_diffusion
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/roytsmart/ccd-diffusion-paper" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#Q"><strong>Q</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ | <a href="#X"><strong>X</strong></a>
+ | <a href="#Y"><strong>Y</strong></a>
+ 
+</div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract">Abstract (class in ccd_diffusion.spie)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.sections.abstract.html#ccd_diffusion.sections.abstract">abstract() (in module ccd_diffusion.sections)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments">Acknowledgments (class in ccd_diffusion.spie)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.sections.acknowledgments.html#ccd_diffusion.sections.acknowledgments">acknowledgments() (in module ccd_diffusion.sections)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.acronyms.html#ccd_diffusion.acronyms">acronyms() (in module ccd_diffusion)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.affiliation">affiliation (ccd_diffusion.spie.Author attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Affiliation.html#ccd_diffusion.spie.Affiliation">Affiliation (class in ccd_diffusion.spie)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.affiliations">affiliations (ccd_diffusion.spie.Author property)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Observation.html#ccd_diffusion.tracks.Observation.anomaly">anomaly (ccd_diffusion.tracks.Observation attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.anomaly_month.html#ccd_diffusion.tracks.anomaly_month">anomaly_month() (in module ccd_diffusion.tracks)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.append">append() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.append">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan.at">at() (ccd_diffusion.tracks.Scan method)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Biography.html#ccd_diffusion.spie.Biography.author">author (ccd_diffusion.spie.Biography attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Corresponding.html#ccd_diffusion.spie.Corresponding.author">(ccd_diffusion.spie.Corresponding attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author">Author (class in ccd_diffusion.spie)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.authors.html#ccd_diffusion.authors">authors() (in module ccd_diffusion)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.sections.availability.html#ccd_diffusion.sections.availability">availability() (in module ccd_diffusion.sections)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Availability.html#ccd_diffusion.spie.Availability">Availability() (in module ccd_diffusion.spie)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Component.html#ccd_diffusion.tracks.Component.azimuth">azimuth (ccd_diffusion.tracks.Component attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.figures.azimuth.html#ccd_diffusion.figures.azimuth">azimuth() (in module ccd_diffusion.figures)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.background.html#ccd_diffusion.tracks.background">background() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.begin_paragraph">begin_paragraph (ccd_diffusion.spie.Abstract attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.begin_paragraph">(ccd_diffusion.spie.Acknowledgments attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Affiliation.html#ccd_diffusion.spie.Affiliation.begin_paragraph">(ccd_diffusion.spie.Affiliation attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.begin_paragraph">(ccd_diffusion.spie.Author attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Biography.html#ccd_diffusion.spie.Biography.begin_paragraph">(ccd_diffusion.spie.Biography attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Corresponding.html#ccd_diffusion.spie.Corresponding.begin_paragraph">(ccd_diffusion.spie.Corresponding attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Keywords.html#ccd_diffusion.spie.Keywords.begin_paragraph">(ccd_diffusion.spie.Keywords attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Title.html#ccd_diffusion.spie.Title.begin_paragraph">(ccd_diffusion.spie.Title attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Depleted.html#ccd_diffusion.tracks.Depleted.best">best (ccd_diffusion.tracks.Depleted property)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Widths.html#ccd_diffusion.tracks.Widths.best">(ccd_diffusion.tracks.Widths attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Biography.html#ccd_diffusion.spie.Biography">Biography (class in ccd_diffusion.spie)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Block.html#ccd_diffusion.tracks.Block">Block (class in ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.blocks.html#ccd_diffusion.tracks.blocks">blocks() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.bragg">bragg (ccd_diffusion.tracks.Fit property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Campaign.html#ccd_diffusion.tracks.Campaign">Campaign (class in ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.ccd.html#ccd_diffusion.ccd">ccd() (in module ccd_diffusion)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.ccd_aia.html#ccd_diffusion.ccd_aia">ccd_aia() (in module ccd_diffusion)</a>
+</li>
+      <li>
+    ccd_diffusion
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.html#module-ccd_diffusion">module</a>
+</li>
+      </ul></li>
+      <li>
+    ccd_diffusion.figures
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.figures.html#module-ccd_diffusion.figures">module</a>
+</li>
+      </ul></li>
+      <li>
+    ccd_diffusion.sections
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.sections.html#module-ccd_diffusion.sections">module</a>
+</li>
+      </ul></li>
+      <li>
+    ccd_diffusion.spie
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.html#module-ccd_diffusion.spie">module</a>
+</li>
+      </ul></li>
+      <li>
+    ccd_diffusion.tables
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tables.html#module-ccd_diffusion.tables">module</a>
+</li>
+      </ul></li>
+      <li>
+    ccd_diffusion.tracks
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.html#module-ccd_diffusion.tracks">module</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.census.html#ccd_diffusion.tracks.census">census() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Component.html#ccd_diffusion.tracks.Component.charge">charge (ccd_diffusion.tracks.Component attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.charge">(ccd_diffusion.tracks.Track attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Depleted.html#ccd_diffusion.tracks.Depleted.chip">chip (ccd_diffusion.tracks.Depleted attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Profile.html#ccd_diffusion.tracks.Profile.chip">(ccd_diffusion.tracks.Profile attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Stack.html#ccd_diffusion.tracks.Stack.chip">(ccd_diffusion.tracks.Stack attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Summary.html#ccd_diffusion.tracks.Summary.chip">(ccd_diffusion.tracks.Summary attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.chip">(ccd_diffusion.tracks.Track attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Widths.html#ccd_diffusion.tracks.Widths.chip">(ccd_diffusion.tracks.Widths attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.clear">clear() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.clear">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.column">column (ccd_diffusion.tracks.Track attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Component.html#ccd_diffusion.tracks.Component">Component (class in ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.sections.conclusion.html#ccd_diffusion.sections.conclusion">conclusion() (in module ccd_diffusion.sections)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.content_separator">content_separator (ccd_diffusion.spie.Abstract attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.content_separator">(ccd_diffusion.spie.Acknowledgments attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.copy">copy() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.copy">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.corresponding">corresponding (ccd_diffusion.spie.Author attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Corresponding.html#ccd_diffusion.spie.Corresponding">Corresponding (class in ccd_diffusion.spie)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.count">count() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.count">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.create">create() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.create">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Depleted.html#ccd_diffusion.tracks.Depleted.critical_depth">critical_depth (ccd_diffusion.tracks.Depleted attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.critical_depth">(ccd_diffusion.tracks.Fit attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan.critical_depth">(ccd_diffusion.tracks.Scan attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Summary.html#ccd_diffusion.tracks.Summary.critical_depth">(ccd_diffusion.tracks.Summary attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Summary.html#ccd_diffusion.tracks.Summary.critical_depth_error">critical_depth_error (ccd_diffusion.tracks.Summary attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.critical_depth_max">critical_depth_max (ccd_diffusion.tracks.Fit attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan.critical_depth_max">(ccd_diffusion.tracks.Scan attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.critical_depth_min">critical_depth_min (ccd_diffusion.tracks.Fit attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan.critical_depth_min">(ccd_diffusion.tracks.Scan attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.crossing">crossing (ccd_diffusion.tracks.Fit property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Image.html#ccd_diffusion.tracks.Image.data">data (ccd_diffusion.tracks.Image attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Block.html#ccd_diffusion.tracks.Block.dataset">dataset (ccd_diffusion.tracks.Block attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Component.html#ccd_diffusion.tracks.Component.dataset">(ccd_diffusion.tracks.Component attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Image.html#ccd_diffusion.tracks.Image.dataset">(ccd_diffusion.tracks.Image attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Provenance.html#ccd_diffusion.tracks.Provenance.dataset">(ccd_diffusion.tracks.Provenance attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.dataset">(ccd_diffusion.tracks.Track attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tables.datasets.html#ccd_diffusion.tables.datasets">datasets() (in module ccd_diffusion.tables)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Observation.html#ccd_diffusion.tracks.Observation.day">day (ccd_diffusion.tracks.Observation attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Depleted.html#ccd_diffusion.tracks.Depleted">Depleted (class in ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.figures.depleted.html#ccd_diffusion.figures.depleted">depleted() (in module ccd_diffusion.figures)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.depleted.html#ccd_diffusion.tracks.depleted">(in module ccd_diffusion.tracks)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.depth">depth (ccd_diffusion.tracks.Fit property)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Profile.html#ccd_diffusion.tracks.Profile.depth">(ccd_diffusion.tracks.Profile attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Stack.html#ccd_diffusion.tracks.Stack.depth">(ccd_diffusion.tracks.Stack attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.depth">(ccd_diffusion.tracks.Track property)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Widths.html#ccd_diffusion.tracks.Widths.depth">(ccd_diffusion.tracks.Widths attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.sections.disclosures.html#ccd_diffusion.sections.disclosures">disclosures() (in module ccd_diffusion.sections)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Disclosures.html#ccd_diffusion.spie.Disclosures">Disclosures() (in module ccd_diffusion.spie)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.sections.discussion.html#ccd_diffusion.sections.discussion">discussion() (in module ccd_diffusion.sections)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.document.html#ccd_diffusion.document">document() (in module ccd_diffusion)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.download.html#ccd_diffusion.tracks.download">download() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.dump">dump() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.dump">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Affiliation.html#ccd_diffusion.spie.Affiliation.dump">(ccd_diffusion.spie.Affiliation method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.dump">(ccd_diffusion.spie.Author method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Biography.html#ccd_diffusion.spie.Biography.dump">(ccd_diffusion.spie.Biography method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Corresponding.html#ccd_diffusion.spie.Corresponding.dump">(ccd_diffusion.spie.Corresponding method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Keywords.html#ccd_diffusion.spie.Keywords.dump">(ccd_diffusion.spie.Keywords method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Title.html#ccd_diffusion.spie.Title.dump">(ccd_diffusion.spie.Title method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.dump_packages">dump_packages() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.dump_packages">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Affiliation.html#ccd_diffusion.spie.Affiliation.dump_packages">(ccd_diffusion.spie.Affiliation method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.dump_packages">(ccd_diffusion.spie.Author method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Biography.html#ccd_diffusion.spie.Biography.dump_packages">(ccd_diffusion.spie.Biography method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Corresponding.html#ccd_diffusion.spie.Corresponding.dump_packages">(ccd_diffusion.spie.Corresponding method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Keywords.html#ccd_diffusion.spie.Keywords.dump_packages">(ccd_diffusion.spie.Keywords method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Title.html#ccd_diffusion.spie.Title.dump_packages">(ccd_diffusion.spie.Title method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.dumps">dumps() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.dumps">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Affiliation.html#ccd_diffusion.spie.Affiliation.dumps">(ccd_diffusion.spie.Affiliation method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.dumps">(ccd_diffusion.spie.Author method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Biography.html#ccd_diffusion.spie.Biography.dumps">(ccd_diffusion.spie.Biography method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Corresponding.html#ccd_diffusion.spie.Corresponding.dumps">(ccd_diffusion.spie.Corresponding method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Keywords.html#ccd_diffusion.spie.Keywords.dumps">(ccd_diffusion.spie.Keywords method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Title.html#ccd_diffusion.spie.Title.dumps">(ccd_diffusion.spie.Title method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.dumps_as_content">dumps_as_content() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.dumps_as_content">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Affiliation.html#ccd_diffusion.spie.Affiliation.dumps_as_content">(ccd_diffusion.spie.Affiliation method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.dumps_as_content">(ccd_diffusion.spie.Author method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Biography.html#ccd_diffusion.spie.Biography.dumps_as_content">(ccd_diffusion.spie.Biography method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Corresponding.html#ccd_diffusion.spie.Corresponding.dumps_as_content">(ccd_diffusion.spie.Corresponding method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Keywords.html#ccd_diffusion.spie.Keywords.dumps_as_content">(ccd_diffusion.spie.Keywords method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Title.html#ccd_diffusion.spie.Title.dumps_as_content">(ccd_diffusion.spie.Title method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.dumps_content">dumps_content() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.dumps_content">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.dumps_packages">dumps_packages() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.dumps_packages">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Affiliation.html#ccd_diffusion.spie.Affiliation.dumps_packages">(ccd_diffusion.spie.Affiliation method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.dumps_packages">(ccd_diffusion.spie.Author method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Biography.html#ccd_diffusion.spie.Biography.dumps_packages">(ccd_diffusion.spie.Biography method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Corresponding.html#ccd_diffusion.spie.Corresponding.dumps_packages">(ccd_diffusion.spie.Corresponding method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Keywords.html#ccd_diffusion.spie.Keywords.dumps_packages">(ccd_diffusion.spie.Keywords method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Title.html#ccd_diffusion.spie.Title.dumps_packages">(ccd_diffusion.spie.Title method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.email">email (ccd_diffusion.spie.Author attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.end_paragraph">end_paragraph (ccd_diffusion.spie.Abstract attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.end_paragraph">(ccd_diffusion.spie.Acknowledgments attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Affiliation.html#ccd_diffusion.spie.Affiliation.end_paragraph">(ccd_diffusion.spie.Affiliation attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.end_paragraph">(ccd_diffusion.spie.Author attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Biography.html#ccd_diffusion.spie.Biography.end_paragraph">(ccd_diffusion.spie.Biography attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Corresponding.html#ccd_diffusion.spie.Corresponding.end_paragraph">(ccd_diffusion.spie.Corresponding attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Keywords.html#ccd_diffusion.spie.Keywords.end_paragraph">(ccd_diffusion.spie.Keywords attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Title.html#ccd_diffusion.spie.Title.end_paragraph">(ccd_diffusion.spie.Title attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Profile.html#ccd_diffusion.tracks.Profile.error">error (ccd_diffusion.tracks.Profile attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.error">(ccd_diffusion.tracks.Track property)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.escape">escape (ccd_diffusion.spie.Abstract attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.escape">(ccd_diffusion.spie.Acknowledgments attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Affiliation.html#ccd_diffusion.spie.Affiliation.escape">(ccd_diffusion.spie.Affiliation property)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.escape">(ccd_diffusion.spie.Author property)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Biography.html#ccd_diffusion.spie.Biography.escape">(ccd_diffusion.spie.Biography property)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Corresponding.html#ccd_diffusion.spie.Corresponding.escape">(ccd_diffusion.spie.Corresponding property)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Keywords.html#ccd_diffusion.spie.Keywords.escape">(ccd_diffusion.spie.Keywords property)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Title.html#ccd_diffusion.spie.Title.escape">(ccd_diffusion.spie.Title property)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.export.html#ccd_diffusion.tracks.export">export() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.export_frames.html#ccd_diffusion.tracks.export_frames">export_frames() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.export_tracks.html#ccd_diffusion.tracks.export_tracks">export_tracks() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Observation.html#ccd_diffusion.tracks.Observation.exposure">exposure (ccd_diffusion.tracks.Observation attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Image.html#ccd_diffusion.tracks.Image.exptime">exptime (ccd_diffusion.tracks.Image attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.extend">extend() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.extend">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.extent">extent (ccd_diffusion.tracks.Track property)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.extract.html#ccd_diffusion.tracks.extract">extract() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.extractor_hash.html#ccd_diffusion.tracks.extractor_hash">extractor_hash() (in module ccd_diffusion.tracks)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.find.html#ccd_diffusion.tracks.find">find() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Provenance.html#ccd_diffusion.tracks.Provenance.fingerprint">fingerprint (ccd_diffusion.tracks.Provenance attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.fingerprint.html#ccd_diffusion.tracks.fingerprint">fingerprint() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit">Fit (class in ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.fit.html#ccd_diffusion.tracks.fit">fit() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.fit_all.html#ccd_diffusion.tracks.fit_all">fit_all() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.fits.html#ccd_diffusion.tracks.fits">fits() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Profile.html#ccd_diffusion.tracks.Profile.fitted">fitted (ccd_diffusion.tracks.Profile attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Widths.html#ccd_diffusion.tracks.Widths.fitted">(ccd_diffusion.tracks.Widths attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.flat">flat (ccd_diffusion.tracks.Fit property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.flat.html#ccd_diffusion.tracks.flat">flat() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.fraction">fraction (ccd_diffusion.tracks.Track property)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.fractions.html#ccd_diffusion.tracks.fractions">fractions() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.frame_choices.html#ccd_diffusion.tracks.frame_choices">frame_choices() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Block.html#ccd_diffusion.tracks.Block.frames">frames (ccd_diffusion.tracks.Block property)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Observation.html#ccd_diffusion.tracks.Observation.frames">(ccd_diffusion.tracks.Observation attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Provenance.html#ccd_diffusion.tracks.Provenance.frames">(ccd_diffusion.tracks.Provenance attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.frames.html#ccd_diffusion.tracks.frames">frames() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Component.html#ccd_diffusion.tracks.Component.fsn">fsn (ccd_diffusion.tracks.Component attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Image.html#ccd_diffusion.tracks.Image.fsn">(ccd_diffusion.tracks.Image attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.fsn">(ccd_diffusion.tracks.Track attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.gain">gain (ccd_diffusion.tracks.Fit attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan.gain">(ccd_diffusion.tracks.Scan attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.gain">(ccd_diffusion.tracks.Track attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.figures.gallery.html#ccd_diffusion.figures.gallery">gallery() (in module ccd_diffusion.figures)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.sections.gallery.html#ccd_diffusion.sections.gallery">(in module ccd_diffusion.sections)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.generate_tex">generate_tex() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.generate_tex">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Affiliation.html#ccd_diffusion.spie.Affiliation.generate_tex">(ccd_diffusion.spie.Affiliation method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.generate_tex">(ccd_diffusion.spie.Author method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Biography.html#ccd_diffusion.spie.Biography.generate_tex">(ccd_diffusion.spie.Biography method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Corresponding.html#ccd_diffusion.spie.Corresponding.generate_tex">(ccd_diffusion.spie.Corresponding method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Keywords.html#ccd_diffusion.spie.Keywords.generate_tex">(ccd_diffusion.spie.Keywords method)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Title.html#ccd_diffusion.spie.Title.generate_tex">(ccd_diffusion.spie.Title method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.hash_source.html#ccd_diffusion.tracks.hash_source">hash_source() (in module ccd_diffusion.tracks)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Observation.html#ccd_diffusion.tracks.Observation.hours">hours (ccd_diffusion.tracks.Observation property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Image.html#ccd_diffusion.tracks.Image.image">image (ccd_diffusion.tracks.Image attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Stack.html#ccd_diffusion.tracks.Stack.image">(ccd_diffusion.tracks.Stack attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Image.html#ccd_diffusion.tracks.Image">Image (class in ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.figures.image.html#ccd_diffusion.figures.image">image() (in module ccd_diffusion.figures)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Campaign.html#ccd_diffusion.tracks.Campaign.images">images (ccd_diffusion.tracks.Campaign attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.images.html#ccd_diffusion.tracks.images">images() (in module ccd_diffusion.tracks)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.index">index (ccd_diffusion.tracks.Track property)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.index">index() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.index">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.insert">insert() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.insert">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.sections.introduction.html#ccd_diffusion.sections.introduction">introduction() (in module ccd_diffusion.sections)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.spie.Affiliation.html#ccd_diffusion.spie.Affiliation.key">key (ccd_diffusion.spie.Affiliation attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Keywords.html#ccd_diffusion.spie.Keywords.keywords">keywords (ccd_diffusion.spie.Keywords attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.spie.Keywords.html#ccd_diffusion.spie.Keywords">Keywords (class in ccd_diffusion.spie)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.keywords.html#ccd_diffusion.keywords">keywords() (in module ccd_diffusion)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.latex_name">latex_name (ccd_diffusion.spie.Abstract property)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.latex_name">(ccd_diffusion.spie.Acknowledgments property)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Affiliation.html#ccd_diffusion.spie.Affiliation.latex_name">(ccd_diffusion.spie.Affiliation property)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.latex_name">(ccd_diffusion.spie.Author property)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Biography.html#ccd_diffusion.spie.Biography.latex_name">(ccd_diffusion.spie.Biography property)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Corresponding.html#ccd_diffusion.spie.Corresponding.latex_name">(ccd_diffusion.spie.Corresponding property)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Keywords.html#ccd_diffusion.spie.Keywords.latex_name">(ccd_diffusion.spie.Keywords property)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Title.html#ccd_diffusion.spie.Title.latex_name">(ccd_diffusion.spie.Title property)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Component.html#ccd_diffusion.tracks.Component.length">length (ccd_diffusion.tracks.Component attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.length">(ccd_diffusion.tracks.Track property)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.load.html#ccd_diffusion.tracks.load">load() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.load_campaigns.html#ccd_diffusion.tracks.load_campaigns">load_campaigns() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.load_census.html#ccd_diffusion.tracks.load_census">load_census() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.load_search.html#ccd_diffusion.tracks.load_search">load_search() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.loss.html#ccd_diffusion.tracks.loss">loss() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Widths.html#ccd_diffusion.tracks.Widths.lower">lower (ccd_diffusion.tracks.Widths attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Profile.html#ccd_diffusion.tracks.Profile.measured">measured (ccd_diffusion.tracks.Profile attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.merge.html#ccd_diffusion.tracks.merge">merge() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.figures.method.html#ccd_diffusion.figures.method">method() (in module ccd_diffusion.figures)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.sections.method.html#ccd_diffusion.sections.method">(in module ccd_diffusion.sections)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Depleted.html#ccd_diffusion.tracks.Depleted.misfit">misfit (ccd_diffusion.tracks.Depleted attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan.misfit">(ccd_diffusion.tracks.Scan attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Widths.html#ccd_diffusion.tracks.Widths.model">model (ccd_diffusion.tracks.Widths attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    module
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.html#module-ccd_diffusion">ccd_diffusion</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.figures.html#module-ccd_diffusion.figures">ccd_diffusion.figures</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.sections.html#module-ccd_diffusion.sections">ccd_diffusion.sections</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.html#module-ccd_diffusion.spie">ccd_diffusion.spie</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tables.html#module-ccd_diffusion.tables">ccd_diffusion.tables</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.html#module-ccd_diffusion.tracks">ccd_diffusion.tracks</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.spie.Affiliation.html#ccd_diffusion.spie.Affiliation.name">name (ccd_diffusion.spie.Affiliation attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.name">(ccd_diffusion.spie.Author attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Title.html#ccd_diffusion.spie.Title.name">(ccd_diffusion.spie.Title attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Block.html#ccd_diffusion.tracks.Block.name">(ccd_diffusion.tracks.Block attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.name">(ccd_diffusion.tracks.Track attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.noise">noise (ccd_diffusion.tracks.Track attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Profile.html#ccd_diffusion.tracks.Profile.none">none (ccd_diffusion.tracks.Profile attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Depleted.html#ccd_diffusion.tracks.Depleted.num">num (ccd_diffusion.tracks.Depleted attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Profile.html#ccd_diffusion.tracks.Profile.num">(ccd_diffusion.tracks.Profile attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Summary.html#ccd_diffusion.tracks.Summary.num_flat">num_flat (ccd_diffusion.tracks.Summary attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tables.num_frames.html#ccd_diffusion.tables.num_frames">num_frames() (in module ccd_diffusion.tables)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Component.html#ccd_diffusion.tracks.Component.num_pixels">num_pixels (ccd_diffusion.tracks.Component attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Summary.html#ccd_diffusion.tracks.Summary.num_tracks">num_tracks (ccd_diffusion.tracks.Summary attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Observation.html#ccd_diffusion.tracks.Observation">Observation (class in ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Campaign.html#ccd_diffusion.tracks.Campaign.obsid">obsid (ccd_diffusion.tracks.Campaign attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Observation.html#ccd_diffusion.tracks.Observation.obsid">(ccd_diffusion.tracks.Observation attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.offset">offset (ccd_diffusion.tracks.Fit attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan.offset">(ccd_diffusion.tracks.Scan attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Stack.html#ccd_diffusion.tracks.Stack.offset">(ccd_diffusion.tracks.Stack attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.omit_if_empty">omit_if_empty (ccd_diffusion.spie.Abstract attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.omit_if_empty">(ccd_diffusion.spie.Acknowledgments attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.orcid">orcid (ccd_diffusion.spie.Author attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.orientation">orientation (ccd_diffusion.tracks.Fit attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan.orientation">(ccd_diffusion.tracks.Scan attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.packages">packages (ccd_diffusion.spie.Abstract attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.packages">(ccd_diffusion.spie.Acknowledgments attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Affiliation.html#ccd_diffusion.spie.Affiliation.packages">(ccd_diffusion.spie.Affiliation attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.packages">(ccd_diffusion.spie.Author attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Biography.html#ccd_diffusion.spie.Biography.packages">(ccd_diffusion.spie.Biography attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Corresponding.html#ccd_diffusion.spie.Corresponding.packages">(ccd_diffusion.spie.Corresponding attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Keywords.html#ccd_diffusion.spie.Keywords.packages">(ccd_diffusion.spie.Keywords attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Title.html#ccd_diffusion.spie.Title.packages">(ccd_diffusion.spie.Title attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Profile.html#ccd_diffusion.tracks.Profile.paper">paper (ccd_diffusion.tracks.Profile attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.paper_model.html#ccd_diffusion.tracks.paper_model">paper_model() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.figures.parameters.html#ccd_diffusion.figures.parameters">parameters() (in module ccd_diffusion.figures)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.path.html#ccd_diffusion.tracks.path">path() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.path_bibliography_style.html#ccd_diffusion.spie.path_bibliography_style">path_bibliography_style (in module ccd_diffusion.spie)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.spie.path_class.html#ccd_diffusion.spie.path_class">path_class (in module ccd_diffusion.spie)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.pdf.html#ccd_diffusion.pdf">pdf() (in module ccd_diffusion)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.plan.html#ccd_diffusion.tracks.plan">plan() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.pooled.html#ccd_diffusion.tracks.pooled">pooled() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.pop">pop() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.pop">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.position">position (ccd_diffusion.tracks.Fit property)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.position">(ccd_diffusion.tracks.Track attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan.preferred">preferred (ccd_diffusion.tracks.Scan property)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Profile.html#ccd_diffusion.tracks.Profile">Profile (class in ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.figures.profile.html#ccd_diffusion.figures.profile">profile() (in module ccd_diffusion.figures)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.profile.html#ccd_diffusion.tracks.profile">(in module ccd_diffusion.tracks)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Provenance.html#ccd_diffusion.tracks.Provenance">Provenance (class in ccd_diffusion.tracks)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Q">Q</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Block.html#ccd_diffusion.tracks.Block.quiet">quiet (ccd_diffusion.tracks.Block attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Observation.html#ccd_diffusion.tracks.Observation.quiet">(ccd_diffusion.tracks.Observation attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Observation.html#ccd_diffusion.tracks.Observation.radius">radius (ccd_diffusion.tracks.Observation attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.read.html#ccd_diffusion.tracks.read">read() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.records.html#ccd_diffusion.tracks.records">records() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.remove">remove() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.remove">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.render_frame.html#ccd_diffusion.tracks.render_frame">render_frame() (in module ccd_diffusion.tracks)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.sections.results.html#ccd_diffusion.sections.results">results() (in module ccd_diffusion.sections)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.reverse">reverse() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.reverse">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Image.html#ccd_diffusion.tracks.Image.roll">roll (ccd_diffusion.tracks.Image attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Observation.html#ccd_diffusion.tracks.Observation.roll">(ccd_diffusion.tracks.Observation attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.row">row (ccd_diffusion.tracks.Track attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.runs.html#ccd_diffusion.tracks.runs">runs() (in module ccd_diffusion.tracks)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Component.html#ccd_diffusion.tracks.Component.saa">saa (ccd_diffusion.tracks.Component attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Image.html#ccd_diffusion.tracks.Image.saa">(ccd_diffusion.tracks.Image attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Summary.html#ccd_diffusion.tracks.Summary.same_pixel">same_pixel (ccd_diffusion.tracks.Summary property)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.same_pixel.html#ccd_diffusion.tracks.same_pixel">same_pixel() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Summary.html#ccd_diffusion.tracks.Summary.same_pixel_1d">same_pixel_1d (ccd_diffusion.tracks.Summary attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Summary.html#ccd_diffusion.tracks.Summary.same_pixel_1d_error">same_pixel_1d_error (ccd_diffusion.tracks.Summary attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Summary.html#ccd_diffusion.tracks.Summary.same_pixel_error">same_pixel_error (ccd_diffusion.tracks.Summary property)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.same_pixel_model.html#ccd_diffusion.tracks.same_pixel_model">same_pixel_model() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Summary.html#ccd_diffusion.tracks.Summary.same_pixel_paper">same_pixel_paper (ccd_diffusion.tracks.Summary property)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Summary.html#ccd_diffusion.tracks.Summary.same_pixel_paper_1d">same_pixel_paper_1d (ccd_diffusion.tracks.Summary attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.save.html#ccd_diffusion.tracks.save">save() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.save_campaigns.html#ccd_diffusion.tracks.save_campaigns">save_campaigns() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.save_census.html#ccd_diffusion.tracks.save_census">save_census() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.save_depleted.html#ccd_diffusion.tracks.save_depleted">save_depleted() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.save_frames.html#ccd_diffusion.tracks.save_frames">save_frames() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.save_search.html#ccd_diffusion.tracks.save_search">save_search() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.save_tracks.html#ccd_diffusion.tracks.save_tracks">save_tracks() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan">Scan (class in ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.scan.html#ccd_diffusion.tracks.scan">scan() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Block.html#ccd_diffusion.tracks.Block.search">search (ccd_diffusion.tracks.Block attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.search.html#ccd_diffusion.tracks.search">search() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Observation.html#ccd_diffusion.tracks.Observation.seconds">seconds (ccd_diffusion.tracks.Observation property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.select.html#ccd_diffusion.tracks.select">select() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.separate_paragraph">separate_paragraph (ccd_diffusion.spie.Abstract attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.separate_paragraph">(ccd_diffusion.spie.Acknowledgments attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Affiliation.html#ccd_diffusion.spie.Affiliation.separate_paragraph">(ccd_diffusion.spie.Affiliation attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.separate_paragraph">(ccd_diffusion.spie.Author attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Biography.html#ccd_diffusion.spie.Biography.separate_paragraph">(ccd_diffusion.spie.Biography attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Corresponding.html#ccd_diffusion.spie.Corresponding.separate_paragraph">(ccd_diffusion.spie.Corresponding attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Keywords.html#ccd_diffusion.spie.Keywords.separate_paragraph">(ccd_diffusion.spie.Keywords attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.spie.Title.html#ccd_diffusion.spie.Title.separate_paragraph">(ccd_diffusion.spie.Title attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.signal">signal (ccd_diffusion.tracks.Track property)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.slope">slope (ccd_diffusion.tracks.Track attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract.sort">sort() (ccd_diffusion.spie.Abstract method)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments.sort">(ccd_diffusion.spie.Acknowledgments method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Provenance.html#ccd_diffusion.tracks.Provenance.source">source (ccd_diffusion.tracks.Provenance attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.span.html#ccd_diffusion.tracks.span">span() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Stack.html#ccd_diffusion.tracks.Stack">Stack (class in ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.stack.html#ccd_diffusion.tracks.stack">stack() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.figures.stacked.html#ccd_diffusion.figures.stacked">stacked() (in module ccd_diffusion.figures)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Observation.html#ccd_diffusion.tracks.Observation.start">start (ccd_diffusion.tracks.Observation attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Observation.html#ccd_diffusion.tracks.Observation.stop">stop (ccd_diffusion.tracks.Observation attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Campaign.html#ccd_diffusion.tracks.Campaign.stride">stride (ccd_diffusion.tracks.Campaign attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Summary.html#ccd_diffusion.tracks.Summary">Summary (class in ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.summary.html#ccd_diffusion.tracks.summary">summary() (in module ccd_diffusion.tracks)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.spie.Biography.html#ccd_diffusion.spie.Biography.text">text (ccd_diffusion.spie.Biography attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.tight">tight (ccd_diffusion.tracks.Fit property)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.tilt">tilt (ccd_diffusion.tracks.Fit attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan.tilt">(ccd_diffusion.tracks.Scan attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Image.html#ccd_diffusion.tracks.Image.time">time (ccd_diffusion.tracks.Image attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.spie.Title.html#ccd_diffusion.spie.Title">Title (class in ccd_diffusion.spie)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.track">track (ccd_diffusion.tracks.Fit attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan.track">(ccd_diffusion.tracks.Scan attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track">Track (class in ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Image.html#ccd_diffusion.tracks.Image.tracks">tracks (ccd_diffusion.tracks.Image property)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Provenance.html#ccd_diffusion.tracks.Provenance.tracks">(ccd_diffusion.tracks.Provenance attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tables.tracks.html#ccd_diffusion.tables.tracks">tracks() (in module ccd_diffusion.tables)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Widths.html#ccd_diffusion.tracks.Widths.upper">upper (ccd_diffusion.tracks.Widths attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.url.html#ccd_diffusion.tracks.url">url() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.usable">usable (ccd_diffusion.tracks.Track property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.variables.html#ccd_diffusion.variables">variables() (in module ccd_diffusion)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.vertical">vertical (ccd_diffusion.tracks.Track attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Component.html#ccd_diffusion.tracks.Component.width">width (ccd_diffusion.tracks.Component attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.width">(ccd_diffusion.tracks.Fit property)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.width.html#ccd_diffusion.tracks.width">width() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Depleted.html#ccd_diffusion.tracks.Depleted.width_depleted">width_depleted (ccd_diffusion.tracks.Depleted attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.width_depleted">(ccd_diffusion.tracks.Fit attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Summary.html#ccd_diffusion.tracks.Summary.width_depleted">(ccd_diffusion.tracks.Summary attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.width_depleted_preferred">width_depleted_preferred (ccd_diffusion.tracks.Fit attribute)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Depleted.html#ccd_diffusion.tracks.Depleted.width_max">width_max (ccd_diffusion.tracks.Depleted attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.width_max">(ccd_diffusion.tracks.Fit attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan.width_max">(ccd_diffusion.tracks.Scan attribute)</a>
+</li>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Summary.html#ccd_diffusion.tracks.Summary.width_max">(ccd_diffusion.tracks.Summary attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.width_max_max">width_max_max (ccd_diffusion.tracks.Fit attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan.width_max_max">(ccd_diffusion.tracks.Scan attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.width_max_min">width_max_min (ccd_diffusion.tracks.Fit attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan.width_max_min">(ccd_diffusion.tracks.Scan attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Widths.html#ccd_diffusion.tracks.Widths">Widths (class in ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.widths.html#ccd_diffusion.tracks.widths">widths() (in module ccd_diffusion.tracks)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Observation.html#ccd_diffusion.tracks.Observation.window">window (ccd_diffusion.tracks.Observation property)</a>
+</li>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Campaign.html#ccd_diffusion.tracks.Campaign.windows">windows (ccd_diffusion.tracks.Campaign attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="X">X</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Observation.html#ccd_diffusion.tracks.Observation.x">x (ccd_diffusion.tracks.Observation attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Y">Y</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/ccd_diffusion.tracks.Observation.html#ccd_diffusion.tracks.Observation.y">y (ccd_diffusion.tracks.Observation attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roy T. Smart, Charles C. Kankelborg.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

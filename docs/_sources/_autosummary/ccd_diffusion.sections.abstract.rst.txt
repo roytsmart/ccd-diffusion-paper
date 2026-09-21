@@ -1,0 +1,6 @@
+abstract
+========
+
+.. currentmodule:: ccd_diffusion.sections
+
+.. autofunction:: ccd_diffusion.sections.abstract
