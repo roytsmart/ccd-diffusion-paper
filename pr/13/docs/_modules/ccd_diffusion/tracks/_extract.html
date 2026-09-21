@@ -742,6 +742,41 @@
 <span class="sd">"""</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_pedestal</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The pedestal of a set of read pixels: the peak of their histogram,</span>
+<span class="sd">    refined as the mean of the pixels within the peak's full width at</span>
+<span class="sd">    half maximum.</span>
+
+<span class="sd">    The dark pixels of a quadrant pile into a sharp peak at the pedestal</span>
+<span class="sd">    while the solar signal spreads over hundreds of data numbers, so the</span>
+<span class="sd">    peak stands wherever the disk is in the quadrant, unlike a trimmed</span>
+<span class="sd">    mean, which a slit-jaw quadrant half covered by the disk pulls tens of</span>
+<span class="sd">    data numbers above the pedestal.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    values</span>
+<span class="sd">        The read pixels of one quadrant, in data numbers.</span>
+<span class="sd">    """</span>
+    <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">60</span><span class="p">])</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">lo</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">hi</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.5</span><span class="p">)</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">edges</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">ndimage</span><span class="o">.</span><span class="n">uniform_filter1d</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">counts</span><span class="p">))</span>
+    <span class="n">peak</span> <span class="o">=</span> <span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span>
+    <span class="n">half</span> <span class="o">=</span> <span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">lower</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="k">while</span> <span class="n">lower</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">counts</span><span class="p">[</span><span class="n">lower</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">half</span><span class="p">:</span>
+        <span class="n">lower</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="n">upper</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="k">while</span> <span class="n">upper</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">counts</span><span class="p">[</span><span class="n">upper</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">half</span><span class="p">:</span>
+        <span class="n">upper</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="n">upper</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">edges</span><span class="p">[</span><span class="n">lower</span><span class="p">],</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">near</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">values</span> <span class="o">-</span> <span class="n">peak</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">width</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">near</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="k">if</span> <span class="n">near</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">peak</span><span class="p">)</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_level</span><span class="p">(</span><span class="n">bg</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    The background above its pedestal, in data numbers.</span>
@@ -749,9 +784,9 @@
 <span class="sd">    The spectrograph image holds two CCDs side by side, and every CCD is</span>
 <span class="sd">    read through :data:`_taps` amplifiers, one per quadrant, whose</span>
 <span class="sd">    pedestals differ by up to a few data numbers, so each quadrant is</span>
-<span class="sd">    levelled on its own by the trimmed mean of its read pixels; a single</span>
-<span class="sd">    median for the whole image would flag the whole of the higher chip as</span>
-<span class="sd">    elevated. A quadrant with no read pixels is left alone.</span>
+<span class="sd">    levelled on its own by the :func:`_pedestal` of its read pixels; a</span>
+<span class="sd">    single median for the whole image would flag the whole of the higher</span>
+<span class="sd">    chip as elevated. A quadrant with no read pixels is left alone.</span>
 <span class="sd">    """</span>
     <span class="n">chips</span> <span class="o">=</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">camera</span> <span class="o">==</span> <span class="s2">"FUV"</span> <span class="k">else</span> <span class="mi">1</span>
     <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">bg</span><span class="o">.</span><span class="n">shape</span>
@@ -766,7 +801,7 @@
                 <span class="n">quadrant</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
                 <span class="n">values</span> <span class="o">=</span> <span class="n">quadrant</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">quadrant</span><span class="p">)]</span>
                 <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
-                    <span class="n">quadrant</span> <span class="o">-=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">trim_mean</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+                    <span class="n">quadrant</span> <span class="o">-=</span> <span class="n">_pedestal</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">nan</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 
