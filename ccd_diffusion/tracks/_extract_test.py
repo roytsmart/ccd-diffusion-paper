@@ -221,6 +221,23 @@ def test_mask_levels_each_quadrant():
     assert not np.isfinite(bg[:, :10]).any() and (level[:, :10] == 0).all()
 
 
+def test_level_stands_on_the_pedestal_under_the_disk():
+    # a slit-jaw frame in the left half of its CCD, the disk covering most
+    # of the upper quadrant, whose pedestal sits one data number above the
+    # lower one: levelling must find the dark peak, not the disk
+    rng = np.random.default_rng(3)
+    bg = 104 + 1.5 * rng.standard_normal((200, 400)).astype(np.float32)
+    bg[:100] += 1
+    bg[:80, :200] += 200 + 50 * rng.standard_normal((80, 200)).astype(np.float32)
+    bg[:, 200:] = np.nan  # the unread half of the CCD
+    level = _extract._level(bg, "SJI")
+    upper = np.median(level[80:100, :200])
+    lower = np.median(level[100:, :200])
+    assert abs(upper) < 0.3 and abs(lower) < 0.3, (upper, lower)
+    assert 150 < np.median(level[:80, :200]) < 250
+    assert (level[:, 200:] == 0).all()
+
+
 def test_background_in_bands_matches_whole():
     rng = np.random.default_rng(3)
     stack = 100 + 3 * rng.standard_normal((30, 200, 50)).astype(np.float32)

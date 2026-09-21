@@ -347,6 +347,41 @@ which reads its quadrant at its own pedestal.
 """
 
 
+def _pedestal(values: np.ndarray) -> float:
+    """
+    The pedestal of a set of read pixels: the peak of their histogram,
+    refined as the mean of the pixels within the peak's full width at
+    half maximum.
+
+    The dark pixels of a quadrant pile into a sharp peak at the pedestal
+    while the solar signal spreads over hundreds of data numbers, so the
+    peak stands wherever the disk is in the quadrant, unlike a trimmed
+    mean, which a slit-jaw quadrant half covered by the disk pulls tens of
+    data numbers above the pedestal.
+
+    Parameters
+    ----------
+    values
+        The read pixels of one quadrant, in data numbers.
+    """
+    lo, hi = np.percentile(values, [0.5, 60])
+    edges = np.arange(np.floor(lo) - 0.5, np.ceil(hi) + 1.5)
+    counts = np.histogram(values, edges)[0].astype(float)
+    counts = scipy.ndimage.uniform_filter1d(counts, 3)
+    i = int(np.argmax(counts))
+    peak = edges[i] + 0.5
+    half = counts[i] / 2
+    lower = i
+    while lower > 0 and counts[lower - 1] > half:
+        lower -= 1
+    upper = i
+    while upper < len(counts) - 1 and counts[upper + 1] > half:
+        upper += 1
+    width = max(edges[upper + 1] - edges[lower], 1.0)
+    near = values[np.abs(values - peak) <= width]
+    return float(near.mean()) if near.size else float(peak)
+
+
 def _level(bg: np.ndarray, camera: str) -> np.ndarray:
     """
     The background above its pedestal, in data numbers.
@@ -354,9 +389,9 @@ def _level(bg: np.ndarray, camera: str) -> np.ndarray:
     The spectrograph image holds two CCDs side by side, and every CCD is
     read through :data:`_taps` amplifiers, one per quadrant, whose
     pedestals differ by up to a few data numbers, so each quadrant is
-    levelled on its own by the trimmed mean of its read pixels; a single
-    median for the whole image would flag the whole of the higher chip as
-    elevated. A quadrant with no read pixels is left alone.
+    levelled on its own by the :func:`_pedestal` of its read pixels; a
+    single median for the whole image would flag the whole of the higher
+    chip as elevated. A quadrant with no read pixels is left alone.
     """
     chips = 2 if camera == "FUV" else 1
     rows, columns = bg.shape
@@ -371,7 +406,7 @@ def _level(bg: np.ndarray, camera: str) -> np.ndarray:
                 quadrant = result[r, c]
                 values = quadrant[np.isfinite(quadrant)]
                 if values.size:
-                    quadrant -= scipy.stats.trim_mean(values, 0.2)
+                    quadrant -= _pedestal(values)
     return np.nan_to_num(result, nan=0)
 
 
