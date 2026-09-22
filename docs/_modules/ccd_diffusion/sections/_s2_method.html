@@ -50,7 +50,7 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/ccd_diffusion/sections/_s2_method';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
-    <script src="../../../_static/browser.js?v=ba41ad36"></script>
+    <script src="../../../_static/browser.js?v=05eaf2f2"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -400,9 +400,10 @@
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">r</span><span class="s2">"""</span>
 <span class="s2">\subsection</span><span class="si">{Data}</span>
 
-<span class="s2">\IRIS\ \cite</span><span class="si">{DePontieu2014}</span><span class="s2"> carries three \CCD</span><span class="si">{}</span><span class="s2">s of the same design, two</span>
-<span class="s2">behind the spectrograph (\FUV</span><span class="si">{}</span><span class="s2">1 and \FUV</span><span class="si">{}</span><span class="s2">2, which share one level-1 image)</span>
-<span class="s2">and one behind \SJI.</span>
+<span class="s2">\IRIS\ \cite</span><span class="si">{DePontieu2014}</span><span class="s2"> carries four \CCD</span><span class="si">{}</span><span class="s2">s of the same design: two</span>
+<span class="s2">behind the \FUV\ channel of the spectrograph (\FUV</span><span class="si">{}</span><span class="s2">1 and \FUV</span><span class="si">{}</span><span class="s2">2, which</span>
+<span class="s2">share one level-1 image), one behind its \NUV\ channel, and one behind</span>
+<span class="s2">\SJI.</span>
 <span class="s2">They are back-illuminated, \thickness\ $\mu$m thick, with \pixelPitch\</span>
 <span class="s2">$\mu$m pixels, and their level-1 images are the raw frames with only the</span>
 <span class="s2">dark and the readout corrections applied, so a particle hit appears exactly</span>
@@ -411,11 +412,18 @@
 <span class="s2">\SAA, where the flux of trapped protons at the altitude of \IRIS\ is</span>
 <span class="s2">greatest \cite{Barth2003,Adriani2015}, drawn from the campaigns of</span>
 <span class="s2">Table~\ref{tab:datasets}.</span>
+<span class="s2">The campaigns added for this work were chosen among those exposing for 8 s,</span>
+<span class="s2">since a longer exposure crowds the frame inside \SAA\ with hits that spoil</span>
+<span class="s2">the tracks around them: the campaigns of the original measurement that</span>
+<span class="s2">pass through \SAA\ expose for 15 s, and yielded per frame half as many of</span>
+<span class="s2">the tracks kept below.</span>
 <span class="s2">Figure~\ref{fig:image} shows a spectrograph image and a slit-jaw image</span>
 <span class="s2">taken seconds apart during one pass through \SAA: the particle hits are</span>
 <span class="s2">dense, and a handful of them are the long glancing tracks we want.</span>
-<span class="s2">Tracks were sought against the dark background of the spectrograph frames</span>
-<span class="s2">and, for \SJI, in the off-limb half of the field of view."""</span><span class="p">)</span>
+<span class="s2">Tracks were sought only where the pointing recorded in each frame's</span>
+<span class="s2">header places the pixel at least 15 arcseconds above the photospheric</span>
+<span class="s2">limb, so that no track lies on the disk or in the chromosphere and</span>
+<span class="s2">spicules seen just above the limb."""</span><span class="p">)</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ccd_diffusion</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">datasets</span><span class="p">())</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ccd_diffusion</span><span class="o">.</span><span class="n">figures</span><span class="o">.</span><span class="n">image</span><span class="p">())</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">r</span><span class="s2">"""</span>

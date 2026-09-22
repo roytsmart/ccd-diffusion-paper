@@ -53,7 +53,7 @@
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_autosummary/ccd_diffusion.tracks';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
-    <script src="../_static/browser.js?v=ba41ad36"></script>
+    <script src="../_static/browser.js?v=05eaf2f2"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="url" href="ccd_diffusion.tracks.url.html" />
@@ -405,6 +405,7 @@
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.save_census.html">save_census</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.load_census.html">load_census</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.images.html">images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.off_limb.html">off_limb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.export_tracks.html">export_tracks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.frame_choices.html">frame_choices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.render_frame.html">render_frame</a></li>
@@ -638,79 +639,82 @@ by running <code class="docutils literal notranslate"><span class="pre">python</
 <tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.images.html#ccd_diffusion.tracks.images" title="ccd_diffusion.tracks.images"><code class="xref py py-obj docutils literal notranslate"><span class="pre">images</span></code></a>()</p></td>
 <td><p>Load the example level-1 images distributed with this article, one from the spectrograph and one from the slit-jaw imager, taken seconds apart during the same pass through the South Atlantic Anomaly.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.export_tracks.html#ccd_diffusion.tracks.export_tracks" title="ccd_diffusion.tracks.export_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">export_tracks</span></code></a>(path)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.off_limb.html#ccd_diffusion.tracks.off_limb" title="ccd_diffusion.tracks.off_limb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">off_limb</span></code></a>(header, shape, camera)</p></td>
+<td><p>Which pixels of a level-1 image look at least <code class="xref py py-data docutils literal notranslate"><span class="pre">_limb_margin</span></code> above the photospheric limb, from the pointing in its header.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.export_tracks.html#ccd_diffusion.tracks.export_tracks" title="ccd_diffusion.tracks.export_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">export_tracks</span></code></a>(path)</p></td>
 <td><p>Write every track, its cutout, and its fit to one JSON file for the track browser of the documentation, and return how many were written.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.frame_choices.html#ccd_diffusion.tracks.frame_choices" title="ccd_diffusion.tracks.frame_choices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frame_choices</span></code></a>()</p></td>
-<td><p>The frame holding the most tracks from the spectrograph and from the slit-jaw imager, whichever of its channels, in every campaign, as rows of the frame list, skipping a camera that yielded none.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.frame_choices.html#ccd_diffusion.tracks.frame_choices" title="ccd_diffusion.tracks.frame_choices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frame_choices</span></code></a>([num])</p></td>
+<td><p>The frames holding the most tracks from each camera (the slit-jaw imager counting as one, whichever of its channels) in every campaign, as rows of the frame list, skipping frames that yielded none.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.render_frame.html#ccd_diffusion.tracks.render_frame" title="ccd_diffusion.tracks.render_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_frame</span></code></a>(data, tracks, path)</p></td>
-<td><p>Render a level-1 image as an 8-bit PNG with the stretch of the article's example images, cropped to the part of the frame that was read out, with unread pixels white, every track outlined, and the first row at the bottom, and return the crop as <code class="docutils literal notranslate"><span class="pre">rows</span></code> and <code class="docutils literal notranslate"><span class="pre">columns</span></code> of the original.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.render_frame.html#ccd_diffusion.tracks.render_frame" title="ccd_diffusion.tracks.render_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render_frame</span></code></a>(data, tracks, path[, camera])</p></td>
+<td><p>Render a level-1 image as an 8-bit PNG with the stretch of the article's example images above the pedestal of each quadrant, as the finder's mask sees it, cropped to the part of the frame that was read out, with unread pixels white, every track outlined, and the first row at the bottom, and return the crop as <code class="docutils literal notranslate"><span class="pre">rows</span></code> and <code class="docutils literal notranslate"><span class="pre">columns</span></code> of the original.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.export_frames.html#ccd_diffusion.tracks.export_frames" title="ccd_diffusion.tracks.export_frames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">export_frames</span></code></a>(directory[, cache])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.export_frames.html#ccd_diffusion.tracks.export_frames" title="ccd_diffusion.tracks.export_frames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">export_frames</span></code></a>(directory[, cache])</p></td>
 <td><p>Fetch the frames chosen by <a class="reference internal" href="ccd_diffusion.tracks.frame_choices.html#ccd_diffusion.tracks.frame_choices" title="ccd_diffusion.tracks.frame_choices"><code class="xref py py-func docutils literal notranslate"><span class="pre">frame_choices()</span></code></a>, render each with <a class="reference internal" href="ccd_diffusion.tracks.render_frame.html#ccd_diffusion.tracks.render_frame" title="ccd_diffusion.tracks.render_frame"><code class="xref py py-func docutils literal notranslate"><span class="pre">render_frame()</span></code></a> into the given directory, and describe them all in <code class="docutils literal notranslate"><span class="pre">frames.json</span></code> beside the images, for the documentation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.flat.html#ccd_diffusion.tracks.flat" title="ccd_diffusion.tracks.flat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flat</span></code></a>(chip)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.flat.html#ccd_diffusion.tracks.flat" title="ccd_diffusion.tracks.flat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flat</span></code></a>(chip)</p></td>
 <td><p>The fits of the flat tracks on the given CCD.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.stack.html#ccd_diffusion.tracks.stack" title="ccd_diffusion.tracks.stack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stack</span></code></a>(chip[, num_offset])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.stack.html#ccd_diffusion.tracks.stack" title="ccd_diffusion.tracks.stack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stack</span></code></a>(chip[, num_offset])</p></td>
 <td><p>Stack the flat tracks on the given CCD, placing every slice at its fractional depth and aligning it on its fitted centerline, with each pixel's charge spread uniformly over its own width.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.widths.html#ccd_diffusion.tracks.widths" title="ccd_diffusion.tracks.widths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">widths</span></code></a>(chip)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.widths.html#ccd_diffusion.tracks.widths" title="ccd_diffusion.tracks.widths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">widths</span></code></a>(chip)</p></td>
 <td><p>Measure the diffusion width in each depth bin without a parametric model, by summing the misfit of every slice of every flat track on the given CCD over a grid of trial widths and minimizing in each bin.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.pooled.html#ccd_diffusion.tracks.pooled" title="ccd_diffusion.tracks.pooled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pooled</span></code></a>(chip, scans[, iterations])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.pooled.html#ccd_diffusion.tracks.pooled" title="ccd_diffusion.tracks.pooled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pooled</span></code></a>(chip, scans[, iterations])</p></td>
 <td><p>Choose the <span class="math notranslate nohighlight">\(\sigma_d\)</span> of a CCD by summing the misfits of its flat tracks over the grid of <span class="math notranslate nohighlight">\(\sigma_d\)</span> and taking the minimum.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.save_depleted.html#ccd_diffusion.tracks.save_depleted" title="ccd_diffusion.tracks.save_depleted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_depleted</span></code></a>(depleted)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.save_depleted.html#ccd_diffusion.tracks.save_depleted" title="ccd_diffusion.tracks.save_depleted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_depleted</span></code></a>(depleted)</p></td>
 <td><p>Write the pooled fits to <code class="docutils literal notranslate"><span class="pre">data/iris_depleted.csv</span></code>, where <a class="reference internal" href="ccd_diffusion.tracks.depleted.html#ccd_diffusion.tracks.depleted" title="ccd_diffusion.tracks.depleted"><code class="xref py py-func docutils literal notranslate"><span class="pre">depleted()</span></code></a> will find them.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.depleted.html#ccd_diffusion.tracks.depleted" title="ccd_diffusion.tracks.depleted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">depleted</span></code></a>(chip)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.depleted.html#ccd_diffusion.tracks.depleted" title="ccd_diffusion.tracks.depleted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">depleted</span></code></a>(chip)</p></td>
 <td><p>Load the pooled fit of <span class="math notranslate nohighlight">\(\sigma_d\)</span> on the given CCD from <code class="docutils literal notranslate"><span class="pre">data/iris_depleted.csv</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.load.html#ccd_diffusion.tracks.load" title="ccd_diffusion.tracks.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>([directory])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.load.html#ccd_diffusion.tracks.load" title="ccd_diffusion.tracks.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>([directory])</p></td>
 <td><p>Load the particle tracks extracted from the IRIS level-1 images.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.frames.html#ccd_diffusion.tracks.frames" title="ccd_diffusion.tracks.frames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frames</span></code></a>([directory])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.frames.html#ccd_diffusion.tracks.frames" title="ccd_diffusion.tracks.frames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frames</span></code></a>([directory])</p></td>
 <td><p>Load the list of IRIS level-1 frames searched for tracks.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.width.html#ccd_diffusion.tracks.width" title="ccd_diffusion.tracks.width"><code class="xref py py-obj docutils literal notranslate"><span class="pre">width</span></code></a>(depth, critical_depth, width_max[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.width.html#ccd_diffusion.tracks.width" title="ccd_diffusion.tracks.width"><code class="xref py py-obj docutils literal notranslate"><span class="pre">width</span></code></a>(depth, critical_depth, width_max[, ...])</p></td>
 <td><p>The standard deviation of the charge cloud, in pixels, for charge deposited at the given fractional depth.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.fractions.html#ccd_diffusion.tracks.fractions" title="ccd_diffusion.tracks.fractions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fractions</span></code></a>(position, width, slope)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.fractions.html#ccd_diffusion.tracks.fractions" title="ccd_diffusion.tracks.fractions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fractions</span></code></a>(position, width, slope)</p></td>
 <td><p>The fraction of each slice's charge expected in each of the <span class="math notranslate nohighlight">\(2 h + 1\)</span> pixels across the track.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.loss.html#ccd_diffusion.tracks.loss" title="ccd_diffusion.tracks.loss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loss</span></code></a>(track, position, width)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.loss.html#ccd_diffusion.tracks.loss" title="ccd_diffusion.tracks.loss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loss</span></code></a>(track, position, width)</p></td>
 <td><p>A robust misfit between the observed and modeled charge fractions, <span class="math notranslate nohighlight">\(\sum \ln(1 + r^2 / 2)\)</span>, where <span class="math notranslate nohighlight">\(r\)</span> is the residual in units of the read noise.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.scan.html#ccd_diffusion.tracks.scan" title="ccd_diffusion.tracks.scan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scan</span></code></a>(track)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.scan.html#ccd_diffusion.tracks.scan" title="ccd_diffusion.tracks.scan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scan</span></code></a>(track)</p></td>
 <td><p>Fit the diffusion model to a single track at every <span class="math notranslate nohighlight">\(\sigma_d\)</span>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.fit.html#ccd_diffusion.tracks.fit" title="ccd_diffusion.tracks.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(track[, width_depleted])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.fit.html#ccd_diffusion.tracks.fit" title="ccd_diffusion.tracks.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(track[, width_depleted])</p></td>
 <td><p>Fit the diffusion model to a single track at a given <span class="math notranslate nohighlight">\(\sigma_d\)</span>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.fit_all.html#ccd_diffusion.tracks.fit_all" title="ccd_diffusion.tracks.fit_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_all</span></code></a>(tracks)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.fit_all.html#ccd_diffusion.tracks.fit_all" title="ccd_diffusion.tracks.fit_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_all</span></code></a>(tracks)</p></td>
 <td><p>Fit the diffusion model to every given track, using one thread per CPU, choosing one <span class="math notranslate nohighlight">\(\sigma_d\)</span> per CCD by pooling the misfits of its flat tracks (see <a class="reference internal" href="ccd_diffusion.tracks.pooled.html#ccd_diffusion.tracks.pooled" title="ccd_diffusion.tracks.pooled"><code class="xref py py-func docutils literal notranslate"><span class="pre">ccd_diffusion.tracks.pooled()</span></code></a>).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.fits.html#ccd_diffusion.tracks.fits" title="ccd_diffusion.tracks.fits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fits</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.fits.html#ccd_diffusion.tracks.fits" title="ccd_diffusion.tracks.fits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fits</span></code></a>()</p></td>
 <td><p>Load the result of <a class="reference internal" href="ccd_diffusion.tracks.fit_all.html#ccd_diffusion.tracks.fit_all" title="ccd_diffusion.tracks.fit_all"><code class="xref py py-func docutils literal notranslate"><span class="pre">fit_all()</span></code></a> for every track returned by <a class="reference internal" href="ccd_diffusion.tracks.load.html#ccd_diffusion.tracks.load" title="ccd_diffusion.tracks.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">load()</span></code></a> from <code class="docutils literal notranslate"><span class="pre">data/iris_fits.csv</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.save.html#ccd_diffusion.tracks.save" title="ccd_diffusion.tracks.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(fits, depleted)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.save.html#ccd_diffusion.tracks.save" title="ccd_diffusion.tracks.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(fits, depleted)</p></td>
 <td><p>Write the given fits to <code class="docutils literal notranslate"><span class="pre">data/iris_fits.csv</span></code>, where <a class="reference internal" href="ccd_diffusion.tracks.fits.html#ccd_diffusion.tracks.fits" title="ccd_diffusion.tracks.fits"><code class="xref py py-func docutils literal notranslate"><span class="pre">fits()</span></code></a> will find them, and the pooled fits of <span class="math notranslate nohighlight">\(\sigma_d\)</span> to <code class="docutils literal notranslate"><span class="pre">data/iris_depleted.csv</span></code>, where <a class="reference internal" href="ccd_diffusion.tracks.depleted.html#ccd_diffusion.tracks.depleted" title="ccd_diffusion.tracks.depleted"><code class="xref py py-func docutils literal notranslate"><span class="pre">ccd_diffusion.tracks.depleted()</span></code></a> will.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.same_pixel.html#ccd_diffusion.tracks.same_pixel" title="ccd_diffusion.tracks.same_pixel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">same_pixel</span></code></a>(fit)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.same_pixel.html#ccd_diffusion.tracks.same_pixel" title="ccd_diffusion.tracks.same_pixel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">same_pixel</span></code></a>(fit)</p></td>
 <td><p>The measured probability that two charges from the same slice are collected in the same pixel column, <span class="math notranslate nohighlight">\(\sum_j f_j^2\)</span>, corrected for the read-noise bias <span class="math notranslate nohighlight">\(\sum_j \epsilon_j^2\)</span>, and NaN for a slice too faint to be <a class="reference internal" href="ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.usable" title="ccd_diffusion.tracks.Track.usable"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Track.usable</span></code></a>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.same_pixel_model.html#ccd_diffusion.tracks.same_pixel_model" title="ccd_diffusion.tracks.same_pixel_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">same_pixel_model</span></code></a>(fit, critical_depth, width_max)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.same_pixel_model.html#ccd_diffusion.tracks.same_pixel_model" title="ccd_diffusion.tracks.same_pixel_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">same_pixel_model</span></code></a>(fit, critical_depth, width_max)</p></td>
 <td><p>The probability that two charges from the same slice are collected in the same pixel column predicted by the diffusion model for the best-fit centerline of the given track.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.paper_model.html#ccd_diffusion.tracks.paper_model" title="ccd_diffusion.tracks.paper_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">paper_model</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.paper_model.html#ccd_diffusion.tracks.paper_model" title="ccd_diffusion.tracks.paper_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">paper_model</span></code></a>()</p></td>
 <td><p>The field-free thickness and back-surface width of the CCD model used in this article.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.profile.html#ccd_diffusion.tracks.profile" title="ccd_diffusion.tracks.profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">profile</span></code></a>(chip)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.profile.html#ccd_diffusion.tracks.profile" title="ccd_diffusion.tracks.profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">profile</span></code></a>(chip)</p></td>
 <td><p>Bin the measured and modeled same-pixel probabilities of every flat track on the given CCD by depth.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.summary.html#ccd_diffusion.tracks.summary" title="ccd_diffusion.tracks.summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summary</span></code></a>(chip)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.summary.html#ccd_diffusion.tracks.summary" title="ccd_diffusion.tracks.summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summary</span></code></a>(chip)</p></td>
 <td><p>Summarize the diffusion measurement on the given CCD.</p></td>
 </tr>
 </tbody>

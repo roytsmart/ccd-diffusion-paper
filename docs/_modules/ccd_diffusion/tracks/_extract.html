@@ -50,7 +50,7 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/ccd_diffusion/tracks/_extract';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
-    <script src="../../../_static/browser.js?v=ba41ad36"></script>
+    <script src="../../../_static/browser.js?v=05eaf2f2"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -417,6 +417,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">._archive</span><span class="w"> </span><span class="kn">import</span> <span class="n">directory_default</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">read</span><span class="p">,</span> <span class="n">path</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"off_limb"</span><span class="p">,</span>
     <span class="s2">"length_minimum"</span><span class="p">,</span>
     <span class="s2">"slope_maximum"</span><span class="p">,</span>
     <span class="s2">"charge_minimum"</span><span class="p">,</span>
@@ -460,24 +461,55 @@
 <span class="sd">alone breaks such a track into pieces.</span>
 <span class="sd">"""</span>
 
-<span class="n">_gain</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"FUV"</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">,</span> <span class="s2">"SJI"</span><span class="p">:</span> <span class="mf">18.0</span><span class="p">}</span>
+<span class="n">_gain</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"FUV"</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">,</span> <span class="s2">"NUV"</span><span class="p">:</span> <span class="mf">18.0</span><span class="p">,</span> <span class="s2">"SJI"</span><span class="p">:</span> <span class="mf">18.0</span><span class="p">}</span>
 <span class="sd">"""The camera gain in electrons per data number."""</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_camera</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The camera behind an image type: ``FUV``, ``NUV``, or ``SJI`` for any slit-jaw channel."""</span>
+    <span class="k">return</span> <span class="n">image</span> <span class="k">if</span> <span class="n">image</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"FUV"</span><span class="p">,</span> <span class="s2">"NUV"</span><span class="p">)</span> <span class="k">else</span> <span class="s2">"SJI"</span>
+
 
 <span class="n">_config</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"2014"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">block</span><span class="o">=</span><span class="s2">"hundred"</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="s2">"all"</span><span class="p">,</span> <span class="n">search</span><span class="o">=</span><span class="s2">"all"</span><span class="p">,</span> <span class="n">noise_maximum</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="s2">"columns"</span>
+        <span class="n">block</span><span class="o">=</span><span class="s2">"hundred"</span><span class="p">,</span>
+        <span class="n">quiet</span><span class="o">=</span><span class="s2">"all"</span><span class="p">,</span>
+        <span class="n">search</span><span class="o">=</span><span class="s2">"all"</span><span class="p">,</span>
+        <span class="n">noise_maximum</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+        <span class="n">mask</span><span class="o">=</span><span class="s2">"columns"</span><span class="p">,</span>
+        <span class="n">camera</span><span class="o">=</span><span class="s2">"FUV"</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="s2">"2014b"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">block</span><span class="o">=</span><span class="s2">"halves"</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="s2">"quiet"</span><span class="p">,</span> <span class="n">search</span><span class="o">=</span><span class="s2">"saa"</span><span class="p">,</span> <span class="n">noise_maximum</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="s2">"rows"</span>
+        <span class="n">block</span><span class="o">=</span><span class="s2">"halves"</span><span class="p">,</span>
+        <span class="n">quiet</span><span class="o">=</span><span class="s2">"quiet"</span><span class="p">,</span>
+        <span class="n">search</span><span class="o">=</span><span class="s2">"saa"</span><span class="p">,</span>
+        <span class="n">noise_maximum</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+        <span class="n">mask</span><span class="o">=</span><span class="s2">"rows"</span><span class="p">,</span>
+        <span class="n">camera</span><span class="o">=</span><span class="s2">"FUV"</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="s2">"2018"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">block</span><span class="o">=</span><span class="s2">"repeat"</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="s2">"quiet"</span><span class="p">,</span> <span class="n">search</span><span class="o">=</span><span class="s2">"limb"</span><span class="p">,</span> <span class="n">noise_maximum</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span>
+        <span class="n">block</span><span class="o">=</span><span class="s2">"repeat"</span><span class="p">,</span>
+        <span class="n">quiet</span><span class="o">=</span><span class="s2">"quiet"</span><span class="p">,</span>
+        <span class="n">search</span><span class="o">=</span><span class="s2">"limb"</span><span class="p">,</span>
+        <span class="n">noise_maximum</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">camera</span><span class="o">=</span><span class="s2">"FUV"</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="s2">"2018may"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">block</span><span class="o">=</span><span class="s2">"day"</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="s2">"quiet"</span><span class="p">,</span> <span class="n">search</span><span class="o">=</span><span class="s2">"saa"</span><span class="p">,</span> <span class="n">noise_maximum</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="s2">"lines"</span>
+        <span class="n">block</span><span class="o">=</span><span class="s2">"day"</span><span class="p">,</span>
+        <span class="n">quiet</span><span class="o">=</span><span class="s2">"quiet"</span><span class="p">,</span>
+        <span class="n">search</span><span class="o">=</span><span class="s2">"saa"</span><span class="p">,</span>
+        <span class="n">noise_maximum</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+        <span class="n">mask</span><span class="o">=</span><span class="s2">"lines"</span><span class="p">,</span>
+        <span class="n">camera</span><span class="o">=</span><span class="s2">"FUV"</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="s2">"sji"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">block</span><span class="o">=</span><span class="s2">"channel"</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="s2">"quiet"</span><span class="p">,</span> <span class="n">search</span><span class="o">=</span><span class="s2">"saa"</span><span class="p">,</span> <span class="n">noise_maximum</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="s2">"limb"</span>
+        <span class="n">block</span><span class="o">=</span><span class="s2">"channel"</span><span class="p">,</span>
+        <span class="n">quiet</span><span class="o">=</span><span class="s2">"quiet"</span><span class="p">,</span>
+        <span class="n">search</span><span class="o">=</span><span class="s2">"saa"</span><span class="p">,</span>
+        <span class="n">noise_maximum</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">mask</span><span class="o">=</span><span class="s2">"limb"</span><span class="p">,</span>
+        <span class="n">camera</span><span class="o">=</span><span class="s2">"SJI"</span><span class="p">,</span>
     <span class="p">),</span>
 <span class="p">}</span>
 <span class="sd">"""</span>
@@ -490,6 +522,10 @@
 <span class="sd">``median`` also removes hot pixels, ``lines`` removes hot pixels and</span>
 <span class="sd">raised columns but keeps every row, and ``limb`` keeps the part of a</span>
 <span class="sd">slit-jaw field off the limb.</span>
+
+<span class="sd">The read-noise limit and the mask were tuned on the ``camera`` named, and</span>
+<span class="sd">a block of another camera in the same campaign takes the defaults for its</span>
+<span class="sd">camera instead.</span>
 <span class="sd">"""</span>
 
 <span class="n">_config_default</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
@@ -502,20 +538,41 @@
 <span class="sd">the camera.</span>
 <span class="sd">"""</span>
 
-<span class="n">_noise_maximum</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"FUV"</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">,</span> <span class="s2">"SJI"</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">}</span>
+<span class="n">_noise_maximum</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"FUV"</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">,</span> <span class="s2">"NUV"</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="s2">"SJI"</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">}</span>
 <span class="sd">"""The read noise in data numbers above which a pixel is ignored, by camera."""</span>
 
-<span class="n">_mask_camera</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"FUV"</span><span class="p">:</span> <span class="s2">"lines"</span><span class="p">,</span> <span class="s2">"SJI"</span><span class="p">:</span> <span class="s2">"limb"</span><span class="p">}</span>
+<span class="n">_mask_camera</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"FUV"</span><span class="p">:</span> <span class="s2">"lines"</span><span class="p">,</span> <span class="s2">"NUV"</span><span class="p">:</span> <span class="s2">"lines"</span><span class="p">,</span> <span class="s2">"SJI"</span><span class="p">:</span> <span class="s2">"limb"</span><span class="p">}</span>
 <span class="sd">"""</span>
-<span class="sd">The mask by camera: the spectrograph loses its emission-line columns and</span>
-<span class="sd">hot pixels, every quadrant of both CCDs levelled on its own pedestal,</span>
-<span class="sd">and the slit-jaw imager keeps only the part of its field off the limb.</span>
+<span class="sd">The mask by camera: each spectrograph loses its emission-line columns and</span>
+<span class="sd">hot pixels, every quadrant of its CCDs levelled on its own pedestal, and</span>
+<span class="sd">the slit-jaw imager keeps only the part of its field off the limb.</span>
+<span class="sd">"""</span>
+
+<span class="n">_limb_margin</span> <span class="o">=</span> <span class="mf">15.0</span>
+<span class="sd">"""</span>
+<span class="sd">How far above the photospheric limb, in arcseconds, a pixel must look for</span>
+<span class="sd">it to be searched for tracks.</span>
+
+<span class="sd">The chromosphere seen in the emission lines and the slit-jaw passbands</span>
+<span class="sd">stands a few arcseconds above the limb the headers give, and spicules</span>
+<span class="sd">reach higher still, so the margin keeps solar structure out of the search</span>
+<span class="sd">on every camera.</span>
 <span class="sd">"""</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_configuration</span><span class="p">(</span><span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""How a campaign is processed, :data:`_config_default` if it is not listed."""</span>
-    <span class="k">return</span> <span class="n">_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">_config_default</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_configuration</span><span class="p">(</span><span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    How a campaign is processed, :data:`_config_default` if it is not</span>
+<span class="sd">    listed, with the read-noise limit and the mask of a hand-tuned campaign</span>
+<span class="sd">    replaced by the camera defaults for a camera other than the one it was</span>
+<span class="sd">    tuned on.</span>
+<span class="sd">    """</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">_config_default</span><span class="p">))</span>
+    <span class="n">tuned</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"camera"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">camera</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">tuned</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">camera</span> <span class="o">!=</span> <span class="n">tuned</span><span class="p">:</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">"noise_maximum"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"camera"</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">"mask"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"camera"</span>
+    <span class="k">return</span> <span class="n">result</span>
 
 
 <div class="viewcode-block" id="Block">
@@ -584,29 +641,34 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">quiet</span><span class="p">(</span><span class="n">fs</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fs</span> <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s2">"quiet"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"all"</span> <span class="ow">or</span> <span class="n">f</span><span class="p">[</span><span class="s2">"saa"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"0"</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s2">"block"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"hundred"</span><span class="p">:</span>
-        <span class="n">groups</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">"</span><span class="p">:</span> <span class="n">rows</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">100</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">),</span> <span class="mi">100</span><span class="p">)</span>
-        <span class="p">}</span>
-    <span class="k">elif</span> <span class="n">config</span><span class="p">[</span><span class="s2">"block"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"halves"</span><span class="p">:</span>
-        <span class="n">half</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
-        <span class="n">groups</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"0"</span><span class="p">:</span> <span class="n">rows</span><span class="p">[:</span><span class="n">half</span><span class="p">],</span> <span class="s2">"1"</span><span class="p">:</span> <span class="n">rows</span><span class="p">[</span><span class="n">half</span><span class="p">:]}</span>
-    <span class="k">elif</span> <span class="n">config</span><span class="p">[</span><span class="s2">"block"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"day"</span><span class="p">:</span>
-        <span class="n">groups</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-            <span class="n">groups</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s2">"time"</span><span class="p">][:</span><span class="mi">10</span><span class="p">],</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">config</span><span class="p">[</span><span class="s2">"block"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"channel"</span><span class="p">:</span>
-        <span class="n">groups</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-            <span class="n">groups</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="s1">'time'</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="s1">'image'</span><span class="p">][</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">config</span><span class="p">[</span><span class="s2">"block"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"repeat"</span><span class="p">:</span>
-        <span class="c1"># the raster repeat is only in the header, so the frames are fetched here</span>
-        <span class="n">keys</span> <span class="o">=</span> <span class="n">_header_values</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">directory</span><span class="p">,</span> <span class="p">[</span><span class="s2">"IIOLRPT"</span><span class="p">])</span>
-        <span class="n">groups</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">f</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
-            <span class="n">groups</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">[</span><span class="s2">"IIOLRPT"</span><span class="p">]),</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">"block"</span><span class="p">])</span>
+    <span class="c1"># every camera has its own background, so the frames are split by image</span>
+    <span class="c1"># type first and the grouping rule applies within each</span>
+    <span class="n">by_image</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+        <span class="n">by_image</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s2">"image"</span><span class="p">],</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">image</span><span class="p">,</span> <span class="n">mine</span> <span class="ow">in</span> <span class="n">by_image</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="s2">""</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">by_image</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">image</span><span class="si">}</span><span class="s2">_"</span>
+        <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s2">"block"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"hundred"</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">mine</span><span class="p">),</span> <span class="mi">100</span><span class="p">):</span>
+                <span class="n">groups</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">i</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">mine</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">100</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">config</span><span class="p">[</span><span class="s2">"block"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"halves"</span><span class="p">:</span>
+            <span class="n">half</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mine</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+            <span class="n">groups</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">0"</span><span class="p">]</span> <span class="o">=</span> <span class="n">mine</span><span class="p">[:</span><span class="n">half</span><span class="p">]</span>
+            <span class="n">groups</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">1"</span><span class="p">]</span> <span class="o">=</span> <span class="n">mine</span><span class="p">[</span><span class="n">half</span><span class="p">:]</span>
+        <span class="k">elif</span> <span class="n">config</span><span class="p">[</span><span class="s2">"block"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"day"</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">mine</span><span class="p">:</span>
+                <span class="n">groups</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">f</span><span class="p">[</span><span class="s1">'time'</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">config</span><span class="p">[</span><span class="s2">"block"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"channel"</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">mine</span><span class="p">:</span>
+                <span class="n">groups</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="s1">'time'</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="s1">'image'</span><span class="p">][</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">config</span><span class="p">[</span><span class="s2">"block"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"repeat"</span><span class="p">:</span>
+            <span class="c1"># the raster repeat is only in the header, so the frames are fetched here</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="n">_header_values</span><span class="p">(</span><span class="n">mine</span><span class="p">,</span> <span class="n">directory</span><span class="p">,</span> <span class="p">[</span><span class="s2">"IIOLRPT"</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">f</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mine</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
+                <span class="n">groups</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">k</span><span class="p">[</span><span class="s1">'IIOLRPT'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">"block"</span><span class="p">])</span>
 
     <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">fs</span> <span class="ow">in</span> <span class="n">groups</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -680,6 +742,41 @@
 <span class="sd">"""</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_pedestal</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The pedestal of a set of read pixels: the peak of their histogram,</span>
+<span class="sd">    refined as the mean of the pixels within the peak's full width at</span>
+<span class="sd">    half maximum.</span>
+
+<span class="sd">    The dark pixels of a quadrant pile into a sharp peak at the pedestal</span>
+<span class="sd">    while the solar signal spreads over hundreds of data numbers, so the</span>
+<span class="sd">    peak stands wherever the disk is in the quadrant, unlike a trimmed</span>
+<span class="sd">    mean, which a slit-jaw quadrant half covered by the disk pulls tens of</span>
+<span class="sd">    data numbers above the pedestal.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    values</span>
+<span class="sd">        The read pixels of one quadrant, in data numbers.</span>
+<span class="sd">    """</span>
+    <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">60</span><span class="p">])</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">lo</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">hi</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.5</span><span class="p">)</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">edges</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">ndimage</span><span class="o">.</span><span class="n">uniform_filter1d</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">counts</span><span class="p">))</span>
+    <span class="n">peak</span> <span class="o">=</span> <span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span>
+    <span class="n">half</span> <span class="o">=</span> <span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">lower</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="k">while</span> <span class="n">lower</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">counts</span><span class="p">[</span><span class="n">lower</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">half</span><span class="p">:</span>
+        <span class="n">lower</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="n">upper</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="k">while</span> <span class="n">upper</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">counts</span><span class="p">[</span><span class="n">upper</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">half</span><span class="p">:</span>
+        <span class="n">upper</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="n">upper</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">edges</span><span class="p">[</span><span class="n">lower</span><span class="p">],</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">near</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">values</span> <span class="o">-</span> <span class="n">peak</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">width</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">near</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="k">if</span> <span class="n">near</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">peak</span><span class="p">)</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_level</span><span class="p">(</span><span class="n">bg</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    The background above its pedestal, in data numbers.</span>
@@ -687,9 +784,9 @@
 <span class="sd">    The spectrograph image holds two CCDs side by side, and every CCD is</span>
 <span class="sd">    read through :data:`_taps` amplifiers, one per quadrant, whose</span>
 <span class="sd">    pedestals differ by up to a few data numbers, so each quadrant is</span>
-<span class="sd">    levelled on its own by the trimmed mean of its read pixels; a single</span>
-<span class="sd">    median for the whole image would flag the whole of the higher chip as</span>
-<span class="sd">    elevated. A quadrant with no read pixels is left alone.</span>
+<span class="sd">    levelled on its own by the :func:`_pedestal` of its read pixels; a</span>
+<span class="sd">    single median for the whole image would flag the whole of the higher</span>
+<span class="sd">    chip as elevated. A quadrant with no read pixels is left alone.</span>
 <span class="sd">    """</span>
     <span class="n">chips</span> <span class="o">=</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">camera</span> <span class="o">==</span> <span class="s2">"FUV"</span> <span class="k">else</span> <span class="mi">1</span>
     <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">bg</span><span class="o">.</span><span class="n">shape</span>
@@ -704,8 +801,60 @@
                 <span class="n">quadrant</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
                 <span class="n">values</span> <span class="o">=</span> <span class="n">quadrant</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">quadrant</span><span class="p">)]</span>
                 <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
-                    <span class="n">quadrant</span> <span class="o">-=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">trim_mean</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+                    <span class="n">quadrant</span> <span class="o">-=</span> <span class="n">_pedestal</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">nan</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="off_limb">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.off_limb.html#ccd_diffusion.tracks.off_limb">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">off_limb</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">camera</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Which pixels of a level-1 image look at least :data:`_limb_margin`</span>
+<span class="sd">    above the photospheric limb, from the pointing in its header.</span>
+
+<span class="sd">    The header gives the position on the Sun of a reference pixel and how</span>
+<span class="sd">    it changes along the slit (for a spectrograph) or across the field (for</span>
+<span class="sd">    the slit-jaw imager), and the apparent solar radius. A frame whose</span>
+<span class="sd">    header lacks them is searched everywhere.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    header</span>
+<span class="sd">        The header of the level-1 image.</span>
+<span class="sd">    shape</span>
+<span class="sd">        The shape of the image, ``(rows, columns)``.</span>
+<span class="sd">    camera</span>
+<span class="sd">        ``FUV``, ``NUV``, or ``SJI``.</span>
+<span class="sd">    """</span>
+    <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">shape</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">limit</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"RSUN_OBS"</span><span class="p">])</span> <span class="o">+</span> <span class="n">_limb_margin</span>
+        <span class="k">if</span> <span class="n">camera</span> <span class="o">==</span> <span class="s2">"SJI"</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"CRPIX1"</span><span class="p">])</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">rows</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"CRPIX2"</span><span class="p">])</span>
+            <span class="n">lon</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"CRVAL1"</span><span class="p">])</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"CDELT1"</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"PC1_1"</span><span class="p">])</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"PC1_2"</span><span class="p">])</span> <span class="o">*</span> <span class="n">y</span>
+            <span class="p">)</span>
+            <span class="n">lat</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"CRVAL2"</span><span class="p">])</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"CDELT2"</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"PC2_1"</span><span class="p">])</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"PC2_2"</span><span class="p">])</span> <span class="o">*</span> <span class="n">y</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">limit</span>
+        <span class="c1"># a spectrograph: axis 2 of the header runs along the slit, which is</span>
+        <span class="c1"># the row axis of the image, and axis 3 is the other solar coordinate</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"CRPIX2"</span><span class="p">])</span>
+        <span class="n">lat</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"CRVAL2"</span><span class="p">])</span>
+            <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"CDELT2"</span><span class="p">])</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"PC2_2"</span><span class="p">])</span> <span class="o">*</span> <span class="n">s</span>
+        <span class="p">)</span>
+        <span class="n">lon</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"CRVAL3"</span><span class="p">])</span>
+            <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"CDELT3"</span><span class="p">])</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"PC3_2"</span><span class="p">])</span> <span class="o">*</span> <span class="n">s</span>
+        <span class="p">)</span>
+        <span class="n">along</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">limit</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span><span class="n">along</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">shape</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span></div>
+
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_mask</span><span class="p">(</span>
@@ -951,9 +1100,9 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_chip</span><span class="p">(</span><span class="n">track</span><span class="p">:</span> <span class="n">Track</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Which CCD a track lies on: the spectrograph image holds FUV1 and FUV2 side by side."""</span>
+<span class="w">    </span><span class="sd">"""Which CCD a track lies on: the FUV spectrograph image holds FUV1 and FUV2 side by side."""</span>
     <span class="k">if</span> <span class="n">image</span> <span class="o">!=</span> <span class="s2">"FUV"</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">"SJI"</span>
+        <span class="k">return</span> <span class="n">_camera</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
     <span class="n">column</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">column</span> <span class="k">if</span> <span class="n">track</span><span class="o">.</span><span class="n">vertical</span> <span class="k">else</span> <span class="n">track</span><span class="o">.</span><span class="n">row</span>
     <span class="k">return</span> <span class="s2">"FUV1"</span> <span class="k">if</span> <span class="n">column</span> <span class="o">&lt;</span> <span class="n">width</span> <span class="o">//</span> <span class="mi">2</span> <span class="k">else</span> <span class="s2">"FUV2"</span>
 
@@ -965,7 +1114,8 @@
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Track</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">Component</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">"""Fetch one block, estimate its background, and search its frames."""</span>
-    <span class="n">config</span> <span class="o">=</span> <span class="n">_configuration</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="n">camera</span> <span class="o">=</span> <span class="n">_camera</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">frames</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"image"</span><span class="p">])</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">_configuration</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span> <span class="n">camera</span><span class="p">)</span>
     <span class="n">tracks</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">components</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s2">"quiet"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"quiet"</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">quiet</span><span class="p">)</span> <span class="o">&lt;</span> <span class="p">(</span>
@@ -988,7 +1138,6 @@
     <span class="n">stack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">read</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">directory</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">quiet</span><span class="p">])</span>
     <span class="n">bg</span><span class="p">,</span> <span class="n">noise_map</span> <span class="o">=</span> <span class="n">background</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span>
     <span class="k">del</span> <span class="n">stack</span>
-    <span class="n">camera</span> <span class="o">=</span> <span class="s2">"FUV"</span> <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">frames</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"image"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"FUV"</span> <span class="k">else</span> <span class="s2">"SJI"</span>
     <span class="n">kind</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">"mask"</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">"camera"</span><span class="p">:</span>
         <span class="n">kind</span> <span class="o">=</span> <span class="n">_mask_camera</span><span class="p">[</span><span class="n">camera</span><span class="p">]</span>
@@ -1014,9 +1163,10 @@
     <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">surveyed</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">failed</span><span class="p">:</span>
             <span class="k">continue</span>
-        <span class="n">data</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">directory</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">directory</span><span class="p">)</span>
         <span class="n">residual</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">bg</span><span class="p">)</span>
         <span class="n">valid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">mask</span>
+        <span class="n">valid</span> <span class="o">&amp;=</span> <span class="n">off_limb</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">camera</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">search</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">find</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">residual</span><span class="p">,</span> <span class="n">valid</span><span class="p">,</span> <span class="n">noise</span><span class="p">,</span> <span class="n">gain</span><span class="p">):</span>
                 <span class="n">track</span><span class="o">.</span><span class="n">chip</span> <span class="o">=</span> <span class="n">_chip</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">f</span><span class="p">[</span><span class="s2">"image"</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>

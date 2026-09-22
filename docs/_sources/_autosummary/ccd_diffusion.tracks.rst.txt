@@ -45,6 +45,7 @@ tracks
       save_census
       load_census
       images
+      off_limb
       export_tracks
       frame_choices
       render_frame

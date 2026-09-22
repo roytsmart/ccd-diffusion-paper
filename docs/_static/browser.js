@@ -254,7 +254,7 @@
       return n;
     };
     const campaign = select("campaign", "tb-campaign", [["", "all"], ...data.campaigns.map((c) => [c, c])]);
-    const chip = select("chip", "tb-chip", [["", "all"], ["FUV1", "FUV1"], ["FUV2", "FUV2"], ["SJI", "SJI"]]);
+    const chip = select("chip", "tb-chip", [["", "all"], ["FUV1", "FUV1"], ["FUV2", "FUV2"], ["NUV", "NUV"], ["SJI", "SJI"]]);
     const selection = select("selection", "tb-selection", [
       ["all", "every track"],
       ["flat", "flat"],
