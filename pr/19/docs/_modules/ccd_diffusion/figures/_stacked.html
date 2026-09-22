@@ -385,6 +385,7 @@
                   
   <h1>Source code for ccd_diffusion.figures._stacked</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.colors</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">astropy.units</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">u</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">aastex</span>
@@ -426,6 +427,9 @@
         <span class="n">s</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
         <span class="n">origin</span><span class="o">=</span><span class="s2">"lower"</span><span class="p">,</span>
         <span class="n">cmap</span><span class="o">=</span><span class="s2">"gray_r"</span><span class="p">,</span>
+        <span class="c1"># the wings carry a few percent of the charge, so a square-root</span>
+        <span class="c1"># stretch shows them beside the core</span>
+        <span class="n">norm</span><span class="o">=</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">PowerNorm</span><span class="p">(</span><span class="n">gamma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span>
         <span class="n">aspect</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
         <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">offset</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">s</span><span class="o">.</span><span class="n">offset</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span>
         <span class="n">interpolation</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span>
