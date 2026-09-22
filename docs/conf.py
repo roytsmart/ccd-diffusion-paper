@@ -142,7 +142,7 @@ def _export_browser(app):
         stamp.exists()
         and stamp.read_text() == fingerprint
         and (static / 'tracks.json').exists()
-        and (static / 'frames.json').exists()
+        and (static / 'frames' / 'frames.json').exists()
     ):
         print('track browser: the exported files are current, kept')
         return
