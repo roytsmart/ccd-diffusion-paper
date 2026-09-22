@@ -49,12 +49,17 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -e .[doc]
+      # A run restores only the caches saved on its own ref or on main, so a
+      # pull request's first build seeds caches for that pull request and the
+      # first build on main after a merge seeds them for everyone. The keys
+      # leave out the byte-compiled files that importing the package writes
+      # under the package, since those carry the checkout time.
       - name: Restore the executed report notebook
         id: notebook
         uses: actions/cache@v4
         with:
           path: docs/reports/tracks.ipynb
-          key: notebook-${{ hashFiles('docs/reports/tracks.ipynb', 'ccd_diffusion/tracks/**', 'ccd_diffusion/_ccd.py', 'pyproject.toml') }}
+          key: notebook-${{ hashFiles('docs/reports/tracks.ipynb', 'ccd_diffusion/tracks/**', '!ccd_diffusion/tracks/**/__pycache__/**', 'ccd_diffusion/_ccd.py', 'pyproject.toml') }}
       - name: Execute the report notebook
         if: steps.notebook.outputs.cache-hit != 'true'
         # the executed copy, with its outputs, is what the cache keeps; the
@@ -64,7 +69,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: docs/_static/browser
-          key: browser-${{ hashFiles('ccd_diffusion/tracks/**') }}
+          key: browser-${{ hashFiles('ccd_diffusion/tracks/**', '!ccd_diffusion/tracks/**/__pycache__/**') }}
       - name: Build the documentation
         # with MPLBACKEND set to agg the notebook's kernel would draw nothing
         # inline and the report would lose every figure without a warning
