@@ -122,7 +122,9 @@ The images are cached in `~/.cache/ccd_diffusion/iris`, or wherever
 `CCD_DIFFUSION_CACHE` points.
 
 Neither step needs to run on your own machine. The `data` workflow in
-GitHub Actions (started from the Actions tab) rebuilds the frame list,
+GitHub Actions (started from the Actions tab) rebuilds the frame list
+from the catalog, or takes the one committed in the package when started
+with `frames: package`, since the catalog is slow at times, then
 works out which campaigns have changed, extracts each of those in its own
 job while taking the rest from the data already in the repository, then
 joins the campaigns, refits every track, and opens a pull request with the

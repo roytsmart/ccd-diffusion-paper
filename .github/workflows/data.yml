@@ -16,6 +16,11 @@ name: data
 # The images themselves are not cached: the cutouts are what is worth
 # keeping, and they live in the repository.
 #
+# The catalog at JSOC is slow at times, an hour or more for the frame list,
+# so the `frames` input can take the frame list from the package instead,
+# which is what `python -m ccd_diffusion.tracks select` last wrote and
+# committed.
+#
 # GitHub holds the checks of a pull request opened with the workflow's own
 # token until someone approves them, so after opening the pull request the
 # merge job approves them itself. It also never chains one workflow off a
@@ -25,6 +30,14 @@ name: data
 
 on:
   workflow_dispatch:
+    inputs:
+      frames:
+        description: where the frame list comes from
+        type: choice
+        options:
+          - catalog
+          - package
+        default: catalog
 
 concurrency:
   group: data
@@ -34,7 +47,9 @@ jobs:
   select:
     name: select the frames
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 180
+    env:
+      PYTHONUNBUFFERED: "1"
     outputs:
       matrix: ${{ steps.plan.outputs.matrix }}
     steps:
@@ -47,7 +62,13 @@ jobs:
       - name: Install package
         run: pip install -e .
       - name: Ask the catalog which frames each campaign covers
+        if: inputs.frames != 'package'
         run: python -m ccd_diffusion.tracks select --output selected
+      - name: Take the frame list from the package
+        if: inputs.frames == 'package'
+        run: |
+          mkdir -p selected
+          cp ccd_diffusion/tracks/data/iris_frames.csv selected/
       - name: Decide which campaigns need extracting
         id: plan
         run: |
