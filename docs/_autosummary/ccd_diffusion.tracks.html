@@ -406,6 +406,8 @@
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.load_census.html">load_census</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.images.html">images</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.off_limb.html">off_limb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.slit_radius.html">slit_radius</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.window_off_limb.html">window_off_limb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.export_tracks.html">export_tracks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.frame_choices.html">frame_choices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.render_frame.html">render_frame</a></li>
@@ -598,7 +600,7 @@ by running <code class="docutils literal notranslate"><span class="pre">python</
 <td><p>Fill in when a candidate's program started and stopped that day and how many frames it took, from the catalog.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.search.html#ccd_diffusion.tracks.search" title="ccd_diffusion.tracks.search"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search</span></code></a>(start, stop[, radius, exposure, ...])</p></td>
-<td><p>The candidate campaigns between two months, the most exposed seconds inside the anomaly first.</p></td>
+<td><p>The candidate campaigns between two months, the most exposed seconds inside the anomaly on the part of the slit off the limb first.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.save_search.html#ccd_diffusion.tracks.save_search" title="ccd_diffusion.tracks.save_search"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_search</span></code></a>(rows, path)</p></td>
 <td><p>Write the result of <a class="reference internal" href="ccd_diffusion.tracks.search.html#ccd_diffusion.tracks.search" title="ccd_diffusion.tracks.search"><code class="xref py py-func docutils literal notranslate"><span class="pre">search()</span></code></a> as a table.</p></td>
@@ -641,6 +643,12 @@ by running <code class="docutils literal notranslate"><span class="pre">python</
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.off_limb.html#ccd_diffusion.tracks.off_limb" title="ccd_diffusion.tracks.off_limb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">off_limb</span></code></a>(header, shape, camera)</p></td>
 <td><p>Which pixels of a level-1 image look at least <code class="xref py py-data docutils literal notranslate"><span class="pre">_limb_margin</span></code> above the photospheric limb, from the pointing in its header.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.slit_radius.html#ccd_diffusion.tracks.slit_radius" title="ccd_diffusion.tracks.slit_radius"><code class="xref py py-obj docutils literal notranslate"><span class="pre">slit_radius</span></code></a>(header, rows)</p></td>
+<td><p>How far from disk center, in arcseconds, each row of a spectrograph image looks, from the pointing in its header.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.window_off_limb.html#ccd_diffusion.tracks.window_off_limb" title="ccd_diffusion.tracks.window_off_limb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">window_off_limb</span></code></a>(header)</p></td>
+<td><p>The fraction of the rows read out of a spectrograph image that look at least <code class="xref py py-data docutils literal notranslate"><span class="pre">_limb_margin</span></code> above the photospheric limb, from the keywords the catalog serves for the frame.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.export_tracks.html#ccd_diffusion.tracks.export_tracks" title="ccd_diffusion.tracks.export_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">export_tracks</span></code></a>(path)</p></td>
 <td><p>Write every track, its cutout, and its fit to one JSON file for the track browser of the documentation, and return how many were written.</p></td>

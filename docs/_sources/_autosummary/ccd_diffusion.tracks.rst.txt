@@ -46,6 +46,8 @@ tracks
       load_census
       images
       off_limb
+      slit_radius
+      window_off_limb
       export_tracks
       frame_choices
       render_frame

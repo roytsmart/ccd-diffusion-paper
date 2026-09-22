@@ -460,13 +460,11 @@ mostly inside the South Atlantic Anomaly (SAA), from level-1 frames at 1x1 binni
 <span class="n">h</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">half_width</span>
 <span class="n">offsets</span> <span class="o">=</span> <span class="n">na</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="n">h</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis_pixel</span><span class="p">)</span>
 
-<span class="n">chips</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"FUV1"</span><span class="p">:</span> <span class="s2">"tab:orange"</span><span class="p">,</span> <span class="s2">"FUV2"</span><span class="p">:</span> <span class="s2">"tab:blue"</span><span class="p">,</span> <span class="s2">"SJI"</span><span class="p">:</span> <span class="s2">"black"</span><span class="p">}</span>
+<span class="n">chips</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"FUV1"</span><span class="p">:</span> <span class="s2">"tab:orange"</span><span class="p">,</span> <span class="s2">"FUV2"</span><span class="p">:</span> <span class="s2">"tab:blue"</span><span class="p">,</span> <span class="s2">"NUV"</span><span class="p">:</span> <span class="s2">"tab:green"</span><span class="p">,</span> <span class="s2">"SJI"</span><span class="p">:</span> <span class="s2">"black"</span><span class="p">}</span>
+<span class="n">chips</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">color</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">chips</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">chip</span> <span class="o">==</span> <span class="n">c</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">flat</span><span class="p">)}</span>
 <span class="n">datasets</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"2014b"</span><span class="p">:</span> <span class="s2">"2014-03-12, SAA protons, roll 0"</span><span class="p">,</span>
-    <span class="s2">"2014"</span><span class="p">:</span> <span class="s2">"2014-04-07, cosmic rays, roll 0"</span><span class="p">,</span>
-    <span class="s2">"2018"</span><span class="p">:</span> <span class="s2">"2018-03-16, cosmic rays, roll 0"</span><span class="p">,</span>
-    <span class="s2">"2018may"</span><span class="p">:</span> <span class="s2">"2018-05-04, SAA protons, roll -90"</span><span class="p">,</span>
-    <span class="s2">"sji"</span><span class="p">:</span> <span class="s2">"2018-05-04 to 06, SJI, SAA protons, roll -90"</span><span class="p">,</span>
+    <span class="n">k</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">v</span><span class="p">[</span><span class="s1">'date'</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">v</span><span class="p">[</span><span class="s1">'particles'</span><span class="p">]</span><span class="si">}</span><span class="s2">, roll </span><span class="si">{</span><span class="n">v</span><span class="p">[</span><span class="s1">'roll'</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">v</span><span class="p">[</span><span class="s1">'exposure'</span><span class="p">]</span><span class="si">}</span><span class="s2"> s"</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tracks</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
 <span class="p">}</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">fits</span><span class="p">)</span><span class="si">}</span><span class="s2"> tracks, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">flat</span><span class="p">)</span><span class="si">}</span><span class="s2"> flat"</span><span class="p">)</span>
@@ -1066,6 +1064,9 @@ The FUV rows share the same frames, which hold both spectrograph CCDs.</p>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">row</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">subset</span><span class="p">):</span>
     <span class="n">core_</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">subset</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">flat</span> <span class="ow">and</span> <span class="mf">0.25</span> <span class="o">&lt;</span> <span class="n">f</span><span class="o">.</span><span class="n">critical_depth</span> <span class="o">&lt;</span> <span class="mf">0.6</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">core_</span><span class="p">:</span>
+        <span class="c1"># a campaign not yet extracted, or with nothing that passes the cuts</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"| </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">flat</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">subset</span><span class="p">)</span><span class="si">}</span><span class="s2"> | 0 | | |"</span>
     <span class="n">tc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="o">.</span><span class="n">critical_depth</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">core_</span><span class="p">])</span>
     <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">([</span><span class="n">f</span><span class="o">.</span><span class="n">width_max</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">core_</span><span class="p">],</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">75</span><span class="p">])</span>
     <span class="k">return</span> <span class="p">(</span>
@@ -1103,40 +1104,152 @@ The FUV rows share the same frames, which hold both spectrograph CCDs.</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>2014-03-12, SAA protons, roll 0</p></td>
+<tr class="row-even"><td><p>2014-03-12, SAA protons, roll 0, 15 s</p></td>
 <td><p>392</p></td>
 <td><p>103</p></td>
 <td><p>83</p></td>
 <td><p>0.419 ± 0.008</p></td>
 <td><p>5.5 (5.0 to 6.5)</p></td>
 </tr>
-<tr class="row-odd"><td><p>2014-04-07, cosmic rays, roll 0</p></td>
+<tr class="row-odd"><td><p>2014-04-07, cosmic rays, roll 0, 4 s</p></td>
 <td><p>57</p></td>
 <td><p>32</p></td>
 <td><p>25</p></td>
 <td><p>0.400 ± 0.011</p></td>
 <td><p>5.5 (4.5 to 6.0)</p></td>
 </tr>
-<tr class="row-even"><td><p>2018-03-16, cosmic rays, roll 0</p></td>
+<tr class="row-even"><td><p>2018-03-16, cosmic rays, roll 0, 15 s</p></td>
 <td><p>87</p></td>
 <td><p>41</p></td>
 <td><p>31</p></td>
 <td><p>0.387 ± 0.011</p></td>
 <td><p>5.0 (4.2 to 5.2)</p></td>
 </tr>
-<tr class="row-odd"><td><p>2018-05-04, SAA protons, roll -90</p></td>
+<tr class="row-odd"><td><p>2018-05-04, SAA protons, roll -90, 15 s</p></td>
 <td><p>836</p></td>
 <td><p>228</p></td>
 <td><p>168</p></td>
 <td><p>0.421 ± 0.006</p></td>
 <td><p>5.5 (4.5 to 6.0)</p></td>
 </tr>
-<tr class="row-even"><td><p>2018-05-04 to 06, SJI, SAA protons, roll -90</p></td>
+<tr class="row-even"><td><p>2018-05-04/06, SAA protons, roll -90, 15 s</p></td>
 <td><p>471</p></td>
 <td><p>159</p></td>
 <td><p>138</p></td>
 <td><p>0.413 ± 0.005</p></td>
 <td><p>5.5 (5.0 to 6.0)</p></td>
+</tr>
+<tr class="row-odd"><td><p>2014-08-20, SAA protons, roll -75, 8 s</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>2014-08-21, SAA protons, roll -75, 8 s</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>2014-08-23, SAA protons, roll 90, 8 s</p></td>
+<td><p>847</p></td>
+<td><p>497</p></td>
+<td><p>446</p></td>
+<td><p>0.408 ± 0.003</p></td>
+<td><p>5.5 (5.0 to 6.0)</p></td>
+</tr>
+<tr class="row-even"><td><p>2014-08-24, SAA protons, roll 90, 8 s</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>2014-08-25, SAA protons, roll 90, 8 s</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>2014-11-02, SAA protons, roll 0, 8 s</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>2014-11-27, SAA protons, roll 0, 8 s</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>2015-03-26, SAA protons, roll -90, 8 s</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>2015-09-20, SAA protons, roll 0, 8 s</p></td>
+<td><p>1710</p></td>
+<td><p>811</p></td>
+<td><p>707</p></td>
+<td><p>0.404 ± 0.003</p></td>
+<td><p>5.5 (4.5 to 6.0)</p></td>
+</tr>
+<tr class="row-even"><td><p>2016-01-02, SAA protons, roll 0, 8 s</p></td>
+<td><p>1461</p></td>
+<td><p>685</p></td>
+<td><p>601</p></td>
+<td><p>0.407 ± 0.003</p></td>
+<td><p>5.5 (5.0 to 6.0)</p></td>
+</tr>
+<tr class="row-odd"><td><p>2016-01-06, SAA protons, roll 0, 8 s</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>2016-05-16, SAA protons, roll 0, 8 s</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>2016-10-28, SAA protons, roll 0, 8 s</p></td>
+<td><p>328</p></td>
+<td><p>159</p></td>
+<td><p>139</p></td>
+<td><p>0.407 ± 0.006</p></td>
+<td><p>5.0 (4.5 to 6.0)</p></td>
+</tr>
+<tr class="row-even"><td><p>2016-12-13, SAA protons, roll 0, 8 s</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>2016-12-17, SAA protons, roll 0, 8 s</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>2016-12-25, SAA protons, roll 0, 8 s</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p>all sets, FUV1</p></td>
 <td><p>2311</p></td>

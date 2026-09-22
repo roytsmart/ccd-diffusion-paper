@@ -18,10 +18,12 @@ Observation
     
       ~Observation.frames
       ~Observation.hours
+      ~Observation.off_limb
       ~Observation.quiet
       ~Observation.seconds
       ~Observation.start
       ~Observation.stop
+      ~Observation.useful
       ~Observation.window
       ~Observation.obsid
       ~Observation.day

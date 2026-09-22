@@ -411,6 +411,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">statistics</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">urllib.parse</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._extract</span><span class="w"> </span><span class="kn">import</span> <span class="n">window_off_limb</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">concurrent.futures</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">._select</span><span class="w"> </span><span class="kn">import</span> <span class="n">url_catalog</span><span class="p">,</span> <span class="n">_series</span>
 
@@ -424,8 +425,16 @@
     <span class="s2">"load_search"</span><span class="p">,</span>
 <span class="p">]</span>
 
-<span class="n">_keys</span> <span class="o">=</span> <span class="s2">"T_OBS,ISQOLTID,XCEN,YCEN,EXPTIME,SAT_ROT,SUMSPAT,SUMSPTRL"</span>
-<span class="sd">"""The keywords fetched for every anomaly frame."""</span>
+<span class="n">_keys</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"T_OBS,ISQOLTID,XCEN,YCEN,EXPTIME,SAT_ROT,SUMSPAT,SUMSPTRL,"</span>
+    <span class="s2">"RSUN_OBS,CRPIX2,CRVAL2,CRVAL3,CDELT2,PC2_2,PC3_2,TSR1,TER1"</span>
+<span class="p">)</span>
+<span class="sd">"""</span>
+<span class="sd">The keywords fetched for every anomaly frame: its time, program, pointing,</span>
+<span class="sd">exposure, roll, and binning, and the pointing of its slit and the rows it</span>
+<span class="sd">read out, from which :func:`ccd_diffusion.tracks.window_off_limb` says how</span>
+<span class="sd">much of the window looks off the limb.</span>
+<span class="sd">"""</span>
 
 <span class="n">_cache_default</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span>
@@ -434,7 +443,7 @@
             <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s2">".cache"</span> <span class="o">/</span> <span class="s2">"ccd_diffusion"</span> <span class="o">/</span> <span class="s2">"iris"</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span><span class="o">.</span><span class="n">parent</span>
-    <span class="o">/</span> <span class="s2">"anomaly-2"</span>
+    <span class="o">/</span> <span class="s2">"anomaly-3"</span>
 <span class="p">)</span>
 <span class="sd">"""</span>
 <span class="sd">Where each month's anomaly frames are kept, beside the image cache. The</span>
@@ -484,6 +493,14 @@
     <span class="n">quiet</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="w">    </span><span class="sd">"""The number of those taken outside the anomaly."""</span>
 
+    <span class="n">off_limb</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The median fraction of the rows read out of the far-ultraviolet frames</span>
+<span class="sd">    that look at least :data:`ccd_diffusion.tracks._extract._limb_margin`</span>
+<span class="sd">    above the limb, where tracks are sought; one if the frames lack the</span>
+<span class="sd">    keywords that say.</span>
+<span class="sd">    """</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">seconds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
@@ -492,6 +509,15 @@
 <span class="sd">        campaigns gave about one track for every five such seconds.</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">anomaly</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">exposure</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">useful</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        The exposed seconds inside the anomaly on the part of the slit off</span>
+<span class="sd">        the limb, :attr:`seconds` times :attr:`off_limb`, which the number</span>
+<span class="sd">        of tracks the finder keeps scales with.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">seconds</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">off_limb</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">hours</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -638,6 +664,15 @@
                 <span class="k">pass</span>
         <span class="k">return</span> <span class="n">statistics</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="k">if</span> <span class="n">values</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">)</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">off_limb</span><span class="p">(</span><span class="n">rs</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rs</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">window_off_limb</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+                <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">statistics</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="k">if</span> <span class="n">values</span> <span class="k">else</span> <span class="mf">1.0</span>
+
     <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">obsid</span><span class="p">,</span> <span class="n">day</span><span class="p">),</span> <span class="n">rs</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">groups</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">number</span><span class="p">(</span><span class="n">rs</span><span class="p">,</span> <span class="s2">"XCEN"</span><span class="p">),</span> <span class="n">number</span><span class="p">(</span><span class="n">rs</span><span class="p">,</span> <span class="s2">"YCEN"</span><span class="p">)</span>
@@ -651,6 +686,7 @@
                 <span class="n">roll</span><span class="o">=</span><span class="n">number</span><span class="p">(</span><span class="n">rs</span><span class="p">,</span> <span class="s2">"SAT_ROT"</span><span class="p">),</span>
                 <span class="n">exposure</span><span class="o">=</span><span class="n">number</span><span class="p">(</span><span class="n">rs</span><span class="p">,</span> <span class="s2">"EXPTIME"</span><span class="p">),</span>
                 <span class="n">anomaly</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">rs</span><span class="p">),</span>
+                <span class="n">off_limb</span><span class="o">=</span><span class="n">off_limb</span><span class="p">(</span><span class="n">rs</span><span class="p">),</span>
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">result</span></div>
@@ -696,13 +732,14 @@
     <span class="n">exposure</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
     <span class="n">exposure_maximum</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
     <span class="n">anomaly</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="n">limb</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
     <span class="n">workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">cache</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="n">_cache_default</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Observation</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    The candidate campaigns between two months, the most exposed seconds</span>
-<span class="sd">    inside the anomaly first.</span>
+<span class="sd">    inside the anomaly on the part of the slit off the limb first.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -722,6 +759,11 @@
 <span class="sd">        frame of those at 8 s.</span>
 <span class="sd">    anomaly</span>
 <span class="sd">        The fewest frames inside the anomaly.</span>
+<span class="sd">    limb</span>
+<span class="sd">        The least fraction of the rows read out that look off the limb,</span>
+<span class="sd">        where tracks are sought. The pointing keywords describe the center</span>
+<span class="sd">        of the field, and a program pointed beyond the limb can still read</span>
+<span class="sd">        out a window of the slit that lies on the disk.</span>
 <span class="sd">    workers</span>
 <span class="sd">        How many catalog queries to run at once.</span>
 <span class="sd">    verbose</span>
@@ -744,6 +786,7 @@
         <span class="ow">and</span> <span class="n">o</span><span class="o">.</span><span class="n">exposure</span> <span class="o">&gt;=</span> <span class="n">exposure</span>
         <span class="ow">and</span> <span class="p">(</span><span class="n">exposure_maximum</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">o</span><span class="o">.</span><span class="n">exposure</span> <span class="o">&lt;=</span> <span class="n">exposure_maximum</span><span class="p">)</span>
         <span class="ow">and</span> <span class="n">o</span><span class="o">.</span><span class="n">anomaly</span> <span class="o">&gt;=</span> <span class="n">anomaly</span>
+        <span class="ow">and</span> <span class="n">o</span><span class="o">.</span><span class="n">off_limb</span> <span class="o">&gt;=</span> <span class="n">limb</span>
     <span class="p">]</span>
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span>
@@ -751,7 +794,7 @@
         <span class="p">)</span>
     <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
         <span class="n">kept</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">span</span><span class="p">,</span> <span class="n">kept</span><span class="p">))</span>
-    <span class="n">kept</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">o</span><span class="o">.</span><span class="n">seconds</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">day</span><span class="p">))</span>
+    <span class="n">kept</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">o</span><span class="o">.</span><span class="n">useful</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">day</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">kept</span></div>
 
 
@@ -796,7 +839,7 @@
     <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">,</span> <span class="s2">"radius"</span><span class="p">,</span> <span class="s2">"roll"</span><span class="p">,</span> <span class="s2">"exposure"</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">,</span> <span class="s2">"radius"</span><span class="p">,</span> <span class="s2">"roll"</span><span class="p">,</span> <span class="s2">"exposure"</span><span class="p">,</span> <span class="s2">"off_limb"</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"anomaly"</span><span class="p">,</span> <span class="s2">"frames"</span><span class="p">,</span> <span class="s2">"quiet"</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>

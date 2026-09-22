@@ -404,6 +404,8 @@
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.load_census.html">load_census</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.images.html">images</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.off_limb.html">off_limb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.slit_radius.html">slit_radius</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.window_off_limb.html">window_off_limb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.export_tracks.html">export_tracks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.frame_choices.html">frame_choices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.render_frame.html">render_frame</a></li>
@@ -542,7 +544,7 @@
 <h1>Observation<a class="headerlink" href="#observation" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="ccd_diffusion.tracks.Observation">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">ccd_diffusion.tracks.</span></span><span class="sig-name descname"><span class="pre">Observation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obsid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roll</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exposure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anomaly</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frames</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ccd_diffusion/tracks/_search.html#Observation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ccd_diffusion.tracks.Observation" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">ccd_diffusion.tracks.</span></span><span class="sig-name descname"><span class="pre">Observation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obsid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roll</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exposure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anomaly</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frames</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">off_limb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ccd_diffusion/tracks/_search.html#Observation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ccd_diffusion.tracks.Observation" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>One observing program on one day, as a candidate campaign.</p>
 <p class="rubric">Attributes</p>
@@ -554,17 +556,23 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Observation.hours" title="ccd_diffusion.tracks.Observation.hours"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hours</span></code></a></p></td>
 <td><p>The span of the program that day, in hours.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Observation.quiet" title="ccd_diffusion.tracks.Observation.quiet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quiet</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Observation.off_limb" title="ccd_diffusion.tracks.Observation.off_limb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">off_limb</span></code></a></p></td>
+<td><p>The median fraction of the rows read out of the far-ultraviolet frames that look at least <code class="xref py py-data docutils literal notranslate"><span class="pre">ccd_diffusion.tracks._extract._limb_margin</span></code> above the limb, where tracks are sought; one if the frames lack the keywords that say.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Observation.quiet" title="ccd_diffusion.tracks.Observation.quiet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quiet</span></code></a></p></td>
 <td><p>The number of those taken outside the anomaly.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Observation.seconds" title="ccd_diffusion.tracks.Observation.seconds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seconds</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Observation.seconds" title="ccd_diffusion.tracks.Observation.seconds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seconds</span></code></a></p></td>
 <td><p>The exposed seconds inside the anomaly, the anomaly frames times the exposure, which the number of tracks scales with: the original campaigns gave about one track for every five such seconds.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Observation.start" title="ccd_diffusion.tracks.Observation.start"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Observation.start" title="ccd_diffusion.tracks.Observation.start"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start</span></code></a></p></td>
 <td><p>The time of the program's first far-ultraviolet frame that day, once <a class="reference internal" href="ccd_diffusion.tracks.span.html#ccd_diffusion.tracks.span" title="ccd_diffusion.tracks.span"><code class="xref py py-func docutils literal notranslate"><span class="pre">span()</span></code></a> has run.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Observation.stop" title="ccd_diffusion.tracks.Observation.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Observation.stop" title="ccd_diffusion.tracks.Observation.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a></p></td>
 <td><p>The time of its last.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Observation.useful" title="ccd_diffusion.tracks.Observation.useful"><code class="xref py py-obj docutils literal notranslate"><span class="pre">useful</span></code></a></p></td>
+<td><p>The exposed seconds inside the anomaly on the part of the slit off the limb, <a class="reference internal" href="#ccd_diffusion.tracks.Observation.seconds" title="ccd_diffusion.tracks.Observation.seconds"><code class="xref py py-attr docutils literal notranslate"><span class="pre">seconds</span></code></a> times <a class="reference internal" href="ccd_diffusion.tracks.off_limb.html#ccd_diffusion.tracks.off_limb" title="ccd_diffusion.tracks.off_limb"><code class="xref py py-attr docutils literal notranslate"><span class="pre">off_limb</span></code></a>, which the number of tracks the finder keeps scales with.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Observation.window" title="ccd_diffusion.tracks.Observation.window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">window</span></code></a></p></td>
 <td><p>The span as <code class="xref py py-data docutils literal notranslate"><span class="pre">ccd_diffusion.tracks.campaigns</span></code> writes it.</p></td>
@@ -624,6 +632,7 @@
 <li><p><strong>stop</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
 <li><p><strong>frames</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
 <li><p><strong>quiet</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>off_limb</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -664,6 +673,15 @@
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="ccd_diffusion.tracks.Observation.off_limb">
+<span class="sig-name descname"><span class="pre">off_limb</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></span><a class="headerlink" href="#ccd_diffusion.tracks.Observation.off_limb" title="Link to this definition">#</a></dt>
+<dd><p>The median fraction of the rows read out of the far-ultraviolet frames
+that look at least <code class="xref py py-data docutils literal notranslate"><span class="pre">ccd_diffusion.tracks._extract._limb_margin</span></code>
+above the limb, where tracks are sought; one if the frames lack the
+keywords that say.</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="ccd_diffusion.tracks.Observation.quiet">
 <span class="sig-name descname"><span class="pre">quiet</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="headerlink" href="#ccd_diffusion.tracks.Observation.quiet" title="Link to this definition">#</a></dt>
 <dd><p>The number of those taken outside the anomaly.</p>
@@ -699,6 +717,14 @@ campaigns gave about one track for every five such seconds.</p>
 <dt class="sig sig-object py" id="ccd_diffusion.tracks.Observation.stop">
 <span class="sig-name descname"><span class="pre">stop</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></span><a class="headerlink" href="#ccd_diffusion.tracks.Observation.stop" title="Link to this definition">#</a></dt>
 <dd><p>The time of its last.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ccd_diffusion.tracks.Observation.useful">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">useful</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#ccd_diffusion.tracks.Observation.useful" title="Link to this definition">#</a></dt>
+<dd><p>The exposed seconds inside the anomaly on the part of the slit off
+the limb, <a class="reference internal" href="#ccd_diffusion.tracks.Observation.seconds" title="ccd_diffusion.tracks.Observation.seconds"><code class="xref py py-attr docutils literal notranslate"><span class="pre">seconds</span></code></a> times <a class="reference internal" href="ccd_diffusion.tracks.off_limb.html#ccd_diffusion.tracks.off_limb" title="ccd_diffusion.tracks.off_limb"><code class="xref py py-attr docutils literal notranslate"><span class="pre">off_limb</span></code></a>, which the number
+of tracks the finder keeps scales with.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -777,12 +803,14 @@ campaigns gave about one track for every five such seconds.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Observation.frames"><code class="docutils literal notranslate"><span class="pre">Observation.frames</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Observation.hours"><code class="docutils literal notranslate"><span class="pre">Observation.hours</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Observation.obsid"><code class="docutils literal notranslate"><span class="pre">Observation.obsid</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Observation.off_limb"><code class="docutils literal notranslate"><span class="pre">Observation.off_limb</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Observation.quiet"><code class="docutils literal notranslate"><span class="pre">Observation.quiet</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Observation.radius"><code class="docutils literal notranslate"><span class="pre">Observation.radius</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Observation.roll"><code class="docutils literal notranslate"><span class="pre">Observation.roll</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Observation.seconds"><code class="docutils literal notranslate"><span class="pre">Observation.seconds</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Observation.start"><code class="docutils literal notranslate"><span class="pre">Observation.start</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Observation.stop"><code class="docutils literal notranslate"><span class="pre">Observation.stop</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Observation.useful"><code class="docutils literal notranslate"><span class="pre">Observation.useful</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Observation.window"><code class="docutils literal notranslate"><span class="pre">Observation.window</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Observation.x"><code class="docutils literal notranslate"><span class="pre">Observation.x</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Observation.y"><code class="docutils literal notranslate"><span class="pre">Observation.y</span></code></a></li>
