@@ -79,13 +79,18 @@ def parameters() -> aastex.Figure:
     ax_b.set_title("(b) tracks with $0.25 < t_c < 0.6$", fontsize=8)
     ax_b.legend(fontsize=5)
 
+    # the fits are exhaustive searches on grids, 0.05 in t_c and 0.5 um in
+    # sigma_max, so each track is spread uniformly over its grid cell; a
+    # narrower jitter leaves the grid showing through as gaps
+    step_tc = float(np.diff(tracks.critical_depth.ndarray)[0])
+    step_sm = float(np.diff(tracks.width_max.ndarray.to_value(u.um))[0])
     for chip, color in _chips.items():
         subset = [f for f in core() if f.track.chip == chip]
         tc = np.array([f.critical_depth for f in subset]) + rng.uniform(
-            -0.02, 0.02, len(subset)
+            -step_tc / 2, step_tc / 2, len(subset)
         )
         sm = np.array([f.width_max.to_value(u.um) for f in subset]) + rng.uniform(
-            -0.2, 0.2, len(subset)
+            -step_sm / 2, step_sm / 2, len(subset)
         )
         ax_c.scatter(tc, sm, s=3, color=color, alpha=0.4, linewidths=0)
     ax_c.plot(tc_paper, zf, "*", color="tab:red", markersize=9, label="model")
@@ -130,9 +135,10 @@ The tails below 0.25 and above 0.6 are tracks the model describes
 poorly, sharp or diffuse along most of their length, and they are
 excluded from the shaded core used elsewhere.
 (b) The back-surface width of the core tracks.
-(c) Each core track jittered off the fit grid, colored by \CCD\ as in (a),
-with the mean of each campaign of Table~\ref{tab:datasets} and its
-standard error as an open circle.
+(c) Each core track, colored by \CCD\ as in (a) and spread uniformly over
+its cell of the fit grid (0.05 in $t_c$ and 0.5 $\mu$m in
+$\sigma_\text{max}$), with the mean of each campaign of
+Table~\ref{tab:datasets} and its standard error as an open circle.
 The campaigns, spanning two particle populations, four spacecraft rolls,
 and three cameras, agree to within a few hundredths in $t_c$, all within
 0.04 of the model, and the diagonal smear is the degeneracy between $t_c$

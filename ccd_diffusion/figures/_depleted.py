@@ -66,7 +66,7 @@ def depleted() -> aastex.Figure:
         )
     ax_c.hist(
         list(preferred.values()),
-        bins=np.arange(-0.125, 3.2, 0.25),
+        bins=np.arange(-0.05, 1.6, 0.1),
         color=[_chips[c] for c in preferred],
         label=list(preferred),
         weights=[np.ones(len(p)) / len(p) for p in preferred.values()],
@@ -74,8 +74,7 @@ def depleted() -> aastex.Figure:
 
     ax_a.set_xlabel(r"$\sigma_d$ ($\mu$m)")
     ax_a.set_ylabel("pooled misfit above minimum")
-    ax_a.set_xlim(-0.05, 2.05)
-    ax_a.set_ylim(0, 600)
+    ax_a.set_xlim(-0.05, 1.55)
     ax_a.set_title(r"(a) pooled misfit against $\sigma_d$", fontsize=8)
     ax_a.legend(fontsize=5)
 
@@ -104,12 +103,13 @@ Equation~\ref{eq:width}, which is shared by every track on a \CCD.
 (a) The misfit summed over the flat tracks on each \CCD\ at each
 $\sigma_d$, with each track refit in $t_c$, $\sigma_\text{max}$,
 orientation, and centerline, shown relative to its minimum, which lies at
-$\sigma_d = \widthDepletedSji$ $\mu$m on \SJI, \widthDepletedFuvTwo\
-$\mu$m on \FUV{}2, and \widthDepletedFuvOne\ $\mu$m on \FUV{}1.
+$\sigma_d = \widthDepletedFuvOne$ $\mu$m on \FUV{}1, \widthDepletedFuvTwo\
+$\mu$m on \FUV{}2, \widthDepletedNuv\ $\mu$m on \NUV, and
+\widthDepletedSji\ $\mu$m on \SJI.
 (b) The median $t_c$ and $\sigma_\text{max}$ of the same tracks at each
 $\sigma_d$: the spread inside the depletion region trades against the
 field-free wedge, lowering $t_c$ and raising $\sigma_\text{max}$.
 (c) The $\sigma_d$ each flat track prefers on its own.
-The preference of any one track is weak, spread over 0 to 2 $\mu$m, and
+The preference of any one track is weak, spread over the whole grid, and
 it is only in the sum that the minimum is sharp."""))
     return result

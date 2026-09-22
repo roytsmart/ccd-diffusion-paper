@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.colors
 import matplotlib.pyplot as plt
 import astropy.units as u
 import aastex
@@ -38,6 +39,9 @@ def stacked() -> aastex.Figure:
         s.image.ndarray.T,
         origin="lower",
         cmap="gray_r",
+        # the wings carry a few percent of the charge, so a square-root
+        # stretch shows them beside the core
+        norm=matplotlib.colors.PowerNorm(gamma=0.5),
         aspect="auto",
         extent=[0, 1, s.offset.ndarray[0], s.offset.ndarray[-1]],
         interpolation="none",
