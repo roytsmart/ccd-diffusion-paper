@@ -15,10 +15,13 @@ on:
   pull_request:
   workflow_dispatch:
 
-# Every publish pushes to the same branch, so serialize them with `pdf`.
+# A newer push to the same branch supersedes a build in progress. Builds of
+# different branches run side by side: sharing one group with `pdf` let a
+# build queued behind another be cancelled when a third arrived, and the
+# publish step retries if someone else pushed to gh-pages meanwhile.
 concurrency:
-  group: gh-pages
-  cancel-in-progress: false
+  group: docs-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -84,31 +87,37 @@ jobs:
           SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           remote="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          if git clone --depth 1 --branch gh-pages "$remote" pages 2>/dev/null; then
-            echo "cloned existing gh-pages"
-          else
-            echo "gh-pages does not exist yet; creating it"
-            mkdir pages
-            cd pages
-            git init -q
-            git checkout -q -b gh-pages
-            git remote add origin "$remote"
-            cd ..
-          fi
-          rm -rf "pages/${DIR}"
-          mkdir -p "pages/${DIR}"
-          cp -r docs/_build/html/. "pages/${DIR}/"
-          touch "pages/.nojekyll"
-          cd pages
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add --all
-          if git diff --cached --quiet; then
-            echo "The documentation is unchanged; nothing to publish."
-          else
-            git commit -q -m "Publish the documentation for ${SHA:0:7} to ${DIR}"
-            git push -q origin gh-pages
-          fi
+          # another workflow may push to gh-pages between the clone and the
+          # push, which rejects the push; then clone again and retry
+          for attempt in 1 2 3 4 5; do
+            rm -rf pages
+            if git clone -q --depth 1 --branch gh-pages "$remote" pages 2>/dev/null; then
+              echo "cloned existing gh-pages"
+            else
+              echo "gh-pages does not exist yet; creating it"
+              mkdir pages
+              git -C pages init -q
+              git -C pages checkout -q -b gh-pages
+              git -C pages remote add origin "$remote"
+            fi
+            rm -rf "pages/${DIR}"
+            mkdir -p "pages/${DIR}"
+            cp -r docs/_build/html/. "pages/${DIR}/"
+            touch "pages/.nojekyll"
+            git -C pages config user.name "github-actions[bot]"
+            git -C pages config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git -C pages add --all
+            if git -C pages diff --cached --quiet; then
+              echo "The documentation is unchanged; nothing to publish."
+              break
+            fi
+            git -C pages commit -q -m "Publish the documentation for ${SHA:0:7} to ${DIR}"
+            if git -C pages push -q origin gh-pages; then
+              break
+            fi
+            echo "push rejected on attempt ${attempt}; retrying"
+            sleep 20
+          done
 
       - name: Comment the preview link on the pull request
         if: steps.target.outputs.pr != ''
