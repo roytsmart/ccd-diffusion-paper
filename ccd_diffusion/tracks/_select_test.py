@@ -2,6 +2,7 @@ import pathlib
 import csv
 import io
 import json
+import urllib.parse
 import pytest
 import ccd_diffusion
 from . import _select
@@ -90,6 +91,73 @@ def test_records_rejects_a_refusal(monkeypatch):
     )
     with pytest.raises(RuntimeError, match="refused"):
         _select.records(("a", "b"))
+
+
+def _answer(num: int, offset: int = 0):
+    return io.StringIO(
+        json.dumps(
+            dict(
+                status=0,
+                count=num,
+                keywords=[
+                    dict(name="T_OBS", values=[f"t{offset + i}" for i in range(num)]),
+                    dict(name="FSN", values=[str(offset + i) for i in range(num)]),
+                    dict(name="IMG_PATH", values=["FUV"] * num),
+                    dict(name="SAA", values=["0"] * num),
+                    dict(name="ISQOLTID", values=["1"] * num),
+                ],
+            )
+        )
+    )
+
+
+def test_records_asks_again_after_a_timeout(monkeypatch):
+    calls = []
+
+    def urlopen(url, timeout):
+        calls.append(url)
+        if len(calls) < 3:
+            raise TimeoutError("timed out")
+        return _answer(2)
+
+    monkeypatch.setattr(_select.urllib.request, "urlopen", urlopen)
+    monkeypatch.setattr(_select, "_retries", (0, 0, 0))
+    result = _select.records(("2018.05.04_07:00:00Z", "2018.05.04_09:00:00Z"))
+    assert len(calls) == 3
+    assert [r["FSN"] for r in result] == ["0", "1"]
+
+
+def test_records_halves_a_window_that_keeps_failing(monkeypatch):
+    windows = []
+
+    def urlopen(url, timeout):
+        ds = urllib.parse.parse_qs(urllib.parse.urlparse(url).query)["ds"][0]
+        windows.append(ds)
+        if "2018.05.04_07:00:00Z-2018.05.04_09:00:00Z" in ds:
+            raise TimeoutError("timed out")
+        offset = 0 if "07:00:00Z-" in ds else 10
+        return _answer(3, offset)
+
+    monkeypatch.setattr(_select.urllib.request, "urlopen", urlopen)
+    monkeypatch.setattr(_select, "_retries", (0, 0, 0))
+    result = _select.records(("2018.05.04_07:00:00Z", "2018.05.04_09:00:00Z"))
+    # four failures on the whole window, then one query per half
+    assert len(windows) == 6
+    assert windows[4].endswith("[2018.05.04_07:00:00Z-2018.05.04_08:00:00Z]")
+    assert windows[5].endswith("[2018.05.04_08:00:00Z-2018.05.04_09:00:00Z]")
+    assert [r["FSN"] for r in result] == ["0", "1", "2", "10", "11", "12"]
+
+
+def test_records_gives_up_after_halving_enough(monkeypatch):
+    monkeypatch.setattr(
+        _select.urllib.request,
+        "urlopen",
+        lambda url, timeout: (_ for _ in ()).throw(TimeoutError("timed out")),
+    )
+    monkeypatch.setattr(_select, "_retries", ())
+    monkeypatch.setattr(_select, "_depth_maximum", 1)
+    with pytest.raises(TimeoutError):
+        _select.records(("2018.05.04_07:00:00Z", "2018.05.04_09:00:00Z"))
 
 
 def test_save_frames(tmp_path: pathlib.Path):

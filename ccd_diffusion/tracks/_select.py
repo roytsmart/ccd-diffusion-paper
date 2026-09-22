@@ -14,6 +14,9 @@ running ``python -m ccd_diffusion.tracks select``.
 """
 
 import dataclasses
+import datetime
+import http.client
+import time
 import urllib.parse
 import urllib.request
 import json
@@ -211,17 +214,23 @@ background at the campaign's stride is left out.
 """
 
 
-def records(window: tuple[str, str], timeout: float = 900) -> list[dict[str, str]]:
-    """
-    Every level-1 exposure in a time range, as the catalog describes it.
+_retries = (10, 30, 60)
+"""
+How long to wait, in seconds, before asking the catalog again after a
+query times out or breaks off.
+"""
 
-    Parameters
-    ----------
-    window
-        The time range, a pair of ``YYYY.MM.DD_hh:mm:ssZ`` strings.
-    timeout
-        How long to wait on the catalog, in seconds.
-    """
+_depth_maximum = 4
+"""How many times a window is halved before a failing query is given up."""
+
+
+def _parse_window_time(t: str) -> datetime.datetime:
+    """A record-set time, ``YYYY.MM.DD_hh:mm:ssZ``, as a datetime."""
+    return datetime.datetime.strptime(t, "%Y.%m.%d_%H:%M:%SZ")
+
+
+def _records(window: tuple[str, str], timeout: float) -> list[dict[str, str]]:
+    """One query to the catalog for every level-1 exposure in a time range."""
     start, stop = window
     query = urllib.parse.urlencode(
         dict(
@@ -239,6 +248,45 @@ def records(window: tuple[str, str], timeout: float = 900) -> list[dict[str, str
     return [
         {k: values[k][i] for k in _keys} for i in range(int(answer.get("count", 0)))
     ]
+
+
+def records(
+    window: tuple[str, str], timeout: float = 900, depth: int = 0
+) -> list[dict[str, str]]:
+    """
+    Every level-1 exposure in a time range, as the catalog describes it.
+
+    The catalog is slow at times and a long window can take longer than
+    the timeout to answer, so a query that times out or breaks off is asked
+    again after each pause in :data:`_retries`, and when it keeps failing
+    the window is halved and each half asked for, :data:`_depth_maximum`
+    times over. A refusal is raised at once, since asking again would not
+    change it.
+
+    Parameters
+    ----------
+    window
+        The time range, a pair of ``YYYY.MM.DD_hh:mm:ssZ`` strings.
+    timeout
+        How long to wait on the catalog, in seconds.
+    depth
+        How many times the window has been halved already.
+    """
+    start, stop = window
+    for wait in (*_retries, None):
+        try:
+            return _records(window, timeout)
+        except (OSError, http.client.HTTPException, json.JSONDecodeError):
+            if wait is None:
+                if depth >= _depth_maximum:
+                    raise
+                t0, t1 = _parse_window_time(start), _parse_window_time(stop)
+                mid = (t0 + (t1 - t0) / 2).strftime("%Y.%m.%d_%H:%M:%SZ")
+                return records((start, mid), timeout, depth + 1) + records(
+                    (mid, stop), timeout, depth + 1
+                )
+            time.sleep(wait)
+    raise AssertionError("unreachable")
 
 
 def select(dataset: str, verbose: bool = True) -> list[dict[str, str]]:
