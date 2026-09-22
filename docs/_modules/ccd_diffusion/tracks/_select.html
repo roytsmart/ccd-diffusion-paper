@@ -400,6 +400,9 @@
 <span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">dataclasses</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">http.client</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">urllib.parse</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
@@ -600,19 +603,23 @@
 <span class="sd">"""</span>
 
 
-<div class="viewcode-block" id="records">
-<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.records.html#ccd_diffusion.tracks.records">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">records</span><span class="p">(</span><span class="n">window</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">900</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    Every level-1 exposure in a time range, as the catalog describes it.</span>
+<span class="n">_retries</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+<span class="sd">"""</span>
+<span class="sd">How long to wait, in seconds, before asking the catalog again after a</span>
+<span class="sd">query times out or breaks off.</span>
+<span class="sd">"""</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    window</span>
-<span class="sd">        The time range, a pair of ``YYYY.MM.DD_hh:mm:ssZ`` strings.</span>
-<span class="sd">    timeout</span>
-<span class="sd">        How long to wait on the catalog, in seconds.</span>
-<span class="sd">    """</span>
+<span class="n">_depth_maximum</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="sd">"""How many times a window is halved before a failing query is given up."""</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_parse_window_time</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A record-set time, ``YYYY.MM.DD_hh:mm:ssZ``, as a datetime."""</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s2">"%Y.%m.</span><span class="si">%d</span><span class="s2">_%H:%M:%SZ"</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_records</span><span class="p">(</span><span class="n">window</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""One query to the catalog for every level-1 exposure in a time range."""</span>
     <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">window</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span>
         <span class="nb">dict</span><span class="p">(</span>
@@ -629,7 +636,48 @@
     <span class="n">values</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]:</span> <span class="n">k</span><span class="p">[</span><span class="s2">"values"</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">answer</span><span class="p">[</span><span class="s2">"keywords"</span><span class="p">]}</span>
     <span class="k">return</span> <span class="p">[</span>
         <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">values</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">_keys</span><span class="p">}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">answer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"count"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
-    <span class="p">]</span></div>
+    <span class="p">]</span>
+
+
+<div class="viewcode-block" id="records">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.records.html#ccd_diffusion.tracks.records">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">records</span><span class="p">(</span>
+    <span class="n">window</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">900</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Every level-1 exposure in a time range, as the catalog describes it.</span>
+
+<span class="sd">    The catalog is slow at times and a long window can take longer than</span>
+<span class="sd">    the timeout to answer, so a query that times out or breaks off is asked</span>
+<span class="sd">    again after each pause in :data:`_retries`, and when it keeps failing</span>
+<span class="sd">    the window is halved and each half asked for, :data:`_depth_maximum`</span>
+<span class="sd">    times over. A refusal is raised at once, since asking again would not</span>
+<span class="sd">    change it.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    window</span>
+<span class="sd">        The time range, a pair of ``YYYY.MM.DD_hh:mm:ssZ`` strings.</span>
+<span class="sd">    timeout</span>
+<span class="sd">        How long to wait on the catalog, in seconds.</span>
+<span class="sd">    depth</span>
+<span class="sd">        How many times the window has been halved already.</span>
+<span class="sd">    """</span>
+    <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">window</span>
+    <span class="k">for</span> <span class="n">wait</span> <span class="ow">in</span> <span class="p">(</span><span class="o">*</span><span class="n">_retries</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_records</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="n">http</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">HTTPException</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">wait</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">depth</span> <span class="o">&gt;=</span> <span class="n">_depth_maximum</span><span class="p">:</span>
+                    <span class="k">raise</span>
+                <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">_parse_window_time</span><span class="p">(</span><span class="n">start</span><span class="p">),</span> <span class="n">_parse_window_time</span><span class="p">(</span><span class="n">stop</span><span class="p">)</span>
+                <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">t0</span> <span class="o">+</span> <span class="p">(</span><span class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y.%m.</span><span class="si">%d</span><span class="s2">_%H:%M:%SZ"</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">records</span><span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="n">mid</span><span class="p">),</span> <span class="n">timeout</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">records</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">mid</span><span class="p">,</span> <span class="n">stop</span><span class="p">),</span> <span class="n">timeout</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">wait</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">"unreachable"</span><span class="p">)</span></div>
 
 
 
