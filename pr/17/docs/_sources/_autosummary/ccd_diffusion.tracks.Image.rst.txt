@@ -1,0 +1,45 @@
+Image
+=====
+
+.. currentmodule:: ccd_diffusion.tracks
+
+.. autoclass:: ccd_diffusion.tracks.Image
+    :members:
+    :show-inheritance:
+    :inherited-members:
+    :undoc-members:
+    :member-order: groupwise
+
+    
+    
+    .. rubric:: Attributes
+
+    .. autosummary::
+    
+      ~Image.tracks
+      ~Image.dataset
+      ~Image.fsn
+      ~Image.time
+      ~Image.image
+      ~Image.saa
+      ~Image.roll
+      ~Image.exptime
+      ~Image.data
+    
+    
+
+    
+    
+    .. rubric:: Methods
+
+    .. autosummary::
+    
+      ~Image.__init__
+    
+    
+
+    
+    .. rubric:: Inheritance Diagram
+
+    .. inheritance-diagram:: ccd_diffusion.tracks.Image
+    
