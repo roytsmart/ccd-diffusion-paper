@@ -452,10 +452,16 @@
 <span class="n">width_max</span> <span class="o">=</span> <span class="n">na</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis_width_max</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">21</span><span class="p">)</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span>
 <span class="sd">"""The grid of back-surface diffusion widths, :math:`\\sigma_\\text{max}`, searched by :func:`scan`."""</span>
 
-<span class="n">width_depleted</span> <span class="o">=</span> <span class="n">na</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis_width_depleted</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span>
+<span class="n">width_depleted</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">na</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis_width_depleted</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">16</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span>
+<span class="p">)</span>
 <span class="sd">"""</span>
 <span class="sd">The grid of spreads acquired crossing the full depletion region,</span>
-<span class="sd">:math:`\\sigma_d`, searched by :func:`scan`.</span>
+<span class="sd">:math:`\\sigma_d`, searched by :func:`scan`: 0 to 1.5 micrometers in steps</span>
+<span class="sd">of 0.1, rounded so that a grid value read back from the data files</span>
+<span class="sd">compares equal. The pooled misfit of every CCD has its minimum near 0.75</span>
+<span class="sd">and climbs steeply on both sides, so the grid covers the answer with room</span>
+<span class="sd">to spare, and the step sets the resolution of the pooled value.</span>
 
 <span class="sd">Unlike :math:`t_c` and :math:`\\sigma_\\text{max}`, which are fit to each</span>
 <span class="sd">track, :math:`\\sigma_d` is a property of the drift field and is shared by</span>
