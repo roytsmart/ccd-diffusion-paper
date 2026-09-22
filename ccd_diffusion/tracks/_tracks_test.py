@@ -12,7 +12,7 @@ def test_load():
     assert len({t.name for t in tracks}) == len(tracks)
     for track in tracks:
         assert isinstance(track, ccd_diffusion.tracks.Track)
-        assert track.chip in ("FUV1", "FUV2", "SJI")
+        assert track.chip in ("FUV1", "FUV2", "NUV", "SJI")
         assert track.length >= 12
         assert track.charge.shape == {
             ccd_diffusion.tracks.axis_slice: track.length,

@@ -103,6 +103,12 @@ def main(argv: list[str]) -> None:
         help="longest exposure, seconds; longer ones crowd the frame with hits",
     )
     search.add_argument(
+        "--limb",
+        type=float,
+        default=0.5,
+        help="least fraction of the rows read out that look off the limb",
+    )
+    search.add_argument(
         "--output", type=pathlib.Path, help="write the candidates here as CSV"
     )
 
@@ -192,16 +198,17 @@ def main(argv: list[str]) -> None:
             args.exposure,
             args.exposure_max,
             args.anomaly,
+            args.limb,
         )
         print(
             f"{'day':>10} {'from':>5} {'hours':>5} {'radius':>6} {'roll':>5} {'exp':>4} "
-            f"{'anomaly':>7} {'quiet':>5} {'seconds':>7}  obsid"
+            f"{'anomaly':>7} {'quiet':>5} {'limb':>5} {'useful':>7}  obsid"
         )
         for o in found[:40]:
             print(
                 f"{o.day:>10} {o.start[11:16]:>5} {o.hours:>5.1f} {o.radius:>6.0f} "
                 f"{o.roll:>5.0f} {o.exposure:>4.0f} {o.anomaly:>7} {o.quiet:>5} "
-                f"{o.seconds:>7.0f}  {o.obsid}"
+                f"{o.off_limb:>5.2f} {o.useful:>7.0f}  {o.obsid}"
             )
         if len(found) > 40:
             print(f"... and {len(found) - 40} more")

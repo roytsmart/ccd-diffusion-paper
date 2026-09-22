@@ -25,6 +25,7 @@ import pathlib
 import statistics
 import urllib.parse
 import urllib.request
+from ._extract import window_off_limb
 import concurrent.futures
 from ._select import url_catalog, _series
 
@@ -38,8 +39,16 @@ __all__ = [
     "load_search",
 ]
 
-_keys = "T_OBS,ISQOLTID,XCEN,YCEN,EXPTIME,SAT_ROT,SUMSPAT,SUMSPTRL"
-"""The keywords fetched for every anomaly frame."""
+_keys = (
+    "T_OBS,ISQOLTID,XCEN,YCEN,EXPTIME,SAT_ROT,SUMSPAT,SUMSPTRL,"
+    "RSUN_OBS,CRPIX2,CRVAL2,CRVAL3,CDELT2,PC2_2,PC3_2,TSR1,TER1"
+)
+"""
+The keywords fetched for every anomaly frame: its time, program, pointing,
+exposure, roll, and binning, and the pointing of its slit and the rows it
+read out, from which :func:`ccd_diffusion.tracks.window_off_limb` says how
+much of the window looks off the limb.
+"""
 
 _cache_default = (
     pathlib.Path(
@@ -48,7 +57,7 @@ _cache_default = (
             pathlib.Path.home() / ".cache" / "ccd_diffusion" / "iris",
         )
     ).parent
-    / "anomaly-2"
+    / "anomaly-3"
 )
 """
 Where each month's anomaly frames are kept, beside the image cache. The
@@ -96,6 +105,14 @@ class Observation:
     quiet: int = 0
     """The number of those taken outside the anomaly."""
 
+    off_limb: float = 1.0
+    """
+    The median fraction of the rows read out of the far-ultraviolet frames
+    that look at least :data:`ccd_diffusion.tracks._extract._limb_margin`
+    above the limb, where tracks are sought; one if the frames lack the
+    keywords that say.
+    """
+
     @property
     def seconds(self) -> float:
         """
@@ -104,6 +121,15 @@ class Observation:
         campaigns gave about one track for every five such seconds.
         """
         return self.anomaly * self.exposure
+
+    @property
+    def useful(self) -> float:
+        """
+        The exposed seconds inside the anomaly on the part of the slit off
+        the limb, :attr:`seconds` times :attr:`off_limb`, which the number
+        of tracks the finder keeps scales with.
+        """
+        return self.seconds * self.off_limb
 
     @property
     def hours(self) -> float:
@@ -244,6 +270,15 @@ def runs(rows: list[dict[str, str]]) -> list[Observation]:
                 pass
         return statistics.median(values) if values else float("nan")
 
+    def off_limb(rs):
+        values = []
+        for r in rs:
+            try:
+                values.append(window_off_limb(r))
+            except (KeyError, TypeError, ValueError):
+                pass
+        return statistics.median(values) if values else 1.0
+
     result = []
     for (obsid, day), rs in sorted(groups.items()):
         x, y = number(rs, "XCEN"), number(rs, "YCEN")
@@ -257,6 +292,7 @@ def runs(rows: list[dict[str, str]]) -> list[Observation]:
                 roll=number(rs, "SAT_ROT"),
                 exposure=number(rs, "EXPTIME"),
                 anomaly=len(rs),
+                off_limb=off_limb(rs),
             )
         )
     return result
@@ -296,13 +332,14 @@ def search(
     exposure: float = 4,
     exposure_maximum: None | float = 8,
     anomaly: int = 30,
+    limb: float = 0.5,
     workers: int = 4,
     verbose: bool = True,
     cache: None | pathlib.Path = _cache_default,
 ) -> list[Observation]:
     """
     The candidate campaigns between two months, the most exposed seconds
-    inside the anomaly first.
+    inside the anomaly on the part of the slit off the limb first.
 
     Parameters
     ----------
@@ -322,6 +359,11 @@ def search(
         frame of those at 8 s.
     anomaly
         The fewest frames inside the anomaly.
+    limb
+        The least fraction of the rows read out that look off the limb,
+        where tracks are sought. The pointing keywords describe the center
+        of the field, and a program pointed beyond the limb can still read
+        out a window of the slit that lies on the disk.
     workers
         How many catalog queries to run at once.
     verbose
@@ -344,6 +386,7 @@ def search(
         and o.exposure >= exposure
         and (exposure_maximum is None or o.exposure <= exposure_maximum)
         and o.anomaly >= anomaly
+        and o.off_limb >= limb
     ]
     if verbose:
         print(
@@ -351,7 +394,7 @@ def search(
         )
     with concurrent.futures.ThreadPoolExecutor(workers) as pool:
         kept = list(pool.map(span, kept))
-    kept.sort(key=lambda o: (-o.seconds, o.day))
+    kept.sort(key=lambda o: (-o.useful, o.day))
     return kept
 
 
@@ -390,7 +433,7 @@ def load_search(path: pathlib.Path) -> list[Observation]:
     result = []
     for r in rows:
         kwargs = dict(r)
-        for k in ("x", "y", "radius", "roll", "exposure"):
+        for k in ("x", "y", "radius", "roll", "exposure", "off_limb"):
             kwargs[k] = float(kwargs[k])
         for k in ("anomaly", "frames", "quiet"):
             kwargs[k] = int(kwargs[k])

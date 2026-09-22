@@ -32,6 +32,8 @@ from ._archive import directory_default, download, read, path
 
 __all__ = [
     "off_limb",
+    "slit_radius",
+    "window_off_limb",
     "length_minimum",
     "slope_maximum",
     "charge_minimum",
@@ -442,21 +444,60 @@ def off_limb(header, shape: tuple[int, int], camera: str) -> np.ndarray:
                 float(header["PC2_1"]) * x + float(header["PC2_2"]) * y
             )
             return np.hypot(lon, lat) > limit
-        # a spectrograph: axis 2 of the header runs along the slit, which is
-        # the row axis of the image, and axis 3 is the other solar coordinate
-        s = np.arange(rows) + 1 - float(header["CRPIX2"])
-        lat = (
-            float(header["CRVAL2"])
-            + float(header["CDELT2"]) * float(header["PC2_2"]) * s
-        )
-        lon = (
-            float(header["CRVAL3"])
-            + float(header["CDELT3"]) * float(header["PC3_2"]) * s
-        )
-        along = np.hypot(lon, lat) > limit
+        along = slit_radius(header, rows) > limit
         return np.broadcast_to(along[:, np.newaxis], shape)
     except (KeyError, TypeError, ValueError):
         return np.ones(shape, dtype=bool)
+
+
+def slit_radius(header, rows: int) -> np.ndarray:
+    """
+    How far from disk center, in arcseconds, each row of a spectrograph
+    image looks, from the pointing in its header.
+
+    Axis 2 of the header runs along the slit, which is the row axis of the
+    image, and axis 3 is the other solar coordinate; the reference pixel is
+    given in the rows of the whole CCD, whichever of them were read out.
+    Checked against the limb brightening of the emission lines along the
+    slit, which the header places within a few rows of where it is seen.
+
+    Parameters
+    ----------
+    header
+        The header of the level-1 image, or any mapping with its
+        ``CRPIX2``, ``CRVAL2``, ``CRVAL3``, ``CDELT2``, ``PC2_2`` and
+        ``PC3_2``.
+    rows
+        How many rows the CCD has.
+    """
+    s = np.arange(rows) + 1 - float(header["CRPIX2"])
+    lat = float(header["CRVAL2"]) + float(header["CDELT2"]) * float(header["PC2_2"]) * s
+    lon = float(header["CRVAL3"]) + float(header["CDELT2"]) * float(header["PC3_2"]) * s
+    return np.hypot(lon, lat)
+
+
+def window_off_limb(header) -> float:
+    """
+    The fraction of the rows read out of a spectrograph image that look at
+    least :data:`_limb_margin` above the photospheric limb, from the
+    keywords the catalog serves for the frame.
+
+    The window read out, ``TSR1`` to ``TER1`` in the rows of the CCD, is
+    often a portion of the slit, and the pointing keywords ``XCEN`` and
+    ``YCEN`` describe the center of the field rather than of that window,
+    so a program whose field center lies beyond the limb can still read
+    out rows on the disk; this is what tells the two apart.
+
+    Parameters
+    ----------
+    header
+        A mapping with ``RSUN_OBS``, ``TSR1``, ``TER1``, and the keywords
+        :func:`slit_radius` reads.
+    """
+    first, last = int(float(header["TSR1"])), int(float(header["TER1"]))
+    radius = slit_radius(header, last)[first - 1 : last]
+    limit = float(header["RSUN_OBS"]) + _limb_margin
+    return float((radius > limit).mean()) if radius.size else 0.0
 
 
 def _mask(
@@ -712,7 +753,7 @@ def _extract_block(
     tracks = []
     components = []
     if config["quiet"] == "quiet" and len(block.quiet) < (
-        60 if block.dataset == "sji" else 100
+        60 if camera == "SJI" else 100
     ):
         if verbose:
             print(

@@ -63,8 +63,9 @@ acknowledgments), and the bibliography.
   the prose, computed from `tracks`. Reference `\variableName` in section strings
   rather than hardcoding a number.
 - **`tracks/`** is the measurement: `_search.py` (one JSOC query per month for the FUV frames
-  inside the anomaly, grouped by program and day, cut on pointing radius, exposure, and
-  frame count, ranked by anomaly-seconds; the HCR is not used, it throttles unpredictably; a campaign absent from
+  inside the anomaly, grouped by program and day, cut on the off-limb fraction of the
+  spectrograph window (from the slit WCS and TSR1/TER1, since XCEN/YCEN is the field center),
+  exposure, and frame count, ranked by off-limb anomaly-seconds; the HCR is not used, it throttles unpredictably; a campaign absent from
   `_extract._config` is processed with `_config_default`), `_select.py` (the `campaigns` table and the JSOC
   catalog query that turns it into the frame list; expanding the dataset means adding
   campaigns there), `_provenance.py` (a fingerprint per campaign over its frame serial

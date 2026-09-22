@@ -75,10 +75,17 @@ datasets = {
         exposure=15,
         image="SJI",
     ),
-    "2013-12-23": dict(
-        date="2013-12-23",
+    "2014-08-20": dict(
+        date="2014-08-20",
         particles="SAA protons",
-        roll=0,
+        roll=-75,
+        exposure=8,
+        image="FUV, NUV, SJI",
+    ),
+    "2014-08-21": dict(
+        date="2014-08-21",
+        particles="SAA protons",
+        roll=-75,
         exposure=8,
         image="FUV, NUV, SJI",
     ),
@@ -89,29 +96,43 @@ datasets = {
         exposure=8,
         image="FUV, NUV, SJI",
     ),
-    "2014-12-26": dict(
-        date="2014-12-26",
+    "2014-08-24": dict(
+        date="2014-08-24",
+        particles="SAA protons",
+        roll=90,
+        exposure=8,
+        image="FUV, NUV, SJI",
+    ),
+    "2014-08-25": dict(
+        date="2014-08-25",
+        particles="SAA protons",
+        roll=90,
+        exposure=8,
+        image="FUV, NUV, SJI",
+    ),
+    "2014-11-02": dict(
+        date="2014-11-02",
         particles="SAA protons",
         roll=0,
         exposure=8,
         image="FUV, NUV, SJI",
     ),
-    "2015-04-05": dict(
-        date="2015-04-05",
+    "2014-11-27": dict(
+        date="2014-11-27",
         particles="SAA protons",
         roll=0,
+        exposure=8,
+        image="FUV, NUV, SJI",
+    ),
+    "2015-03-26": dict(
+        date="2015-03-26",
+        particles="SAA protons",
+        roll=-90,
         exposure=8,
         image="FUV, NUV, SJI",
     ),
     "2015-09-20": dict(
         date="2015-09-20",
-        particles="SAA protons",
-        roll=0,
-        exposure=8,
-        image="FUV, NUV, SJI",
-    ),
-    "2015-10-30": dict(
-        date="2015-10-30",
         particles="SAA protons",
         roll=0,
         exposure=8,
@@ -124,8 +145,15 @@ datasets = {
         exposure=8,
         image="FUV, NUV, SJI",
     ),
-    "2016-05-17": dict(
-        date="2016-05-17",
+    "2016-01-06": dict(
+        date="2016-01-06",
+        particles="SAA protons",
+        roll=0,
+        exposure=8,
+        image="FUV, NUV",
+    ),
+    "2016-05-16": dict(
+        date="2016-05-16",
         particles="SAA protons",
         roll=0,
         exposure=8,
@@ -134,22 +162,22 @@ datasets = {
     "2016-10-28": dict(
         date="2016-10-28", particles="SAA protons", roll=0, exposure=8, image="FUV, NUV"
     ),
-    "2017-10-19": dict(
-        date="2017-10-19",
+    "2016-12-13": dict(
+        date="2016-12-13",
         particles="SAA protons",
         roll=0,
         exposure=8,
         image="FUV, NUV, SJI",
     ),
-    "2018-02-25": dict(
-        date="2018-02-25",
+    "2016-12-17": dict(
+        date="2016-12-17",
         particles="SAA protons",
         roll=0,
         exposure=8,
         image="FUV, NUV, SJI",
     ),
-    "2020-07-01": dict(
-        date="2020-07-01",
+    "2016-12-25": dict(
+        date="2016-12-25",
         particles="SAA protons",
         roll=0,
         exposure=8,

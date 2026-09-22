@@ -73,6 +73,8 @@ from ._search import (
 from ._archive import directory_default, url, path, download, read
 from ._extract import (
     off_limb,
+    slit_radius,
+    window_off_limb,
     length_minimum,
     slope_maximum,
     charge_minimum,
@@ -173,6 +175,8 @@ __all__ = [
     "Image",
     "images",
     "off_limb",
+    "slit_radius",
+    "window_off_limb",
     "core_range",
     "frames_per_camera",
     "export_tracks",
