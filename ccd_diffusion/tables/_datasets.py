@@ -7,6 +7,9 @@ __all__ = [
     "datasets",
 ]
 
+_cameras = {"FUV": "F", "NUV": "N", "SJI": "S"}
+"""One letter per camera, for the cameras column of the table."""
+
 
 def datasets() -> pylatex.Table:
     """The observing campaigns searched for tracks, one row per campaign."""
@@ -18,15 +21,21 @@ def datasets() -> pylatex.Table:
     result.escape = False
     result.append(pylatex.Command("centering"))
     result.add_caption(pylatex.NoEscape(r"""
-The observing campaigns searched for tracks.
-The particle population is inferred from the energy loss of the tracks and
-from whether the frames were taken inside \SAA; the number of frames inside
-\SAA\ is given in parentheses.
+The observing campaigns searched for tracks, with the cameras kept from
+each (F for the far-ultraviolet spectrograph, N for the near-ultraviolet
+one, S for the slit-jaw imager), the spacecraft roll, the exposure time,
+and the number of frames searched, with the number taken inside \SAA\ in
+parentheses.
+The tracks of every campaign but the two marked $\dagger$, whose frames
+were taken outside \SAA, are left by trapped protons; those two hold
+cosmic rays.
 The core tracks are the flat tracks with $0.25 < t_c < 0.6$, over which the
 mean $t_c$ with its standard error and the median $\sigma_\text{max}$ with
 its interquartile range are taken."""))
     result.append(pylatex.Command("label", "tab:datasets"))
     result.append(pylatex.Command("footnotesize"))
+    # ten columns at the default column padding run past the text width
+    result.append(pylatex.NoEscape(r"\setlength{\tabcolsep}{3.5pt}"))
 
     tabular = pylatex.Tabular("llrrrrrrcc", booktabs=False)
     tabular.escape = False
@@ -36,7 +45,7 @@ its interquartile range are taken."""))
             pylatex.NoEscape(s)
             for s in (
                 "date",
-                "particles",
+                "cameras",
                 "roll",
                 "exp. (s)",
                 "frames",
@@ -57,9 +66,15 @@ its interquartile range are taken."""))
             continue
         tc = np.array([f.critical_depth for f in core])
         sm = np.percentile([f.width_max.to_value(u.um) for f in core], [25, 50, 75])
+        date = info["date"]
+        if info["particles"] == "cosmic rays":
+            date += r"$^\dagger$"
+        cameras = "".join(
+            _cameras[c.strip()] for c in info["image"].split(",") if c.strip()
+        )
         row = [
-            f"{info['date']}, {info['image']}",
-            info["particles"],
+            date,
+            cameras,
             f"${info['roll']}^\\circ$",
             f"{info['exposure']}",
             f"{len(mine)} ({sum(f['saa'] == '1' for f in mine)})",

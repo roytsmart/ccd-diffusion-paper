@@ -16,9 +16,6 @@ _chips = {
     "SJI": "black",
 }
 
-_markers = ["D", "s", "^", "v", "o"]
-"""The marker for each dataset in the joint distribution."""
-
 
 def core() -> list["ccd_diffusion.tracks.Fit"]:
     """The flat tracks whose fitted :math:`t_c` lies between 0.25 and 0.6."""
@@ -92,14 +89,14 @@ def parameters() -> aastex.Figure:
         )
         ax_c.scatter(tc, sm, s=3, color=color, alpha=0.4, linewidths=0)
     ax_c.plot(tc_paper, zf, "*", color="tab:red", markersize=9, label="model")
-    import itertools
-
-    for (dataset, info), marker in zip(
-        tracks.datasets.items(), itertools.cycle(_markers)
-    ):
+    # one open circle per campaign; with twenty of them a legend naming each
+    # would cover the panel, and the caption says what they are
+    campaigns = 0
+    for dataset in tracks.datasets:
         subset = [f for f in core() if f.track.dataset == dataset]
         if not subset:
             continue
+        campaigns += 1
         tc = np.array([f.critical_depth for f in subset])
         sm = np.array([f.width_max.to_value(u.um) for f in subset])
         ax_c.errorbar(
@@ -107,19 +104,21 @@ def parameters() -> aastex.Figure:
             sm.mean(),
             xerr=tc.std() / np.sqrt(len(tc)),
             yerr=sm.std() / np.sqrt(len(sm)),
-            fmt=marker,
+            fmt="o",
             color="black",
             markerfacecolor="white",
             markersize=4,
             linewidth=0.8,
-            label=f"{info['date']} ({info['image']})",
+            label=f"campaign means ({campaigns})" if campaigns == 1 else None,
         )
+    handles, labels = ax_c.get_legend_handles_labels()
+    labels = [f"campaign means ({campaigns})" if "campaign" in x else x for x in labels]
     ax_c.set_xlim(0.2, 0.65)
     ax_c.set_ylim(0, 10.5)
     ax_c.set_xlabel("$t_c$")
     ax_c.set_ylabel(r"$\sigma_\mathrm{max}$ ($\mu$m)")
     ax_c.set_title("(c) joint distribution", fontsize=8)
-    ax_c.legend(fontsize=5, loc="lower right")
+    ax_c.legend(handles, labels, fontsize=5, loc="lower right")
 
     result = aastex.Figure("parameters", position="htb!")
     result.add_fig(fig, width=None)
@@ -132,9 +131,10 @@ poorly, sharp or diffuse along most of their length, and they are
 excluded from the shaded core used elsewhere.
 (b) The back-surface width of the core tracks.
 (c) Each core track jittered off the fit grid, colored by \CCD\ as in (a),
-with the mean of each dataset and its standard error as open symbols.
-Two particle populations, two spacecraft rolls, and two cameras agree to
-within a few hundredths in $t_c$, all within 0.04 of the model, and the
-diagonal smear is the degeneracy between $t_c$ and $\sigma_\text{max}$ in
-a single-track fit."""))
+with the mean of each campaign of Table~\ref{tab:datasets} and its
+standard error as an open circle.
+The campaigns, spanning two particle populations, four spacecraft rolls,
+and three cameras, agree to within a few hundredths in $t_c$, all within
+0.04 of the model, and the diagonal smear is the degeneracy between $t_c$
+and $\sigma_\text{max}$ in a single-track fit."""))
     return result
