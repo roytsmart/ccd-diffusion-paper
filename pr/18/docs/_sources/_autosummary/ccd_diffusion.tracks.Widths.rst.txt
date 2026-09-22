@@ -1,0 +1,43 @@
+Widths
+======
+
+.. currentmodule:: ccd_diffusion.tracks
+
+.. autoclass:: ccd_diffusion.tracks.Widths
+    :members:
+    :show-inheritance:
+    :inherited-members:
+    :undoc-members:
+    :member-order: groupwise
+
+    
+    
+    .. rubric:: Attributes
+
+    .. autosummary::
+    
+      ~Widths.chip
+      ~Widths.depth
+      ~Widths.best
+      ~Widths.lower
+      ~Widths.upper
+      ~Widths.fitted
+      ~Widths.model
+    
+    
+
+    
+    
+    .. rubric:: Methods
+
+    .. autosummary::
+    
+      ~Widths.__init__
+    
+    
+
+    
+    .. rubric:: Inheritance Diagram
+
+    .. inheritance-diagram:: ccd_diffusion.tracks.Widths
+    
