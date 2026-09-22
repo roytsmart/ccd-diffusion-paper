@@ -66,10 +66,16 @@ searched by :func:`scan`.
 width_max = na.linspace(0, 10, axis=axis_width_max, num=21) * u.um
 """The grid of back-surface diffusion widths, :math:`\\sigma_\\text{max}`, searched by :func:`scan`."""
 
-width_depleted = na.linspace(0, 3, axis=axis_width_depleted, num=13) * u.um
+width_depleted = (
+    np.round(na.linspace(0, 1.5, axis=axis_width_depleted, num=16), 3) * u.um
+)
 """
 The grid of spreads acquired crossing the full depletion region,
-:math:`\\sigma_d`, searched by :func:`scan`.
+:math:`\\sigma_d`, searched by :func:`scan`: 0 to 1.5 micrometers in steps
+of 0.1, rounded so that a grid value read back from the data files
+compares equal. The pooled misfit of every CCD has its minimum near 0.75
+and climbs steeply on both sides, so the grid covers the answer with room
+to spare, and the step sets the resolution of the pooled value.
 
 Unlike :math:`t_c` and :math:`\\sigma_\\text{max}`, which are fit to each
 track, :math:`\\sigma_d` is a property of the drift field and is shared by
