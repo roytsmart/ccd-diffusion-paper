@@ -22,7 +22,7 @@ every depth of the silicon along its track, so the width of the charge it
 leaves behind maps the lateral diffusion of charge against depth in a single
 exposure. This article uses such tracks, found in level-1 images from the
 Interface Region Imaging Spectrograph (IRIS), to measure the depth-dependent
-charge-diffusion kernel of its three CCDs in orbit, with no laboratory access,
+charge-diffusion kernel of its four CCDs in orbit, with no laboratory access,
 and compares it with the field-free diffusion model used to predict the noise
 of ultraviolet images.
 
@@ -50,7 +50,7 @@ The exploratory analysis behind the article is a notebook,
 `docs/reports/tracks.ipynb`, which is executed and published with the
 documentation. The documentation also holds a browser of every track in
 the package, with its cutout, its fit, and the model evaluated beside it,
-and a gallery of one level-1 frame from each camera of every campaign
+and a gallery of the three level-1 frames from each camera of every campaign
 with the tracks outlined; `python -m ccd_diffusion.tracks browser
 --output DIR` writes what those pages read.
 
@@ -113,9 +113,10 @@ python -m ccd_diffusion.tracks search --stop 2026-09 --output candidates.csv
 
 which asks the catalog, month by month, for every frame taken inside the
 anomaly, groups them by observing program and day, and keeps the ones
-pointed at or beyond the limb with exposures of seconds and enough such
+pointed at or beyond the limb with exposures of 4 to 8 s and enough such
 frames, since the number of tracks scales with the exposed seconds inside
-the anomaly. Which candidates to adopt is still a judgment.
+the anomaly while a longer exposure crowds the frame with hits that spoil
+the tracks around them. Which candidates to adopt is still a judgment.
 
 The images are cached in `~/.cache/ccd_diffusion/iris`, or wherever
 `CCD_DIFFUSION_CACHE` points.

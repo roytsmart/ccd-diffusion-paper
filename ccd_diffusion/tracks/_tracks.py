@@ -44,46 +44,124 @@ fingerprints hash, need not change.
 _directory_data = pathlib.Path(__file__).parent / "data"
 
 datasets = {
-    "2014b": dict(date="2014-03-12", particles="SAA protons", roll=0, image="FUV"),
-    "2014": dict(date="2014-04-07", particles="cosmic rays", roll=0, image="FUV"),
-    "2018": dict(date="2018-03-16", particles="cosmic rays", roll=0, image="FUV"),
-    "2018may": dict(date="2018-05-04", particles="SAA protons", roll=-90, image="FUV"),
-    "sji": dict(date="2018-05-04/06", particles="SAA protons", roll=-90, image="SJI"),
-    "2013-12-27": dict(
-        date="2013-12-27", particles="SAA protons", roll=0, image="FUV, SJI"
+    "2014b": dict(
+        date="2014-03-12",
+        particles="SAA protons",
+        roll=0,
+        exposure=15,
+        image="FUV, NUV",
     ),
-    "2014-04-16": dict(
-        date="2014-04-16", particles="SAA protons", roll=0, image="FUV, SJI"
+    "2014": dict(
+        date="2014-04-07", particles="cosmic rays", roll=0, exposure=4, image="FUV, NUV"
+    ),
+    "2018": dict(
+        date="2018-03-16",
+        particles="cosmic rays",
+        roll=0,
+        exposure=15,
+        image="FUV, NUV",
+    ),
+    "2018may": dict(
+        date="2018-05-04",
+        particles="SAA protons",
+        roll=-90,
+        exposure=15,
+        image="FUV, NUV",
+    ),
+    "sji": dict(
+        date="2018-05-04/06",
+        particles="SAA protons",
+        roll=-90,
+        exposure=15,
+        image="SJI",
+    ),
+    "2013-12-23": dict(
+        date="2013-12-23",
+        particles="SAA protons",
+        roll=0,
+        exposure=8,
+        image="FUV, NUV, SJI",
     ),
     "2014-08-23": dict(
-        date="2014-08-23", particles="SAA protons", roll=90, image="FUV, SJI"
+        date="2014-08-23",
+        particles="SAA protons",
+        roll=90,
+        exposure=8,
+        image="FUV, NUV, SJI",
     ),
-    "2015-01-01": dict(
-        date="2015-01-01", particles="SAA protons", roll=0, image="FUV, SJI"
+    "2014-12-26": dict(
+        date="2014-12-26",
+        particles="SAA protons",
+        roll=0,
+        exposure=8,
+        image="FUV, NUV, SJI",
+    ),
+    "2015-04-05": dict(
+        date="2015-04-05",
+        particles="SAA protons",
+        roll=0,
+        exposure=8,
+        image="FUV, NUV, SJI",
     ),
     "2015-09-20": dict(
-        date="2015-09-20", particles="SAA protons", roll=0, image="FUV, SJI"
+        date="2015-09-20",
+        particles="SAA protons",
+        roll=0,
+        exposure=8,
+        image="FUV, NUV, SJI",
     ),
-    "2015-10-03": dict(
-        date="2015-10-03", particles="SAA protons", roll=0, image="FUV, SJI"
+    "2015-10-30": dict(
+        date="2015-10-30",
+        particles="SAA protons",
+        roll=0,
+        exposure=8,
+        image="FUV, NUV, SJI",
     ),
     "2016-01-02": dict(
-        date="2016-01-02", particles="SAA protons", roll=0, image="FUV, SJI"
+        date="2016-01-02",
+        particles="SAA protons",
+        roll=0,
+        exposure=8,
+        image="FUV, NUV, SJI",
     ),
-    "2016-10-28": dict(date="2016-10-28", particles="SAA protons", roll=0, image="FUV"),
-    "2016-12-13": dict(
-        date="2016-12-13", particles="SAA protons", roll=0, image="FUV, SJI"
+    "2016-05-17": dict(
+        date="2016-05-17",
+        particles="SAA protons",
+        roll=0,
+        exposure=8,
+        image="FUV, NUV, SJI",
     ),
-    "2017-04-15": dict(date="2017-04-15", particles="SAA protons", roll=0, image="FUV"),
-    "2019-11-13": dict(
-        date="2019-11-13", particles="SAA protons", roll=0, image="FUV, SJI"
+    "2016-10-28": dict(
+        date="2016-10-28", particles="SAA protons", roll=0, exposure=8, image="FUV, NUV"
+    ),
+    "2017-10-19": dict(
+        date="2017-10-19",
+        particles="SAA protons",
+        roll=0,
+        exposure=8,
+        image="FUV, NUV, SJI",
+    ),
+    "2018-02-25": dict(
+        date="2018-02-25",
+        particles="SAA protons",
+        roll=0,
+        exposure=8,
+        image="FUV, NUV, SJI",
+    ),
+    "2020-07-01": dict(
+        date="2020-07-01",
+        particles="SAA protons",
+        roll=0,
+        exposure=8,
+        image="FUV, NUV, SJI",
     ),
 }
 """
 The observing campaigns the tracks were found in, in chronological order,
 with the date, the dominant particle population (inferred from the energy
 loss and from whether the frames were taken inside the South Atlantic
-Anomaly), the roll angle of the spacecraft in degrees, and the camera.
+Anomaly), the roll angle of the spacecraft in degrees, the exposure time
+in seconds, and the camera.
 """
 
 

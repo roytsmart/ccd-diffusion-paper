@@ -45,9 +45,9 @@ def url(time: str, image: str) -> str:
     time
         The time of the exposure, ``T_OBS``, as ``YYYY-MM-DDThh:mm:ss.ccZ``.
     image
-        The camera, ``FUV`` or one of the ``SJI_*`` channels.
+        The camera, ``FUV``, ``NUV``, or one of the ``SJI_*`` channels.
     """
-    camera = "fuv" if image == "FUV" else "sji"
+    camera = image.lower() if image in ("FUV", "NUV") else "sji"
     return (
         "https://www.lmsal.com/solarsoft/irisa/data/level1/"
         f"{time[:4]}/{time[5:7]}/{time[8:10]}/H{time[11:13]}00/"

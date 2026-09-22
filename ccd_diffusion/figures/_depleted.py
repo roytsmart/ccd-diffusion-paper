@@ -11,6 +11,7 @@ __all__ = [
 _chips = {
     "FUV1": "tab:orange",
     "FUV2": "tab:blue",
+    "NUV": "tab:green",
     "SJI": "black",
 }
 
@@ -29,6 +30,8 @@ def depleted() -> aastex.Figure:
 
     preferred = {}
     for chip, color in _chips.items():
+        if not tracks.flat(chip):
+            continue
         d = tracks.depleted(chip)
         sd = d.width_depleted.ndarray.to_value(u.um)
         preferred[chip] = [
@@ -64,8 +67,8 @@ def depleted() -> aastex.Figure:
     ax_c.hist(
         list(preferred.values()),
         bins=np.arange(-0.125, 3.2, 0.25),
-        color=list(_chips.values()),
-        label=list(_chips),
+        color=[_chips[c] for c in preferred],
+        label=list(preferred),
         weights=[np.ones(len(p)) / len(p) for p in preferred.values()],
     )
 

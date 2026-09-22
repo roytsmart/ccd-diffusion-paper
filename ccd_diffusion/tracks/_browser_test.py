@@ -13,7 +13,7 @@ def test_export_tracks(tmp_path: pathlib.Path):
     data = json.loads(path.read_text(encoding="utf-8"))
     assert data["num"] == num
     assert data["half_width"] == ccd_diffusion.tracks.half_width
-    assert set(data["width_depleted"]) == {"FUV1", "FUV2", "SJI"}
+    assert set(data["width_depleted"]) == {f.track.chip for f in fits}
     assert data["campaigns"][0] == fits[0].track.dataset
     columns = data["tracks"]
     assert all(len(v) == num for v in columns.values())
@@ -32,10 +32,14 @@ def test_export_tracks(tmp_path: pathlib.Path):
 def test_frame_choices():
     chosen = ccd_diffusion.tracks.frame_choices()
     assert chosen
-    keys = [(f["dataset"], f["image"][:3]) for f in chosen]
-    assert len(keys) == len(set(keys))  # one frame per camera per campaign
     assert all(int(f["tracks"]) > 0 for f in chosen)
-    by_key = {k: f for k, f in zip(keys, chosen)}
+    keys = [(f["dataset"], f["image"][:3]) for f in chosen]
+    for key in set(keys):
+        assert keys.count(key) <= ccd_diffusion.tracks.frames_per_camera
+    one = ccd_diffusion.tracks.frame_choices(num=1)
+    keys_one = [(f["dataset"], f["image"][:3]) for f in one]
+    assert len(keys_one) == len(set(keys_one))  # one frame per camera per campaign
+    by_key = {k: f for k, f in zip(keys_one, one)}
     for f in ccd_diffusion.tracks.frames():
         key = (f["dataset"], f["image"][:3])
         if key in by_key:

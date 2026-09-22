@@ -11,6 +11,7 @@ __all__ = [
 _chips = {
     "FUV1": "tab:orange",
     "FUV2": "tab:blue",
+    "NUV": "tab:green",
     "SJI": "black",
 }
 
@@ -46,6 +47,8 @@ def stacked() -> aastex.Figure:
     ax_a.set_title(f"(a) {len(tracks.flat('FUV2'))} FUV2 tracks stacked", fontsize=8)
 
     for chip, color in _chips.items():
+        if not tracks.flat(chip):
+            continue
         w = tracks.widths(chip)
         best = w.best.ndarray.to_value(u.um)
         yerr = np.stack(

@@ -142,16 +142,18 @@ def test_search(monkeypatch, tmp_path: pathlib.Path):
         + [_frame("2018-05-06T07:00:00.00Z", obsid="disk", x="10", y="10")] * 50
         + [_frame("2018-05-07T07:00:00.00Z", obsid="fast", exp="1.0")] * 50
         + [_frame("2018-05-08T07:00:00.00Z", obsid="few")] * 5
-        + [_frame("2018-05-09T07:00:00.00Z", obsid="long", exp="4.0")] * 500,
+        + [_frame("2018-05-09T07:00:00.00Z", obsid="long", exp="4.0")] * 500
+        + [_frame("2018-05-10T07:00:00.00Z", obsid="slow", exp="30.0")] * 500,
         "2018-06": [],
     }
     monkeypatch.setattr(_search, "anomaly_month", lambda m, cache=None: by_month[m])
     spans = []
     monkeypatch.setattr(_search, "span", lambda o: (spans.append(o.obsid), o)[1])
     result = ccd_diffusion.tracks.search(
-        "2018-05", "2018-06", verbose=False, cache=None
+        "2018-05", "2018-06", exposure_maximum=15, verbose=False, cache=None
     )
-    # the disk pointing, the fast cadence, and the few frames are cut
+    # the disk pointing, the fast cadence, the slow cadence, and the few
+    # frames are cut
     assert [o.obsid for o in result] == ["long", "3620011417"]
     assert sorted(spans) == ["3620011417", "long"]
     assert result[0].seconds == 2000 and result[1].anomaly == 50
@@ -186,12 +188,21 @@ def test_search_roundtrip(tmp_path: pathlib.Path):
 
 
 def test_configuration_default():
-    assert _extract._configuration("sji") is _extract._config["sji"]
+    sji = _extract._configuration("sji")
+    assert sji["mask"] == "limb" and sji["noise_maximum"] == 3
+    assert "camera" not in sji
+    # a hand-tuned campaign's mask applies to the camera it was tuned on
+    assert _extract._configuration("sji", "SJI")["mask"] == "limb"
+    other = _extract._configuration("sji", "NUV")
+    assert other["mask"] == "camera" and other["noise_maximum"] == "camera"
+    assert other["block"] == "channel"
     default = _extract._configuration("2027-something-new")
-    assert default is _extract._config_default
+    assert default == _extract._config_default
     assert default["block"] == "channel" and default["search"] == "saa"
     assert default["noise_maximum"] == "camera" and default["mask"] == "camera"
-    assert _extract._mask_camera == {"FUV": "lines", "SJI": "limb"}
+    assert _extract._mask_camera == {"FUV": "lines", "NUV": "lines", "SJI": "limb"}
+    assert _extract._camera("SJI_2796") == "SJI"
+    assert _extract._camera("NUV") == "NUV" and _extract._camera("FUV") == "FUV"
 
 
 def test_mask_lines_keeps_rows():

@@ -8,7 +8,7 @@ __all__ = [
     "profile",
 ]
 
-_chips = ["FUV1", "FUV2", "SJI"]
+_chips = ["FUV1", "FUV2", "NUV", "SJI"]
 
 
 def profile() -> aastex.Figure:
@@ -16,13 +16,14 @@ def profile() -> aastex.Figure:
     tracks = ccd_diffusion.tracks
     tc_paper, sm_paper = tracks.paper_model()
 
+    chips = [c for c in _chips if tracks.flat(c)]
     fig, ax = plt.subplots(
-        ncols=3,
+        ncols=len(chips),
         figsize=(6.5, 2.3),
         sharey=True,
         constrained_layout=True,
     )
-    for a, chip in zip(ax, _chips):
+    for a, chip in zip(ax, chips):
         p = tracks.profile(chip)
         na.plt.plot(
             p.depth, p.none, ax=a, color="gray", linestyle="--", label="no diffusion"
