@@ -3,6 +3,11 @@ name: docs
 # Build the documentation, with its track browser and frame gallery, and
 # publish it beside the article on GitHub Pages: under docs/ for main and
 # under pr/N/docs/ as a preview of a pull request.
+#
+# The two slow parts depend only on the package's data and the code that
+# reads it, so both are cached on a hash of those: the report notebook,
+# executed once and then used with its outputs, and the browser's exported
+# tracks and frames, which conf.py keeps when their stamp matches.
 on:
   push:
     branches:
@@ -41,6 +46,22 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -e .[doc]
+      - name: Restore the executed report notebook
+        id: notebook
+        uses: actions/cache@v4
+        with:
+          path: docs/reports/tracks.ipynb
+          key: notebook-${{ hashFiles('docs/reports/tracks.ipynb', 'ccd_diffusion/tracks/**', 'ccd_diffusion/_ccd.py', 'pyproject.toml') }}
+      - name: Execute the report notebook
+        if: steps.notebook.outputs.cache-hit != 'true'
+        # the executed copy, with its outputs, is what the cache keeps; the
+        # build then uses it as it is (nbsphinx_execute = 'auto')
+        run: python -m nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=-1 docs/reports/tracks.ipynb
+      - name: Restore the exported tracks and frames
+        uses: actions/cache@v4
+        with:
+          path: docs/_static/browser
+          key: browser-${{ hashFiles('ccd_diffusion/tracks/**') }}
       - name: Build the documentation
         # with MPLBACKEND set to agg the notebook's kernel would draw nothing
         # inline and the report would lose every figure without a warning

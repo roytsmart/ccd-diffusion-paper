@@ -87,8 +87,11 @@ acknowledgments), and the bibliography.
   fingerprint is current, and a `merge` job (which runs even if a campaign failed) joins,
   fits, and opens a pull request. Nothing is cached; the cutouts in the repo are the
   cache. Prefer it to running `extract` locally.
-- **`docs/reports/tracks.ipynb`** is the exploratory notebook, executed by nbsphinx on
-  every documentation build; its text cells are raw reStructuredText.
+- **`docs/reports/tracks.ipynb`** is the exploratory notebook, executed during the
+  documentation build unless it already holds outputs (`nbsphinx_execute = 'auto'`);
+  the `docs` workflow caches an executed copy, and the browser export under
+  `docs/_static/browser/`, on a hash of `ccd_diffusion/tracks/**`, and `conf.py`
+  keeps the export when its stamp matches. Its text cells are raw reStructuredText.
 - **`docs/browser.rst`** and **`docs/frames.rst`** are the track browser and the frame
   gallery: static pages drawn by `docs/_static/browser.js` from files `docs/conf.py`
   writes at build time under `docs/_static/browser/` (ignored by git) via

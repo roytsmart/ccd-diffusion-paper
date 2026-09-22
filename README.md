@@ -140,7 +140,11 @@ needs no personal token.
 
 The `docs` workflow builds the documentation on every push and pull
 request and publishes it beside the article on GitHub Pages, under
-`docs/` for `main` and `pr/N/docs/` as a preview.
+`docs/` for `main` and `pr/N/docs/` as a preview. The two slow parts,
+the report notebook and the browser's exported tracks and frames, depend
+only on the package's data and the code that reads it, so the workflow
+caches both on a hash of those and a build that changes neither takes a
+few minutes.
 
 Formatting and linting, both enforced in CI:
 
