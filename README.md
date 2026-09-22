@@ -113,10 +113,13 @@ python -m ccd_diffusion.tracks search --stop 2026-09 --output candidates.csv
 
 which asks the catalog, month by month, for every frame taken inside the
 anomaly, groups them by observing program and day, and keeps the ones
-pointed at or beyond the limb with exposures of 4 to 8 s and enough such
-frames, since the number of tracks scales with the exposed seconds inside
-the anomaly while a longer exposure crowds the frame with hits that spoil
-the tracks around them. Which candidates to adopt is still a judgment.
+whose spectrograph window mostly looks off the limb (the pointing
+keywords give the center of the field, and a program pointed beyond the
+limb can still read out rows on the disk, so the window's own coordinates
+decide), with exposures of 4 to 8 s and enough such frames, ranked by the
+exposed seconds inside the anomaly on the part of the slit off the limb,
+since a longer exposure crowds the frame with hits that spoil the tracks
+around them. Which candidates to adopt is still a judgment.
 
 The images are cached in `~/.cache/ccd_diffusion/iris`, or wherever
 `CCD_DIFFUSION_CACHE` points.

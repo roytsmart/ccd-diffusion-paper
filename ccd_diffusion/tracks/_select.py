@@ -118,11 +118,17 @@ campaigns = {
         images=("SJI_1400", "SJI_2796"),
         stride=4,
     ),
-    "2013-12-23": Campaign(
-        windows=(("2013.12.23_17:39:42Z", "2013.12.23_23:13:34Z"),),
+    "2014-08-20": Campaign(
+        windows=(("2014.08.20_07:54:50Z", "2014.08.20_10:30:52Z"),),
         images=("FUV", "NUV", "SJI_1400", "SJI_2796"),
+        stride=5,
+        obsid="3820009453",
+    ),
+    "2014-08-21": Campaign(
+        windows=(("2014.08.21_07:44:33Z", "2014.08.21_10:54:52Z"),),
+        images=("FUV", "NUV", "SJI_1330", "SJI_1400"),
         stride=6,
-        obsid="3820009492",
+        obsid="3820009253",
     ),
     "2014-08-23": Campaign(
         windows=(("2014.08.23_07:54:33Z", "2014.08.23_10:03:52Z"),),
@@ -130,17 +136,35 @@ campaigns = {
         stride=2,
         obsid="3820009453",
     ),
-    "2014-12-26": Campaign(
-        windows=(("2014.12.26_00:33:53Z", "2014.12.26_16:08:14Z"),),
-        images=("FUV", "NUV", "SJI_1330", "SJI_2796"),
-        stride=14,
-        obsid="3880009380",
-    ),
-    "2015-04-05": Campaign(
-        windows=(("2015.04.05_17:51:15Z", "2015.04.05_23:50:57Z"),),
+    "2014-08-24": Campaign(
+        windows=(("2014.08.24_08:08:08Z", "2014.08.24_10:27:52Z"),),
         images=("FUV", "NUV", "SJI_1330", "SJI_1400"),
-        stride=15,
-        obsid="3860009280",
+        stride=4,
+        obsid="3820009253",
+    ),
+    "2014-08-25": Campaign(
+        windows=(("2014.08.25_07:46:44Z", "2014.08.25_10:30:00Z"),),
+        images=("FUV", "NUV", "SJI_1400", "SJI_2796"),
+        stride=6,
+        obsid="3820009453",
+    ),
+    "2014-11-02": Campaign(
+        windows=(("2014.11.02_09:03:04Z", "2014.11.02_12:16:39Z"),),
+        images=("FUV", "NUV", "SJI_1330", "SJI_2796"),
+        stride=4,
+        obsid="3820009377",
+    ),
+    "2014-11-27": Campaign(
+        windows=(("2014.11.27_13:59:30Z", "2014.11.27_19:05:22Z"),),
+        images=("FUV", "NUV", "SJI_1330", "SJI_1400", "SJI_2796"),
+        stride=4,
+        obsid="3860009154",
+    ),
+    "2015-03-26": Campaign(
+        windows=(("2015.03.26_10:04:13Z", "2015.03.26_13:29:09Z"),),
+        images=("FUV", "NUV", "SJI_1330", "SJI_2796"),
+        stride=9,
+        obsid="3820009359",
     ),
     "2015-09-20": Campaign(
         windows=(("2015.09.20_07:39:15Z", "2015.09.20_10:48:51Z"),),
@@ -148,22 +172,22 @@ campaigns = {
         stride=6,
         obsid="3623008713",
     ),
-    "2015-10-30": Campaign(
-        windows=(("2015.10.30_00:00:01Z", "2015.10.30_19:01:19Z"),),
-        images=("FUV", "NUV", "SJI_1330", "SJI_1400", "SJI_2796", "SJI_2832"),
-        stride=15,
-        obsid="3660008003",
-    ),
     "2016-01-02": Campaign(
         windows=(("2016.01.02_05:38:25Z", "2016.01.02_11:21:13Z"),),
         images=("FUV", "NUV", "SJI_1330", "SJI_1400", "SJI_2796", "SJI_2832"),
         stride=1,
         obsid="3620008076",
     ),
-    "2016-05-17": Campaign(
-        windows=(("2016.05.17_07:39:15Z", "2016.05.17_12:32:37Z"),),
+    "2016-01-06": Campaign(
+        windows=(("2016.01.06_18:29:15Z", "2016.01.06_19:20:03Z"),),
+        images=("FUV", "NUV"),
+        stride=1,
+        obsid="3620008076",
+    ),
+    "2016-05-16": Campaign(
+        windows=(("2016.05.16_07:31:33Z", "2016.05.16_12:01:05Z"),),
         images=("FUV", "NUV", "SJI_1400", "SJI_2796"),
-        stride=11,
+        stride=10,
         obsid="3640008423",
     ),
     "2016-10-28": Campaign(
@@ -175,23 +199,23 @@ campaigns = {
         stride=3,
         obsid="3640009123",
     ),
-    "2017-10-19": Campaign(
-        windows=(("2017.10.19_19:33:50Z", "2017.10.19_22:43:46Z"),),
+    "2016-12-13": Campaign(
+        windows=(("2016.12.13_12:56:13Z", "2016.12.13_20:17:11Z"),),
         images=("FUV", "NUV", "SJI_1330", "SJI_1400", "SJI_2796", "SJI_2832"),
-        stride=3,
-        obsid="3640008059",
+        stride=6,
+        obsid="3620008063",
     ),
-    "2018-02-25": Campaign(
-        windows=(("2018.02.25_05:12:12Z", "2018.02.25_09:18:00Z"),),
+    "2016-12-17": Campaign(
+        windows=(("2016.12.17_12:47:13Z", "2016.12.17_16:07:05Z"),),
         images=("FUV", "NUV", "SJI_1330", "SJI_1400", "SJI_2796", "SJI_2832"),
-        stride=5,
-        obsid="3640008059",
+        stride=2,
+        obsid="3620008063",
     ),
-    "2020-07-01": Campaign(
-        windows=(("2020.07.01_06:52:33Z", "2020.07.01_13:00:52Z"),),
-        images=("FUV", "NUV", "SJI_1400", "SJI_2796"),
-        stride=12,
-        obsid="3600008435",
+    "2016-12-25": Campaign(
+        windows=(("2016.12.25_12:52:15Z", "2016.12.25_19:48:40Z"),),
+        images=("FUV", "NUV", "SJI_1330", "SJI_1400", "SJI_2796", "SJI_2832"),
+        stride=6,
+        obsid="3630008064",
     ),
 }
 """
@@ -200,17 +224,19 @@ The observing campaigns searched for tracks, keyed as
 about each of them.
 
 The first five are the campaigns of the original measurement. The rest
-were chosen by ``python -m ccd_diffusion.tracks search`` on 2026-09-21 for
-the good tracks they should yield per frame fetched, among programs read
-at full resolution with 8 s exposures, at most three program-days from any
-one year, with the frames outside the anomaly
-strided to leave about 130 per spectrograph camera and at least 60 per
-slit-jaw channel for the background. Exposures of 15 s, which the search
-first allowed, crowd the frame with hits that spoil the tracks around them:
-per anomaly frame they yielded half the flat tracks of the 8 s campaigns,
-and two thirds of their tracks failed the cuts of the article against one
-half. A slit-jaw channel with too few frames outside the anomaly for its
-background at the campaign's stride is left out.
+were chosen by ``python -m ccd_diffusion.tracks search`` on 2026-09-22
+among programs read at full resolution with 8 s exposures, since a longer
+exposure crowds the frame with hits that spoil the tracks around them,
+whose spectrograph window looks at least half off the limb, where tracks
+are sought (the pointing keywords give the center of the field, and a
+program pointed beyond the limb can still read out a window of the slit
+that lies on the disk), and with at least sixty frames inside the anomaly.
+The mission holds only fourteen such program-days, so all but the
+shortest are taken, and four limb pointings chosen before the window was
+checked stay for the tracks they yield off the limb. The frames outside
+the anomaly are strided to leave about 130 per spectrograph camera and at
+least 60 per slit-jaw channel for the background; a slit-jaw channel with
+too few is left out.
 """
 
 

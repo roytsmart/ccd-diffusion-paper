@@ -322,6 +322,29 @@ def test_off_limb_slit_jaw():
     assert result[:, 0].sum() < result.shape[0]
 
 
+def test_window_off_limb():
+    # a slit along solar y through x = 954 at row 488; the window read out
+    # is rows 189 to 908, and rows above about 693 and below 194 of it look
+    # more than 15 arcseconds beyond a 940 arcsecond limb
+    header = dict(
+        RSUN_OBS="940.0",
+        CRPIX2="487.92",
+        CRVAL2="7.2",
+        CRVAL3="954.1",
+        CDELT2="0.16632",
+        PC2_2="1.0",
+        PC3_2="0.0",
+        TSR1="189",
+        TER1="908",
+    )
+    fraction = ccd_diffusion.tracks.window_off_limb(header)
+    assert abs(fraction - 222 / 720) < 0.01
+    # the same slit read out only on the disk side of the pointing
+    assert ccd_diffusion.tracks.window_off_limb({**header, "TER1": "500"}) < 0.05
+    # a window entirely beyond the limb
+    assert ccd_diffusion.tracks.window_off_limb({**header, "CRVAL3": "1100"}) == 1.0
+
+
 def test_off_limb_without_pointing():
     header = _header(EXPTIME=4.0)
     assert ccd_diffusion.tracks.off_limb(header, (10, 20), "FUV").all()

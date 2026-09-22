@@ -32,7 +32,15 @@ def _frame(
     rot="-90.0",
     spat="1",
     sptrl="1",
+    crval2="7.2",
+    crval3="975.0",
+    tsr="189",
+    ter="908",
 ):
+    # a slit along solar y through (crval3, crval2) at row 488, with 720
+    # of its 1096 rows read out; at the default pointing the whole window
+    # looks more than 15 arcseconds beyond a 940 arcsecond limb, and at
+    # crval3 954.1 about a third of it does
     return dict(
         T_OBS=t,
         ISQOLTID=obsid,
@@ -42,6 +50,15 @@ def _frame(
         SAT_ROT=rot,
         SUMSPAT=spat,
         SUMSPTRL=sptrl,
+        RSUN_OBS="940.0",
+        CRPIX2="487.92",
+        CRVAL2=crval2,
+        CRVAL3=crval3,
+        CDELT2="0.16632",
+        PC2_2="1.0",
+        PC3_2="0.0",
+        TSR1=tsr,
+        TER1=ter,
     )
 
 
@@ -84,11 +101,19 @@ def test_anomaly_month_empty(monkeypatch, tmp_path: pathlib.Path):
 
 def test_runs():
     rows = [
-        _frame("2018-05-04T07:00:00.00Z"),
-        _frame("2018-05-04T08:00:00.00Z", x="960.0"),
-        _frame("2018-05-04T09:00:00.00Z", x="948.0", exp="bad"),
+        _frame("2018-05-04T07:00:00.00Z", crval3="954.1"),
+        _frame("2018-05-04T08:00:00.00Z", x="960.0", crval3="954.1"),
+        _frame("2018-05-04T09:00:00.00Z", x="948.0", exp="bad", crval3="954.1"),
         _frame("2018-05-05T07:00:00.00Z"),
-        _frame("2018-05-04T07:30:00.00Z", obsid="1", x="0", y="0", exp="4.0", rot="0"),
+        _frame(
+            "2018-05-04T07:30:00.00Z",
+            obsid="1",
+            x="0",
+            y="0",
+            exp="4.0",
+            rot="0",
+            crval3="0",
+        ),
     ]
     result = ccd_diffusion.tracks.runs(rows)
     assert [(o.obsid, o.day, o.anomaly) for o in result] == [
@@ -101,6 +126,11 @@ def test_runs():
     assert abs(o.radius - (954.1**2 + 7.2**2) ** 0.5) < 1e-9
     assert o.seconds == 3 * 14.999
     assert o.hours == 0.0 and o.start == ""
+    # of the 720 rows read out, those above about 693 and below 194 look
+    # beyond 955 arcseconds
+    assert abs(o.off_limb - 222 / 720) < 0.01
+    assert abs(o.useful - o.seconds * o.off_limb) < 1e-9
+    assert result[0].off_limb == 0.0
 
 
 def test_span(monkeypatch):
@@ -143,7 +173,8 @@ def test_search(monkeypatch, tmp_path: pathlib.Path):
         + [_frame("2018-05-07T07:00:00.00Z", obsid="fast", exp="1.0")] * 50
         + [_frame("2018-05-08T07:00:00.00Z", obsid="few")] * 5
         + [_frame("2018-05-09T07:00:00.00Z", obsid="long", exp="4.0")] * 500
-        + [_frame("2018-05-10T07:00:00.00Z", obsid="slow", exp="30.0")] * 500,
+        + [_frame("2018-05-10T07:00:00.00Z", obsid="slow", exp="30.0")] * 500
+        + [_frame("2018-05-11T07:00:00.00Z", obsid="window", crval3="900")] * 500,
         "2018-06": [],
     }
     monkeypatch.setattr(_search, "anomaly_month", lambda m, cache=None: by_month[m])
@@ -152,8 +183,8 @@ def test_search(monkeypatch, tmp_path: pathlib.Path):
     result = ccd_diffusion.tracks.search(
         "2018-05", "2018-06", exposure_maximum=15, verbose=False, cache=None
     )
-    # the disk pointing, the fast cadence, the slow cadence, and the few
-    # frames are cut
+    # the disk pointing, the fast cadence, the slow cadence, the few frames,
+    # and the window read out on the disk of a limb pointing are cut
     assert [o.obsid for o in result] == ["long", "3620011417"]
     assert sorted(spans) == ["3620011417", "long"]
     assert result[0].seconds == 2000 and result[1].anomaly == 50
@@ -174,6 +205,7 @@ def test_search_roundtrip(tmp_path: pathlib.Path):
             "2018-05-04T11:58:42.36Z",
             1040,
             903,
+            0.37,
         ),
         _search.Observation("1", "2018-05-05", 0, 0, 0, 0, 4, 30),
     ]
@@ -183,6 +215,8 @@ def test_search_roundtrip(tmp_path: pathlib.Path):
     a = loaded[0]
     assert a.anomaly == 137 and a.quiet == 903 and a.exposure == 15 and a.roll == -90
     assert a.seconds == 137 * 15 and abs(a.hours - 4.77) < 0.01
+    assert a.off_limb == 0.37 and abs(a.useful - 137 * 15 * 0.37) < 1e-9
+    assert loaded[1].off_limb == 1.0
     assert a.window == ("2018.05.04_07:12:25Z", "2018.05.04_11:58:42Z")
     assert loaded[1].start == "" and loaded[1].hours == 0.0
 
