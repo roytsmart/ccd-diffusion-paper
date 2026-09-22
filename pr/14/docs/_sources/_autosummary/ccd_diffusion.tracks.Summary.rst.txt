@@ -1,0 +1,49 @@
+Summary
+=======
+
+.. currentmodule:: ccd_diffusion.tracks
+
+.. autoclass:: ccd_diffusion.tracks.Summary
+    :members:
+    :show-inheritance:
+    :inherited-members:
+    :undoc-members:
+    :member-order: groupwise
+
+    
+    
+    .. rubric:: Attributes
+
+    .. autosummary::
+    
+      ~Summary.same_pixel
+      ~Summary.same_pixel_error
+      ~Summary.same_pixel_paper
+      ~Summary.chip
+      ~Summary.num_tracks
+      ~Summary.num_flat
+      ~Summary.width_depleted
+      ~Summary.critical_depth
+      ~Summary.critical_depth_error
+      ~Summary.width_max
+      ~Summary.same_pixel_1d
+      ~Summary.same_pixel_1d_error
+      ~Summary.same_pixel_paper_1d
+    
+    
+
+    
+    
+    .. rubric:: Methods
+
+    .. autosummary::
+    
+      ~Summary.__init__
+    
+    
+
+    
+    .. rubric:: Inheritance Diagram
+
+    .. inheritance-diagram:: ccd_diffusion.tracks.Summary
+    
