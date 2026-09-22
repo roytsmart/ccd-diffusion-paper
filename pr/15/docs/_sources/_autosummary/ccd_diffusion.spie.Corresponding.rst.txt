@@ -1,0 +1,49 @@
+Corresponding
+=============
+
+.. currentmodule:: ccd_diffusion.spie
+
+.. autoclass:: ccd_diffusion.spie.Corresponding
+    :members:
+    :show-inheritance:
+    :inherited-members:
+    :undoc-members:
+    :member-order: groupwise
+
+    
+    
+    .. rubric:: Attributes
+
+    .. autosummary::
+    
+      ~Corresponding.begin_paragraph
+      ~Corresponding.end_paragraph
+      ~Corresponding.escape
+      ~Corresponding.latex_name
+      ~Corresponding.packages
+      ~Corresponding.separate_paragraph
+      ~Corresponding.author
+    
+    
+
+    
+    
+    .. rubric:: Methods
+
+    .. autosummary::
+    
+      ~Corresponding.__init__
+      ~Corresponding.dump
+      ~Corresponding.dump_packages
+      ~Corresponding.dumps
+      ~Corresponding.dumps_as_content
+      ~Corresponding.dumps_packages
+      ~Corresponding.generate_tex
+    
+    
+
+    
+    .. rubric:: Inheritance Diagram
+
+    .. inheritance-diagram:: ccd_diffusion.spie.Corresponding
+    
