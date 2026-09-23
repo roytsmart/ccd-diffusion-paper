@@ -492,27 +492,31 @@
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">nm</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nm</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"wavelength (nm)"</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"rms diffusion width ($\mu$m)"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"diffusion width $\sigma$ ($\mu$m)"</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"lower left"</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="n">result</span> <span class="o">=</span> <span class="n">aastex</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="s2">"wavelength"</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s2">"htb!"</span><span class="p">)</span>
     <span class="n">result</span><span class="o">.</span><span class="n">add_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
     <span class="n">result</span><span class="o">.</span><span class="n">add_caption</span><span class="p">(</span><span class="n">aastex</span><span class="o">.</span><span class="n">NoEscape</span><span class="p">(</span><span class="sa">r</span><span class="s2">"""</span>
-<span class="s2">The measurement as an instrument designer needs it: the width of the</span>
-<span class="s2">charge cloud of a photon against its wavelength, from soft X-rays to the</span>
-<span class="s2">band gap of silicon.</span>
-<span class="s2">A photon is absorbed at a depth drawn from the exponential with the</span>
+<span class="s2">The width of the charge cloud a photon leaves in each \CCD, against the</span>
+<span class="s2">wavelength of the photon.</span>
+<span class="s2">The width is the standard deviation of the cloud.</span>
+<span class="s2">A photon is absorbed at a random depth, exponentially distributed with the</span>
 <span class="s2">absorption length of silicon (dotted, from the tabulated optical constants</span>
-<span class="s2">\cite{Palik1985,Henke1993}), among the photons absorbed within the</span>
-<span class="s2">\thickness\ $\mu$m thickness, and the root mean square of the model-free</span>
-<span class="s2">width of Figure~\ref{fig:stacked}b, held at the value of its first bin up</span>
-<span class="s2">to the back surface, is taken over that depth.</span>
-<span class="s2">From 30 to 350 nm the absorption length is under 10 nm, so the whole</span>
-<span class="s2">ultraviolet sees the back-surface width of Table~\ref{tab:tracks};</span>
-<span class="s2">through the visible, and again in the soft X-rays, the photons reach the</span>
-<span class="s2">depletion region and the cloud narrows; and near the band gap the sensor</span>
-<span class="s2">is nearly transparent and the few photons absorbed are spread through its</span>
-<span class="s2">thickness."""</span><span class="p">))</span>
+<span class="s2">\cite{Palik1985,Henke1993}), and the charge it liberates spreads by the</span>
+<span class="s2">width measured at that depth in Figure~\ref{fig:stacked}b, held at the</span>
+<span class="s2">value of its first bin up to the back surface.</span>
+<span class="s2">The curve is the standard deviation of the cloud that results, which is the</span>
+<span class="s2">square root of the squared width averaged over depth, weighted by the</span>
+<span class="s2">fraction of photons absorbed at each depth; photons that pass through the</span>
+<span class="s2">\thickness\ $\mu$m of silicon are not counted.</span>
+<span class="s2">Between 30 and 350 nm every photon is absorbed within 10 nm of the back</span>
+<span class="s2">surface, and the cloud has the back-surface width of</span>
+<span class="s2">Table~\ref{tab:tracks}.</span>
+<span class="s2">In the visible and in the soft X-rays the photons penetrate to the</span>
+<span class="s2">depletion region and the cloud narrows.</span>
+<span class="s2">Near the band gap silicon is nearly transparent, and the few photons</span>
+<span class="s2">absorbed are spread through its thickness."""</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">result</span></div>
 
 </pre></div>
