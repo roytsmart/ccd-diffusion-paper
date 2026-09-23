@@ -23,6 +23,7 @@ figures
       depleted
       gallery
       azimuth
+      wavelength
     
     
 

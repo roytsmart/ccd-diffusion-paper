@@ -385,6 +385,7 @@
                   
   <h1>Source code for ccd_diffusion.sections._s4_discussion</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">aastex</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ccd_diffusion</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">"discussion"</span><span class="p">,</span>
@@ -420,6 +421,19 @@
 <span class="s2">bias; the same measurement on \AIA\ \CCD</span><span class="si">{}</span><span class="s2">s, which are of the same</span>
 <span class="s2">design, would show whether such variation is common.</span>
 
+<span class="s2">Figure~\ref{fig:wavelength} turns the kernel into the quantity an</span>
+<span class="s2">instrument designer needs, the width of the charge cloud of a photon, by</span>
+<span class="s2">averaging it over the depth at which a photon of each wavelength is</span>
+<span class="s2">absorbed in silicon.</span>
+<span class="s2">Across the whole ultraviolet the absorption length is under 10 nm, so</span>
+<span class="s2">every photon sees the back-surface width of Table~\ref{tab:tracks}, a</span>
+<span class="s2">charge cloud 4 to 5 $\mu$m wide depending on the \CCD.</span>
+<span class="s2">Only in the visible and the soft X-rays, where photons reach the</span>
+<span class="s2">depletion region, does the cloud narrow, and near the band gap the sensor</span>
+<span class="s2">is nearly transparent.</span>
+<span class="s2">The spread between the four \CCD</span><span class="si">{}</span><span class="s2">s is the spread a designer should</span>
+<span class="s2">expect between sensors of one design.</span>
+
 <span class="s2">Two systematics deserve comment.</span>
 <span class="s2">First, the tracks are left by protons that deposit thousands of electrons</span>
 <span class="s2">per row, whereas a \UV\ photon liberates one to three.</span>
@@ -436,6 +450,7 @@
 <span class="s2">The agreement between the model-free and parametric profiles, and between</span>
 <span class="s2">campaigns, suggests such tracks are rare, but a validation on synthetic</span>
 <span class="s2">tracks injected into real frames is the way to bound it."""</span><span class="p">)</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ccd_diffusion</span><span class="o">.</span><span class="n">figures</span><span class="o">.</span><span class="n">wavelength</span><span class="p">())</span>
     <span class="k">return</span> <span class="n">result</span></div>
 
 </pre></div>
