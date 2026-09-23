@@ -1,6 +1,0 @@
-ccd\_diffusion.spie.path\_class
-===============================
-
-.. currentmodule:: ccd_diffusion.spie
-
-.. autodata:: path_class
