@@ -9,15 +9,13 @@ def discussion() -> aastex.Section:
     result = aastex.Section("Discussion", label="sec:discussion")
     result.escape = False
     result.append(r"""
-At the back surface, where \UV\ photons are absorbed, the tracks confirm the
-field-free model on the \SJI\ and \FUV{}2 \CCD{}s: the same-pixel
-probability of $\sjiSamePixel \pm \sjiSamePixelError$ on \SJI\ matches the
-\sjiSamePixelModel\ predicted from the depletion thickness of the model,
-which is the quantity the companion noise model needs.
-On the \NUV\ and \FUV{}1 \CCD{}s the cloud is narrower than the model,
-by a little and by a lot.
+At the back surface, where \UV\ photons are absorbed, the tracks give the
+kernel directly: on \SJI\ the field-free layer is \sjiCriticalDepth\ of
+the thickness, the cloud is \sjiWidthMax\ $\mu$m wide, and the same-pixel
+probability is $\sjiSamePixel \pm \sjiSamePixelError$, the quantity that
+enters the variance of a \UV\ image.
 Deeper in the sensor the tracks see a spread of under a micron,
-$\sigma_d$, that the field-free model neglects.
+$\sigma_d$, that a purely field-free kernel would neglect.
 It is about what the drift-time diffusion across the depleted thickness
 plus the micron-scale ionization column of the track itself should give,
 and it is small compared with the back-surface spread, so it has little
@@ -25,8 +23,6 @@ effect on \UV\ imaging.
 It cannot be left out of the fit, though: without it the wedge stretches
 to absorb the floor and $t_c$ comes out too large, which is why
 Equation~\ref{eq:width} carries it from the start.
-With it, the fitted $t_c$ of $\sjiCriticalDepth \pm \sjiCriticalDepthError$
-on \SJI\ is to be compared with the model's \modelCriticalDepth.
 
 The \FUV{}1 \CCD\ is narrower than the other three, at the back surface
 and in the fitted $\sigma_\text{max}$ alike, and \NUV\ sits between it and

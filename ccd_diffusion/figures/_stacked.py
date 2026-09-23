@@ -24,8 +24,6 @@ def stacked() -> aastex.Figure:
     per-track fits.
     """
     tracks = ccd_diffusion.tracks
-    tc_paper, sm_paper = tracks.paper_model()
-    D = ccd_diffusion.ccd().thickness_substrate.to_value(u.um)
 
     fig, ax = plt.subplots(
         ncols=2,
@@ -79,21 +77,12 @@ def stacked() -> aastex.Figure:
             color=color,
             linewidth=0.8,
         )
-    reference = tracks.widths("SJI")
-    ax_b.plot(
-        reference.depth.ndarray,
-        reference.model.ndarray.to_value(u.um),
-        color="tab:red",
-        linestyle="--",
-        label=rf"model, $z_f={sm_paper.to_value(u.um):.2f}$ $\mu$m, $D={D:.0f}$ $\mu$m",
-    )
-    ax_b.axvline(tc_paper, color="gray", linestyle=":", linewidth=0.8)
     ax_b.set_xlabel("$t = z / D$")
     ax_b.set_ylabel(r"diffusion width $\sigma$ ($\mu$m)")
     ax_b.set_ylim(0, 8)
     ax_b.set_title(r"(b) $\sigma(t)$ from the slices and the fits", fontsize=8)
     handles, labels = ax_b.get_legend_handles_labels()
-    fig.legend(handles, labels, loc="outside lower center", ncol=3, fontsize=6)
+    fig.legend(handles, labels, loc="outside lower center", ncol=4, fontsize=6)
 
     result = aastex.Figure("stacked", position="htb!")
     result.add_fig(fig, width=None)
@@ -109,7 +98,6 @@ and minimizing, with no parametric model of the depth dependence; the
 error bars span the widths within two units of misfit of the minimum.
 Lines: the average of the per-track fits of Equation~\ref{eq:width} on the
 same \CCD, which reproduces the model-free profile at every depth,
-including the floor of a few tenths of a micron beyond $t_c$ (dotted)
-that the $\sigma_d$ term supplies and the dashed field-free model sets to
-zero."""))
+including the floor of a few tenths of a micron beyond $t_c$ that the
+$\sigma_d$ term supplies."""))
     return result

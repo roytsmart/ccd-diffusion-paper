@@ -21,12 +21,14 @@ images taken mostly inside the South Atlantic Anomaly.
 The width of the charge cloud at the back surface, the depth at which the
 field-free layer ends, the spread acquired drifting across the depletion
 region, and the probability that two electrons deposited at the same depth
-are collected in the same pixel are measured directly and compared with a
-field-free diffusion model.
-On the Slit-Jaw Imager the same-pixel probability at the back surface is
-$\sjiSamePixel \pm \sjiSamePixelError$, against \sjiSamePixelModel\ from the
-model, and the tracks require a spread of \widthDepletedSji\ $\mu$m inside
-the depletion region, which the field-free model neglects.
+are collected in the same pixel are measured directly on each sensor.
+The field-free layer ends at \sjiCriticalDepth\ of the thickness on the
+Slit-Jaw Imager, where the cloud at the back surface is \sjiWidthMax\
+$\mu$m wide and the same-pixel probability is $\sjiSamePixel \pm
+\sjiSamePixelError$, and the tracks require a further spread of
+\widthDepletedSji\ $\mu$m inside the depletion region.
+The four sensors, of one design, differ by a fifth in the width of the
+cloud at the back surface.
 The method needs no laboratory access and applies to any back-illuminated
 sensor in orbit.
 \acresetall""")

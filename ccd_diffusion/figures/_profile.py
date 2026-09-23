@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import astropy.units as u
 import named_arrays as na
 import aastex
 import ccd_diffusion
@@ -14,7 +13,6 @@ _chips = ["FUV1", "FUV2", "NUV", "SJI"]
 def profile() -> aastex.Figure:
     """The same-column probability against depth on each CCD."""
     tracks = ccd_diffusion.tracks
-    tc_paper, sm_paper = tracks.paper_model()
 
     chips = [c for c in _chips if tracks.flat(c)]
     fig, ax = plt.subplots(
@@ -27,13 +25,6 @@ def profile() -> aastex.Figure:
         p = tracks.profile(chip)
         na.plt.plot(
             p.depth, p.none, ax=a, color="gray", linestyle="--", label="no diffusion"
-        )
-        na.plt.plot(
-            p.depth,
-            p.paper,
-            ax=a,
-            color="tab:red",
-            label=rf"model, $z_f = {sm_paper.to_value(u.um):.2f}$ $\mu$m",
         )
         na.plt.plot(p.depth, p.fitted, ax=a, color="tab:blue", label="per-track fits")
         a.errorbar(
@@ -59,14 +50,11 @@ def profile() -> aastex.Figure:
 The probability that two electrons deposited in the same slice are
 collected in the same column, averaged over the flat tracks on each \CCD\
 in bins of fractional depth, with the standard error of each mean.
-The red line is the field-free model, Equation~\ref{eq:width} with
-$t_c = \modelCriticalDepth$ and $\sigma_\text{max} = \modelWidthMax$
-$\mu$m, evaluated at the fitted centerline of each track and averaged in
-the same bins; the blue line is the same for each track's own fit; and the
+The blue line is Equation~\ref{eq:width} at each track's own fit,
+evaluated at the fitted centerline and averaged in the same bins, and the
 dashed line is the same with no charge diffusion, which is below one only
 where a centerline runs near a pixel boundary.
-The back surface agrees with the model on the \FUV{}2 and \SJI\ \CCD{}s
-and lies above it on \NUV\ and \FUV{}1, while beyond $t_c$ the tracks
-settle below the no-diffusion curve on all four, further than the fits
-follow them."""))
+The back surface is lowest on the \FUV{}2 and \SJI\ \CCD{}s and highest
+on \FUV{}1, while beyond $t_c$ the tracks settle below the no-diffusion
+curve on all four, further than the fits follow them."""))
     return result

@@ -16,7 +16,6 @@ classifiers = [
 dependencies = [
     "pylatex",
     "aastex~=0.7.0",
-    "optika~=2.2",
     "named-arrays",
     "scipy",
 ]

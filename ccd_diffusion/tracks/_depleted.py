@@ -142,7 +142,7 @@ def depleted(chip: str) -> Depleted:
     Parameters
     ----------
     chip
-        The CCD, ``FUV1``, ``FUV2`` or ``SJI``.
+        The CCD, ``FUV1``, ``FUV2``, ``NUV``, or ``SJI``.
     """
     with open(_path_depleted, newline="") as f:
         rows = [r for r in csv.DictReader(f) if r["chip"] == chip]

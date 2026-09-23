@@ -29,6 +29,9 @@ half_width = 3
 width_pixel = 13 * u.um
 """The pixel pitch of the IRIS CCDs."""
 
+thickness = 14 * u.um
+"""The thickness of the silicon of the IRIS CCDs."""
+
 charge_minimum = 240.0
 """
 The least charge in a slice, in electrons, for it to enter the statistics

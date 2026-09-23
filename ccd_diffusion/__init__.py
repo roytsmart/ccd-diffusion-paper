@@ -2,7 +2,6 @@
 Create the figures and compile the LaTeX files for this article.
 """
 
-from ._ccd import ccd, ccd_aia
 from . import spie
 from . import tracks
 from ._acronyms import acronyms
@@ -15,8 +14,6 @@ from . import sections
 from ._document import document, pdf
 
 __all__ = [
-    "ccd",
-    "ccd_aia",
     "spie",
     "tracks",
     "acronyms",

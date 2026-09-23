@@ -13,7 +13,6 @@ __all__ = [
     "depth_back",
     "same_pixel",
     "same_pixel_model",
-    "paper_model",
     "Profile",
     "profile",
     "Summary",
@@ -75,14 +74,6 @@ def same_pixel_model(
     return np.square(q).sum(axis_pixel)
 
 
-def paper_model() -> tuple[float, u.Quantity]:
-    """The field-free thickness and back-surface width of the CCD model used in this article."""
-    ccd = ccd_diffusion.ccd()
-    thickness = ccd.thickness_substrate
-    width_max = thickness - ccd.depletion.thickness
-    return float(width_max / thickness), width_max
-
-
 @dataclasses.dataclass(eq=False)
 class Profile:
     """The same-pixel probability as a function of depth for one CCD."""
@@ -101,9 +92,6 @@ class Profile:
 
     error: na.AbstractScalarArray
     """The standard error of :attr:`measured`."""
-
-    paper: na.AbstractScalarArray
-    """The mean same-pixel probability predicted by the CCD model of this article."""
 
     fitted: na.AbstractScalarArray
     """The mean same-pixel probability predicted by the per-track fits, including :math:`\\sigma_d`."""
@@ -135,12 +123,10 @@ def profile(chip: str) -> Profile:
     Parameters
     ----------
     chip
-        The CCD to summarize, ``FUV1``, ``FUV2`` or ``SJI``.
+        The CCD to summarize, ``FUV1``, ``FUV2``, ``NUV``, or ``SJI``.
     """
-    tc_paper, sm_paper = paper_model()
     depth = []
     measured = []
-    paper = []
     fitted = []
     none = []
     for f in fits():
@@ -148,7 +134,6 @@ def profile(chip: str) -> Profile:
             continue
         depth.append(f.depth.ndarray)
         measured.append(same_pixel(f).ndarray)
-        paper.append(same_pixel_model(f, tc_paper, sm_paper).ndarray)
         fitted.append(
             same_pixel_model(f, f.critical_depth, f.width_max, f.width_depleted).ndarray
         )
@@ -168,7 +153,6 @@ def profile(chip: str) -> Profile:
         num=na.ScalarArray(num, axes=axis_depth),
         measured=na.ScalarArray(mean, axes=axis_depth),
         error=na.ScalarArray(error, axes=axis_depth),
-        paper=bin(paper),
         fitted=bin(fitted),
         none=bin(none),
     )
@@ -205,9 +189,6 @@ class Summary:
     same_pixel_1d_error: float
     """The standard error of :attr:`same_pixel_1d`."""
 
-    same_pixel_paper_1d: float
-    """The same-pixel probability at the back surface predicted by the CCD model of this article."""
-
     @property
     def same_pixel(self) -> float:
         """The measured same-pixel probability at the back surface in two dimensions."""
@@ -218,11 +199,6 @@ class Summary:
         """The standard error of :attr:`same_pixel`."""
         return 2 * self.same_pixel_1d * self.same_pixel_1d_error
 
-    @property
-    def same_pixel_paper(self) -> float:
-        """The same-pixel probability at the back surface predicted by the CCD model in two dimensions."""
-        return self.same_pixel_paper_1d**2
-
 
 @functools.cache
 def summary(chip: str) -> Summary:
@@ -232,17 +208,13 @@ def summary(chip: str) -> Summary:
     Parameters
     ----------
     chip
-        The CCD to summarize, ``FUV1``, ``FUV2`` or ``SJI``.
+        The CCD to summarize, ``FUV1``, ``FUV2``, ``NUV``, or ``SJI``.
     """
-    tc_paper, sm_paper = paper_model()
     all_fits = [f for f in fits() if f.track.chip == chip]
     flat = [f for f in all_fits if f.flat]
 
     depth = np.concatenate([f.depth.ndarray for f in flat])
     measured = np.concatenate([same_pixel(f).ndarray for f in flat])
-    paper = np.concatenate(
-        [same_pixel_model(f, tc_paper, sm_paper).ndarray for f in flat]
-    )
     back = (depth < depth_back) & np.isfinite(measured)
 
     tc = np.array([f.critical_depth for f in flat])
@@ -258,5 +230,4 @@ def summary(chip: str) -> Summary:
         width_max=np.percentile(sm, [25, 50, 75]),
         same_pixel_1d=float(measured[back].mean()),
         same_pixel_1d_error=float(measured[back].std() / np.sqrt(back.sum())),
-        same_pixel_paper_1d=float(paper[back].mean()),
     )
