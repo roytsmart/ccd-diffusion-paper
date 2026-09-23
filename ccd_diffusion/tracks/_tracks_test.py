@@ -211,6 +211,8 @@ def test_profile(chip: str):
     for array in (
         result.measured,
         result.error,
+        result.mean,
+        result.error_mean,
         result.fitted,
         result.none,
     ):
@@ -218,7 +220,13 @@ def test_profile(chip: str):
         assert np.all(np.isfinite(array))
     assert np.all(result.num > 0)
     assert np.all((result.measured > 0) & (result.measured < 1))
+    assert np.all((result.mean > 0) & (result.mean < 1))
     assert np.all(result.none >= result.fitted)
+    # stray charge from other hits can only lower the mean, and the median
+    # is unmoved by it, so beyond the field-free layer the median must sit
+    # above the mean
+    deep = result.depth.ndarray > 0.6
+    assert np.all(result.measured.ndarray[deep] > result.mean.ndarray[deep])
 
 
 @pytest.mark.parametrize("chip", ["FUV1", "FUV2", "NUV", "SJI"])

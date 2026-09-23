@@ -88,10 +88,30 @@ class Profile:
     """The number of slices in each depth bin."""
 
     measured: na.AbstractScalarArray
-    """The mean measured same-pixel probability in each bin."""
+    """
+    The measured same-pixel probability in each bin, :attr:`none` minus the
+    median over the slices of the bin of the shortfall of each slice from
+    its own no-diffusion prediction.
+
+    Charge from other hits in the frame that touched a track and was cut
+    out with it can only land off the peak of the slice, so it can only
+    lower :math:`\\sum_j f_j^2`, while the read noise scatters it both
+    ways. The median of the shortfall is unmoved by such one-sided
+    contamination until it reaches half the slices, where the mean is
+    pulled down by every contaminated slice in proportion to its charge.
+    """
 
     error: na.AbstractScalarArray
-    """The standard error of :attr:`measured`."""
+    """
+    The standard error of :attr:`measured`, that of a median from the
+    median absolute deviation of the shortfall.
+    """
+
+    mean: na.AbstractScalarArray
+    """The plain mean measured same-pixel probability in each bin."""
+
+    error_mean: na.AbstractScalarArray
+    """The standard error of :attr:`mean`."""
 
     fitted: na.AbstractScalarArray
     """The mean same-pixel probability predicted by the per-track fits, including :math:`\\sigma_d`."""
@@ -112,6 +132,27 @@ def _binned(depth: np.ndarray, values: np.ndarray) -> tuple[np.ndarray, ...]:
     variance = square / num - np.square(mean)
     error = np.sqrt(variance / num)
     return num, mean, error
+
+
+def _binned_median(depth: np.ndarray, values: np.ndarray) -> tuple[np.ndarray, ...]:
+    """
+    The median of the values in each depth bin and its standard error,
+    :math:`\\sqrt{\\pi / 2}` times that of the mean with the scatter taken
+    from the median absolute deviation, which the contaminated slices do not
+    inflate.
+    """
+    keep = np.isfinite(values)
+    depth, values = depth[keep], values[keep]
+    edges = depth_bins.ndarray
+    index = np.clip(np.digitize(depth, edges) - 1, 0, len(edges) - 2)
+    median = np.empty(len(edges) - 1)
+    error = np.empty(len(edges) - 1)
+    for i in range(len(edges) - 1):
+        v = values[index == i]
+        median[i] = np.median(v)
+        scatter = 1.4826 * np.median(np.abs(v - median[i]))
+        error[i] = np.sqrt(np.pi / 2) * scatter / np.sqrt(v.size)
+    return median, error
 
 
 @functools.cache
@@ -139,20 +180,26 @@ def profile(chip: str) -> Profile:
         )
         none.append(same_pixel_model(f, 0, 0 * u.um).ndarray)
     depth = np.concatenate(depth)
+    measured = np.concatenate(measured)
+    fitted = np.concatenate(fitted)
+    none = np.concatenate(none)
 
     def bin(values):
-        return na.ScalarArray(
-            _binned(depth, np.concatenate(values))[1], axes=axis_depth
-        )
+        return na.ScalarArray(_binned(depth, values)[1], axes=axis_depth)
 
-    num, mean, error = _binned(depth, np.concatenate(measured))
+    num, mean, error_mean = _binned(depth, measured)
+    # the shortfall of each slice from its own no-diffusion prediction, so
+    # that the median is not spread by the geometry of the centerline
+    shortfall, error = _binned_median(depth, none - measured)
     edges = depth_bins.ndarray
     return Profile(
         chip=chip,
         depth=na.ScalarArray((edges[:-1] + edges[1:]) / 2, axes=axis_depth),
         num=na.ScalarArray(num, axes=axis_depth),
-        measured=na.ScalarArray(mean, axes=axis_depth),
+        measured=na.ScalarArray(_binned(depth, none)[1] - shortfall, axes=axis_depth),
         error=na.ScalarArray(error, axes=axis_depth),
+        mean=na.ScalarArray(mean, axes=axis_depth),
+        error_mean=na.ScalarArray(error_mean, axes=axis_depth),
         fitted=bin(fitted),
         none=bin(none),
     )

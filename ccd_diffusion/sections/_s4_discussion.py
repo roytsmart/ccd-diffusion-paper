@@ -46,7 +46,7 @@ is nearly transparent.
 The spread between the four \CCD{}s is the spread a designer should
 expect between sensors of one design.
 
-Two systematics deserve comment.
+Three systematics deserve comment.
 First, the tracks are left by protons that deposit thousands of electrons
 per row, whereas a \UV\ photon liberates one to three.
 In thick, fully depleted sensors, slow protons leave tracks visibly
@@ -61,6 +61,15 @@ the field-free layer, or that was clipped by the Bragg cut at one end,
 would have its depths compressed.
 The agreement between the model-free and parametric profiles, and between
 campaigns, suggests such tracks are rare, but a validation on synthetic
-tracks injected into real frames is the way to bound it.""")
+tracks injected into real frames is the way to bound it.
+Third, the stray charge of Section~\ref{sec:results}, from hits that
+touch a track and are cut out with it, is kept out of the same-pixel
+profile by the median but not out of the widths of Figure~\ref{fig:stacked}
+nor the $\sigma_d$ scan, both of which sum the misfit of every slice.
+It is one-sided and it grows with the exposure of the frame, so the floor
+of a few tenths of a micron beyond $t_c$ and the $\sigma_d$ of
+Equation~\ref{eq:width} are upper bounds on the true spread, and the
+campaigns exposed for 15 s, a tenth of the flat tracks, carry twice their
+share of it.""")
     result.append(ccd_diffusion.figures.wavelength())
     return result

@@ -86,12 +86,31 @@ On the \SJI\ \CCD\ the back surface gives $\mathcal{P} = \sjiSamePixel \pm
 \sjiSamePixelError$, \FUV{}2 the same to within the errors, while \NUV\
 and, further still, \FUV{}1 spread their charge over fewer pixels, in the
 same order as their back-surface widths.
-Beyond $t_c$ the measured probability settles at about 0.88 rather than
-the 0.95 of a perfectly sharp cloud on all four \CCD{}s.
-The per-track fits dip below the sharp-cloud curve in the same direction
-through $\sigma_d$, but by only a fifth as much, so the tracks are a
-little wider in the depletion region than a Gaussian of width $\sigma_d$
-describes.""")
+
+The figure gives $p$ two ways in each depth bin, as the plain mean over
+the slices and as the median of how far each slice falls short of its
+own sharp-cloud value.
+The two agree at the back surface and part beyond $t_c$, where the mean
+settles near 0.88 on all four \CCD{}s while the median stays within 0.02
+of the 0.95 of a perfectly sharp cloud, with the per-track fits between
+them.
+The difference is charge that does not belong to the track.
+A frame taken inside the anomaly is crowded with hits, and one that
+touches a track is joined to it by the finder and cut out with it.
+Such charge lands only off the peak of a slice, so it can only lower
+$p$, and it pulls the mean down in proportion to its charge while the
+median is unmoved until it reaches half the slices.
+Two checks say this is what the mean is seeing: it falls twice as far
+below the sharp-cloud value in campaigns exposed for 15 s as in those
+exposed for 8 s, at the same charge per slice, and it does not fall at
+all for the few tracks of cosmic rays recorded outside the anomaly,
+where the frames are empty.
+At the back surface the cloud already spans several columns and the same
+stray charge moves $p$ by under 0.02, so Table~\ref{tab:tracks} keeps the
+mean, which is the quantity that enters the variance of an image.
+Beyond $t_c$ the median is the measurement, and it leaves the depletion
+region a few hundredths short of sharp, in the direction and about the
+size of the $\sigma_d$ the fits carry.""")
     result.append(ccd_diffusion.figures.stacked())
     result.append(ccd_diffusion.figures.depleted())
     result.append(ccd_diffusion.figures.parameters())
