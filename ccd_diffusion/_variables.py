@@ -44,6 +44,10 @@ def variables() -> list[aastex.Variable]:
             "widthDepletedFuvTwo",
             f"{tracks.depleted('FUV2').best.to_value(u.um):.2f}",
         ),
+        aastex.Variable(
+            "widthDepletedNuv",
+            f"{tracks.depleted('NUV').best.to_value(u.um):.2f}",
+        ),
         aastex.Variable("sjiCriticalDepthError", f"{sji.critical_depth_error:.3f}"),
         aastex.Variable("imageVmax", ccd_diffusion.figures._image._vmax),
         aastex.Variable("thickness", f"{ccd.thickness_substrate.to_value(u.um):.0f}"),

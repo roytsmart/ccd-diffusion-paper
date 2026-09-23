@@ -49,6 +49,8 @@ last column is $\mathcal{P}$ predicted by the field-free model for the same
 tracks."""))
     result.append(pylatex.Command("label", "tab:tracks"))
     result.append(pylatex.Command("footnotesize"))
+    # ten columns at the default column padding run past the text width
+    result.append(pylatex.NoEscape(r"\setlength{\tabcolsep}{3pt}"))
 
     tabular = pylatex.Tabular("lrrrcccccc", booktabs=False)
     tabular.escape = False
