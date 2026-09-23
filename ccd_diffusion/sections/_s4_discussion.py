@@ -1,4 +1,5 @@
 import aastex
+import ccd_diffusion
 
 __all__ = [
     "discussion",
@@ -32,6 +33,18 @@ thickness, which depends on the resistivity of the wafer and the applied
 bias; the same measurement on \AIA\ \CCD{}s, which are of the same
 design, would show whether such variation is common.
 
+Figure~\ref{fig:wavelength} turns the kernel into the quantities an
+instrument designer needs, by averaging it over the depth at which a
+photon of each wavelength is absorbed in silicon.
+Across the whole ultraviolet the absorption length is under 10 nm, so
+every photon sees the back-surface values of Table~\ref{tab:tracks}: a
+charge cloud 4 to 5 $\mu$m wide, and a same-pixel probability of 0.33 to
+0.43 depending on the \CCD.
+Only in the visible, where photons reach the depletion region, does the
+cloud narrow, and near the band gap the sensor is nearly transparent.
+The spread between the four \CCD{}s is the spread a designer should
+expect between sensors of one design.
+
 Two systematics deserve comment.
 First, the tracks are left by protons that deposit thousands of electrons
 per row, whereas a \UV\ photon liberates one to three.
@@ -48,4 +61,5 @@ would have its depths compressed.
 The agreement between the model-free and parametric profiles, and between
 campaigns, suggests such tracks are rare, but a validation on synthetic
 tracks injected into real frames is the way to bound it.""")
+    result.append(ccd_diffusion.figures.wavelength())
     return result
