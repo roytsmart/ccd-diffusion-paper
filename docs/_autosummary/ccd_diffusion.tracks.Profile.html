@@ -544,7 +544,7 @@
 <h1>Profile<a class="headerlink" href="#profile" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="ccd_diffusion.tracks.Profile">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">ccd_diffusion.tracks.</span></span><span class="sig-name descname"><span class="pre">Profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chip</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measured</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">none</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ccd_diffusion/tracks/_samepix.html#Profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ccd_diffusion.tracks.Profile" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">ccd_diffusion.tracks.</span></span><span class="sig-name descname"><span class="pre">Profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chip</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measured</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">none</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ccd_diffusion/tracks/_samepix.html#Profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ccd_diffusion.tracks.Profile" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The same-pixel probability as a function of depth for one CCD.</p>
 <p class="rubric">Attributes</p>
@@ -560,10 +560,16 @@
 <td><p>The number of slices in each depth bin.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Profile.measured" title="ccd_diffusion.tracks.Profile.measured"><code class="xref py py-obj docutils literal notranslate"><span class="pre">measured</span></code></a></p></td>
-<td><p>The mean measured same-pixel probability in each bin.</p></td>
+<td><p>The measured same-pixel probability in each bin, <a class="reference internal" href="#ccd_diffusion.tracks.Profile.none" title="ccd_diffusion.tracks.Profile.none"><code class="xref py py-attr docutils literal notranslate"><span class="pre">none</span></code></a> minus the median over the slices of the bin of the shortfall of each slice from its own no-diffusion prediction.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Profile.error" title="ccd_diffusion.tracks.Profile.error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">error</span></code></a></p></td>
-<td><p>The standard error of <a class="reference internal" href="#ccd_diffusion.tracks.Profile.measured" title="ccd_diffusion.tracks.Profile.measured"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measured</span></code></a>.</p></td>
+<td><p>The standard error of <a class="reference internal" href="#ccd_diffusion.tracks.Profile.measured" title="ccd_diffusion.tracks.Profile.measured"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measured</span></code></a>, that of a median from the median absolute deviation of the shortfall.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Profile.mean" title="ccd_diffusion.tracks.Profile.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean</span></code></a></p></td>
+<td><p>The plain mean measured same-pixel probability in each bin.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Profile.error_mean" title="ccd_diffusion.tracks.Profile.error_mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">error_mean</span></code></a></p></td>
+<td><p>The standard error of <a class="reference internal" href="#ccd_diffusion.tracks.Profile.mean" title="ccd_diffusion.tracks.Profile.mean"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mean</span></code></a>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Profile.fitted" title="ccd_diffusion.tracks.Profile.fitted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fitted</span></code></a></p></td>
 <td><p>The mean same-pixel probability predicted by the per-track fits, including <span class="math notranslate nohighlight">\(\sigma_d\)</span>.</p></td>
@@ -595,6 +601,8 @@
 <li><p><strong>num</strong> (<em>AbstractScalarArray</em>)</p></li>
 <li><p><strong>measured</strong> (<em>AbstractScalarArray</em>)</p></li>
 <li><p><strong>error</strong> (<em>AbstractScalarArray</em>)</p></li>
+<li><p><strong>mean</strong> (<em>AbstractScalarArray</em>)</p></li>
+<li><p><strong>error_mean</strong> (<em>AbstractScalarArray</em>)</p></li>
 <li><p><strong>fitted</strong> (<em>AbstractScalarArray</em>)</p></li>
 <li><p><strong>none</strong> (<em>AbstractScalarArray</em>)</p></li>
 </ul>
@@ -615,7 +623,14 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ccd_diffusion.tracks.Profile.error">
 <span class="sig-name descname"><span class="pre">error</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">AbstractScalarArray</span></span><a class="headerlink" href="#ccd_diffusion.tracks.Profile.error" title="Link to this definition">#</a></dt>
-<dd><p>The standard error of <a class="reference internal" href="#ccd_diffusion.tracks.Profile.measured" title="ccd_diffusion.tracks.Profile.measured"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measured</span></code></a>.</p>
+<dd><p>The standard error of <a class="reference internal" href="#ccd_diffusion.tracks.Profile.measured" title="ccd_diffusion.tracks.Profile.measured"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measured</span></code></a>, that of a median from the
+median absolute deviation of the shortfall.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ccd_diffusion.tracks.Profile.error_mean">
+<span class="sig-name descname"><span class="pre">error_mean</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">AbstractScalarArray</span></span><a class="headerlink" href="#ccd_diffusion.tracks.Profile.error_mean" title="Link to this definition">#</a></dt>
+<dd><p>The standard error of <a class="reference internal" href="#ccd_diffusion.tracks.Profile.mean" title="ccd_diffusion.tracks.Profile.mean"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mean</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -625,9 +640,23 @@
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="ccd_diffusion.tracks.Profile.mean">
+<span class="sig-name descname"><span class="pre">mean</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">AbstractScalarArray</span></span><a class="headerlink" href="#ccd_diffusion.tracks.Profile.mean" title="Link to this definition">#</a></dt>
+<dd><p>The plain mean measured same-pixel probability in each bin.</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="ccd_diffusion.tracks.Profile.measured">
 <span class="sig-name descname"><span class="pre">measured</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">AbstractScalarArray</span></span><a class="headerlink" href="#ccd_diffusion.tracks.Profile.measured" title="Link to this definition">#</a></dt>
-<dd><p>The mean measured same-pixel probability in each bin.</p>
+<dd><p>The measured same-pixel probability in each bin, <a class="reference internal" href="#ccd_diffusion.tracks.Profile.none" title="ccd_diffusion.tracks.Profile.none"><code class="xref py py-attr docutils literal notranslate"><span class="pre">none</span></code></a> minus the
+median over the slices of the bin of the shortfall of each slice from
+its own no-diffusion prediction.</p>
+<p>Charge from other hits in the frame that touched a track and was cut
+out with it can only land off the peak of the slice, so it can only
+lower <span class="math notranslate nohighlight">\(\sum_j f_j^2\)</span>, while the read noise scatters it both
+ways. The median of the shortfall is unmoved by such one-sided
+contamination until it reaches half the slices, where the mean is
+pulled down by every contaminated slice in proportion to its charge.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -697,7 +726,9 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Profile.chip"><code class="docutils literal notranslate"><span class="pre">Profile.chip</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Profile.depth"><code class="docutils literal notranslate"><span class="pre">Profile.depth</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Profile.error"><code class="docutils literal notranslate"><span class="pre">Profile.error</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Profile.error_mean"><code class="docutils literal notranslate"><span class="pre">Profile.error_mean</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Profile.fitted"><code class="docutils literal notranslate"><span class="pre">Profile.fitted</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Profile.mean"><code class="docutils literal notranslate"><span class="pre">Profile.mean</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Profile.measured"><code class="docutils literal notranslate"><span class="pre">Profile.measured</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Profile.none"><code class="docutils literal notranslate"><span class="pre">Profile.none</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Profile.num"><code class="docutils literal notranslate"><span class="pre">Profile.num</span></code></a></li>

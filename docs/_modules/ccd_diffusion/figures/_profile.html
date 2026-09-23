@@ -417,13 +417,24 @@
         <span class="n">na</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">fitted</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"per-track fits"</span><span class="p">)</span>
         <span class="n">a</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span>
             <span class="n">p</span><span class="o">.</span><span class="n">depth</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">mean</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">error_mean</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+            <span class="n">fmt</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">"0.6"</span><span class="p">,</span>
+            <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span>
+            <span class="n">markersize</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="s2">"tracks, mean"</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">depth</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
             <span class="n">p</span><span class="o">.</span><span class="n">measured</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
             <span class="n">p</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
             <span class="n">fmt</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
             <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
             <span class="n">markersize</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
             <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
-            <span class="n">label</span><span class="o">=</span><span class="s2">"tracks"</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="s2">"tracks, median"</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"$t = z / D$"</span><span class="p">)</span>
         <span class="n">a</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">chip</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">tracks</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">chip</span><span class="p">)</span><span class="o">.</span><span class="n">num_flat</span><span class="si">}</span><span class="s2"> flat tracks"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
@@ -436,15 +447,22 @@
     <span class="n">result</span><span class="o">.</span><span class="n">add_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
     <span class="n">result</span><span class="o">.</span><span class="n">add_caption</span><span class="p">(</span><span class="n">aastex</span><span class="o">.</span><span class="n">NoEscape</span><span class="p">(</span><span class="sa">r</span><span class="s2">"""</span>
 <span class="s2">The probability that two electrons deposited in the same slice are</span>
-<span class="s2">collected in the same column, averaged over the flat tracks on each \CCD\</span>
-<span class="s2">in bins of fractional depth, with the standard error of each mean.</span>
-<span class="s2">The blue line is Equation~\ref{eq:width} at each track's own fit,</span>
-<span class="s2">evaluated at the fitted centerline and averaged in the same bins, and the</span>
-<span class="s2">dashed line is the same with no charge diffusion, which is below one only</span>
-<span class="s2">where a centerline runs near a pixel boundary.</span>
+<span class="s2">collected in the same column, over the flat tracks on each \CCD\ in bins</span>
+<span class="s2">of fractional depth.</span>
+<span class="s2">The dashed line is Equation~\ref{eq:width} with no charge diffusion,</span>
+<span class="s2">averaged over the slices of each bin, which is below one only where a</span>
+<span class="s2">centerline runs near a pixel boundary, and the blue line is the same at</span>
+<span class="s2">each track's own fit.</span>
+<span class="s2">The black points are the dashed line minus the median, over the slices</span>
+<span class="s2">of the bin, of how far each slice falls short of its own no-diffusion</span>
+<span class="s2">value, with the standard error of the median; the open points are the</span>
+<span class="s2">plain mean of the slices.</span>
+<span class="s2">Charge from other hits in the frame that touched a track and was cut out</span>
+<span class="s2">with it can only lower the sum, so the mean sits below the median</span>
+<span class="s2">wherever such charge is common, beyond $t_c$ on all four \CCD</span><span class="si">{}</span><span class="s2">s, while</span>
+<span class="s2">at the back surface the two agree.</span>
 <span class="s2">The back surface is lowest on the \FUV</span><span class="si">{}</span><span class="s2">2 and \SJI\ \CCD</span><span class="si">{}</span><span class="s2">s and highest</span>
-<span class="s2">on \FUV</span><span class="si">{}</span><span class="s2">1, while beyond $t_c$ the tracks settle below the no-diffusion</span>
-<span class="s2">curve on all four, further than the fits follow them."""</span><span class="p">))</span>
+<span class="s2">on \FUV</span><span class="si">{}</span><span class="s2">1."""</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">result</span></div>
 
 </pre></div>

@@ -21,6 +21,8 @@ Profile
       ~Profile.num
       ~Profile.measured
       ~Profile.error
+      ~Profile.mean
+      ~Profile.error_mean
       ~Profile.fitted
       ~Profile.none
     

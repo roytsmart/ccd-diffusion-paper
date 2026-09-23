@@ -434,7 +434,7 @@
 <span class="s2">The spread between the four \CCD</span><span class="si">{}</span><span class="s2">s is the spread a designer should</span>
 <span class="s2">expect between sensors of one design.</span>
 
-<span class="s2">Two systematics deserve comment.</span>
+<span class="s2">Three systematics deserve comment.</span>
 <span class="s2">First, the tracks are left by protons that deposit thousands of electrons</span>
 <span class="s2">per row, whereas a \UV\ photon liberates one to three.</span>
 <span class="s2">In thick, fully depleted sensors, slow protons leave tracks visibly</span>
@@ -449,7 +449,16 @@
 <span class="s2">would have its depths compressed.</span>
 <span class="s2">The agreement between the model-free and parametric profiles, and between</span>
 <span class="s2">campaigns, suggests such tracks are rare, but a validation on synthetic</span>
-<span class="s2">tracks injected into real frames is the way to bound it."""</span><span class="p">)</span>
+<span class="s2">tracks injected into real frames is the way to bound it.</span>
+<span class="s2">Third, the stray charge of Section~\ref{sec:results}, from hits that</span>
+<span class="s2">touch a track and are cut out with it, is kept out of the same-pixel</span>
+<span class="s2">profile by the median but not out of the widths of Figure~\ref{fig:stacked}</span>
+<span class="s2">nor the $\sigma_d$ scan, both of which sum the misfit of every slice.</span>
+<span class="s2">It is one-sided and it grows with the exposure of the frame, so the floor</span>
+<span class="s2">of a few tenths of a micron beyond $t_c$ and the $\sigma_d$ of</span>
+<span class="s2">Equation~\ref{eq:width} are upper bounds on the true spread, and the</span>
+<span class="s2">campaigns exposed for 15 s, a tenth of the flat tracks, carry twice their</span>
+<span class="s2">share of it."""</span><span class="p">)</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ccd_diffusion</span><span class="o">.</span><span class="n">figures</span><span class="o">.</span><span class="n">wavelength</span><span class="p">())</span>
     <span class="k">return</span> <span class="n">result</span></div>
 

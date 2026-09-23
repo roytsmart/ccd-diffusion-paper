@@ -474,12 +474,31 @@
 <span class="s2">\sjiSamePixelError$, \FUV</span><span class="si">{}</span><span class="s2">2 the same to within the errors, while \NUV\</span>
 <span class="s2">and, further still, \FUV</span><span class="si">{}</span><span class="s2">1 spread their charge over fewer pixels, in the</span>
 <span class="s2">same order as their back-surface widths.</span>
-<span class="s2">Beyond $t_c$ the measured probability settles at about 0.88 rather than</span>
-<span class="s2">the 0.95 of a perfectly sharp cloud on all four \CCD</span><span class="si">{}</span><span class="s2">s.</span>
-<span class="s2">The per-track fits dip below the sharp-cloud curve in the same direction</span>
-<span class="s2">through $\sigma_d$, but by only a fifth as much, so the tracks are a</span>
-<span class="s2">little wider in the depletion region than a Gaussian of width $\sigma_d$</span>
-<span class="s2">describes."""</span><span class="p">)</span>
+
+<span class="s2">The figure gives $p$ two ways in each depth bin, as the plain mean over</span>
+<span class="s2">the slices and as the median of how far each slice falls short of its</span>
+<span class="s2">own sharp-cloud value.</span>
+<span class="s2">The two agree at the back surface and part beyond $t_c$, where the mean</span>
+<span class="s2">settles near 0.88 on all four \CCD</span><span class="si">{}</span><span class="s2">s while the median stays within 0.02</span>
+<span class="s2">of the 0.95 of a perfectly sharp cloud, with the per-track fits between</span>
+<span class="s2">them.</span>
+<span class="s2">The difference is charge that does not belong to the track.</span>
+<span class="s2">A frame taken inside the anomaly is crowded with hits, and one that</span>
+<span class="s2">touches a track is joined to it by the finder and cut out with it.</span>
+<span class="s2">Such charge lands only off the peak of a slice, so it can only lower</span>
+<span class="s2">$p$, and it pulls the mean down in proportion to its charge while the</span>
+<span class="s2">median is unmoved until it reaches half the slices.</span>
+<span class="s2">Two checks say this is what the mean is seeing: it falls twice as far</span>
+<span class="s2">below the sharp-cloud value in campaigns exposed for 15 s as in those</span>
+<span class="s2">exposed for 8 s, at the same charge per slice, and it does not fall at</span>
+<span class="s2">all for the few tracks of cosmic rays recorded outside the anomaly,</span>
+<span class="s2">where the frames are empty.</span>
+<span class="s2">At the back surface the cloud already spans several columns and the same</span>
+<span class="s2">stray charge moves $p$ by under 0.02, so Table~\ref{tab:tracks} keeps the</span>
+<span class="s2">mean, which is the quantity that enters the variance of an image.</span>
+<span class="s2">Beyond $t_c$ the median is the measurement, and it leaves the depletion</span>
+<span class="s2">region a few hundredths short of sharp, in the direction and about the</span>
+<span class="s2">size of the $\sigma_d$ the fits carry."""</span><span class="p">)</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ccd_diffusion</span><span class="o">.</span><span class="n">figures</span><span class="o">.</span><span class="n">stacked</span><span class="p">())</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ccd_diffusion</span><span class="o">.</span><span class="n">figures</span><span class="o">.</span><span class="n">depleted</span><span class="p">())</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ccd_diffusion</span><span class="o">.</span><span class="n">figures</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
