@@ -104,25 +104,29 @@ def wavelength() -> aastex.Figure:
     ax.set_xlim(nm[0], nm[-1])
     ax.set_xlabel("wavelength (nm)")
     ax.set_ylim(0, 6)
-    ax.set_ylabel(r"rms diffusion width ($\mu$m)")
+    ax.set_ylabel(r"diffusion width $\sigma$ ($\mu$m)")
     ax.legend(fontsize=6, loc="lower left", ncol=2)
 
     result = aastex.Figure("wavelength", position="htb!")
     result.add_fig(fig, width=None)
     result.add_caption(aastex.NoEscape(r"""
-The measurement as an instrument designer needs it: the width of the
-charge cloud of a photon against its wavelength, from soft X-rays to the
-band gap of silicon.
-A photon is absorbed at a depth drawn from the exponential with the
+The width of the charge cloud a photon leaves in each \CCD, against the
+wavelength of the photon.
+The width is the standard deviation of the cloud.
+A photon is absorbed at a random depth, exponentially distributed with the
 absorption length of silicon (dotted, from the tabulated optical constants
-\cite{Palik1985,Henke1993}), among the photons absorbed within the
-\thickness\ $\mu$m thickness, and the root mean square of the model-free
-width of Figure~\ref{fig:stacked}b, held at the value of its first bin up
-to the back surface, is taken over that depth.
-From 30 to 350 nm the absorption length is under 10 nm, so the whole
-ultraviolet sees the back-surface width of Table~\ref{tab:tracks};
-through the visible, and again in the soft X-rays, the photons reach the
-depletion region and the cloud narrows; and near the band gap the sensor
-is nearly transparent and the few photons absorbed are spread through its
-thickness."""))
+\cite{Palik1985,Henke1993}), and the charge it liberates spreads by the
+width measured at that depth in Figure~\ref{fig:stacked}b, held at the
+value of its first bin up to the back surface.
+The curve is the standard deviation of the cloud that results, which is the
+square root of the squared width averaged over depth, weighted by the
+fraction of photons absorbed at each depth; photons that pass through the
+\thickness\ $\mu$m of silicon are not counted.
+Between 30 and 350 nm every photon is absorbed within 10 nm of the back
+surface, and the cloud has the back-surface width of
+Table~\ref{tab:tracks}.
+In the visible and in the soft X-rays the photons penetrate to the
+depletion region and the cloud narrows.
+Near the band gap silicon is nearly transparent, and the few photons
+absorbed are spread through its thickness."""))
     return result
