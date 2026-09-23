@@ -108,7 +108,7 @@ inside the cutout, cannot dominate the fit.
 $\sigma_d$ describes the drift field, which is a property of the \CCD\ and
 its bias rather than of any one track, and a single track constrains it
 only weakly, so it is fit to each \CCD\ as a whole.
-Every track is fit as above at each of 13 values of $\sigma_d$ from 0 to 3
+Every track is fit as above at each of 16 values of $\sigma_d$ from 0 to 1.5
 $\mu$m, the misfits of the flat tracks, defined next, are summed at each
 value, and the value that minimizes the sum is adopted for every track on
 that \CCD.

@@ -42,7 +42,7 @@ the cloud is widest at the back surface and collapses to a pixel-sharp line
 in the depletion region, and the same tracks measure the field-free kernel
 that governs \UV\ imaging.
 
-Here we apply this method to the three \CCD{}s of \IRIS\
+Here we apply this method to the four \CCD{}s of \IRIS\
 \cite{DePontieu2014}, whose \FUV\ and near-\UV\ photon-transfer curves
 \cite{Wulser2018} motivated the question.
 Section~\ref{sec:method} describes the tracks, the model of their

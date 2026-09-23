@@ -15,7 +15,7 @@ flight sensor.
 We show that glancing particle tracks, which cross the full thickness of the
 sensor over a length of tens of pixels, sample the diffusion width at every
 depth in a single exposure, and we use them to measure the depth-dependent
-charge-diffusion kernel of the three \acs{CCD}s of the Interface Region
+charge-diffusion kernel of the four \acs{CCD}s of the Interface Region
 Imaging Spectrograph in orbit, from \numTracks\ tracks found in level-1
 images taken mostly inside the South Atlantic Anomaly.
 The width of the charge cloud at the back surface, the depth at which the

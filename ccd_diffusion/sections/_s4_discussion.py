@@ -14,7 +14,9 @@ field-free model on the \SJI\ and \FUV{}2 \CCD{}s: the same-pixel
 probability of $\sjiSamePixel \pm \sjiSamePixelError$ on \SJI\ matches the
 \sjiSamePixelModel\ predicted from the depletion thickness of the model,
 which is the quantity the companion noise model needs.
-Deeper in the sensor the tracks see a spread of about a micron,
+On the \NUV\ and \FUV{}1 \CCD{}s the cloud is narrower than the model,
+by a little and by a lot.
+Deeper in the sensor the tracks see a spread of under a micron,
 $\sigma_d$, that the field-free model neglects.
 It is about what the drift-time diffusion across the depleted thickness
 plus the micron-scale ionization column of the track itself should give,
@@ -26,8 +28,9 @@ Equation~\ref{eq:width} carries it from the start.
 With it, the fitted $t_c$ of $\sjiCriticalDepth \pm \sjiCriticalDepthError$
 on \SJI\ is to be compared with the model's \modelCriticalDepth.
 
-The \FUV{}1 \CCD\ is narrower than the other two, at the back surface and
-in the fitted $\sigma_\text{max}$ alike.
+The \FUV{}1 \CCD\ is narrower than the other three, at the back surface
+and in the fitted $\sigma_\text{max}$ alike, and \NUV\ sits between it and
+the \FUV{}2 and \SJI\ pair.
 We have no explanation beyond chip-to-chip variation of the field-free
 thickness, which depends on the resistivity of the wafer and the applied
 bias; the same measurement on \AIA\ \CCD{}s, which are of the same
