@@ -440,6 +440,8 @@
 <span class="s2">tracks."""</span><span class="p">))</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="s2">"label"</span><span class="p">,</span> <span class="s2">"tab:tracks"</span><span class="p">))</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="s2">"footnotesize"</span><span class="p">))</span>
+    <span class="c1"># ten columns at the default column padding run past the text width</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">NoEscape</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\setlength{\tabcolsep}</span><span class="si">{3pt}</span><span class="s2">"</span><span class="p">))</span>
 
     <span class="n">tabular</span> <span class="o">=</span> <span class="n">pylatex</span><span class="o">.</span><span class="n">Tabular</span><span class="p">(</span><span class="s2">"lrrrcccccc"</span><span class="p">,</span> <span class="n">booktabs</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">tabular</span><span class="o">.</span><span class="n">escape</span> <span class="o">=</span> <span class="kc">False</span>

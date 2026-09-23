@@ -454,7 +454,7 @@
         <span class="p">)</span>
     <span class="n">ax_c</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
         <span class="nb">list</span><span class="p">(</span><span class="n">preferred</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
-        <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">0.125</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">),</span>
+        <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span>
         <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="n">_chips</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">preferred</span><span class="p">],</span>
         <span class="n">label</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">preferred</span><span class="p">),</span>
         <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">preferred</span><span class="o">.</span><span class="n">values</span><span class="p">()],</span>
@@ -462,8 +462,7 @@
 
     <span class="n">ax_a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$\sigma_d$ ($\mu$m)"</span><span class="p">)</span>
     <span class="n">ax_a</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"pooled misfit above minimum"</span><span class="p">)</span>
-    <span class="n">ax_a</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">2.05</span><span class="p">)</span>
-    <span class="n">ax_a</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+    <span class="n">ax_a</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">1.55</span><span class="p">)</span>
     <span class="n">ax_a</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">"(a) pooled misfit against $\sigma_d$"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
     <span class="n">ax_a</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
@@ -492,13 +491,14 @@
 <span class="s2">(a) The misfit summed over the flat tracks on each \CCD\ at each</span>
 <span class="s2">$\sigma_d$, with each track refit in $t_c$, $\sigma_\text</span><span class="si">{max}</span><span class="s2">$,</span>
 <span class="s2">orientation, and centerline, shown relative to its minimum, which lies at</span>
-<span class="s2">$\sigma_d = \widthDepletedSji$ $\mu$m on \SJI, \widthDepletedFuvTwo\</span>
-<span class="s2">$\mu$m on \FUV</span><span class="si">{}</span><span class="s2">2, and \widthDepletedFuvOne\ $\mu$m on \FUV</span><span class="si">{}</span><span class="s2">1.</span>
+<span class="s2">$\sigma_d = \widthDepletedFuvOne$ $\mu$m on \FUV</span><span class="si">{}</span><span class="s2">1, \widthDepletedFuvTwo\</span>
+<span class="s2">$\mu$m on \FUV</span><span class="si">{}</span><span class="s2">2, \widthDepletedNuv\ $\mu$m on \NUV, and</span>
+<span class="s2">\widthDepletedSji\ $\mu$m on \SJI.</span>
 <span class="s2">(b) The median $t_c$ and $\sigma_\text</span><span class="si">{max}</span><span class="s2">$ of the same tracks at each</span>
 <span class="s2">$\sigma_d$: the spread inside the depletion region trades against the</span>
 <span class="s2">field-free wedge, lowering $t_c$ and raising $\sigma_\text</span><span class="si">{max}</span><span class="s2">$.</span>
 <span class="s2">(c) The $\sigma_d$ each flat track prefers on its own.</span>
-<span class="s2">The preference of any one track is weak, spread over 0 to 2 $\mu$m, and</span>
+<span class="s2">The preference of any one track is weak, spread over the whole grid, and</span>
 <span class="s2">it is only in the sum that the minimum is sharp."""</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">result</span></div>
 

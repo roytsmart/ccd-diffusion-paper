@@ -393,6 +393,9 @@
     <span class="s2">"datasets"</span><span class="p">,</span>
 <span class="p">]</span>
 
+<span class="n">_cameras</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"FUV"</span><span class="p">:</span> <span class="s2">"F"</span><span class="p">,</span> <span class="s2">"NUV"</span><span class="p">:</span> <span class="s2">"N"</span><span class="p">,</span> <span class="s2">"SJI"</span><span class="p">:</span> <span class="s2">"S"</span><span class="p">}</span>
+<span class="sd">"""One letter per camera, for the cameras column of the table."""</span>
+
 
 <div class="viewcode-block" id="datasets">
 <a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tables.datasets.html#ccd_diffusion.tables.datasets">[docs]</a>
@@ -406,15 +409,21 @@
     <span class="n">result</span><span class="o">.</span><span class="n">escape</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="s2">"centering"</span><span class="p">))</span>
     <span class="n">result</span><span class="o">.</span><span class="n">add_caption</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">NoEscape</span><span class="p">(</span><span class="sa">r</span><span class="s2">"""</span>
-<span class="s2">The observing campaigns searched for tracks.</span>
-<span class="s2">The particle population is inferred from the energy loss of the tracks and</span>
-<span class="s2">from whether the frames were taken inside \SAA; the number of frames inside</span>
-<span class="s2">\SAA\ is given in parentheses.</span>
+<span class="s2">The observing campaigns searched for tracks, with the cameras kept from</span>
+<span class="s2">each (F for the far-ultraviolet spectrograph, N for the near-ultraviolet</span>
+<span class="s2">one, S for the slit-jaw imager), the spacecraft roll, the exposure time,</span>
+<span class="s2">and the number of frames searched, with the number taken inside \SAA\ in</span>
+<span class="s2">parentheses.</span>
+<span class="s2">The tracks of every campaign but the two marked $\dagger$, whose frames</span>
+<span class="s2">were taken outside \SAA, are left by trapped protons; those two hold</span>
+<span class="s2">cosmic rays.</span>
 <span class="s2">The core tracks are the flat tracks with $0.25 &lt; t_c &lt; 0.6$, over which the</span>
 <span class="s2">mean $t_c$ with its standard error and the median $\sigma_\text</span><span class="si">{max}</span><span class="s2">$ with</span>
 <span class="s2">its interquartile range are taken."""</span><span class="p">))</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="s2">"label"</span><span class="p">,</span> <span class="s2">"tab:datasets"</span><span class="p">))</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="s2">"footnotesize"</span><span class="p">))</span>
+    <span class="c1"># ten columns at the default column padding run past the text width</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">NoEscape</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\setlength{\tabcolsep}</span><span class="si">{3.5pt}</span><span class="s2">"</span><span class="p">))</span>
 
     <span class="n">tabular</span> <span class="o">=</span> <span class="n">pylatex</span><span class="o">.</span><span class="n">Tabular</span><span class="p">(</span><span class="s2">"llrrrrrrcc"</span><span class="p">,</span> <span class="n">booktabs</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">tabular</span><span class="o">.</span><span class="n">escape</span> <span class="o">=</span> <span class="kc">False</span>
@@ -424,7 +433,7 @@
             <span class="n">pylatex</span><span class="o">.</span><span class="n">NoEscape</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">(</span>
                 <span class="s2">"date"</span><span class="p">,</span>
-                <span class="s2">"particles"</span><span class="p">,</span>
+                <span class="s2">"cameras"</span><span class="p">,</span>
                 <span class="s2">"roll"</span><span class="p">,</span>
                 <span class="s2">"exp. (s)"</span><span class="p">,</span>
                 <span class="s2">"frames"</span><span class="p">,</span>
@@ -445,9 +454,15 @@
             <span class="k">continue</span>
         <span class="n">tc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="o">.</span><span class="n">critical_depth</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">core</span><span class="p">])</span>
         <span class="n">sm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">([</span><span class="n">f</span><span class="o">.</span><span class="n">width_max</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">core</span><span class="p">],</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">75</span><span class="p">])</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s2">"date"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">info</span><span class="p">[</span><span class="s2">"particles"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"cosmic rays"</span><span class="p">:</span>
+            <span class="n">date</span> <span class="o">+=</span> <span class="sa">r</span><span class="s2">"$^\dagger$"</span>
+        <span class="n">cameras</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">_cameras</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">info</span><span class="p">[</span><span class="s2">"image"</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="p">)</span>
         <span class="n">row</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">'date'</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">'image'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-            <span class="n">info</span><span class="p">[</span><span class="s2">"particles"</span><span class="p">],</span>
+            <span class="n">date</span><span class="p">,</span>
+            <span class="n">cameras</span><span class="p">,</span>
             <span class="sa">f</span><span class="s2">"$</span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">'roll'</span><span class="p">]</span><span class="si">}</span><span class="s2">^</span><span class="se">\\</span><span class="s2">circ$"</span><span class="p">,</span>
             <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">'exposure'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
             <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">mine</span><span class="p">)</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s1">'saa'</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'1'</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">mine</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span><span class="p">,</span>
