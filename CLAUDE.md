@@ -13,7 +13,7 @@ particle tracks. Calling `ccd_diffusion.pdf()` produces `ccd-diffusion.pdf`.
 
 This is one package within the larger Kankelborg-Group workspace (see the parent
 `../CLAUDE.md`). It depends on the group's stack, `named-arrays`
-(`import named_arrays as na`) and `aastex`, plus `pylatex`, `scipy`, and
+(`import named_arrays as na`), `optika` (for the optical constants of silicon), and `aastex`, plus `pylatex`, `scipy`, and
 `astropy.units`. Use `named_arrays` rather than `numpy` for array work in new code.
 
 The measurement began as an appendix of `../ccd-snr-paper` (`ccd_snr/tracks/`), and
