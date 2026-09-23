@@ -29,13 +29,24 @@ def profile() -> aastex.Figure:
         na.plt.plot(p.depth, p.fitted, ax=a, color="tab:blue", label="per-track fits")
         a.errorbar(
             p.depth.ndarray,
+            p.mean.ndarray,
+            p.error_mean.ndarray,
+            fmt="o",
+            color="0.6",
+            markerfacecolor="white",
+            markersize=2.5,
+            linewidth=0.8,
+            label="tracks, mean",
+        )
+        a.errorbar(
+            p.depth.ndarray,
             p.measured.ndarray,
             p.error.ndarray,
             fmt="o",
             color="black",
             markersize=2.5,
             linewidth=0.8,
-            label="tracks",
+            label="tracks, median",
         )
         a.set_xlabel("$t = z / D$")
         a.set_title(f"{chip}, {tracks.summary(chip).num_flat} flat tracks", fontsize=8)
@@ -48,13 +59,20 @@ def profile() -> aastex.Figure:
     result.add_fig(fig, width=None)
     result.add_caption(aastex.NoEscape(r"""
 The probability that two electrons deposited in the same slice are
-collected in the same column, averaged over the flat tracks on each \CCD\
-in bins of fractional depth, with the standard error of each mean.
-The blue line is Equation~\ref{eq:width} at each track's own fit,
-evaluated at the fitted centerline and averaged in the same bins, and the
-dashed line is the same with no charge diffusion, which is below one only
-where a centerline runs near a pixel boundary.
+collected in the same column, over the flat tracks on each \CCD\ in bins
+of fractional depth.
+The dashed line is Equation~\ref{eq:width} with no charge diffusion,
+averaged over the slices of each bin, which is below one only where a
+centerline runs near a pixel boundary, and the blue line is the same at
+each track's own fit.
+The black points are the dashed line minus the median, over the slices
+of the bin, of how far each slice falls short of its own no-diffusion
+value, with the standard error of the median; the open points are the
+plain mean of the slices.
+Charge from other hits in the frame that touched a track and was cut out
+with it can only lower the sum, so the mean sits below the median
+wherever such charge is common, beyond $t_c$ on all four \CCD{}s, while
+at the back surface the two agree.
 The back surface is lowest on the \FUV{}2 and \SJI\ \CCD{}s and highest
-on \FUV{}1, while beyond $t_c$ the tracks settle below the no-diffusion
-curve on all four, further than the fits follow them."""))
+on \FUV{}1."""))
     return result
