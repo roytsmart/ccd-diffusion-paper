@@ -1,6 +1,0 @@
-ccd\_aia
-========
-
-.. currentmodule:: ccd_diffusion
-
-.. autofunction:: ccd_diffusion.ccd_aia
