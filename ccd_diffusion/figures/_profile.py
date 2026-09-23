@@ -65,7 +65,8 @@ $\mu$m, evaluated at the fitted centerline of each track and averaged in
 the same bins; the blue line is the same for each track's own fit; and the
 dashed line is the same with no charge diffusion, which is below one only
 where a centerline runs near a pixel boundary.
-The back surface agrees with the model on the \FUV{}2 and \SJI\ \CCD{}s,
-while beyond $t_c$ the tracks settle below the no-diffusion curve on all
-three."""))
+The back surface agrees with the model on the \FUV{}2 and \SJI\ \CCD{}s
+and lies above it on \NUV\ and \FUV{}1, while beyond $t_c$ the tracks
+settle below the no-diffusion curve on all four, further than the fits
+follow them."""))
     return result

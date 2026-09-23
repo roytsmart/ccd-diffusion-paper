@@ -836,7 +836,7 @@ def extract(
         if :obj:`None`.
     keep
         Whether to leave the frames in the cache once a block is done.
-        The five campaigns are several gigabytes together.
+        The campaigns are several gigabytes together.
     verbose
         Whether to report each block as it is processed.
     """

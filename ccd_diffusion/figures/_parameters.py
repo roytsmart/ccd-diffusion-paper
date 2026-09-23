@@ -165,8 +165,8 @@ $\sigma_\text{max}$) smoothed by one cell, with the field-free model at
 the crossing of the dashed lines and the mean of each campaign of
 Table~\ref{tab:datasets} with its standard error as an open circle.
 The campaigns, spanning two particle populations, four spacecraft rolls,
-and three cameras, agree to within a few hundredths in $t_c$, all within
-0.04 of the model, and the contours run wider in $\sigma_\text{max}$ than
+and the spectrograph and slit-jaw \CCD{}s, agree to within a few
+hundredths in $t_c$, all within 0.04 of the model, and the contours run wider in $\sigma_\text{max}$ than
 in $t_c$, since a single track constrains its back-surface width less
 well than the depth at which it sharpens."""))
     return result

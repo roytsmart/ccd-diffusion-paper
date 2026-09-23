@@ -108,7 +108,7 @@ $\mu$m on \FUV{}2, \widthDepletedNuv\ $\mu$m on \NUV, and
 \widthDepletedSji\ $\mu$m on \SJI.
 (b) The median $t_c$ and $\sigma_\text{max}$ of the same tracks at each
 $\sigma_d$: the spread inside the depletion region trades against the
-field-free wedge, lowering $t_c$ and raising $\sigma_\text{max}$.
+field-free wedge, stepping $t_c$ down while $\sigma_\text{max}$ holds.
 (c) The $\sigma_d$ each flat track prefers on its own.
 The preference of any one track is weak, spread over the whole grid, and
 it is only in the sum that the minimum is sharp."""))
