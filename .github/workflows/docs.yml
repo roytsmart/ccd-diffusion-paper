@@ -3,6 +3,11 @@ name: docs
 # Build the documentation, with its track browser and frame gallery, and
 # publish it beside the article on GitHub Pages: under docs/ for main and
 # under pr/N/docs/ as a preview of a pull request.
+#
+# The two slow parts depend only on the package's data and the code that
+# reads it, so both are cached on a hash of those: the report notebook,
+# executed once and then used with its outputs, and the browser's exported
+# tracks and frames, which conf.py keeps when their stamp matches.
 on:
   push:
     branches:
@@ -10,10 +15,13 @@ on:
   pull_request:
   workflow_dispatch:
 
-# Every publish pushes to the same branch, so serialize them with `pdf`.
+# A newer push to the same branch supersedes a build in progress. Builds of
+# different branches run side by side: sharing one group with `pdf` let a
+# build queued behind another be cancelled when a third arrived, and the
+# publish step retries if someone else pushed to gh-pages meanwhile.
 concurrency:
-  group: gh-pages
-  cancel-in-progress: false
+  group: docs-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -41,6 +49,27 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -e .[doc]
+      # A run restores only the caches saved on its own ref or on main, so a
+      # pull request's first build seeds caches for that pull request and the
+      # first build on main after a merge seeds them for everyone. The keys
+      # leave out the byte-compiled files that importing the package writes
+      # under the package, since those carry the checkout time.
+      - name: Restore the executed report notebook
+        id: notebook
+        uses: actions/cache@v4
+        with:
+          path: docs/reports/tracks.ipynb
+          key: notebook-${{ hashFiles('docs/reports/tracks.ipynb', 'ccd_diffusion/tracks/**', '!ccd_diffusion/tracks/**/__pycache__/**', 'ccd_diffusion/_ccd.py', 'pyproject.toml') }}
+      - name: Execute the report notebook
+        if: steps.notebook.outputs.cache-hit != 'true'
+        # the executed copy, with its outputs, is what the cache keeps; the
+        # build then uses it as it is (nbsphinx_execute = 'auto')
+        run: python -m nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=-1 docs/reports/tracks.ipynb
+      - name: Restore the exported tracks and frames
+        uses: actions/cache@v4
+        with:
+          path: docs/_static/browser
+          key: browser-${{ hashFiles('ccd_diffusion/tracks/**', '!ccd_diffusion/tracks/**/__pycache__/**') }}
       - name: Build the documentation
         # with MPLBACKEND set to agg the notebook's kernel would draw nothing
         # inline and the report would lose every figure without a warning
@@ -63,31 +92,37 @@ jobs:
           SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           remote="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          if git clone --depth 1 --branch gh-pages "$remote" pages 2>/dev/null; then
-            echo "cloned existing gh-pages"
-          else
-            echo "gh-pages does not exist yet; creating it"
-            mkdir pages
-            cd pages
-            git init -q
-            git checkout -q -b gh-pages
-            git remote add origin "$remote"
-            cd ..
-          fi
-          rm -rf "pages/${DIR}"
-          mkdir -p "pages/${DIR}"
-          cp -r docs/_build/html/. "pages/${DIR}/"
-          touch "pages/.nojekyll"
-          cd pages
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add --all
-          if git diff --cached --quiet; then
-            echo "The documentation is unchanged; nothing to publish."
-          else
-            git commit -q -m "Publish the documentation for ${SHA:0:7} to ${DIR}"
-            git push -q origin gh-pages
-          fi
+          # another workflow may push to gh-pages between the clone and the
+          # push, which rejects the push; then clone again and retry
+          for attempt in 1 2 3 4 5; do
+            rm -rf pages
+            if git clone -q --depth 1 --branch gh-pages "$remote" pages 2>/dev/null; then
+              echo "cloned existing gh-pages"
+            else
+              echo "gh-pages does not exist yet; creating it"
+              mkdir pages
+              git -C pages init -q
+              git -C pages checkout -q -b gh-pages
+              git -C pages remote add origin "$remote"
+            fi
+            rm -rf "pages/${DIR}"
+            mkdir -p "pages/${DIR}"
+            cp -r docs/_build/html/. "pages/${DIR}/"
+            touch "pages/.nojekyll"
+            git -C pages config user.name "github-actions[bot]"
+            git -C pages config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git -C pages add --all
+            if git -C pages diff --cached --quiet; then
+              echo "The documentation is unchanged; nothing to publish."
+              break
+            fi
+            git -C pages commit -q -m "Publish the documentation for ${SHA:0:7} to ${DIR}"
+            if git -C pages push -q origin gh-pages; then
+              break
+            fi
+            echo "push rejected on attempt ${attempt}; retrying"
+            sleep 20
+          done
 
       - name: Comment the preview link on the pull request
         if: steps.target.outputs.pr != ''

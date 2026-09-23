@@ -54,9 +54,11 @@ templates_path = ['_templates']
 # directories to ignore when looking for source files.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '**.ipynb_checkpoints']
 
-# Execute every notebook under docs/reports/ during the build, so the figures
-# are regenerated from the code and data in the package.
-nbsphinx_execute = 'always'
+# Execute a notebook under docs/reports/ during the build unless it already
+# holds its outputs, so the figures are regenerated from the code and data
+# in the package, while a copy executed earlier against the same code and
+# data (the docs workflow keeps one in its cache) is used as it is.
+nbsphinx_execute = 'auto'
 # The depletion-region section of the report refits every flat track on its
 # own grid, ten minutes on a laptop and longer on a hosted runner, so no
 # cell has a time limit of its own; the build job as a whole has one.
@@ -101,18 +103,52 @@ intersphinx_mapping = {
 }
 
 
+def _browser_fingerprint():
+    """
+    A hash over everything the track browser's files are made from: the
+    data of the package and the code that reads, fits, and renders it.
+    """
+    import hashlib
+    import pathlib
+    import ccd_diffusion.tracks
+
+    package = pathlib.Path(ccd_diffusion.tracks.__file__).parent
+    sources = sorted((package / 'data').glob('*')) + [
+        package / name
+        for name in ('_browser.py', '_extract.py', '_tracks.py', '_fit.py', '_depleted.py')
+    ]
+    digest = hashlib.sha256()
+    for path in sources:
+        digest.update(path.name.encode())
+        digest.update(path.read_bytes())
+    return digest.hexdigest()
+
+
 def _export_browser(app):
     """
-    Write every track and one rendered frame per camera and campaign under
-    _static/browser, where browser.js reads them. The frames are fetched
-    from the archive, so this needs the network and takes a minute.
+    Write every track and the rendered frames of each camera and campaign
+    under _static/browser, where browser.js reads them, unless the files
+    there were made from the same data and code, which a stamp beside them
+    records. The frames are fetched from the archive, so a fresh export
+    needs the network and takes minutes.
     """
     import pathlib
     import ccd_diffusion.tracks as tracks
 
     static = pathlib.Path(__file__).parent / '_static' / 'browser'
+    stamp = static / 'stamp.txt'
+    fingerprint = _browser_fingerprint()
+    if (
+        stamp.exists()
+        and stamp.read_text() == fingerprint
+        and (static / 'tracks.json').exists()
+        and (static / 'frames' / 'frames.json').exists()
+    ):
+        print('track browser: the exported files are current, kept')
+        return
     num = tracks.export_tracks(static / 'tracks.json')
     rendered = tracks.export_frames(static / 'frames')
+    stamp.write_text(fingerprint)
     print(f'track browser: {num} tracks and {len(rendered)} frames exported')
 
 
