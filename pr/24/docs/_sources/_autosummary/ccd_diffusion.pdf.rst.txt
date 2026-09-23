@@ -1,0 +1,6 @@
+pdf
+===
+
+.. currentmodule:: ccd_diffusion
+
+.. autofunction:: ccd_diffusion.pdf
