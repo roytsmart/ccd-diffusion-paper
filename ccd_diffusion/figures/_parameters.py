@@ -48,6 +48,17 @@ def parameters() -> aastex.Figure:
     )
     ax_a, ax_b, ax_c = ax
 
+    # the fits are exhaustive searches on grids, so every histogram is
+    # binned on the grid cells, one step wide and centered on the grid
+    # points, and the joint distribution is
+    # a histogram on the grid cells, smoothed by a cell, and drawn as the
+    # contours enclosing half and nine tenths of each CCD's core tracks
+    grid_tc = tracks.critical_depth.ndarray
+    grid_sm = tracks.width_max.ndarray.to_value(u.um)
+    step_tc = float(np.diff(grid_tc)[0])
+    step_sm = float(np.diff(grid_sm)[0])
+    edges_tc = np.concatenate([grid_tc - step_tc / 2, [grid_tc[-1] + step_tc / 2]])
+    edges_sm = np.concatenate([grid_sm - step_sm / 2, [grid_sm[-1] + step_sm / 2]])
     ax_a.axvspan(0.25, 0.6, color="0.9")
     for chip, color in _chips.items():
         tc = [f.critical_depth for f in tracks.flat(chip)]
@@ -56,7 +67,7 @@ def parameters() -> aastex.Figure:
         num_core = sum(1 for f in core() if f.track.chip == chip)
         ax_a.hist(
             tc,
-            bins=np.arange(0, 1.06, 0.05),
+            bins=edges_tc,
             histtype="step",
             linewidth=1,
             color=color,
@@ -72,7 +83,7 @@ def parameters() -> aastex.Figure:
             continue
         ax_b.hist(
             sm,
-            bins=np.arange(0, 10.1, 0.5),
+            bins=edges_sm,
             histtype="step",
             linewidth=1,
             color=color,
@@ -81,15 +92,6 @@ def parameters() -> aastex.Figure:
     ax_b.set_ylabel("tracks")
     ax_b.set_title("(b) core tracks, $0.25 < t_c < 0.6$", fontsize=8)
 
-    # the fits are exhaustive searches on grids, so the joint distribution is
-    # a histogram on the grid cells, smoothed by a cell, and drawn as the
-    # contours enclosing half and nine tenths of each CCD's core tracks
-    grid_tc = tracks.critical_depth.ndarray
-    grid_sm = tracks.width_max.ndarray.to_value(u.um)
-    step_tc = float(np.diff(grid_tc)[0])
-    step_sm = float(np.diff(grid_sm)[0])
-    edges_tc = np.concatenate([grid_tc - step_tc / 2, [grid_tc[-1] + step_tc / 2]])
-    edges_sm = np.concatenate([grid_sm - step_sm / 2, [grid_sm[-1] + step_sm / 2]])
     for chip, color in _chips.items():
         subset = [f for f in core() if f.track.chip == chip]
         if not subset:
