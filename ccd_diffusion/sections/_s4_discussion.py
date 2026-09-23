@@ -33,15 +33,16 @@ thickness, which depends on the resistivity of the wafer and the applied
 bias; the same measurement on \AIA\ \CCD{}s, which are of the same
 design, would show whether such variation is common.
 
-Figure~\ref{fig:wavelength} turns the kernel into the quantities an
-instrument designer needs, by averaging it over the depth at which a
-photon of each wavelength is absorbed in silicon.
+Figure~\ref{fig:wavelength} turns the kernel into the quantity an
+instrument designer needs, the width of the charge cloud of a photon, by
+averaging it over the depth at which a photon of each wavelength is
+absorbed in silicon.
 Across the whole ultraviolet the absorption length is under 10 nm, so
-every photon sees the back-surface values of Table~\ref{tab:tracks}: a
-charge cloud 4 to 5 $\mu$m wide, and a same-pixel probability of 0.33 to
-0.43 depending on the \CCD.
-Only in the visible, where photons reach the depletion region, does the
-cloud narrow, and near the band gap the sensor is nearly transparent.
+every photon sees the back-surface width of Table~\ref{tab:tracks}, a
+charge cloud 4 to 5 $\mu$m wide depending on the \CCD.
+Only in the visible and the soft X-rays, where photons reach the
+depletion region, does the cloud narrow, and near the band gap the sensor
+is nearly transparent.
 The spread between the four \CCD{}s is the spread a designer should
 expect between sensors of one design.
 
