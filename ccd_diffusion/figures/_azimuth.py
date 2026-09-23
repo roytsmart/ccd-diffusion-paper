@@ -86,7 +86,12 @@ def azimuth() -> aastex.Figure:
         a.set_title(title, fontsize=8, pad=16)
         a.text(0, 25.5, "along slit", ha="center", va="bottom", fontsize=7)
         a.text(
-            np.radians(90), 25, "along dispersion", ha="right", va="center", fontsize=7
+            np.radians(90),
+            23.8,
+            "along dispersion",
+            ha="right",
+            va="center",
+            fontsize=7,
         )
         a.legend(fontsize=5, loc="upper center", bbox_to_anchor=(0.5, -0.02))
 
