@@ -22,7 +22,6 @@ Widths
       ~Widths.lower
       ~Widths.upper
       ~Widths.fitted
-      ~Widths.model
     
     
 

@@ -436,9 +436,12 @@
 <span class="sd">    diffusion signal in one real track.</span>
 <span class="sd">    """</span>
     <span class="n">tracks</span> <span class="o">=</span> <span class="n">ccd_diffusion</span><span class="o">.</span><span class="n">tracks</span>
-    <span class="n">tc_paper</span><span class="p">,</span> <span class="n">sm_paper</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">paper_model</span><span class="p">()</span>
-    <span class="n">D</span> <span class="o">=</span> <span class="n">ccd_diffusion</span><span class="o">.</span><span class="n">ccd</span><span class="p">()</span><span class="o">.</span><span class="n">thickness_substrate</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span>
-    <span class="n">zf</span> <span class="o">=</span> <span class="n">sm_paper</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span>
+    <span class="c1"># the schematic is drawn at the median fit of the FUV2 tracks</span>
+    <span class="n">typical</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="s2">"FUV2"</span><span class="p">)</span>
+    <span class="n">tc_typical</span> <span class="o">=</span> <span class="n">typical</span><span class="o">.</span><span class="n">critical_depth</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">sm_typical</span> <span class="o">=</span> <span class="n">typical</span><span class="o">.</span><span class="n">width_max</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">thickness</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span>
+    <span class="n">zf</span> <span class="o">=</span> <span class="n">tc_typical</span> <span class="o">*</span> <span class="n">D</span>
     <span class="n">h</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">half_width</span>
     <span class="n">L</span> <span class="o">=</span> <span class="n">_length_schematic</span>
 
@@ -467,7 +470,7 @@
     <span class="n">ax_a</span><span class="o">.</span><span class="n">axhspan</span><span class="p">(</span><span class="n">zf</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"depleted"</span><span class="p">)</span>
     <span class="n">na</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">D</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax_a</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"particle"</span><span class="p">)</span>
     <span class="n">sample</span> <span class="o">=</span> <span class="n">na</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">L</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">"sample"</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">width</span><span class="p">(</span><span class="n">sample</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span> <span class="n">tc_paper</span><span class="p">,</span> <span class="n">sm_paper</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">width</span><span class="p">(</span><span class="n">sample</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span> <span class="n">tc_typical</span><span class="p">,</span> <span class="n">sm_typical</span><span class="p">)</span>
     <span class="n">ax_a</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span>
         <span class="n">sample</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="p">(</span><span class="n">D</span> <span class="o">*</span> <span class="n">sample</span> <span class="o">/</span> <span class="n">L</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
@@ -476,7 +479,7 @@
         <span class="n">color</span><span class="o">=</span><span class="s2">"tab:red"</span><span class="p">,</span>
         <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">capsize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$\pm\sigma(z)$, model"</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$\pm\sigma(z)$, typical fit"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">ax_a</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">zf</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
     <span class="n">ax_a</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">zf</span><span class="p">,</span> <span class="s2">"$z_f$"</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">"right"</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">"bottom"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
@@ -488,7 +491,7 @@
     <span class="n">ax_a</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">"lower right"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
 
     <span class="c1"># (b) the same track seen from above</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">width</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span> <span class="n">tc_paper</span><span class="p">,</span> <span class="n">sm_paper</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">width</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">L</span><span class="p">,</span> <span class="n">tc_typical</span><span class="p">,</span> <span class="n">sm_typical</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="n">h</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="n">ax_b</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"0.85"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
     <span class="n">ax_b</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
@@ -500,7 +503,7 @@
         <span class="n">sigma</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">color</span><span class="o">=</span><span class="s2">"tab:red"</span><span class="p">,</span>
         <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$\pm\sigma(z)$, model"</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$\pm\sigma(z)$, typical fit"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">ax_b</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
     <span class="n">ax_b</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
@@ -544,19 +547,11 @@
     <span class="n">t</span> <span class="o">=</span> <span class="n">example</span><span class="o">.</span><span class="n">depth</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
     <span class="n">none</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">same_pixel_model</span><span class="p">(</span><span class="n">example</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span>
-    <span class="n">paper</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">same_pixel_model</span><span class="p">(</span><span class="n">example</span><span class="p">,</span> <span class="n">tc_paper</span><span class="p">,</span> <span class="n">sm_paper</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="n">best</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">same_pixel_model</span><span class="p">(</span>
         <span class="n">example</span><span class="p">,</span> <span class="n">example</span><span class="o">.</span><span class="n">critical_depth</span><span class="p">,</span> <span class="n">example</span><span class="o">.</span><span class="n">width_max</span><span class="p">,</span> <span class="n">example</span><span class="o">.</span><span class="n">width_depleted</span>
     <span class="p">)</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="n">measured</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">same_pixel</span><span class="p">(</span><span class="n">example</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="n">ax_d</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">order</span><span class="p">],</span> <span class="n">none</span><span class="p">[</span><span class="n">order</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"no diffusion"</span><span class="p">)</span>
-    <span class="n">ax_d</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-        <span class="n">t</span><span class="p">[</span><span class="n">order</span><span class="p">],</span>
-        <span class="n">paper</span><span class="p">[</span><span class="n">order</span><span class="p">],</span>
-        <span class="n">color</span><span class="o">=</span><span class="s2">"tab:red"</span><span class="p">,</span>
-        <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="sa">rf</span><span class="s2">"model: $t_c=</span><span class="si">{</span><span class="n">tc_paper</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">$, $\sigma_\mathrm</span><span class="se">{{</span><span class="s2">max</span><span class="se">}}</span><span class="s2">=</span><span class="si">{</span><span class="n">zf</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">$ $\mu$m"</span><span class="p">,</span>
-    <span class="p">)</span>
     <span class="n">ax_d</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
         <span class="n">t</span><span class="p">[</span><span class="n">order</span><span class="p">],</span>
         <span class="n">best</span><span class="p">[</span><span class="n">order</span><span class="p">],</span>
@@ -567,7 +562,6 @@
     <span class="p">)</span>
     <span class="n">ax_d</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">measured</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"measured"</span><span class="p">)</span>
     <span class="n">ax_d</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">example</span><span class="o">.</span><span class="n">critical_depth</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">":"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
-    <span class="n">ax_d</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">tc_paper</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:red"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">":"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
     <span class="n">ax_d</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">)</span>
     <span class="n">ax_d</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"fractional depth, $t = z / D$"</span><span class="p">)</span>
     <span class="n">ax_d</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"same-column probability, $\sum_j f_j^2$"</span><span class="p">)</span>
@@ -581,16 +575,16 @@
 <span class="s2">(a) A particle entering at the illuminated back surface ($z = 0$) and leaving</span>
 <span class="s2">at the gates ($z = D$) crosses the field-free layer first, where the charge</span>
 <span class="s2">it liberates diffuses until it reaches the depletion edge, so the lateral</span>
-<span class="s2">spread (red bars, to scale in pixels) is largest at the back surface and</span>
-<span class="s2">vanishes at $z = z_f$.</span>
+<span class="s2">spread (red bars, to scale in pixels, at the median fit of the \FUV</span><span class="si">{}</span><span class="s2">2</span>
+<span class="s2">tracks) is largest at the back surface and vanishes at $z = z_f$.</span>
 <span class="s2">(b) Seen from above, the track is a wedge: about 0.4 pixels wide at one end</span>
 <span class="s2">and pixel-sharp beyond $t_c$.</span>
 <span class="s2">(c) A proton track on the \FUV</span><span class="si">{}</span><span class="s2">2 \CCD, in the coordinates of its parent</span>
 <span class="s2">image, with the fitted centerline dashed.</span>
 <span class="s2">(d) The probability that two electrons deposited in the same slice of that</span>
 <span class="s2">track are collected in the same column, $\sum_j f_j^2$ corrected for read</span>
-<span class="s2">noise, for every slice, against the field-free model, the best fit, and a</span>
-<span class="s2">model with no diffusion, all evaluated at the fitted centerline.</span>
+<span class="s2">noise, for every slice, against the best fit and a model with no</span>
+<span class="s2">diffusion, both evaluated at the fitted centerline.</span>
 <span class="s2">The dip near $t = 0.2$ is where the centerline crosses a pixel boundary; the</span>
 <span class="s2">diffusion signal is the gap between the measured points and the</span>
 <span class="s2">no-diffusion curve."""</span><span class="p">))</span>

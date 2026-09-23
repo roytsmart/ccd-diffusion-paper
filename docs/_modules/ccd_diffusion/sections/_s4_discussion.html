@@ -397,15 +397,13 @@
     <span class="n">result</span> <span class="o">=</span> <span class="n">aastex</span><span class="o">.</span><span class="n">Section</span><span class="p">(</span><span class="s2">"Discussion"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"sec:discussion"</span><span class="p">)</span>
     <span class="n">result</span><span class="o">.</span><span class="n">escape</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">r</span><span class="s2">"""</span>
-<span class="s2">At the back surface, where \UV\ photons are absorbed, the tracks confirm the</span>
-<span class="s2">field-free model on the \SJI\ and \FUV</span><span class="si">{}</span><span class="s2">2 \CCD</span><span class="si">{}</span><span class="s2">s: the same-pixel</span>
-<span class="s2">probability of $\sjiSamePixel \pm \sjiSamePixelError$ on \SJI\ matches the</span>
-<span class="s2">\sjiSamePixelModel\ predicted from the depletion thickness of the model,</span>
-<span class="s2">which is the quantity the companion noise model needs.</span>
-<span class="s2">On the \NUV\ and \FUV</span><span class="si">{}</span><span class="s2">1 \CCD</span><span class="si">{}</span><span class="s2">s the cloud is narrower than the model,</span>
-<span class="s2">by a little and by a lot.</span>
+<span class="s2">At the back surface, where \UV\ photons are absorbed, the tracks give the</span>
+<span class="s2">kernel directly: on \SJI\ the field-free layer is \sjiCriticalDepth\ of</span>
+<span class="s2">the thickness, the cloud is \sjiWidthMax\ $\mu$m wide, and the same-pixel</span>
+<span class="s2">probability is $\sjiSamePixel \pm \sjiSamePixelError$, the quantity that</span>
+<span class="s2">enters the variance of a \UV\ image.</span>
 <span class="s2">Deeper in the sensor the tracks see a spread of under a micron,</span>
-<span class="s2">$\sigma_d$, that the field-free model neglects.</span>
+<span class="s2">$\sigma_d$, that a purely field-free kernel would neglect.</span>
 <span class="s2">It is about what the drift-time diffusion across the depleted thickness</span>
 <span class="s2">plus the micron-scale ionization column of the track itself should give,</span>
 <span class="s2">and it is small compared with the back-surface spread, so it has little</span>
@@ -413,8 +411,6 @@
 <span class="s2">It cannot be left out of the fit, though: without it the wedge stretches</span>
 <span class="s2">to absorb the floor and $t_c$ comes out too large, which is why</span>
 <span class="s2">Equation~\ref{eq:width} carries it from the start.</span>
-<span class="s2">With it, the fitted $t_c$ of $\sjiCriticalDepth \pm \sjiCriticalDepthError$</span>
-<span class="s2">on \SJI\ is to be compared with the model's \modelCriticalDepth.</span>
 
 <span class="s2">The \FUV</span><span class="si">{}</span><span class="s2">1 \CCD\ is narrower than the other three, at the back surface</span>
 <span class="s2">and in the fitted $\sigma_\text</span><span class="si">{max}</span><span class="s2">$ alike, and \NUV\ sits between it and</span>

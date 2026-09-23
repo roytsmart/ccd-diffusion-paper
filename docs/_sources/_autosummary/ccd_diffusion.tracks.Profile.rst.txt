@@ -21,7 +21,6 @@ Profile
       ~Profile.num
       ~Profile.measured
       ~Profile.error
-      ~Profile.paper
       ~Profile.fitted
       ~Profile.none
     

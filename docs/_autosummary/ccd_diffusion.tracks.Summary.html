@@ -349,8 +349,6 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="ccd_diffusion.ccd.html">ccd</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ccd_diffusion.ccd_aia.html">ccd_aia</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ccd_diffusion.acronyms.html">acronyms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ccd_diffusion.variables.html">variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ccd_diffusion.authors.html">authors</a></li>
@@ -430,7 +428,6 @@
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.save.html">save</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.same_pixel.html">same_pixel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.same_pixel_model.html">same_pixel_model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.paper_model.html">paper_model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.profile.html">profile</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.summary.html">summary</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.Campaign.html">Campaign</a></li>
@@ -546,7 +543,7 @@
 <h1>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="ccd_diffusion.tracks.Summary">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">ccd_diffusion.tracks.</span></span><span class="sig-name descname"><span class="pre">Summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chip</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_tracks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_flat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_depleted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">critical_depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">critical_depth_error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">same_pixel_1d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">same_pixel_1d_error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">same_pixel_paper_1d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ccd_diffusion/tracks/_samepix.html#Summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ccd_diffusion.tracks.Summary" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">ccd_diffusion.tracks.</span></span><span class="sig-name descname"><span class="pre">Summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chip</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_tracks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_flat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_depleted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">critical_depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">critical_depth_error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">same_pixel_1d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">same_pixel_1d_error</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ccd_diffusion/tracks/_samepix.html#Summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ccd_diffusion.tracks.Summary" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The diffusion measurement for one CCD.</p>
 <p class="rubric">Attributes</p>
@@ -558,38 +555,32 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.same_pixel_error" title="ccd_diffusion.tracks.Summary.same_pixel_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">same_pixel_error</span></code></a></p></td>
 <td><p>The standard error of <a class="reference internal" href="ccd_diffusion.tracks.same_pixel.html#ccd_diffusion.tracks.same_pixel" title="ccd_diffusion.tracks.same_pixel"><code class="xref py py-attr docutils literal notranslate"><span class="pre">same_pixel</span></code></a>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.same_pixel_paper" title="ccd_diffusion.tracks.Summary.same_pixel_paper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">same_pixel_paper</span></code></a></p></td>
-<td><p>The same-pixel probability at the back surface predicted by the CCD model in two dimensions.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.chip" title="ccd_diffusion.tracks.Summary.chip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chip</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.chip" title="ccd_diffusion.tracks.Summary.chip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chip</span></code></a></p></td>
 <td><p>The CCD that was measured.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.num_tracks" title="ccd_diffusion.tracks.Summary.num_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_tracks</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.num_tracks" title="ccd_diffusion.tracks.Summary.num_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_tracks</span></code></a></p></td>
 <td><p>The number of tracks found on this CCD.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.num_flat" title="ccd_diffusion.tracks.Summary.num_flat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_flat</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.num_flat" title="ccd_diffusion.tracks.Summary.num_flat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_flat</span></code></a></p></td>
 <td><p>The number of tracks that pass the <a class="reference internal" href="ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit.flat" title="ccd_diffusion.tracks.Fit.flat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Fit.flat</span></code></a> cut.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.width_depleted" title="ccd_diffusion.tracks.Summary.width_depleted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">width_depleted</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.width_depleted" title="ccd_diffusion.tracks.Summary.width_depleted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">width_depleted</span></code></a></p></td>
 <td><p>The spread inside the depletion region fit to the CCD as a whole.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.critical_depth" title="ccd_diffusion.tracks.Summary.critical_depth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">critical_depth</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.critical_depth" title="ccd_diffusion.tracks.Summary.critical_depth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">critical_depth</span></code></a></p></td>
 <td><p>The 25th, 50th and 75th percentiles of the fitted <span class="math notranslate nohighlight">\(t_c\)</span>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.critical_depth_error" title="ccd_diffusion.tracks.Summary.critical_depth_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">critical_depth_error</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.critical_depth_error" title="ccd_diffusion.tracks.Summary.critical_depth_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">critical_depth_error</span></code></a></p></td>
 <td><p>The standard error of the mean fitted <span class="math notranslate nohighlight">\(t_c\)</span>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.width_max" title="ccd_diffusion.tracks.Summary.width_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">width_max</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.width_max" title="ccd_diffusion.tracks.Summary.width_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">width_max</span></code></a></p></td>
 <td><p>The 25th, 50th and 75th percentiles of the fitted <span class="math notranslate nohighlight">\(\sigma_\text{max}\)</span>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.same_pixel_1d" title="ccd_diffusion.tracks.Summary.same_pixel_1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">same_pixel_1d</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.same_pixel_1d" title="ccd_diffusion.tracks.Summary.same_pixel_1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">same_pixel_1d</span></code></a></p></td>
 <td><p>The measured same-pixel probability at the back surface along one axis.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.same_pixel_1d_error" title="ccd_diffusion.tracks.Summary.same_pixel_1d_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">same_pixel_1d_error</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.same_pixel_1d_error" title="ccd_diffusion.tracks.Summary.same_pixel_1d_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">same_pixel_1d_error</span></code></a></p></td>
 <td><p>The standard error of <a class="reference internal" href="#ccd_diffusion.tracks.Summary.same_pixel_1d" title="ccd_diffusion.tracks.Summary.same_pixel_1d"><code class="xref py py-attr docutils literal notranslate"><span class="pre">same_pixel_1d</span></code></a>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Summary.same_pixel_paper_1d" title="ccd_diffusion.tracks.Summary.same_pixel_paper_1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">same_pixel_paper_1d</span></code></a></p></td>
-<td><p>The same-pixel probability at the back surface predicted by the CCD model of this article.</p></td>
 </tr>
 </tbody>
 </table>
@@ -619,7 +610,6 @@
 <li><p><strong>width_max</strong> (<em>Quantity</em>)</p></li>
 <li><p><strong>same_pixel_1d</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>)</p></li>
 <li><p><strong>same_pixel_1d_error</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>)</p></li>
-<li><p><strong>same_pixel_paper_1d</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -675,18 +665,6 @@
 <dt class="sig sig-object py" id="ccd_diffusion.tracks.Summary.same_pixel_error">
 <span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">same_pixel_error</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#ccd_diffusion.tracks.Summary.same_pixel_error" title="Link to this definition">#</a></dt>
 <dd><p>The standard error of <a class="reference internal" href="ccd_diffusion.tracks.same_pixel.html#ccd_diffusion.tracks.same_pixel" title="ccd_diffusion.tracks.same_pixel"><code class="xref py py-attr docutils literal notranslate"><span class="pre">same_pixel</span></code></a>.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="ccd_diffusion.tracks.Summary.same_pixel_paper">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">same_pixel_paper</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#ccd_diffusion.tracks.Summary.same_pixel_paper" title="Link to this definition">#</a></dt>
-<dd><p>The same-pixel probability at the back surface predicted by the CCD model in two dimensions.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ccd_diffusion.tracks.Summary.same_pixel_paper_1d">
-<span class="sig-name descname"><span class="pre">same_pixel_paper_1d</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#ccd_diffusion.tracks.Summary.same_pixel_paper_1d" title="Link to this definition">#</a></dt>
-<dd><p>The same-pixel probability at the back surface predicted by the CCD model of this article.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -762,8 +740,6 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Summary.same_pixel_1d"><code class="docutils literal notranslate"><span class="pre">Summary.same_pixel_1d</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Summary.same_pixel_1d_error"><code class="docutils literal notranslate"><span class="pre">Summary.same_pixel_1d_error</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Summary.same_pixel_error"><code class="docutils literal notranslate"><span class="pre">Summary.same_pixel_error</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Summary.same_pixel_paper"><code class="docutils literal notranslate"><span class="pre">Summary.same_pixel_paper</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Summary.same_pixel_paper_1d"><code class="docutils literal notranslate"><span class="pre">Summary.same_pixel_paper_1d</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Summary.width_depleted"><code class="docutils literal notranslate"><span class="pre">Summary.width_depleted</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Summary.width_max"><code class="docutils literal notranslate"><span class="pre">Summary.width_max</span></code></a></li>
 </ul>

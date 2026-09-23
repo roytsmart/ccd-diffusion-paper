@@ -15,8 +15,6 @@
       :toctree:
       :template: function_custom.rst
     
-      ccd
-      ccd_aia
       acronyms
       variables
       authors

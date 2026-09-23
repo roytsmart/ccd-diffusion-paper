@@ -18,7 +18,6 @@ Summary
     
       ~Summary.same_pixel
       ~Summary.same_pixel_error
-      ~Summary.same_pixel_paper
       ~Summary.chip
       ~Summary.num_tracks
       ~Summary.num_flat
@@ -28,7 +27,6 @@ Summary
       ~Summary.width_max
       ~Summary.same_pixel_1d
       ~Summary.same_pixel_1d_error
-      ~Summary.same_pixel_paper_1d
     
     
 

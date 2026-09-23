@@ -539,7 +539,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    chip</span>
-<span class="sd">        The CCD, ``FUV1``, ``FUV2`` or ``SJI``.</span>
+<span class="sd">        The CCD, ``FUV1``, ``FUV2``, ``NUV``, or ``SJI``.</span>
 <span class="sd">    """</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">_path_depleted</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s2">"chip"</span><span class="p">]</span> <span class="o">==</span> <span class="n">chip</span><span class="p">]</span>

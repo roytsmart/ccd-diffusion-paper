@@ -70,7 +70,6 @@ tracks
       save
       same_pixel
       same_pixel_model
-      paper_model
       profile
       summary
     

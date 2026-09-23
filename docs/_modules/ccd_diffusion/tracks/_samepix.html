@@ -399,7 +399,6 @@
     <span class="s2">"depth_back"</span><span class="p">,</span>
     <span class="s2">"same_pixel"</span><span class="p">,</span>
     <span class="s2">"same_pixel_model"</span><span class="p">,</span>
-    <span class="s2">"paper_model"</span><span class="p">,</span>
     <span class="s2">"Profile"</span><span class="p">,</span>
     <span class="s2">"profile"</span><span class="p">,</span>
     <span class="s2">"Summary"</span><span class="p">,</span>
@@ -467,17 +466,6 @@
 
 
 
-<div class="viewcode-block" id="paper_model">
-<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.paper_model.html#ccd_diffusion.tracks.paper_model">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">paper_model</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""The field-free thickness and back-surface width of the CCD model used in this article."""</span>
-    <span class="n">ccd</span> <span class="o">=</span> <span class="n">ccd_diffusion</span><span class="o">.</span><span class="n">ccd</span><span class="p">()</span>
-    <span class="n">thickness</span> <span class="o">=</span> <span class="n">ccd</span><span class="o">.</span><span class="n">thickness_substrate</span>
-    <span class="n">width_max</span> <span class="o">=</span> <span class="n">thickness</span> <span class="o">-</span> <span class="n">ccd</span><span class="o">.</span><span class="n">depletion</span><span class="o">.</span><span class="n">thickness</span>
-    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">width_max</span> <span class="o">/</span> <span class="n">thickness</span><span class="p">),</span> <span class="n">width_max</span></div>
-
-
-
 <div class="viewcode-block" id="Profile">
 <a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.Profile.html#ccd_diffusion.tracks.Profile">[docs]</a>
 <span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -498,9 +486,6 @@
 
     <span class="n">error</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
 <span class="w">    </span><span class="sd">"""The standard error of :attr:`measured`."""</span>
-
-    <span class="n">paper</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
-<span class="w">    </span><span class="sd">"""The mean same-pixel probability predicted by the CCD model of this article."""</span>
 
     <span class="n">fitted</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
 <span class="w">    </span><span class="sd">"""The mean same-pixel probability predicted by the per-track fits, including :math:`\\sigma_d`."""</span>
@@ -535,12 +520,10 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    chip</span>
-<span class="sd">        The CCD to summarize, ``FUV1``, ``FUV2`` or ``SJI``.</span>
+<span class="sd">        The CCD to summarize, ``FUV1``, ``FUV2``, ``NUV``, or ``SJI``.</span>
 <span class="sd">    """</span>
-    <span class="n">tc_paper</span><span class="p">,</span> <span class="n">sm_paper</span> <span class="o">=</span> <span class="n">paper_model</span><span class="p">()</span>
     <span class="n">depth</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">measured</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">paper</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">fitted</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">none</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fits</span><span class="p">():</span>
@@ -548,7 +531,6 @@
             <span class="k">continue</span>
         <span class="n">depth</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">depth</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
         <span class="n">measured</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">same_pixel</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
-        <span class="n">paper</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">same_pixel_model</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">tc_paper</span><span class="p">,</span> <span class="n">sm_paper</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
         <span class="n">fitted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">same_pixel_model</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">critical_depth</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">width_max</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">width_depleted</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span>
         <span class="p">)</span>
@@ -568,7 +550,6 @@
         <span class="n">num</span><span class="o">=</span><span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="n">axis_depth</span><span class="p">),</span>
         <span class="n">measured</span><span class="o">=</span><span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="n">axis_depth</span><span class="p">),</span>
         <span class="n">error</span><span class="o">=</span><span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="n">axis_depth</span><span class="p">),</span>
-        <span class="n">paper</span><span class="o">=</span><span class="nb">bin</span><span class="p">(</span><span class="n">paper</span><span class="p">),</span>
         <span class="n">fitted</span><span class="o">=</span><span class="nb">bin</span><span class="p">(</span><span class="n">fitted</span><span class="p">),</span>
         <span class="n">none</span><span class="o">=</span><span class="nb">bin</span><span class="p">(</span><span class="n">none</span><span class="p">),</span>
     <span class="p">)</span></div>
@@ -608,9 +589,6 @@
     <span class="n">same_pixel_1d_error</span><span class="p">:</span> <span class="nb">float</span>
 <span class="w">    </span><span class="sd">"""The standard error of :attr:`same_pixel_1d`."""</span>
 
-    <span class="n">same_pixel_paper_1d</span><span class="p">:</span> <span class="nb">float</span>
-<span class="w">    </span><span class="sd">"""The same-pixel probability at the back surface predicted by the CCD model of this article."""</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">same_pixel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""The measured same-pixel probability at the back surface in two dimensions."""</span>
@@ -619,12 +597,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">same_pixel_error</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""The standard error of :attr:`same_pixel`."""</span>
-        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">same_pixel_1d</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">same_pixel_1d_error</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">same_pixel_paper</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""The same-pixel probability at the back surface predicted by the CCD model in two dimensions."""</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">same_pixel_paper_1d</span><span class="o">**</span><span class="mi">2</span></div>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">same_pixel_1d</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">same_pixel_1d_error</span></div>
 
 
 
@@ -638,17 +611,13 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    chip</span>
-<span class="sd">        The CCD to summarize, ``FUV1``, ``FUV2`` or ``SJI``.</span>
+<span class="sd">        The CCD to summarize, ``FUV1``, ``FUV2``, ``NUV``, or ``SJI``.</span>
 <span class="sd">    """</span>
-    <span class="n">tc_paper</span><span class="p">,</span> <span class="n">sm_paper</span> <span class="o">=</span> <span class="n">paper_model</span><span class="p">()</span>
     <span class="n">all_fits</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fits</span><span class="p">()</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">chip</span> <span class="o">==</span> <span class="n">chip</span><span class="p">]</span>
     <span class="n">flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">all_fits</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">flat</span><span class="p">]</span>
 
     <span class="n">depth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">f</span><span class="o">.</span><span class="n">depth</span><span class="o">.</span><span class="n">ndarray</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">flat</span><span class="p">])</span>
     <span class="n">measured</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">same_pixel</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">flat</span><span class="p">])</span>
-    <span class="n">paper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">same_pixel_model</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">tc_paper</span><span class="p">,</span> <span class="n">sm_paper</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">flat</span><span class="p">]</span>
-    <span class="p">)</span>
     <span class="n">back</span> <span class="o">=</span> <span class="p">(</span><span class="n">depth</span> <span class="o">&lt;</span> <span class="n">depth_back</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">measured</span><span class="p">)</span>
 
     <span class="n">tc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="o">.</span><span class="n">critical_depth</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">flat</span><span class="p">])</span>
@@ -664,7 +633,6 @@
         <span class="n">width_max</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">sm</span><span class="p">,</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">75</span><span class="p">]),</span>
         <span class="n">same_pixel_1d</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">measured</span><span class="p">[</span><span class="n">back</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()),</span>
         <span class="n">same_pixel_1d_error</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">measured</span><span class="p">[</span><span class="n">back</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">back</span><span class="o">.</span><span class="n">sum</span><span class="p">())),</span>
-        <span class="n">same_pixel_paper_1d</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">paper</span><span class="p">[</span><span class="n">back</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()),</span>
     <span class="p">)</span></div>
 
 </pre></div>

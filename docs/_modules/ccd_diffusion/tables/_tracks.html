@@ -434,16 +434,14 @@
 <span class="s2">whole, and $t_c$ and $\sigma_\text</span><span class="si">{max}</span><span class="s2">$ are the medians of the per-track</span>
 <span class="s2">fits at that $\sigma_d$, with the interquartile range in brackets.</span>
 <span class="s2">$p$ is the probability that two electrons deposited within $D / 10$ of the</span>
-<span class="s2">back surface are collected in the same column, $\mathcal</span><span class="si">{P}</span><span class="s2"> = p^2$ is the</span>
-<span class="s2">corresponding probability that they are collected in the same pixel, and the</span>
-<span class="s2">last column is $\mathcal</span><span class="si">{P}</span><span class="s2">$ predicted by the field-free model for the same</span>
-<span class="s2">tracks."""</span><span class="p">))</span>
+<span class="s2">back surface are collected in the same column, and $\mathcal</span><span class="si">{P}</span><span class="s2"> = p^2$ is</span>
+<span class="s2">the corresponding probability that they are collected in the same pixel."""</span><span class="p">))</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="s2">"label"</span><span class="p">,</span> <span class="s2">"tab:tracks"</span><span class="p">))</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="s2">"footnotesize"</span><span class="p">))</span>
     <span class="c1"># ten columns at the default column padding run past the text width</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">NoEscape</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\setlength{\tabcolsep}</span><span class="si">{3pt}</span><span class="s2">"</span><span class="p">))</span>
 
-    <span class="n">tabular</span> <span class="o">=</span> <span class="n">pylatex</span><span class="o">.</span><span class="n">Tabular</span><span class="p">(</span><span class="s2">"lrrrcccccc"</span><span class="p">,</span> <span class="n">booktabs</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">tabular</span> <span class="o">=</span> <span class="n">pylatex</span><span class="o">.</span><span class="n">Tabular</span><span class="p">(</span><span class="s2">"lrrrccccc"</span><span class="p">,</span> <span class="n">booktabs</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">tabular</span><span class="o">.</span><span class="n">escape</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">tabular</span><span class="o">.</span><span class="n">add_hline</span><span class="p">()</span>
     <span class="n">tabular</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span>
@@ -459,7 +457,6 @@
                 <span class="sa">r</span><span class="s2">"$\sigma_\text</span><span class="si">{max}</span><span class="s2">$ ($\mu$m)"</span><span class="p">,</span>
                 <span class="s2">"$p$"</span><span class="p">,</span>
                 <span class="sa">r</span><span class="s2">"$\mathcal</span><span class="si">{P}</span><span class="s2">$"</span><span class="p">,</span>
-                <span class="sa">r</span><span class="s2">"$\mathcal</span><span class="si">{P}</span><span class="s2">_\text</span><span class="si">{model}</span><span class="s2">$"</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">]</span>
     <span class="p">)</span>
@@ -481,7 +478,6 @@
             <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">sm</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">sm</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">sm</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">]"</span><span class="p">,</span>
             <span class="sa">f</span><span class="s2">"$</span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">same_pixel_1d</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="se">\\</span><span class="s2">pm </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">same_pixel_1d_error</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">$"</span><span class="p">,</span>
             <span class="sa">f</span><span class="s2">"$</span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">same_pixel</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="se">\\</span><span class="s2">pm </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">same_pixel_error</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">$"</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">same_pixel_paper</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
         <span class="p">]</span>
         <span class="n">tabular</span><span class="o">.</span><span class="n">add_row</span><span class="p">([</span><span class="n">pylatex</span><span class="o">.</span><span class="n">NoEscape</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">row</span><span class="p">])</span>
     <span class="n">tabular</span><span class="o">.</span><span class="n">add_hline</span><span class="p">()</span>

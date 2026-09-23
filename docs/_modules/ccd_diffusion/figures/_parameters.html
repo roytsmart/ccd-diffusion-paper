@@ -428,8 +428,6 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">parameters</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">aastex</span><span class="o">.</span><span class="n">Figure</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""The distributions of the fitted parameters on each CCD and in each dataset."""</span>
     <span class="n">tracks</span> <span class="o">=</span> <span class="n">ccd_diffusion</span><span class="o">.</span><span class="n">tracks</span>
-    <span class="n">tc_paper</span><span class="p">,</span> <span class="n">sm_paper</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">paper_model</span><span class="p">()</span>
-    <span class="n">zf</span> <span class="o">=</span> <span class="n">sm_paper</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span>
 
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
         <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
@@ -452,7 +450,6 @@
             <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
             <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">chip</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tc</span><span class="p">)</span><span class="si">}</span><span class="s2"> flat, </span><span class="si">{</span><span class="n">num_core</span><span class="si">}</span><span class="s2"> core)"</span><span class="p">,</span>
         <span class="p">)</span>
-    <span class="n">ax_a</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">tc_paper</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:red"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"model"</span><span class="p">)</span>
     <span class="n">ax_a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"$t_c$"</span><span class="p">)</span>
     <span class="n">ax_a</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"tracks"</span><span class="p">)</span>
     <span class="n">ax_a</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"(a) flat tracks"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
@@ -468,7 +465,6 @@
             <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
             <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
         <span class="p">)</span>
-    <span class="n">ax_b</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">zf</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:red"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">)</span>
     <span class="n">ax_b</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$\sigma_\mathrm</span><span class="si">{max}</span><span class="s2">$ ($\mu$m)"</span><span class="p">)</span>
     <span class="n">ax_b</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"tracks"</span><span class="p">)</span>
     <span class="n">ax_b</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"(b) core tracks, $0.25 &lt; t_c &lt; 0.6$"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
@@ -498,8 +494,6 @@
             <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="n">color</span><span class="p">],</span>
             <span class="n">linewidths</span><span class="o">=</span><span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
         <span class="p">)</span>
-    <span class="n">ax_c</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">tc_paper</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:red"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
-    <span class="n">ax_c</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">zf</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:red"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
     <span class="n">campaigns</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">tracks</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span>
         <span class="n">subset</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">core</span><span class="p">()</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">dataset</span> <span class="o">==</span> <span class="n">dataset</span><span class="p">]</span>
@@ -540,23 +534,21 @@
     <span class="n">result</span><span class="o">.</span><span class="n">add_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
     <span class="n">result</span><span class="o">.</span><span class="n">add_caption</span><span class="p">(</span><span class="n">aastex</span><span class="o">.</span><span class="n">NoEscape</span><span class="p">(</span><span class="sa">r</span><span class="s2">"""</span>
 <span class="s2">The fitted parameters.</span>
-<span class="s2">(a) The critical depth of every flat track on each \CCD, with the</span>
-<span class="s2">field-free model dashed.</span>
-<span class="s2">The tails below 0.25 and above 0.6 are tracks the model describes</span>
-<span class="s2">poorly, sharp or diffuse along most of their length, and they are</span>
-<span class="s2">excluded from the shaded core used elsewhere.</span>
+<span class="s2">(a) The critical depth of every flat track on each \CCD.</span>
+<span class="s2">The tails below 0.25 and above 0.6 are tracks Equation~\ref{eq:width}</span>
+<span class="s2">describes poorly, sharp or diffuse along most of their length, and they</span>
+<span class="s2">are excluded from the shaded core used elsewhere.</span>
 <span class="s2">(b) The back-surface width of the core tracks.</span>
 <span class="s2">(c) The joint distribution of the core tracks on each \CCD, as the</span>
 <span class="s2">contours enclosing half (thick) and nine tenths (thin) of them, on the</span>
 <span class="s2">grid the fits are searched over (0.05 in $t_c$ and 0.5 $\mu$m in</span>
-<span class="s2">$\sigma_\text</span><span class="si">{max}</span><span class="s2">$) smoothed by one cell, with the field-free model at</span>
-<span class="s2">the crossing of the dashed lines and the mean of each campaign of</span>
-<span class="s2">Table~\ref{tab:datasets} with its standard error as an open circle.</span>
+<span class="s2">$\sigma_\text</span><span class="si">{max}</span><span class="s2">$) smoothed by one cell, with the mean of each campaign</span>
+<span class="s2">of Table~\ref{tab:datasets} and its standard error as an open circle.</span>
 <span class="s2">The campaigns, spanning two particle populations, four spacecraft rolls,</span>
 <span class="s2">and the spectrograph and slit-jaw \CCD</span><span class="si">{}</span><span class="s2">s, agree to within a few</span>
-<span class="s2">hundredths in $t_c$, all within 0.04 of the model, and the contours run wider in $\sigma_\text</span><span class="si">{max}</span><span class="s2">$ than</span>
-<span class="s2">in $t_c$, since a single track constrains its back-surface width less</span>
-<span class="s2">well than the depth at which it sharpens."""</span><span class="p">))</span>
+<span class="s2">hundredths in $t_c$, and the contours run wider in $\sigma_\text</span><span class="si">{max}</span><span class="s2">$</span>
+<span class="s2">than in $t_c$, since a single track constrains its back-surface width</span>
+<span class="s2">less well than the depth at which it sharpens."""</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">result</span></div>
 
 </pre></div>

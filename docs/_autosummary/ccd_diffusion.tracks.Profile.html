@@ -349,8 +349,6 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="ccd_diffusion.ccd.html">ccd</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ccd_diffusion.ccd_aia.html">ccd_aia</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ccd_diffusion.acronyms.html">acronyms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ccd_diffusion.variables.html">variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ccd_diffusion.authors.html">authors</a></li>
@@ -430,7 +428,6 @@
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.save.html">save</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.same_pixel.html">same_pixel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.same_pixel_model.html">same_pixel_model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.paper_model.html">paper_model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.profile.html">profile</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.summary.html">summary</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.Campaign.html">Campaign</a></li>
@@ -546,7 +543,7 @@
 <h1>Profile<a class="headerlink" href="#profile" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="ccd_diffusion.tracks.Profile">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">ccd_diffusion.tracks.</span></span><span class="sig-name descname"><span class="pre">Profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chip</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measured</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">none</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ccd_diffusion/tracks/_samepix.html#Profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ccd_diffusion.tracks.Profile" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">ccd_diffusion.tracks.</span></span><span class="sig-name descname"><span class="pre">Profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chip</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measured</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">none</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ccd_diffusion/tracks/_samepix.html#Profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ccd_diffusion.tracks.Profile" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The same-pixel probability as a function of depth for one CCD.</p>
 <p class="rubric">Attributes</p>
@@ -567,13 +564,10 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Profile.error" title="ccd_diffusion.tracks.Profile.error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">error</span></code></a></p></td>
 <td><p>The standard error of <a class="reference internal" href="#ccd_diffusion.tracks.Profile.measured" title="ccd_diffusion.tracks.Profile.measured"><code class="xref py py-attr docutils literal notranslate"><span class="pre">measured</span></code></a>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Profile.paper" title="ccd_diffusion.tracks.Profile.paper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">paper</span></code></a></p></td>
-<td><p>The mean same-pixel probability predicted by the CCD model of this article.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Profile.fitted" title="ccd_diffusion.tracks.Profile.fitted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fitted</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Profile.fitted" title="ccd_diffusion.tracks.Profile.fitted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fitted</span></code></a></p></td>
 <td><p>The mean same-pixel probability predicted by the per-track fits, including <span class="math notranslate nohighlight">\(\sigma_d\)</span>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Profile.none" title="ccd_diffusion.tracks.Profile.none"><code class="xref py py-obj docutils literal notranslate"><span class="pre">none</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Profile.none" title="ccd_diffusion.tracks.Profile.none"><code class="xref py py-obj docutils literal notranslate"><span class="pre">none</span></code></a></p></td>
 <td><p>The mean same-pixel probability predicted with no charge diffusion.</p></td>
 </tr>
 </tbody>
@@ -600,7 +594,6 @@
 <li><p><strong>num</strong> (<em>AbstractScalarArray</em>)</p></li>
 <li><p><strong>measured</strong> (<em>AbstractScalarArray</em>)</p></li>
 <li><p><strong>error</strong> (<em>AbstractScalarArray</em>)</p></li>
-<li><p><strong>paper</strong> (<em>AbstractScalarArray</em>)</p></li>
 <li><p><strong>fitted</strong> (<em>AbstractScalarArray</em>)</p></li>
 <li><p><strong>none</strong> (<em>AbstractScalarArray</em>)</p></li>
 </ul>
@@ -646,12 +639,6 @@
 <dt class="sig sig-object py" id="ccd_diffusion.tracks.Profile.num">
 <span class="sig-name descname"><span class="pre">num</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">AbstractScalarArray</span></span><a class="headerlink" href="#ccd_diffusion.tracks.Profile.num" title="Link to this definition">#</a></dt>
 <dd><p>The number of slices in each depth bin.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ccd_diffusion.tracks.Profile.paper">
-<span class="sig-name descname"><span class="pre">paper</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">AbstractScalarArray</span></span><a class="headerlink" href="#ccd_diffusion.tracks.Profile.paper" title="Link to this definition">#</a></dt>
-<dd><p>The mean same-pixel probability predicted by the CCD model of this article.</p>
 </dd></dl>
 
 </dd></dl>
@@ -713,7 +700,6 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Profile.measured"><code class="docutils literal notranslate"><span class="pre">Profile.measured</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Profile.none"><code class="docutils literal notranslate"><span class="pre">Profile.none</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Profile.num"><code class="docutils literal notranslate"><span class="pre">Profile.num</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Profile.paper"><code class="docutils literal notranslate"><span class="pre">Profile.paper</span></code></a></li>
 </ul>
 </li>
 </ul>

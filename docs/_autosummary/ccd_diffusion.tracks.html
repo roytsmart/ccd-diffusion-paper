@@ -349,8 +349,6 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="ccd_diffusion.ccd.html">ccd</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ccd_diffusion.ccd_aia.html">ccd_aia</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ccd_diffusion.acronyms.html">acronyms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ccd_diffusion.variables.html">variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ccd_diffusion.authors.html">authors</a></li>
@@ -430,7 +428,6 @@
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.save.html">save</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.same_pixel.html">same_pixel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.same_pixel_model.html">same_pixel_model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.paper_model.html">paper_model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.profile.html">profile</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.summary.html">summary</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.Campaign.html">Campaign</a></li>
@@ -716,13 +713,10 @@ by running <code class="docutils literal notranslate"><span class="pre">python</
 <tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.same_pixel_model.html#ccd_diffusion.tracks.same_pixel_model" title="ccd_diffusion.tracks.same_pixel_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">same_pixel_model</span></code></a>(fit, critical_depth, width_max)</p></td>
 <td><p>The probability that two charges from the same slice are collected in the same pixel column predicted by the diffusion model for the best-fit centerline of the given track.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.paper_model.html#ccd_diffusion.tracks.paper_model" title="ccd_diffusion.tracks.paper_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">paper_model</span></code></a>()</p></td>
-<td><p>The field-free thickness and back-surface width of the CCD model used in this article.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.profile.html#ccd_diffusion.tracks.profile" title="ccd_diffusion.tracks.profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">profile</span></code></a>(chip)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.profile.html#ccd_diffusion.tracks.profile" title="ccd_diffusion.tracks.profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">profile</span></code></a>(chip)</p></td>
 <td><p>Bin the measured and modeled same-pixel probabilities of every flat track on the given CCD by depth.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.summary.html#ccd_diffusion.tracks.summary" title="ccd_diffusion.tracks.summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summary</span></code></a>(chip)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.summary.html#ccd_diffusion.tracks.summary" title="ccd_diffusion.tracks.summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summary</span></code></a>(chip)</p></td>
 <td><p>Summarize the diffusion measurement on the given CCD.</p></td>
 </tr>
 </tbody>
@@ -752,7 +746,7 @@ by running <code class="docutils literal notranslate"><span class="pre">python</
 <tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Stack.html#ccd_diffusion.tracks.Stack" title="ccd_diffusion.tracks.Stack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stack</span></code></a>(chip, depth, offset, image)</p></td>
 <td><p>Every slice of every flat track on one CCD, aligned on its fitted centerline.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Widths.html#ccd_diffusion.tracks.Widths" title="ccd_diffusion.tracks.Widths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Widths</span></code></a>(chip, depth, best, lower, upper, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Widths.html#ccd_diffusion.tracks.Widths" title="ccd_diffusion.tracks.Widths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Widths</span></code></a>(chip, depth, best, lower, upper, fitted)</p></td>
 <td><p>The diffusion width as a function of depth on one CCD.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Depleted.html#ccd_diffusion.tracks.Depleted" title="ccd_diffusion.tracks.Depleted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Depleted</span></code></a>(chip, width_depleted, misfit, ...)</p></td>
