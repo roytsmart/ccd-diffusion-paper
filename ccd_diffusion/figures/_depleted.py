@@ -40,29 +40,22 @@ def depleted() -> aastex.Figure:
         ax_a.plot(
             sd,
             d.misfit.ndarray,
-            "o-",
             color=color,
-            markersize=2.5,
             linewidth=0.8,
             label=f"{chip} ({d.num})",
         )
         ax_b.plot(
             sd,
             d.width_max.ndarray.to_value(u.um),
-            "s--",
             color=color,
-            markersize=2.5,
             linewidth=0.8,
-            label=rf"{chip} $\sigma_\mathrm{{max}}$",
         )
         ax_tc.plot(
             sd,
             d.critical_depth.ndarray,
-            "o-",
             color=color,
-            markersize=2.5,
+            linestyle="--",
             linewidth=0.8,
-            label=f"{chip} $t_c$",
         )
     ax_c.hist(
         list(preferred.values()),
@@ -84,10 +77,15 @@ def depleted() -> aastex.Figure:
     ax_tc.set_ylabel("median $t_c$")
     ax_tc.set_ylim(0.2, 0.6)
     ax_b.set_title(r"(b) per-track fits at each $\sigma_d$", fontsize=8)
-    handles, labels = ax_b.get_legend_handles_labels()
-    handles_tc, labels_tc = ax_tc.get_legend_handles_labels()
     ax_tc.legend(
-        handles + handles_tc, labels + labels_tc, fontsize=5, loc="upper center", ncol=2
+        handles=[
+            plt.Line2D([], [], color="0.4", linewidth=0.8),
+            plt.Line2D([], [], color="0.4", linewidth=0.8, linestyle="--"),
+        ],
+        labels=[r"$\sigma_\mathrm{max}$", "$t_c$"],
+        fontsize=5,
+        loc="upper center",
+        ncol=2,
     )
 
     ax_c.set_xlabel(r"per-track best $\sigma_d$ ($\mu$m)")
