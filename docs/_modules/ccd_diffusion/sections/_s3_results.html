@@ -408,50 +408,56 @@
 <span class="s2">and the width which minimizes the sum is taken, so the wedge shape emerges</span>
 <span class="s2">from the data rather than being imposed.</span>
 <span class="s2">The second is the average of the per-track fits of Equation~\ref{eq:width}.</span>
-<span class="s2">The two agree to within a few tenths of a micron on all three \CCD</span><span class="si">{}</span><span class="s2">s at</span>
-<span class="s2">every depth.</span>
+<span class="s2">The two agree to within half a micron on all four \CCD</span><span class="si">{}</span><span class="s2">s at every</span>
+<span class="s2">depth.</span>
 <span class="s2">Beyond $t_c$ the model-free profile does not go to zero but keeps a floor</span>
-<span class="s2">of 0.5 to 1 $\mu$m across the depletion region, and the fits follow it:</span>
-<span class="s2">this floor is the $\sigma_d$ term of Equation~\ref{eq:width}.</span>
+<span class="s2">across the depletion region, about three quarters of a micron just past</span>
+<span class="s2">$t_c$ and a quarter micron near the gates, and the fits follow it: this</span>
+<span class="s2">floor is the $\sigma_d$ term of Equation~\ref{eq:width}.</span>
 
 <span class="s2">\subsection{The spread inside the depletion region}</span>
 
 <span class="s2">Figure~\ref{fig:depleted} shows how $\sigma_d$ is determined.</span>
 <span class="s2">The misfit summed over the flat tracks on each \CCD\ has a sharp minimum,</span>
-<span class="s2">at $\sigma_d = \widthDepletedSji$ $\mu$m on \SJI, \widthDepletedFuvTwo\</span>
-<span class="s2">$\mu$m on \FUV</span><span class="si">{}</span><span class="s2">2, and \widthDepletedFuvOne\ $\mu$m on \FUV</span><span class="si">{}</span><span class="s2">1, with the</span>
-<span class="s2">neighboring grid points a quarter micron away already disfavored by about</span>
-<span class="s2">a hundred units of misfit.</span>
-<span class="s2">The improvement over $\sigma_d = 0$ is three to four hundred units pooled</span>
-<span class="s2">but only two or three per track, and the value each track prefers on its</span>
-<span class="s2">own is spread over 0 to 2 $\mu$m, so the effect is modest for any one</span>
-<span class="s2">track and consistent across them, which is why $\sigma_d$ is fit to each</span>
-<span class="s2">\CCD\ as a whole.</span>
+<span class="s2">at $\sigma_d = \widthDepletedSji$ $\mu$m on \SJI\ and at</span>
+<span class="s2">\widthDepletedFuvOne\ $\mu$m on \FUV</span><span class="si">{}</span><span class="s2">1, \FUV</span><span class="si">{}</span><span class="s2">2, and \NUV, with the</span>
+<span class="s2">neighboring grid points a tenth of a micron away already disfavored by one</span>
+<span class="s2">to four hundred units of misfit.</span>
+<span class="s2">The improvement over $\sigma_d = 0$ is one to three thousand units pooled</span>
+<span class="s2">but under two per track, and the value each track prefers on its own is</span>
+<span class="s2">spread over the whole grid, from 0 to 1.5 $\mu$m, so the effect is modest</span>
+<span class="s2">for any one track and consistent across them, which is why $\sigma_d$ is</span>
+<span class="s2">fit to each \CCD\ as a whole.</span>
 <span class="s2">The resolution of the centerline matters here: a centerline located only</span>
 <span class="s2">to 0.1 pixel is uncertain by 1.3 $\mu$m, the size of the effect being</span>
 <span class="s2">sought, and with such a grid the minimum washes out entirely.</span>
 <span class="s2">$\sigma_d$ trades against the field-free wedge: as it rises from zero to</span>
-<span class="s2">its adopted value, the median $t_c$ of the flat tracks falls by 0.05 on</span>
-<span class="s2">every \CCD\ and the median $\sigma_\text</span><span class="si">{max}</span><span class="s2">$ rises by half a micron on</span>
-<span class="s2">\FUV</span><span class="si">{}</span><span class="s2">2, since without it the wedge stretches to absorb the floor.</span>
-<span class="s2">Leaving $\sigma_d$ out of the model would therefore bias both of the</span>
-<span class="s2">parameters the noise model needs, which is why it is part of the model</span>
-<span class="s2">rather than a correction applied afterwards.</span>
+<span class="s2">its adopted value, the median $t_c$ of the flat tracks steps down by 0.05</span>
+<span class="s2">on \FUV</span><span class="si">{}</span><span class="s2">1, \FUV</span><span class="si">{}</span><span class="s2">2, and \SJI, since without it the wedge stretches to</span>
+<span class="s2">absorb the floor, while the median $\sigma_\text</span><span class="si">{max}</span><span class="s2">$ holds.</span>
+<span class="s2">Leaving $\sigma_d$ out of the model would therefore bias the critical</span>
+<span class="s2">depth the noise model needs, which is why it is part of the model rather</span>
+<span class="s2">than a correction applied afterwards.</span>
 
 <span class="s2">\subsection{The critical depth and back-surface width}</span>
 
 <span class="s2">Figure~\ref{fig:parameters} shows the fitted $t_c$ and $\sigma_\text</span><span class="si">{max}</span><span class="s2">$</span>
 <span class="s2">of every flat track, and Table~\ref{tab:datasets} their means in each</span>
 <span class="s2">campaign.</span>
-<span class="s2">The critical depth clusters between 0.35 and 0.50 on all three \CCD</span><span class="si">{}</span><span class="s2">s,</span>
-<span class="s2">around the \modelCriticalDepth\ of the field-free model, and the two</span>
-<span class="s2">particle populations, the two spacecraft rolls, and the two cameras agree</span>
-<span class="s2">to within a few hundredths.</span>
-<span class="s2">The back-surface width does differ between chips: \FUV</span><span class="si">{}</span><span class="s2">2 and \SJI\</span>
-<span class="s2">cluster at 5.5 to 6.5 $\mu$m while \FUV</span><span class="si">{}</span><span class="s2">1 clusters at 3 to 5 $\mu$m, so</span>
-<span class="s2">the pooled scatter is mostly this chip-to-chip difference, which is</span>
-<span class="s2">expected from the resistivity of the wafer and the applied bias and is one</span>
-<span class="s2">reason a sensor's kernel is worth measuring rather than assuming.</span>
+<span class="s2">The critical depth clusters between 0.30 and 0.50 on all four \CCD</span><span class="si">{}</span><span class="s2">s,</span>
+<span class="s2">around the \modelCriticalDepth\ of the field-free model.</span>
+<span class="s2">Its mean over the core tracks is the same to within a hundredth for the</span>
+<span class="s2">two particle populations, the four spacecraft rolls, and the 8 and 15 s</span>
+<span class="s2">exposures, and every campaign with more than a handful of core tracks</span>
+<span class="s2">lies between 0.39 and 0.42; the four \CCD</span><span class="si">{}</span><span class="s2">s differ from one another by</span>
+<span class="s2">up to 0.03, \FUV</span><span class="si">{}</span><span class="s2">1 lowest and \FUV</span><span class="si">{}</span><span class="s2">2 highest, all within 0.04 of the</span>
+<span class="s2">model.</span>
+<span class="s2">The back-surface width differs more between chips: \FUV</span><span class="si">{}</span><span class="s2">2 and \SJI\</span>
+<span class="s2">cluster at 5.5 to 6 $\mu$m, \NUV\ at 4.5 to 5.5 $\mu$m, and \FUV</span><span class="si">{}</span><span class="s2">1 at</span>
+<span class="s2">3.5 to 5 $\mu$m, so the pooled scatter is mostly this chip-to-chip</span>
+<span class="s2">difference, which is expected from the resistivity of the wafer and the</span>
+<span class="s2">applied bias and is one reason a sensor's kernel is worth measuring rather</span>
+<span class="s2">than assuming.</span>
 
 <span class="s2">\subsection{The same-pixel probability}</span>
 
@@ -469,11 +475,14 @@
 <span class="s2">fitted centerline of every track.</span>
 <span class="s2">On the \SJI\ \CCD\ the back surface gives $\mathcal</span><span class="si">{P}</span><span class="s2"> = \sjiSamePixel \pm</span>
 <span class="s2">\sjiSamePixelError$ against \sjiSamePixelModel\ from the model, and</span>
-<span class="s2">\FUV</span><span class="si">{}</span><span class="s2">2 agrees as well, while \FUV</span><span class="si">{}</span><span class="s2">1 spreads its charge over fewer pixels.</span>
-<span class="s2">Beyond $t_c$ the measured probability settles at about 0.85 rather than</span>
-<span class="s2">the 0.95 of a perfectly sharp cloud on all three \CCD</span><span class="si">{}</span><span class="s2">s, which the</span>
-<span class="s2">per-track fits reproduce through $\sigma_d$ and the field-free model does</span>
-<span class="s2">not."""</span><span class="p">)</span>
+<span class="s2">\FUV</span><span class="si">{}</span><span class="s2">2 agrees as well, while \NUV\ and, further still, \FUV</span><span class="si">{}</span><span class="s2">1 spread</span>
+<span class="s2">their charge over fewer pixels than the model predicts.</span>
+<span class="s2">Beyond $t_c$ the measured probability settles at about 0.88 rather than</span>
+<span class="s2">the 0.95 of a perfectly sharp cloud on all four \CCD</span><span class="si">{}</span><span class="s2">s.</span>
+<span class="s2">The per-track fits dip below the sharp-cloud curve in the same direction</span>
+<span class="s2">through $\sigma_d$, but by only a fifth as much, and the field-free model</span>
+<span class="s2">not at all, so the tracks are a little wider in the depletion region than</span>
+<span class="s2">a Gaussian of width $\sigma_d$ describes."""</span><span class="p">)</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ccd_diffusion</span><span class="o">.</span><span class="n">figures</span><span class="o">.</span><span class="n">stacked</span><span class="p">())</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ccd_diffusion</span><span class="o">.</span><span class="n">figures</span><span class="o">.</span><span class="n">depleted</span><span class="p">())</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ccd_diffusion</span><span class="o">.</span><span class="n">figures</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
