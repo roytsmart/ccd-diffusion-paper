@@ -76,8 +76,7 @@ The first part is the field-free layer.
 It applies only for $t < t_c$, where $t_c = z_f / D$ is the fractional
 thickness of the layer and $\sigma_\text{max}$ is the width of the charge
 cloud at the back surface, and it is the depth dependence of a random walk
-to an absorbing plane at $z_f$, the form used to model the \UV\ noise of
-these sensors in the companion article.
+to an absorbing plane at $z_f$.
 The second part is the depletion region.
 Charge that reaches the edge of the depletion region, whether it was
 deposited there or diffused there from the field-free layer, still has to
@@ -86,7 +85,6 @@ $\sigma_d$ is the spread acquired crossing the full depleted thickness, and
 $g(t) = \min[(1 - t) / (1 - t_c), 1]$ scales it with the distance drifted,
 so that it is one for all charge deposited in the field-free layer and
 falls linearly to zero at the gates.
-The field-free model of the companion article is the case $\sigma_d = 0$.
 We work in fractional depth because we observe the length of a track in
 slices rather than the thickness of the sensor in microns, and the uniform
 spread along the tilted centerline within a slice is approximated by

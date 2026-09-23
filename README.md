@@ -22,9 +22,7 @@ every depth of the silicon along its track, so the width of the charge it
 leaves behind maps the lateral diffusion of charge against depth in a single
 exposure. This article uses such tracks, found in level-1 images from the
 Interface Region Imaging Spectrograph (IRIS), to measure the depth-dependent
-charge-diffusion kernel of its four CCDs in orbit, with no laboratory access,
-and compares it with the field-free diffusion model used to predict the noise
-of ultraviolet images.
+charge-diffusion kernel of its four CCDs in orbit, with no laboratory access.
 
 It grew out of an appendix of
 [ccd-noise-paper](https://github.com/roytsmart/ccd-noise-paper), which needed
@@ -64,7 +62,6 @@ with the tracks outlined; `python -m ccd_diffusion.tracks browser
 | `figures/`, `tables/` | one module per figure and table |
 | `_variables.py` | the `aastex.Variable` macros quoted in the prose |
 | `_acronyms.py` | acronym definitions used as `\ACRONYM` macros |
-| `_ccd.py` | the sensor model the measurement is compared with |
 | `tracks/` | the track cutouts, the fit of the diffusion model, and the same-pixel probabilities |
 | `tracks/data/` | the cutouts, the frames searched, the fits of every track and of each CCD's depletion spread, and two example level-1 images |
 | `sources.bib` | the bibliography |

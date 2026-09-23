@@ -34,7 +34,7 @@ def flat(chip: str) -> list[Fit]:
     Parameters
     ----------
     chip
-        The CCD, ``FUV1``, ``FUV2`` or ``SJI``.
+        The CCD, ``FUV1``, ``FUV2``, ``NUV``, or ``SJI``.
     """
     return [f for f in fits() if f.track.chip == chip and f.flat]
 
@@ -66,7 +66,7 @@ def stack(chip: str, num_offset: int = 28) -> Stack:
     Parameters
     ----------
     chip
-        The CCD, ``FUV1``, ``FUV2`` or ``SJI``.
+        The CCD, ``FUV1``, ``FUV2``, ``NUV``, or ``SJI``.
     num_offset
         The number of transverse bins across the cutout.
     """
@@ -125,9 +125,6 @@ class Widths:
     fitted: na.AbstractScalarArray
     """The mean of the per-track fitted width curves, including :math:`\\sigma_d`, in each bin."""
 
-    model: na.AbstractScalarArray
-    """The width predicted by the field-free model of the article in each bin."""
-
 
 @functools.cache
 def widths(chip: str) -> Widths:
@@ -139,10 +136,8 @@ def widths(chip: str) -> Widths:
     Parameters
     ----------
     chip
-        The CCD, ``FUV1``, ``FUV2`` or ``SJI``.
+        The CCD, ``FUV1``, ``FUV2``, ``NUV``, or ``SJI``.
     """
-    from ._samepix import paper_model
-
     edges = depth_bins_fine.ndarray
     w = (widths_trial / width_pixel).to(u.dimensionless_unscaled).value
     nll = np.zeros((edges.size - 1, widths_trial.size))
@@ -168,7 +163,6 @@ def widths(chip: str) -> Widths:
         ],
         axis="track",
     )
-    tc_paper, sm_paper = paper_model()
 
     return Widths(
         chip=chip,
@@ -177,5 +171,4 @@ def widths(chip: str) -> Widths:
         lower=na.ScalarArray(lower, axes=axis_depth),
         upper=na.ScalarArray(upper, axes=axis_depth),
         fitted=curves.mean("track") * width_pixel,
-        model=width(centers, tc_paper, sm_paper) * width_pixel,
     )

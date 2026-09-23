@@ -13,7 +13,7 @@ particle tracks. Calling `ccd_diffusion.pdf()` produces `ccd-diffusion.pdf`.
 
 This is one package within the larger Kankelborg-Group workspace (see the parent
 `../CLAUDE.md`). It depends on the group's stack, `named-arrays`
-(`import named_arrays as na`), `optika`, and `aastex`, plus `pylatex`, `scipy`, and
+(`import named_arrays as na`) and `aastex`, plus `pylatex`, `scipy`, and
 `astropy.units`. Use `named_arrays` rather than `numpy` for array work in new code.
 
 The measurement began as an appendix of `../ccd-snr-paper` (`ccd_snr/tracks/`), and
@@ -80,7 +80,6 @@ acknowledgments), and the bibliography.
   the flat selection; `fit_all` calls it), `_samepix.py`, `_stacked.py` (the analyses),
   `_images.py` (two example frames). Every data product under `tracks/data/`
   is committed because regenerating it needs the archive or minutes of fitting.
-- **`_ccd.py`** is the `optika` sensor model the measurement is compared with.
 - **`.github/workflows/data.yml`** regenerates everything under `tracks/data/` on
   GitHub Actions (`workflow_dispatch`): a `select` job builds the frame list and the
   plan, one job per campaign extracts it or exports it from the package if its

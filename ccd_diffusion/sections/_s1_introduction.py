@@ -47,7 +47,6 @@ Here we apply this method to the four \CCD{}s of \IRIS\
 \cite{Wulser2018} motivated the question.
 Section~\ref{sec:method} describes the tracks, the model of their
 cross-section, and the fit; Section~\ref{sec:results} presents the kernel
-of each sensor; and Section~\ref{sec:discussion} compares it with the
-field-free model and discusses the systematics, including the charge
-density of the tracks.""")
+of each sensor; and Section~\ref{sec:discussion} discusses the
+systematics, including the charge density of the tracks.""")
     return result

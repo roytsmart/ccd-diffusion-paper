@@ -203,13 +203,7 @@ def test_save(monkeypatch, tmp_path):
         assert a.best == b.best
 
 
-def test_paper_model():
-    critical_depth, width_max = ccd_diffusion.tracks.paper_model()
-    assert 0 < critical_depth < 1
-    assert 0 * u.um < width_max < ccd_diffusion.ccd().thickness_substrate
-
-
-@pytest.mark.parametrize("chip", ["FUV1", "FUV2", "SJI"])
+@pytest.mark.parametrize("chip", ["FUV1", "FUV2", "NUV", "SJI"])
 def test_profile(chip: str):
     result = ccd_diffusion.tracks.profile(chip)
     assert isinstance(result, ccd_diffusion.tracks.Profile)
@@ -217,7 +211,6 @@ def test_profile(chip: str):
     for array in (
         result.measured,
         result.error,
-        result.paper,
         result.fitted,
         result.none,
     ):
@@ -225,28 +218,20 @@ def test_profile(chip: str):
         assert np.all(np.isfinite(array))
     assert np.all(result.num > 0)
     assert np.all((result.measured > 0) & (result.measured < 1))
-    assert np.all(result.none >= result.paper)
+    assert np.all(result.none >= result.fitted)
 
 
-@pytest.mark.parametrize("chip", ["FUV1", "FUV2", "SJI"])
+@pytest.mark.parametrize("chip", ["FUV1", "FUV2", "NUV", "SJI"])
 def test_summary(chip: str):
     result = ccd_diffusion.tracks.summary(chip)
     assert isinstance(result, ccd_diffusion.tracks.Summary)
     assert result.num_flat < result.num_tracks
     assert 0 < result.same_pixel < 1
     assert 0 < result.same_pixel_error < 0.1
-    assert 0 < result.same_pixel_paper < 1
     assert (
         result.critical_depth[0] <= result.critical_depth[1] <= result.critical_depth[2]
     )
     assert result.width_max[0] <= result.width_max[1] <= result.width_max[2]
-
-
-def test_summary_sji_matches_model():
-    # a guard on the article's claim rather than a proof of it: with thousands
-    # of tracks the statistical error is far below the model's own uncertainty
-    result = ccd_diffusion.tracks.summary("SJI")
-    assert result.same_pixel == pytest.approx(result.same_pixel_paper, abs=0.03)
 
 
 def test_flat_requires_a_depleted_end():
@@ -286,19 +271,18 @@ def test_stack(chip: str):
     assert np.allclose((result.image * width).sum("offset"), 1, atol=0.05)
 
 
-@pytest.mark.parametrize("chip", ["FUV1", "FUV2", "SJI"])
+@pytest.mark.parametrize("chip", ["FUV1", "FUV2", "NUV", "SJI"])
 def test_widths(chip: str):
     result = ccd_diffusion.tracks.widths(chip)
     assert isinstance(result, ccd_diffusion.tracks.Widths)
     assert np.all(result.lower <= result.best)
     assert np.all(result.best <= result.upper)
     assert result.fitted.shape == result.depth.shape
-    assert result.model.shape == result.depth.shape
     # the back surface is wider than the front
     assert result.best[dict(depth=0)] > result.best[dict(depth=-1)]
 
 
-@pytest.mark.parametrize("chip", ["FUV1", "FUV2", "SJI"])
+@pytest.mark.parametrize("chip", ["FUV1", "FUV2", "NUV", "SJI"])
 def test_depleted(chip: str):
     result = ccd_diffusion.tracks.depleted(chip)
     assert isinstance(result, ccd_diffusion.tracks.Depleted)

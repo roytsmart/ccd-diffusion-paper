@@ -40,8 +40,6 @@ def _levels(density: np.ndarray, fractions: tuple[float, ...]) -> list[float]:
 def parameters() -> aastex.Figure:
     """The distributions of the fitted parameters on each CCD and in each dataset."""
     tracks = ccd_diffusion.tracks
-    tc_paper, sm_paper = tracks.paper_model()
-    zf = sm_paper.to_value(u.um)
 
     fig, ax = plt.subplots(
         ncols=3,
@@ -64,7 +62,6 @@ def parameters() -> aastex.Figure:
             color=color,
             label=f"{chip} ({len(tc)} flat, {num_core} core)",
         )
-    ax_a.axvline(tc_paper, color="tab:red", linestyle="--", label="model")
     ax_a.set_xlabel("$t_c$")
     ax_a.set_ylabel("tracks")
     ax_a.set_title("(a) flat tracks", fontsize=8)
@@ -80,7 +77,6 @@ def parameters() -> aastex.Figure:
             linewidth=1,
             color=color,
         )
-    ax_b.axvline(zf, color="tab:red", linestyle="--")
     ax_b.set_xlabel(r"$\sigma_\mathrm{max}$ ($\mu$m)")
     ax_b.set_ylabel("tracks")
     ax_b.set_title("(b) core tracks, $0.25 < t_c < 0.6$", fontsize=8)
@@ -110,8 +106,6 @@ def parameters() -> aastex.Figure:
             colors=[color],
             linewidths=[0.6, 1.2],
         )
-    ax_c.axvline(tc_paper, color="tab:red", linestyle="--", linewidth=0.8)
-    ax_c.axhline(zf, color="tab:red", linestyle="--", linewidth=0.8)
     campaigns = 0
     for dataset in tracks.datasets:
         subset = [f for f in core() if f.track.dataset == dataset]
@@ -152,21 +146,19 @@ def parameters() -> aastex.Figure:
     result.add_fig(fig, width=None)
     result.add_caption(aastex.NoEscape(r"""
 The fitted parameters.
-(a) The critical depth of every flat track on each \CCD, with the
-field-free model dashed.
-The tails below 0.25 and above 0.6 are tracks the model describes
-poorly, sharp or diffuse along most of their length, and they are
-excluded from the shaded core used elsewhere.
+(a) The critical depth of every flat track on each \CCD.
+The tails below 0.25 and above 0.6 are tracks Equation~\ref{eq:width}
+describes poorly, sharp or diffuse along most of their length, and they
+are excluded from the shaded core used elsewhere.
 (b) The back-surface width of the core tracks.
 (c) The joint distribution of the core tracks on each \CCD, as the
 contours enclosing half (thick) and nine tenths (thin) of them, on the
 grid the fits are searched over (0.05 in $t_c$ and 0.5 $\mu$m in
-$\sigma_\text{max}$) smoothed by one cell, with the field-free model at
-the crossing of the dashed lines and the mean of each campaign of
-Table~\ref{tab:datasets} with its standard error as an open circle.
+$\sigma_\text{max}$) smoothed by one cell, with the mean of each campaign
+of Table~\ref{tab:datasets} and its standard error as an open circle.
 The campaigns, spanning two particle populations, four spacecraft rolls,
 and the spectrograph and slit-jaw \CCD{}s, agree to within a few
-hundredths in $t_c$, all within 0.04 of the model, and the contours run wider in $\sigma_\text{max}$ than
-in $t_c$, since a single track constrains its back-surface width less
-well than the depth at which it sharpens."""))
+hundredths in $t_c$, and the contours run wider in $\sigma_\text{max}$
+than in $t_c$, since a single track constrains its back-surface width
+less well than the depth at which it sharpens."""))
     return result

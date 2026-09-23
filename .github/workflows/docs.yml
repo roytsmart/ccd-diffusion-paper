@@ -59,7 +59,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: docs/reports/tracks.ipynb
-          key: notebook-${{ hashFiles('docs/reports/tracks.ipynb', 'ccd_diffusion/tracks/**', '!ccd_diffusion/tracks/**/__pycache__/**', 'ccd_diffusion/_ccd.py', 'pyproject.toml') }}
+          key: notebook-${{ hashFiles('docs/reports/tracks.ipynb', 'ccd_diffusion/tracks/**', '!ccd_diffusion/tracks/**/__pycache__/**', 'pyproject.toml') }}
       - name: Execute the report notebook
         if: steps.notebook.outputs.cache-hit != 'true'
         # the executed copy, with its outputs, is what the cache keeps; the

@@ -48,22 +48,20 @@ its adopted value, the median $t_c$ of the flat tracks steps down by 0.05
 on \FUV{}1, \FUV{}2, and \SJI, since without it the wedge stretches to
 absorb the floor, while the median $\sigma_\text{max}$ holds.
 Leaving $\sigma_d$ out of the model would therefore bias the critical
-depth the noise model needs, which is why it is part of the model rather
-than a correction applied afterwards.
+depth, which is why it is part of the model rather than a correction
+applied afterwards.
 
 \subsection{The critical depth and back-surface width}
 
 Figure~\ref{fig:parameters} shows the fitted $t_c$ and $\sigma_\text{max}$
 of every flat track, and Table~\ref{tab:datasets} their means in each
 campaign.
-The critical depth clusters between 0.30 and 0.50 on all four \CCD{}s,
-around the \modelCriticalDepth\ of the field-free model.
+The critical depth clusters between 0.30 and 0.50 on all four \CCD{}s.
 Its mean over the core tracks is the same to within a hundredth for the
 two particle populations, the four spacecraft rolls, and the 8 and 15 s
 exposures, and every campaign with more than a handful of core tracks
 lies between 0.39 and 0.42; the four \CCD{}s differ from one another by
-up to 0.03, \FUV{}1 lowest and \FUV{}2 highest, all within 0.04 of the
-model.
+up to 0.03, \FUV{}1 lowest and \FUV{}2 highest.
 The back-surface width differs more between chips: \FUV{}2 and \SJI\
 cluster at 5.5 to 6 $\mu$m, \NUV\ at 4.5 to 5.5 $\mu$m, and \FUV{}1 at
 3.5 to 5 $\mu$m, so the pooled scatter is mostly this chip-to-chip
@@ -73,9 +71,9 @@ than assuming.
 
 \subsection{The same-pixel probability}
 
-For the noise model the quantity that matters is not the width but the
-probability that two electrons deposited at the same depth are collected
-in the same pixel.
+For the noise statistics of a \UV\ image the quantity that matters is not
+the width but the probability that two electrons deposited at the same
+depth are collected in the same pixel.
 For a slice with pixel fractions $f_j$ that is $p = \sum_j f_j^2$, corrected
 for the read-noise contribution $\sum_j \epsilon_j^2$, and it can be read
 directly off each slice with no model of the shape of the kernel.
@@ -83,18 +81,17 @@ Since the kernel is separable, the probability that two electrons are
 collected in the same pixel is $\mathcal{P} = p^2$.
 Figure~\ref{fig:profile} shows $p$ against depth on each \CCD, and
 Table~\ref{tab:tracks} lists it for the slices within $D / 10$ of the back
-surface, alongside the prediction of the field-free model evaluated at the
-fitted centerline of every track.
+surface.
 On the \SJI\ \CCD\ the back surface gives $\mathcal{P} = \sjiSamePixel \pm
-\sjiSamePixelError$ against \sjiSamePixelModel\ from the model, and
-\FUV{}2 agrees as well, while \NUV\ and, further still, \FUV{}1 spread
-their charge over fewer pixels than the model predicts.
+\sjiSamePixelError$, \FUV{}2 the same to within the errors, while \NUV\
+and, further still, \FUV{}1 spread their charge over fewer pixels, in the
+same order as their back-surface widths.
 Beyond $t_c$ the measured probability settles at about 0.88 rather than
 the 0.95 of a perfectly sharp cloud on all four \CCD{}s.
 The per-track fits dip below the sharp-cloud curve in the same direction
-through $\sigma_d$, but by only a fifth as much, and the field-free model
-not at all, so the tracks are a little wider in the depletion region than
-a Gaussian of width $\sigma_d$ describes.""")
+through $\sigma_d$, but by only a fifth as much, so the tracks are a
+little wider in the depletion region than a Gaussian of width $\sigma_d$
+describes.""")
     result.append(ccd_diffusion.figures.stacked())
     result.append(ccd_diffusion.figures.depleted())
     result.append(ccd_diffusion.figures.parameters())
