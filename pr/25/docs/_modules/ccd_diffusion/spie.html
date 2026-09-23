@@ -1,0 +1,723 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ccd_diffusion.spie &#8212; ccd-diffusion-paper  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/browser.css?v=350d53bc" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/ccd_diffusion/spie';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../_static/browser.js?v=05eaf2f2"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">ccd-diffusion-paper  documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../browser.html">
+    Track browser
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../frames.html">
+    Frame gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reports/tracks.html">
+    Charge diffusion from glancing particle tracks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../_autosummary/ccd_diffusion.html">
+    ccd_diffusion
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/roytsmart/ccd-diffusion-paper" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../browser.html">
+    Track browser
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../frames.html">
+    Frame gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reports/tracks.html">
+    Charge diffusion from glancing particle tracks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../_autosummary/ccd_diffusion.html">
+    ccd_diffusion
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/roytsmart/ccd-diffusion-paper" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">ccd_diffusion.spie</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for ccd_diffusion.spie</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""</span>
+<span class="sd">The front and back matter of an SPIE journal article, written against the</span>
+<span class="sd">``spieman`` class, for use with the journal-independent parts of :mod:`aastex`.</span>
+
+<span class="sd">The class expects the ``authblk`` conventions, ``\\author[a,*]{}`` and</span>
+<span class="sd">``\\affil[a]{}``, an ``abstract`` environment, a ``\\keywords{}`` command</span>
+<span class="sd">after the abstract, and unnumbered sections for the disclosures, the data</span>
+<span class="sd">availability statement, and the acknowledgments before the references.</span>
+<span class="sd">"""</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">dataclasses</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pylatex</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"path_class"</span><span class="p">,</span>
+    <span class="s2">"path_bibliography_style"</span><span class="p">,</span>
+    <span class="s2">"Title"</span><span class="p">,</span>
+    <span class="s2">"Affiliation"</span><span class="p">,</span>
+    <span class="s2">"Author"</span><span class="p">,</span>
+    <span class="s2">"Abstract"</span><span class="p">,</span>
+    <span class="s2">"Keywords"</span><span class="p">,</span>
+    <span class="s2">"Corresponding"</span><span class="p">,</span>
+    <span class="s2">"Disclosures"</span><span class="p">,</span>
+    <span class="s2">"Availability"</span><span class="p">,</span>
+    <span class="s2">"Acknowledgments"</span><span class="p">,</span>
+    <span class="s2">"Biography"</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">path_class</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">"spieman.cls"</span>
+<span class="sd">"""The SPIE journal class file distributed with this article."""</span>
+
+<span class="n">path_bibliography_style</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">"spiejour.bst"</span>
+<span class="sd">"""The SPIE journal bibliography style distributed with this article."""</span>
+
+
+<div class="viewcode-block" id="Title">
+<a class="viewcode-back" href="../../_autosummary/ccd_diffusion.spie.Title.html#ccd_diffusion.spie.Title">[docs]</a>
+<span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Title</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">base_classes</span><span class="o">.</span><span class="n">LatexObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""The title of the article."""</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""The title."""</span>
+
+<div class="viewcode-block" id="Title.dumps">
+<a class="viewcode-back" href="../../_autosummary/ccd_diffusion.spie.Title.html#ccd_diffusion.spie.Title.dumps">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pylatex</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="s2">"title"</span><span class="p">,</span> <span class="n">pylatex</span><span class="o">.</span><span class="n">NoEscape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span><span class="o">.</span><span class="n">dumps</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Affiliation">
+<a class="viewcode-back" href="../../_autosummary/ccd_diffusion.spie.Affiliation.html#ccd_diffusion.spie.Affiliation">[docs]</a>
+<span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Affiliation</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">base_classes</span><span class="o">.</span><span class="n">LatexObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""An organization that an author is associated with."""</span>
+
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""The letter used to mark the authors with this affiliation, ``"a"``, ``"b"``, ..."""</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""The name and address of the organization."""</span>
+
+<div class="viewcode-block" id="Affiliation.dumps">
+<a class="viewcode-back" href="../../_autosummary/ccd_diffusion.spie.Affiliation.html#ccd_diffusion.spie.Affiliation.dumps">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pylatex</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span>
+            <span class="n">command</span><span class="o">=</span><span class="s2">"affil"</span><span class="p">,</span>
+            <span class="n">arguments</span><span class="o">=</span><span class="n">pylatex</span><span class="o">.</span><span class="n">NoEscape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
+            <span class="n">options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">dumps</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Author">
+<a class="viewcode-back" href="../../_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author">[docs]</a>
+<span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Author</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">base_classes</span><span class="o">.</span><span class="n">LatexObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""One of the authors of the article."""</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""The name of the author."""</span>
+
+    <span class="n">affiliation</span><span class="p">:</span> <span class="n">Affiliation</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Affiliation</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">"""The organizations affiliated with the author."""</span>
+
+    <span class="n">email</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""The email address of the author, shown only for the corresponding author."""</span>
+
+    <span class="n">orcid</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""The ORCID of the author, which SPIE collects at submission rather than in the manuscript."""</span>
+
+    <span class="n">corresponding</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""Whether this author is the corresponding author, marked with an asterisk."""</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">affiliations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Affiliation</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""The affiliations as a list, whether one or several were given."""</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">affiliation</span><span class="p">,</span> <span class="n">Affiliation</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">affiliation</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">affiliation</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Author.dumps">
+<a class="viewcode-back" href="../../_autosummary/ccd_diffusion.spie.Author.html#ccd_diffusion.spie.Author.dumps">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">key</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">affiliations</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">corresponding</span><span class="p">:</span>
+            <span class="n">keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"*"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pylatex</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span>
+            <span class="n">command</span><span class="o">=</span><span class="s2">"author"</span><span class="p">,</span>
+            <span class="n">arguments</span><span class="o">=</span><span class="n">pylatex</span><span class="o">.</span><span class="n">NoEscape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
+            <span class="n">options</span><span class="o">=</span><span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">keys</span><span class="p">),</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">dumps</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Abstract">
+<a class="viewcode-back" href="../../_autosummary/ccd_diffusion.spie.Abstract.html#ccd_diffusion.spie.Abstract">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Abstract</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">base_classes</span><span class="o">.</span><span class="n">Environment</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The abstract of the article, a single self-contained paragraph with no</span>
+<span class="sd">    citations.</span>
+<span class="sd">    """</span>
+
+    <span class="n">_latex_name</span> <span class="o">=</span> <span class="s2">"abstract"</span>
+    <span class="n">escape</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="Keywords">
+<a class="viewcode-back" href="../../_autosummary/ccd_diffusion.spie.Keywords.html#ccd_diffusion.spie.Keywords">[docs]</a>
+<span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Keywords</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">base_classes</span><span class="o">.</span><span class="n">LatexObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""The three to six keywords which follow the abstract."""</span>
+
+    <span class="n">keywords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">"""The keywords."""</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="mi">3</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"SPIE journals ask for 3 to 6 keywords"</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Keywords.dumps">
+<a class="viewcode-back" href="../../_autosummary/ccd_diffusion.spie.Keywords.html#ccd_diffusion.spie.Keywords.dumps">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pylatex</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span>
+            <span class="s2">"keywords"</span><span class="p">,</span> <span class="n">pylatex</span><span class="o">.</span><span class="n">NoEscape</span><span class="p">(</span><span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">))</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">dumps</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Corresponding">
+<a class="viewcode-back" href="../../_autosummary/ccd_diffusion.spie.Corresponding.html#ccd_diffusion.spie.Corresponding">[docs]</a>
+<span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Corresponding</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">base_classes</span><span class="o">.</span><span class="n">LatexObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The line naming the corresponding author and their email address, which</span>
+<span class="sd">    the class does not generate itself and which the template places just</span>
+<span class="sd">    after the keywords.</span>
+<span class="sd">    """</span>
+
+    <span class="n">author</span><span class="p">:</span> <span class="n">Author</span>
+<span class="w">    </span><span class="sd">"""The corresponding author."""</span>
+
+<div class="viewcode-block" id="Corresponding.dumps">
+<a class="viewcode-back" href="../../_autosummary/ccd_diffusion.spie.Corresponding.html#ccd_diffusion.spie.Corresponding.dumps">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">email</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">email</span>
+        <span class="k">if</span> <span class="n">email</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"the corresponding author needs an email address"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">r</span><span class="s2">"\noindent{\footnotesize *"</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">name</span>
+            <span class="o">+</span> <span class="s2">", "</span>
+            <span class="o">+</span> <span class="sa">r</span><span class="s2">"\href{mailto:"</span>
+            <span class="o">+</span> <span class="n">email</span>
+            <span class="o">+</span> <span class="s2">"}{"</span>
+            <span class="o">+</span> <span class="n">email</span>
+            <span class="o">+</span> <span class="s2">"}}"</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_unnumbered</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pylatex</span><span class="o">.</span><span class="n">Subsection</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">pylatex</span><span class="o">.</span><span class="n">Subsection</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">numbering</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">escape</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">NoEscape</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<div class="viewcode-block" id="Disclosures">
+<a class="viewcode-back" href="../../_autosummary/ccd_diffusion.spie.Disclosures.html#ccd_diffusion.spie.Disclosures">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Disclosures</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pylatex</span><span class="o">.</span><span class="n">Subsection</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The unnumbered section declaring conflicts of interest and the use of</span>
+<span class="sd">    any AI tools.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text</span>
+<span class="sd">        The statement.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">_unnumbered</span><span class="p">(</span><span class="s2">"Disclosures"</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Availability">
+<a class="viewcode-back" href="../../_autosummary/ccd_diffusion.spie.Availability.html#ccd_diffusion.spie.Availability">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Availability</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pylatex</span><span class="o">.</span><span class="n">Subsection</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The unnumbered section describing how to obtain the code, data, and</span>
+<span class="sd">    materials behind the article.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text</span>
+<span class="sd">        The statement.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">_unnumbered</span><span class="p">(</span><span class="s2">"Code, Data, and Materials Availability"</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Acknowledgments">
+<a class="viewcode-back" href="../../_autosummary/ccd_diffusion.spie.Acknowledgments.html#ccd_diffusion.spie.Acknowledgments">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Acknowledgments</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">base_classes</span><span class="o">.</span><span class="n">Environment</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""The acknowledgments, which the class typesets as an unnumbered section."""</span>
+
+    <span class="n">_latex_name</span> <span class="o">=</span> <span class="s2">"acknowledgments"</span>
+    <span class="n">escape</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="Biography">
+<a class="viewcode-back" href="../../_autosummary/ccd_diffusion.spie.Biography.html#ccd_diffusion.spie.Biography">[docs]</a>
+<span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Biography</span><span class="p">(</span><span class="n">pylatex</span><span class="o">.</span><span class="n">base_classes</span><span class="o">.</span><span class="n">LatexObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    A professional biography of about 75 words, placed after the references.</span>
+<span class="sd">    """</span>
+
+    <span class="n">author</span><span class="p">:</span> <span class="n">Author</span>
+<span class="w">    </span><span class="sd">"""The author being described."""</span>
+
+    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""The biography."""</span>
+
+<div class="viewcode-block" id="Biography.dumps">
+<a class="viewcode-back" href="../../_autosummary/ccd_diffusion.spie.Biography.html#ccd_diffusion.spie.Biography.dumps">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">r</span><span class="s2">"\vspace</span><span class="si">{2ex}</span><span class="s2">\noindent\textbf{"</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">name</span>
+            <span class="o">+</span> <span class="s2">"} "</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roy T. Smart, Charles C. Kankelborg.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
