@@ -1,6 +1,0 @@
-render\_frame
-=============
-
-.. currentmodule:: ccd_diffusion.tracks
-
-.. autofunction:: ccd_diffusion.tracks.render_frame

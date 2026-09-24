@@ -1,6 +1,0 @@
-document
-========
-
-.. currentmodule:: ccd_diffusion
-
-.. autofunction:: ccd_diffusion.document
