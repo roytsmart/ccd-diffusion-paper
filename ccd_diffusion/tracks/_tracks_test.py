@@ -297,6 +297,21 @@ def test_depleted(chip: str):
     assert result.misfit.min() == 0
     assert 0 * u.um < result.best < 3 * u.um
     assert result.num == len(ccd_diffusion.tracks.flat(chip))
+    for array in (
+        result.critical_depth,
+        result.width_max,
+        result.critical_depth_mean,
+        result.critical_depth_error,
+        result.width_max_mean,
+        result.width_max_error,
+    ):
+        assert array.shape == result.misfit.shape
+        assert np.all(np.isfinite(array))
+    assert np.all(result.critical_depth_error > 0)
+    assert np.all(result.width_max_error > 0 * u.um)
+    # the mean of a thousand tracks sits within a grid step of the median
+    assert np.all(abs(result.critical_depth_mean - result.critical_depth) < 0.05)
+    assert np.all(abs(result.width_max_mean - result.width_max) < 0.5 * u.um)
     # every flat track on the chip was fit at the pooled value
     for f in ccd_diffusion.tracks.flat(chip):
         assert f.width_depleted == result.best
@@ -308,6 +323,8 @@ def test_pooled():
     result = ccd_diffusion.tracks.pooled("SJI", scans)
     assert result.chip == "SJI"
     assert 0 < result.num <= len(tracks)
+    assert result.critical_depth_mean.shape == result.misfit.shape
+    assert result.width_max_mean.shape == result.misfit.shape
     assert result.misfit.shape == ccd_diffusion.tracks.width_depleted.shape
     assert result.critical_depth.shape == result.misfit.shape
 

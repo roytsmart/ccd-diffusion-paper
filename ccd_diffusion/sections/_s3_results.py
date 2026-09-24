@@ -44,9 +44,9 @@ The resolution of the centerline matters here: a centerline located only
 to 0.1 pixel is uncertain by 1.3 $\mu$m, the size of the effect being
 sought, and with such a grid the minimum washes out entirely.
 $\sigma_d$ trades against the field-free wedge: as it rises from zero to
-its adopted value, the median $t_c$ of the flat tracks steps down by 0.05
-on \FUV{}1, \FUV{}2, and \SJI, since without it the wedge stretches to
-absorb the floor, while the median $\sigma_\text{max}$ holds.
+its adopted value, the mean $t_c$ of the flat tracks falls by 0.03 to
+0.06, most on \FUV{}1, since without it the wedge stretches to absorb the
+floor, while the mean $\sigma_\text{max}$ rises by only a few percent.
 Leaving $\sigma_d$ out of the model would therefore bias the critical
 depth, which is why it is part of the model rather than a correction
 applied afterwards.

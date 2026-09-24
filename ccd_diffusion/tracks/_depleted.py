@@ -41,6 +41,24 @@ class Depleted:
     width_max: na.AbstractScalarArray
     """The median :math:`\\sigma_\\text{max}` of the flat tracks at each :math:`\\sigma_d`."""
 
+    critical_depth_mean: na.AbstractScalarArray
+    """
+    The mean :math:`t_c` of the flat tracks at each :math:`\\sigma_d`.
+
+    The fits are searched on a grid, so the median can only sit on a grid
+    point and only move by a whole step, while the mean moves continuously
+    as :math:`\\sigma_d` trades against the field-free wedge.
+    """
+
+    critical_depth_error: na.AbstractScalarArray
+    """The standard error of :attr:`critical_depth_mean`."""
+
+    width_max_mean: na.AbstractScalarArray
+    """The mean :math:`\\sigma_\\text{max}` of the flat tracks at each :math:`\\sigma_d`."""
+
+    width_max_error: na.AbstractScalarArray
+    """The standard error of :attr:`width_max_mean`."""
+
     num: int
     """The number of flat tracks pooled."""
 
@@ -84,10 +102,19 @@ def pooled(chip: str, scans: list[Scan], iterations: int = 10) -> Depleted:
             break
         best = new
 
+    def values(name):
+        return u.Quantity([getattr(s, name).ndarray for s in selected])
+
     def median(name):
+        return na.ScalarArray(np.median(values(name), axis=0), axes=axis_width_depleted)
+
+    def mean(name):
+        return na.ScalarArray(values(name).mean(axis=0), axes=axis_width_depleted)
+
+    def error(name):
+        v = values(name)
         return na.ScalarArray(
-            np.median(u.Quantity([getattr(s, name).ndarray for s in selected]), axis=0),
-            axes=axis_width_depleted,
+            v.std(axis=0) / np.sqrt(v.shape[0]), axes=axis_width_depleted
         )
 
     return Depleted(
@@ -96,6 +123,10 @@ def pooled(chip: str, scans: list[Scan], iterations: int = 10) -> Depleted:
         misfit=misfit - misfit.min(),
         critical_depth=median("critical_depth"),
         width_max=median("width_max"),
+        critical_depth_mean=mean("critical_depth"),
+        critical_depth_error=error("critical_depth"),
+        width_max_mean=mean("width_max"),
+        width_max_error=error("width_max"),
         num=len(selected),
     )
 
@@ -114,21 +145,40 @@ def save_depleted(depleted: tuple[Depleted, ...]) -> None:
     depleted
         The pooled fit of every CCD.
     """
-    fields = ["chip", "num", "width_depleted", "misfit", "critical_depth", "width_max"]
+    fields = [
+        "chip",
+        "num",
+        "width_depleted",
+        "misfit",
+        "critical_depth",
+        "width_max",
+        "critical_depth_mean",
+        "critical_depth_error",
+        "width_max_mean",
+        "width_max_error",
+    ]
     with open(_path_depleted, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fields)
         writer.writeheader()
         for d in depleted:
             for i in range(d.width_depleted.size):
                 index = {axis_width_depleted: i}
+
+                def um(array, digits):
+                    return f"{array[index].ndarray.to_value(u.um):.{digits}f}"
+
                 writer.writerow(
                     dict(
                         chip=d.chip,
                         num=d.num,
-                        width_depleted=f"{d.width_depleted[index].ndarray.to_value(u.um):.2f}",
+                        width_depleted=um(d.width_depleted, 2),
                         misfit=f"{float(d.misfit[index].ndarray):.3f}",
                         critical_depth=f"{float(d.critical_depth[index].ndarray):.3f}",
-                        width_max=f"{d.width_max[index].ndarray.to_value(u.um):.2f}",
+                        width_max=um(d.width_max, 2),
+                        critical_depth_mean=f"{float(d.critical_depth_mean[index].ndarray):.4f}",
+                        critical_depth_error=f"{float(d.critical_depth_error[index].ndarray):.4f}",
+                        width_max_mean=um(d.width_max_mean, 3),
+                        width_max_error=um(d.width_max_error, 3),
                     )
                 )
 
@@ -161,5 +211,9 @@ def depleted(chip: str) -> Depleted:
         misfit=column("misfit"),
         critical_depth=column("critical_depth"),
         width_max=column("width_max", u.um),
+        critical_depth_mean=column("critical_depth_mean"),
+        critical_depth_error=column("critical_depth_error"),
+        width_max_mean=column("width_max_mean", u.um),
+        width_max_error=column("width_max_error", u.um),
         num=int(rows[0]["num"]),
     )
