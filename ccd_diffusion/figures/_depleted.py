@@ -1,4 +1,3 @@
-import numpy as np
 import matplotlib.pyplot as plt
 import astropy.units as u
 import aastex
@@ -26,17 +25,12 @@ def depleted() -> aastex.Figure:
         constrained_layout=True,
     )
     ax_a, ax_b, ax_c = ax
-    ax_tc = ax_b.twinx()
 
-    preferred = {}
     for chip, color in _chips.items():
         if not tracks.flat(chip):
             continue
         d = tracks.depleted(chip)
         sd = d.width_depleted.ndarray.to_value(u.um)
-        preferred[chip] = [
-            f.width_depleted_preferred.to_value(u.um) for f in tracks.flat(chip)
-        ]
         ax_a.plot(
             sd,
             d.misfit.ndarray,
@@ -44,54 +38,27 @@ def depleted() -> aastex.Figure:
             linewidth=0.8,
             label=f"{chip} ({d.num})",
         )
-        ax_b.plot(
-            sd,
-            d.width_max.ndarray.to_value(u.um),
-            color=color,
-            linewidth=0.8,
-        )
-        ax_tc.plot(
-            sd,
-            d.critical_depth.ndarray,
-            color=color,
-            linestyle="--",
-            linewidth=0.8,
-        )
-    ax_c.hist(
-        list(preferred.values()),
-        bins=np.arange(-0.05, 1.6, 0.1),
-        color=[_chips[c] for c in preferred],
-        label=list(preferred),
-        weights=[np.ones(len(p)) / len(p) for p in preferred.values()],
-    )
+        for a, m, e in (
+            (
+                ax_b,
+                d.width_max_mean.ndarray.to_value(u.um),
+                d.width_max_error.ndarray.to_value(u.um),
+            ),
+            (ax_c, d.critical_depth_mean.ndarray, d.critical_depth_error.ndarray),
+        ):
+            a.plot(sd, m, color=color, linewidth=0.8)
+            a.fill_between(sd, m - e, m + e, color=color, alpha=0.2, linewidth=0)
 
-    ax_a.set_xlabel(r"$\sigma_d$ ($\mu$m)")
+    for a in ax:
+        a.set_xlabel(r"$\sigma_d$ ($\mu$m)")
+        a.set_xlim(-0.05, 1.55)
     ax_a.set_ylabel("pooled misfit above minimum")
-    ax_a.set_xlim(-0.05, 1.55)
     ax_a.set_title(r"(a) pooled misfit against $\sigma_d$", fontsize=8)
     ax_a.legend(fontsize=5)
-
-    ax_b.set_xlabel(r"$\sigma_d$ ($\mu$m)")
-    ax_b.set_ylabel(r"median $\sigma_\mathrm{max}$ ($\mu$m)")
-    ax_b.set_ylim(3, 8)
-    ax_tc.set_ylabel("median $t_c$")
-    ax_tc.set_ylim(0.2, 0.6)
-    ax_b.set_title(r"(b) per-track fits at each $\sigma_d$", fontsize=8)
-    ax_tc.legend(
-        handles=[
-            plt.Line2D([], [], color="0.4", linewidth=0.8),
-            plt.Line2D([], [], color="0.4", linewidth=0.8, linestyle="--"),
-        ],
-        labels=[r"$\sigma_\mathrm{max}$", "$t_c$"],
-        fontsize=5,
-        loc="upper center",
-        ncol=2,
-    )
-
-    ax_c.set_xlabel(r"per-track best $\sigma_d$ ($\mu$m)")
-    ax_c.set_ylabel("fraction of tracks")
-    ax_c.set_title("(c) per-track preference", fontsize=8)
-    ax_c.legend(fontsize=5)
+    ax_b.set_ylabel(r"mean $\sigma_\mathrm{max}$ ($\mu$m)")
+    ax_b.set_title(r"(b) back-surface width", fontsize=8)
+    ax_c.set_ylabel("mean $t_c$")
+    ax_c.set_title(r"(c) critical depth", fontsize=8)
 
     result = aastex.Figure("depleted", position="htb!")
     result.add_fig(fig, width=None)
@@ -104,10 +71,9 @@ orientation, and centerline, shown relative to its minimum, which lies at
 $\sigma_d = \widthDepletedFuvOne$ $\mu$m on \FUV{}1, \widthDepletedFuvTwo\
 $\mu$m on \FUV{}2, \widthDepletedNuv\ $\mu$m on \NUV, and
 \widthDepletedSji\ $\mu$m on \SJI.
-(b) The median $t_c$ and $\sigma_\text{max}$ of the same tracks at each
-$\sigma_d$: the spread inside the depletion region trades against the
-field-free wedge, stepping $t_c$ down while $\sigma_\text{max}$ holds.
-(c) The $\sigma_d$ each flat track prefers on its own.
-The preference of any one track is weak, spread over the whole grid, and
-it is only in the sum that the minimum is sharp."""))
+(b) and (c) The mean $\sigma_\text{max}$ and $t_c$ of the same tracks at
+each $\sigma_d$, with the standard error of the mean shaded: the spread
+inside the depletion region trades against the field-free wedge, so
+$t_c$ falls steadily as $\sigma_d$ rises, fastest on \FUV{}1, while
+$\sigma_\text{max}$ rises by a few percent."""))
     return result
