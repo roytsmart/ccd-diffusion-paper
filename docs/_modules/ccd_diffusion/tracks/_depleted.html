@@ -429,6 +429,24 @@
     <span class="n">width_max</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
 <span class="w">    </span><span class="sd">"""The median :math:`\\sigma_\\text{max}` of the flat tracks at each :math:`\\sigma_d`."""</span>
 
+    <span class="n">critical_depth_mean</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The mean :math:`t_c` of the flat tracks at each :math:`\\sigma_d`.</span>
+
+<span class="sd">    The fits are searched on a grid, so the median can only sit on a grid</span>
+<span class="sd">    point and only move by a whole step, while the mean moves continuously</span>
+<span class="sd">    as :math:`\\sigma_d` trades against the field-free wedge.</span>
+<span class="sd">    """</span>
+
+    <span class="n">critical_depth_error</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+<span class="w">    </span><span class="sd">"""The standard error of :attr:`critical_depth_mean`."""</span>
+
+    <span class="n">width_max_mean</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+<span class="w">    </span><span class="sd">"""The mean :math:`\\sigma_\\text{max}` of the flat tracks at each :math:`\\sigma_d`."""</span>
+
+    <span class="n">width_max_error</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+<span class="w">    </span><span class="sd">"""The standard error of :attr:`width_max_mean`."""</span>
+
     <span class="n">num</span><span class="p">:</span> <span class="nb">int</span>
 <span class="w">    </span><span class="sd">"""The number of flat tracks pooled."""</span>
 
@@ -475,10 +493,19 @@
             <span class="k">break</span>
         <span class="n">best</span> <span class="o">=</span> <span class="n">new</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">values</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">([</span><span class="nb">getattr</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">selected</span><span class="p">])</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">median</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">values</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">axes</span><span class="o">=</span><span class="n">axis_width_depleted</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span><span class="n">values</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">axes</span><span class="o">=</span><span class="n">axis_width_depleted</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">error</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">values</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">([</span><span class="nb">getattr</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">selected</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-            <span class="n">axes</span><span class="o">=</span><span class="n">axis_width_depleted</span><span class="p">,</span>
+            <span class="n">v</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">axes</span><span class="o">=</span><span class="n">axis_width_depleted</span>
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">Depleted</span><span class="p">(</span>
@@ -487,6 +514,10 @@
         <span class="n">misfit</span><span class="o">=</span><span class="n">misfit</span> <span class="o">-</span> <span class="n">misfit</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
         <span class="n">critical_depth</span><span class="o">=</span><span class="n">median</span><span class="p">(</span><span class="s2">"critical_depth"</span><span class="p">),</span>
         <span class="n">width_max</span><span class="o">=</span><span class="n">median</span><span class="p">(</span><span class="s2">"width_max"</span><span class="p">),</span>
+        <span class="n">critical_depth_mean</span><span class="o">=</span><span class="n">mean</span><span class="p">(</span><span class="s2">"critical_depth"</span><span class="p">),</span>
+        <span class="n">critical_depth_error</span><span class="o">=</span><span class="n">error</span><span class="p">(</span><span class="s2">"critical_depth"</span><span class="p">),</span>
+        <span class="n">width_max_mean</span><span class="o">=</span><span class="n">mean</span><span class="p">(</span><span class="s2">"width_max"</span><span class="p">),</span>
+        <span class="n">width_max_error</span><span class="o">=</span><span class="n">error</span><span class="p">(</span><span class="s2">"width_max"</span><span class="p">),</span>
         <span class="n">num</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">selected</span><span class="p">),</span>
     <span class="p">)</span></div>
 
@@ -508,21 +539,40 @@
 <span class="sd">    depleted</span>
 <span class="sd">        The pooled fit of every CCD.</span>
 <span class="sd">    """</span>
-    <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"chip"</span><span class="p">,</span> <span class="s2">"num"</span><span class="p">,</span> <span class="s2">"width_depleted"</span><span class="p">,</span> <span class="s2">"misfit"</span><span class="p">,</span> <span class="s2">"critical_depth"</span><span class="p">,</span> <span class="s2">"width_max"</span><span class="p">]</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">"chip"</span><span class="p">,</span>
+        <span class="s2">"num"</span><span class="p">,</span>
+        <span class="s2">"width_depleted"</span><span class="p">,</span>
+        <span class="s2">"misfit"</span><span class="p">,</span>
+        <span class="s2">"critical_depth"</span><span class="p">,</span>
+        <span class="s2">"width_max"</span><span class="p">,</span>
+        <span class="s2">"critical_depth_mean"</span><span class="p">,</span>
+        <span class="s2">"critical_depth_error"</span><span class="p">,</span>
+        <span class="s2">"width_max_mean"</span><span class="p">,</span>
+        <span class="s2">"width_max_error"</span><span class="p">,</span>
+    <span class="p">]</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">_path_depleted</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">fieldnames</span><span class="o">=</span><span class="n">fields</span><span class="p">)</span>
         <span class="n">writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">depleted</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">width_depleted</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
                 <span class="n">index</span> <span class="o">=</span> <span class="p">{</span><span class="n">axis_width_depleted</span><span class="p">:</span> <span class="n">i</span><span class="p">}</span>
+
+                <span class="k">def</span><span class="w"> </span><span class="nf">um</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">digits</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">array</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">digits</span><span class="si">}</span><span class="s2">f</span><span class="si">}</span><span class="s2">"</span>
+
                 <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span>
                     <span class="nb">dict</span><span class="p">(</span>
                         <span class="n">chip</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">chip</span><span class="p">,</span>
                         <span class="n">num</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">num</span><span class="p">,</span>
-                        <span class="n">width_depleted</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">d</span><span class="o">.</span><span class="n">width_depleted</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                        <span class="n">width_depleted</span><span class="o">=</span><span class="n">um</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">width_depleted</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
                         <span class="n">misfit</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">misfit</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
                         <span class="n">critical_depth</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">critical_depth</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-                        <span class="n">width_max</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">d</span><span class="o">.</span><span class="n">width_max</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                        <span class="n">width_max</span><span class="o">=</span><span class="n">um</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">width_max</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+                        <span class="n">critical_depth_mean</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">critical_depth_mean</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                        <span class="n">critical_depth_error</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">critical_depth_error</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                        <span class="n">width_max_mean</span><span class="o">=</span><span class="n">um</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">width_max_mean</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+                        <span class="n">width_max_error</span><span class="o">=</span><span class="n">um</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">width_max_error</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
                     <span class="p">)</span>
                 <span class="p">)</span></div>
 
@@ -558,6 +608,10 @@
         <span class="n">misfit</span><span class="o">=</span><span class="n">column</span><span class="p">(</span><span class="s2">"misfit"</span><span class="p">),</span>
         <span class="n">critical_depth</span><span class="o">=</span><span class="n">column</span><span class="p">(</span><span class="s2">"critical_depth"</span><span class="p">),</span>
         <span class="n">width_max</span><span class="o">=</span><span class="n">column</span><span class="p">(</span><span class="s2">"width_max"</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">),</span>
+        <span class="n">critical_depth_mean</span><span class="o">=</span><span class="n">column</span><span class="p">(</span><span class="s2">"critical_depth_mean"</span><span class="p">),</span>
+        <span class="n">critical_depth_error</span><span class="o">=</span><span class="n">column</span><span class="p">(</span><span class="s2">"critical_depth_error"</span><span class="p">),</span>
+        <span class="n">width_max_mean</span><span class="o">=</span><span class="n">column</span><span class="p">(</span><span class="s2">"width_max_mean"</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">),</span>
+        <span class="n">width_max_error</span><span class="o">=</span><span class="n">column</span><span class="p">(</span><span class="s2">"width_max_error"</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">),</span>
         <span class="n">num</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"num"</span><span class="p">]),</span>
     <span class="p">)</span></div>
 

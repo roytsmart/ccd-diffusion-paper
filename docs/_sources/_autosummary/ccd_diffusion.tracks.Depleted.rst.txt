@@ -22,6 +22,10 @@ Depleted
       ~Depleted.misfit
       ~Depleted.critical_depth
       ~Depleted.width_max
+      ~Depleted.critical_depth_mean
+      ~Depleted.critical_depth_error
+      ~Depleted.width_max_mean
+      ~Depleted.width_max_error
       ~Depleted.num
     
     

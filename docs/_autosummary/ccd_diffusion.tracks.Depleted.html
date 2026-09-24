@@ -544,7 +544,7 @@
 <h1>Depleted<a class="headerlink" href="#depleted" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="ccd_diffusion.tracks.Depleted">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">ccd_diffusion.tracks.</span></span><span class="sig-name descname"><span class="pre">Depleted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chip</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_depleted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">misfit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">critical_depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ccd_diffusion/tracks/_depleted.html#Depleted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ccd_diffusion.tracks.Depleted" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">ccd_diffusion.tracks.</span></span><span class="sig-name descname"><span class="pre">Depleted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chip</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_depleted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">misfit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">critical_depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">critical_depth_mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">critical_depth_error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_max_mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_max_error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ccd_diffusion/tracks/_depleted.html#Depleted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ccd_diffusion.tracks.Depleted" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The fit of <span class="math notranslate nohighlight">\(\sigma_d\)</span> pooled over the flat tracks on one CCD.</p>
 <p class="rubric">Attributes</p>
@@ -567,6 +567,18 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Depleted.width_max" title="ccd_diffusion.tracks.Depleted.width_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">width_max</span></code></a></p></td>
 <td><p>The median <span class="math notranslate nohighlight">\(\sigma_\text{max}\)</span> of the flat tracks at each <span class="math notranslate nohighlight">\(\sigma_d\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Depleted.critical_depth_mean" title="ccd_diffusion.tracks.Depleted.critical_depth_mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">critical_depth_mean</span></code></a></p></td>
+<td><p>The mean <span class="math notranslate nohighlight">\(t_c\)</span> of the flat tracks at each <span class="math notranslate nohighlight">\(\sigma_d\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Depleted.critical_depth_error" title="ccd_diffusion.tracks.Depleted.critical_depth_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">critical_depth_error</span></code></a></p></td>
+<td><p>The standard error of <a class="reference internal" href="#ccd_diffusion.tracks.Depleted.critical_depth_mean" title="ccd_diffusion.tracks.Depleted.critical_depth_mean"><code class="xref py py-attr docutils literal notranslate"><span class="pre">critical_depth_mean</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Depleted.width_max_mean" title="ccd_diffusion.tracks.Depleted.width_max_mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">width_max_mean</span></code></a></p></td>
+<td><p>The mean <span class="math notranslate nohighlight">\(\sigma_\text{max}\)</span> of the flat tracks at each <span class="math notranslate nohighlight">\(\sigma_d\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Depleted.width_max_error" title="ccd_diffusion.tracks.Depleted.width_max_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">width_max_error</span></code></a></p></td>
+<td><p>The standard error of <a class="reference internal" href="#ccd_diffusion.tracks.Depleted.width_max_mean" title="ccd_diffusion.tracks.Depleted.width_max_mean"><code class="xref py py-attr docutils literal notranslate"><span class="pre">width_max_mean</span></code></a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#ccd_diffusion.tracks.Depleted.num" title="ccd_diffusion.tracks.Depleted.num"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num</span></code></a></p></td>
 <td><p>The number of flat tracks pooled.</p></td>
@@ -595,6 +607,10 @@
 <li><p><strong>misfit</strong> (<em>AbstractScalarArray</em>)</p></li>
 <li><p><strong>critical_depth</strong> (<em>AbstractScalarArray</em>)</p></li>
 <li><p><strong>width_max</strong> (<em>AbstractScalarArray</em>)</p></li>
+<li><p><strong>critical_depth_mean</strong> (<em>AbstractScalarArray</em>)</p></li>
+<li><p><strong>critical_depth_error</strong> (<em>AbstractScalarArray</em>)</p></li>
+<li><p><strong>width_max_mean</strong> (<em>AbstractScalarArray</em>)</p></li>
+<li><p><strong>width_max_error</strong> (<em>AbstractScalarArray</em>)</p></li>
 <li><p><strong>num</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
 </ul>
 </dd>
@@ -615,6 +631,21 @@
 <dt class="sig sig-object py" id="ccd_diffusion.tracks.Depleted.critical_depth">
 <span class="sig-name descname"><span class="pre">critical_depth</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">AbstractScalarArray</span></span><a class="headerlink" href="#ccd_diffusion.tracks.Depleted.critical_depth" title="Link to this definition">#</a></dt>
 <dd><p>The median <span class="math notranslate nohighlight">\(t_c\)</span> of the flat tracks at each <span class="math notranslate nohighlight">\(\sigma_d\)</span>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ccd_diffusion.tracks.Depleted.critical_depth_error">
+<span class="sig-name descname"><span class="pre">critical_depth_error</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">AbstractScalarArray</span></span><a class="headerlink" href="#ccd_diffusion.tracks.Depleted.critical_depth_error" title="Link to this definition">#</a></dt>
+<dd><p>The standard error of <a class="reference internal" href="#ccd_diffusion.tracks.Depleted.critical_depth_mean" title="ccd_diffusion.tracks.Depleted.critical_depth_mean"><code class="xref py py-attr docutils literal notranslate"><span class="pre">critical_depth_mean</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ccd_diffusion.tracks.Depleted.critical_depth_mean">
+<span class="sig-name descname"><span class="pre">critical_depth_mean</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">AbstractScalarArray</span></span><a class="headerlink" href="#ccd_diffusion.tracks.Depleted.critical_depth_mean" title="Link to this definition">#</a></dt>
+<dd><p>The mean <span class="math notranslate nohighlight">\(t_c\)</span> of the flat tracks at each <span class="math notranslate nohighlight">\(\sigma_d\)</span>.</p>
+<p>The fits are searched on a grid, so the median can only sit on a grid
+point and only move by a whole step, while the mean moves continuously
+as <span class="math notranslate nohighlight">\(\sigma_d\)</span> trades against the field-free wedge.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -639,6 +670,18 @@
 <dt class="sig sig-object py" id="ccd_diffusion.tracks.Depleted.width_max">
 <span class="sig-name descname"><span class="pre">width_max</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">AbstractScalarArray</span></span><a class="headerlink" href="#ccd_diffusion.tracks.Depleted.width_max" title="Link to this definition">#</a></dt>
 <dd><p>The median <span class="math notranslate nohighlight">\(\sigma_\text{max}\)</span> of the flat tracks at each <span class="math notranslate nohighlight">\(\sigma_d\)</span>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ccd_diffusion.tracks.Depleted.width_max_error">
+<span class="sig-name descname"><span class="pre">width_max_error</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">AbstractScalarArray</span></span><a class="headerlink" href="#ccd_diffusion.tracks.Depleted.width_max_error" title="Link to this definition">#</a></dt>
+<dd><p>The standard error of <a class="reference internal" href="#ccd_diffusion.tracks.Depleted.width_max_mean" title="ccd_diffusion.tracks.Depleted.width_max_mean"><code class="xref py py-attr docutils literal notranslate"><span class="pre">width_max_mean</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ccd_diffusion.tracks.Depleted.width_max_mean">
+<span class="sig-name descname"><span class="pre">width_max_mean</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">AbstractScalarArray</span></span><a class="headerlink" href="#ccd_diffusion.tracks.Depleted.width_max_mean" title="Link to this definition">#</a></dt>
+<dd><p>The mean <span class="math notranslate nohighlight">\(\sigma_\text{max}\)</span> of the flat tracks at each <span class="math notranslate nohighlight">\(\sigma_d\)</span>.</p>
 </dd></dl>
 
 </dd></dl>
@@ -696,10 +739,14 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Depleted.best"><code class="docutils literal notranslate"><span class="pre">Depleted.best</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Depleted.chip"><code class="docutils literal notranslate"><span class="pre">Depleted.chip</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Depleted.critical_depth"><code class="docutils literal notranslate"><span class="pre">Depleted.critical_depth</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Depleted.critical_depth_error"><code class="docutils literal notranslate"><span class="pre">Depleted.critical_depth_error</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Depleted.critical_depth_mean"><code class="docutils literal notranslate"><span class="pre">Depleted.critical_depth_mean</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Depleted.misfit"><code class="docutils literal notranslate"><span class="pre">Depleted.misfit</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Depleted.num"><code class="docutils literal notranslate"><span class="pre">Depleted.num</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Depleted.width_depleted"><code class="docutils literal notranslate"><span class="pre">Depleted.width_depleted</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Depleted.width_max"><code class="docutils literal notranslate"><span class="pre">Depleted.width_max</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Depleted.width_max_error"><code class="docutils literal notranslate"><span class="pre">Depleted.width_max_error</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ccd_diffusion.tracks.Depleted.width_max_mean"><code class="docutils literal notranslate"><span class="pre">Depleted.width_max_mean</span></code></a></li>
 </ul>
 </li>
 </ul>
