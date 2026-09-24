@@ -17,8 +17,8 @@ _chips = {
     "SJI": "black",
 }
 
-_enclosed = (0.5, 0.9)
-"""The fractions of a CCD's core tracks the contours of the joint distribution enclose."""
+_enclosed = (0.5,)
+"""The fraction of a CCD's core tracks the contour of the joint distribution encloses."""
 
 
 def core() -> list["ccd_diffusion.tracks.Fit"]:
@@ -106,43 +106,16 @@ def parameters() -> aastex.Figure:
             density.T,
             levels=_levels(density, _enclosed),
             colors=[color],
-            linewidths=[0.6, 1.2],
-        )
-    campaigns = 0
-    for dataset in tracks.datasets:
-        subset = [f for f in core() if f.track.dataset == dataset]
-        if not subset:
-            continue
-        campaigns += 1
-        tc = np.array([f.critical_depth for f in subset])
-        sm = np.array([f.width_max.to_value(u.um) for f in subset])
-        ax_c.errorbar(
-            tc.mean(),
-            sm.mean(),
-            xerr=tc.std() / np.sqrt(len(tc)),
-            yerr=sm.std() / np.sqrt(len(sm)),
-            fmt="o",
-            color="black",
-            markerfacecolor="white",
-            markersize=3.5,
-            linewidth=0.6,
-            label="campaign means" if campaigns == 1 else None,
+            linewidths=[1.2],
         )
     ax_c.set_xlim(0.2, 0.65)
-    ax_c.set_ylim(0, 10.5)
+    ax_c.set_ylim(2, 8)
     ax_c.set_xlabel("$t_c$")
     ax_c.set_ylabel(r"$\sigma_\mathrm{max}$ ($\mu$m)")
     ax_c.set_title("(c) core tracks, jointly", fontsize=8)
 
     handles, labels = ax_a.get_legend_handles_labels()
-    handles_c, labels_c = ax_c.get_legend_handles_labels()
-    fig.legend(
-        handles + handles_c,
-        labels + labels_c,
-        loc="outside lower center",
-        ncol=3,
-        fontsize=6,
-    )
+    fig.legend(handles, labels, loc="outside lower center", ncol=4, fontsize=6)
 
     result = aastex.Figure("parameters", position="htb!")
     result.add_fig(fig, width=None)
@@ -154,13 +127,10 @@ describes poorly, sharp or diffuse along most of their length, and they
 are excluded from the shaded core used elsewhere.
 (b) The back-surface width of the core tracks.
 (c) The joint distribution of the core tracks on each \CCD, as the
-contours enclosing half (thick) and nine tenths (thin) of them, on the
-grid the fits are searched over (0.05 in $t_c$ and 0.5 $\mu$m in
-$\sigma_\text{max}$) smoothed by one cell, with the mean of each campaign
-of Table~\ref{tab:datasets} and its standard error as an open circle.
-The campaigns, spanning two particle populations, four spacecraft rolls,
-and the spectrograph and slit-jaw \CCD{}s, agree to within a few
-hundredths in $t_c$, and the contours run wider in $\sigma_\text{max}$
-than in $t_c$, since a single track constrains its back-surface width
-less well than the depth at which it sharpens."""))
+contour enclosing half of them, on the grid the fits are searched over
+(0.05 in $t_c$ and 0.5 $\mu$m in $\sigma_\text{max}$) smoothed by one
+cell.
+The contours run wider in $\sigma_\text{max}$ than in $t_c$, since a
+single track constrains its back-surface width less well than the depth
+at which it sharpens."""))
     return result
