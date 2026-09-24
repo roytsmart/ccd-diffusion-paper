@@ -50,9 +50,9 @@ def parameters() -> aastex.Figure:
 
     # the fits are exhaustive searches on grids, so every histogram is
     # binned on the grid cells, one step wide and centered on the grid
-    # points, and the joint distribution is
-    # a histogram on the grid cells, smoothed by a cell, and drawn as the
-    # contours enclosing half and nine tenths of each CCD's core tracks
+    # points, and the joint distribution is a histogram on the same cells,
+    # smoothed by a cell, and drawn as the contour enclosing half of each
+    # CCD's core tracks
     grid_tc = tracks.critical_depth.ndarray
     grid_sm = tracks.width_max.ndarray.to_value(u.um)
     step_tc = float(np.diff(grid_tc)[0])
