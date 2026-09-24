@@ -438,9 +438,9 @@
 
     <span class="c1"># the fits are exhaustive searches on grids, so every histogram is</span>
     <span class="c1"># binned on the grid cells, one step wide and centered on the grid</span>
-    <span class="c1"># points, and the joint distribution is</span>
-    <span class="c1"># a histogram on the grid cells, smoothed by a cell, and drawn as the</span>
-    <span class="c1"># contours enclosing half and nine tenths of each CCD's core tracks</span>
+    <span class="c1"># points, and the joint distribution is a histogram on the same cells,</span>
+    <span class="c1"># smoothed by a cell, and drawn as the contour enclosing half of each</span>
+    <span class="c1"># CCD's core tracks</span>
     <span class="n">grid_tc</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">critical_depth</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="n">grid_sm</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">width_max</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span>
     <span class="n">step_tc</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">grid_tc</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
