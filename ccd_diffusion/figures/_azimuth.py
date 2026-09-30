@@ -92,10 +92,11 @@ def azimuth() -> aastex.Figure:
             count, _ = np.histogram(theta, bins=edges)
             fraction = 100 * count / len(mine)
             # the histogram drawn as a closed outline, so the rolls overlap
-            # without hiding one another
+            # without hiding one another; the last point steps back to the
+            # first bin at 360 degrees, closing the outline
             a.plot(
-                np.radians(np.repeat(edges, 2)[1:-1]),
-                np.repeat(fraction, 2),
+                np.radians(np.append(np.repeat(edges, 2)[1:-1], edges[-1])),
+                np.append(np.repeat(fraction, 2), fraction[0]),
                 color=color,
                 linewidth=1,
                 label=(
