@@ -1,19 +1,26 @@
 import pathlib
+import pytest
 import pymupdf
-import pylatex
 import ccd_diffusion
 
 
-def test_document():
-    doc = ccd_diffusion.document()
-    assert isinstance(doc, pylatex.Document)
-    tex = doc.dumps()
+@pytest.fixture(scope="module")
+def pdf() -> pathlib.Path:
+    """
+    The article, built once for the tests below: generating the figures is
+    most of the cost, and :func:`ccd_diffusion.pdf` keeps the LaTeX source
+    beside the pdf, so the source can be checked without a second build.
+    """
+    return ccd_diffusion.pdf()
+
+
+def test_document(pdf: pathlib.Path):
+    tex = pdf.with_suffix(".tex").read_text(encoding="utf-8")
     assert r"\documentclass[12pt]{spieman}" in tex
     assert r"\bibliographystyle{spiejour}" in tex
 
 
-def test_pdf():
-    pdf = ccd_diffusion.pdf()
+def test_pdf(pdf: pathlib.Path):
     assert isinstance(pdf, pathlib.Path)
     assert pdf.exists()
 

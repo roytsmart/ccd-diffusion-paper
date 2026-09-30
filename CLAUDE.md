@@ -99,7 +99,10 @@ acknowledgments), and the bibliography.
   tracks boxed. The model shown beside each cutout is re-evaluated in the page.
 - **`.github/workflows/docs.yml`** builds the documentation and publishes it to the
   `gh-pages` branch beside the article, under `docs/` for `main` and `pr/N/docs/` for a
-  pull request; `pdf.yml` publishes the article the same way.
+  pull request; `article.yml` builds the pdf in a single job, and `pdf.yml`
+  (which always runs from main's copy) publishes it the same way. TeX Live is
+  installed by the local action `.github/actions/latex`, which caches the
+  `.deb` files keyed on the exact versions apt would install.
 
 ## Conventions
 

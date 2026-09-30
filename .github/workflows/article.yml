@@ -1,0 +1,58 @@
+name: article
+
+# Builds the article pdf in a job of its own, which the `pdf` workflow
+# publishes. The `tests` workflow builds it too, on every Python version, but
+# the preview would then wait for the slowest of them.
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+# A newer push to the same branch supersedes a build still running.
+concurrency:
+  group: article-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write   # to ask the `pdf` workflow for a preview, below
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install LaTeX
+        uses: ./.github/actions/latex
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          pip install setuptools wheel
+          pip install -e .[test]
+      - name: Build the article
+        # the test builds the pdf and checks that its references resolved
+        run: pytest ccd_diffusion/_document_test.py::test_pdf
+      - name: Upload the article
+        uses: actions/upload-artifact@v4
+        with:
+          name: article
+          path: ccd_diffusion/ccd-diffusion.pdf
+          if-no-files-found: error
+      - name: Ask for the preview of a pull request the data workflow opened
+        # GitHub does not run the `pdf` workflow after a run for a pull request
+        # that the Actions token opened, so that run asks for it directly
+        if: >-
+          github.event_name == 'pull_request'
+          && github.event.pull_request.user.login == 'github-actions[bot]'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          gh workflow run pdf.yml --ref main -f run_id="$GITHUB_RUN_ID" -f pr="$PR"
