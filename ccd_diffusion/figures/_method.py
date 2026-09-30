@@ -53,6 +53,7 @@ def method() -> aastex.Figure:
     typical = tracks.summary("FUV2")
     tc_typical = typical.critical_depth[1]
     sm_typical = typical.width_max[1]
+    sd_typical = typical.width_depleted
     D = tracks.thickness.to_value(u.um)
     zf = tc_typical * D
     h = tracks.half_width
@@ -78,7 +79,7 @@ def method() -> aastex.Figure:
     ax_a.axhspan(zf, D, color="tab:blue", alpha=0.15, label="depleted")
     na.plt.plot(x, D * x / L, ax=ax_a, color="black", linewidth=1.5, label="particle")
     sample = na.linspace(0.5, L - 0.5, axis="sample", num=9)
-    sigma = tracks.width(sample / L, tc_typical, sm_typical)
+    sigma = tracks.width(sample / L, tc_typical, sm_typical, sd_typical)
     ax_a.errorbar(
         sample.ndarray,
         (D * sample / L).ndarray,
@@ -99,7 +100,7 @@ def method() -> aastex.Figure:
     ax_a.legend(loc="lower right", fontsize=6)
 
     # (b) the same track seen from above
-    sigma = tracks.width(x / L, tc_typical, sm_typical)
+    sigma = tracks.width(x / L, tc_typical, sm_typical, sd_typical)
     for k in range(-h, h + 1):
         ax_b.axhline(k + 0.5, color="0.85", linewidth=0.5)
     ax_b.fill_between(
@@ -194,9 +195,11 @@ How a glancing track measures the diffusion width against depth.
 at the gates ($z = D$) crosses the field-free layer first, where the charge
 it liberates diffuses until it reaches the depletion edge, so the lateral
 spread (red bars, to scale in pixels, at the median fit of the \FUV{}2
-tracks) is largest at the back surface and vanishes at $z = z_f$.
+tracks and its $\sigma_d$) is largest at the back surface and falls
+steeply to $z = z_f$; beyond it only the drift across the depletion region
+spreads the charge, by under a micron, narrowing to nothing at the gates.
 (b) Seen from above, the track is a wedge: about 0.4 pixels wide at one end
-and pixel-sharp beyond $t_c$.
+and a few hundredths of a pixel beyond $t_c$.
 (c) A proton track on the \FUV{}2 \CCD, in the coordinates of its parent
 image, with the fitted centerline dashed.
 (d) The probability that two electrons deposited in the same slice of that
