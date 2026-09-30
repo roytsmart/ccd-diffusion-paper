@@ -129,6 +129,10 @@ def azimuth() -> aastex.Figure:
             ha="right",
             va="center",
             fontsize=7,
+            # the outlines of the rolls aligned with the dispersion reach the
+            # label, so they pass behind it
+            bbox=dict(facecolor="white", edgecolor="none", alpha=0.8, pad=1),
+            zorder=5,
         )
         a.legend(fontsize=5, loc="upper center", bbox_to_anchor=(0.5, -0.02))
 
