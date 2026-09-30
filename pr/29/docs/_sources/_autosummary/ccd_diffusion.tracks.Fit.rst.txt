@@ -1,0 +1,56 @@
+Fit
+===
+
+.. currentmodule:: ccd_diffusion.tracks
+
+.. autoclass:: ccd_diffusion.tracks.Fit
+    :members:
+    :show-inheritance:
+    :inherited-members:
+    :undoc-members:
+    :member-order: groupwise
+
+    
+    
+    .. rubric:: Attributes
+
+    .. autosummary::
+    
+      ~Fit.bragg
+      ~Fit.crossing
+      ~Fit.depth
+      ~Fit.flat
+      ~Fit.position
+      ~Fit.tight
+      ~Fit.width
+      ~Fit.track
+      ~Fit.width_depleted
+      ~Fit.orientation
+      ~Fit.critical_depth
+      ~Fit.width_max
+      ~Fit.offset
+      ~Fit.tilt
+      ~Fit.gain
+      ~Fit.critical_depth_min
+      ~Fit.critical_depth_max
+      ~Fit.width_max_min
+      ~Fit.width_max_max
+      ~Fit.width_depleted_preferred
+    
+    
+
+    
+    
+    .. rubric:: Methods
+
+    .. autosummary::
+    
+      ~Fit.__init__
+    
+    
+
+    
+    .. rubric:: Inheritance Diagram
+
+    .. inheritance-diagram:: ccd_diffusion.tracks.Fit
+    

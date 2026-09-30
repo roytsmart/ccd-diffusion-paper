@@ -1,0 +1,56 @@
+Track
+=====
+
+.. currentmodule:: ccd_diffusion.tracks
+
+.. autoclass:: ccd_diffusion.tracks.Track
+    :members:
+    :show-inheritance:
+    :inherited-members:
+    :undoc-members:
+    :member-order: groupwise
+
+    
+    
+    .. rubric:: Attributes
+
+    .. autosummary::
+    
+      ~Track.depth
+      ~Track.error
+      ~Track.extent
+      ~Track.fraction
+      ~Track.index
+      ~Track.length
+      ~Track.signal
+      ~Track.usable
+      ~Track.name
+      ~Track.dataset
+      ~Track.chip
+      ~Track.fsn
+      ~Track.slope
+      ~Track.noise
+      ~Track.gain
+      ~Track.vertical
+      ~Track.row
+      ~Track.column
+      ~Track.charge
+      ~Track.position
+    
+    
+
+    
+    
+    .. rubric:: Methods
+
+    .. autosummary::
+    
+      ~Track.__init__
+    
+    
+
+    
+    .. rubric:: Inheritance Diagram
+
+    .. inheritance-diagram:: ccd_diffusion.tracks.Track
+    
