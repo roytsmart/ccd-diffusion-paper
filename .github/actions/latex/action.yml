@@ -1,0 +1,64 @@
+name: Install LaTeX
+description: >-
+  Install the TeX Live packages the article needs from the Ubuntu archive,
+  taking the .deb files from the Actions cache when the versions apt would
+  install have not changed.
+
+# Downloading the 416 MB of packages is what makes the install slow and
+# erratic: the Ubuntu mirror serves them at anything from 14 to 0.6 MB/s,
+# so the download alone takes from half a minute to over eleven. The cache
+# serves them in seconds. Unpacking them and building the formats, about a
+# minute and a half, is left as it was.
+#
+# The cache is keyed on the exact version of every package apt would
+# install, dependencies included, after refreshing its lists, together with
+# the release of Ubuntu. A new TeX Live, or any patched dependency, changes
+# the key, so the install downloads afresh and caches the new files; the
+# cache can never hold back an update.
+
+inputs:
+  packages:
+    description: The packages to install.
+    default: >-
+      latexmk texlive-publishers texlive-science texlive-latex-extra cm-super
+      libcairo2-dev
+
+runs:
+  using: composite
+  steps:
+    - name: Resolve the versions apt would install
+      id: resolve
+      shell: bash
+      env:
+        PACKAGES: ${{ inputs.packages }}
+      run: |
+        sudo apt-get update -q
+        # the "Inst" lines name every package apt would install with its
+        # version, so the key follows any of them changing
+        apt-get install --simulate $PACKAGES | grep '^Inst' | sort > "$RUNNER_TEMP/latex-plan.txt"
+        echo "$(wc -l < "$RUNNER_TEMP/latex-plan.txt") packages to install"
+        release=$(. /etc/os-release && echo "$VERSION_ID")
+        hash=$(sha256sum < "$RUNNER_TEMP/latex-plan.txt" | cut -c1-16)
+        echo "key=latex-ubuntu-$release-$hash" >> "$GITHUB_OUTPUT"
+
+    - name: Restore the package files
+      uses: actions/cache@v4
+      with:
+        path: ~/apt-archives
+        key: ${{ steps.resolve.outputs.key }}
+
+    - name: Install
+      shell: bash
+      env:
+        PACKAGES: ${{ inputs.packages }}
+      run: |
+        archives="$HOME/apt-archives"
+        mkdir -p "$archives/partial"
+        sudo apt-get install -y -q \
+          -o Dir::Cache::Archives="$archives" \
+          -o APT::Keep-Downloaded-Packages=true \
+          $PACKAGES
+        # leave only the package files, readable by the cache step
+        sudo rm -rf "$archives/partial" "$archives/lock"
+        sudo chown -R "$(id -u):$(id -g)" "$archives"
+        echo "$(ls "$archives"/*.deb | wc -l) package files in the cache directory"

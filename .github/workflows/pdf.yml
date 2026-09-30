@@ -1,17 +1,17 @@
 name: pdf
 
-# The article pdf is expensive to build (about ten minutes on a runner), so it
-# is built once by the `tests` workflow and only published here.
+# The article pdf is built by the `article` workflow and only published here,
+# from main's copy of this workflow, which pull requests cannot change.
 on:
   workflow_run:
-    workflows: ["tests"]
+    workflows: ["article"]
     types: [completed]
   workflow_dispatch:
-    # asked for by `tests` itself for a pull request the data workflow opened,
+    # asked for by `article` itself for a pull request the data workflow opened,
     # since GitHub does not chain workflows off events its own token caused
     inputs:
       run_id:
-        description: The `tests` run that built the article
+        description: The `article` run that built the article
         required: true
       pr:
         description: The pull request to preview
@@ -35,7 +35,7 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - name: Download the article built by `tests`
+      - name: Download the article built by `article`
         uses: actions/download-artifact@v4
         with:
           name: article

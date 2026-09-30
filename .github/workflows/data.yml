@@ -24,7 +24,7 @@ name: data
 # GitHub holds the checks of a pull request opened with the workflow's own
 # token until someone approves them, so after opening the pull request the
 # merge job approves them itself. It also never chains one workflow off a
-# run that its own token caused, so the `tests` run for such a pull request
+# run that its own token caused, so the `article` run for such a pull request
 # asks the `pdf` workflow for the article preview directly. No personal
 # token is involved.
 
