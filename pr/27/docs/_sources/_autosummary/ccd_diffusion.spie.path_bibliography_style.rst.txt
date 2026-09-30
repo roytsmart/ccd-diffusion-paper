@@ -1,0 +1,6 @@
+ccd\_diffusion.spie.path\_bibliography\_style
+=============================================
+
+.. currentmodule:: ccd_diffusion.spie
+
+.. autodata:: path_bibliography_style
