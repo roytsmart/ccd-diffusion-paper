@@ -56,8 +56,10 @@ resampling the pixels, and extracted a seven-pixel-wide cutout centered on
 the integer part of the fitted line in every row.
 This yielded \numTracks\ tracks.
 The slope cut is not as costly as it sounds: Figure~\ref{fig:azimuth}
-shows that the trapped protons arrive strongly aligned with the slit axis,
-so most of them pass it.
+shows that the trapped protons arrive strongly aligned with one axis of the
+detector or the other, which one depending on the roll of the spacecraft,
+so that more of them pass it than the \acceptedIsotropic\% an isotropic
+population would, \acceptedRollZero\% at the roll of most of the campaigns.
 
 \subsection{Model}
 

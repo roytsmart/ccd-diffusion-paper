@@ -45,6 +45,14 @@ def variables() -> list[aastex.Variable]:
         ),
         aastex.Variable("sjiCriticalDepthError", f"{sji.critical_depth_error:.3f}"),
         aastex.Variable("imageVmax", ccd_diffusion.figures._image._vmax),
+        aastex.Variable(
+            "acceptedIsotropic",
+            f"{100 * ccd_diffusion.figures._azimuth._accepted_isotropic():.0f}",
+        ),
+        aastex.Variable(
+            "acceptedRollZero",
+            f"{100 * ccd_diffusion.figures._azimuth._accepted(0):.0f}",
+        ),
         aastex.Variable("thickness", f"{tracks.thickness.to_value(u.um):.0f}"),
         aastex.Variable("pixelPitch", f"{tracks.width_pixel.to_value(u.um):.0f}"),
     ]
