@@ -1,6 +1,0 @@
-save\_search
-============
-
-.. currentmodule:: ccd_diffusion.tracks
-
-.. autofunction:: ccd_diffusion.tracks.save_search

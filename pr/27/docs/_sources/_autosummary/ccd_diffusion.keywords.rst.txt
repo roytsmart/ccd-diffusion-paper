@@ -1,6 +1,0 @@
-keywords
-========
-
-.. currentmodule:: ccd_diffusion
-
-.. autofunction:: ccd_diffusion.keywords
