@@ -1,6 +1,0 @@
-depleted
-========
-
-.. currentmodule:: ccd_diffusion.figures
-
-.. autofunction:: ccd_diffusion.figures.depleted

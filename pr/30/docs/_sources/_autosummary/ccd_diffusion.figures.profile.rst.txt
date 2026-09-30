@@ -1,6 +1,0 @@
-profile
-=======
-
-.. currentmodule:: ccd_diffusion.figures
-
-.. autofunction:: ccd_diffusion.figures.profile

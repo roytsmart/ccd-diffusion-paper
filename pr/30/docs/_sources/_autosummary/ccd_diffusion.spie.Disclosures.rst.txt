@@ -1,6 +1,0 @@
-Disclosures
-===========
-
-.. currentmodule:: ccd_diffusion.spie
-
-.. autofunction:: ccd_diffusion.spie.Disclosures
