@@ -48,6 +48,15 @@ def depleted() -> aastex.Figure:
         ):
             a.plot(sd, m, color=color, linewidth=0.8)
             a.fill_between(sd, m - e, m + e, color=color, alpha=0.2, linewidth=0)
+            # the minimum of the pooled misfit; the dashes of each CCD are
+            # offset so that CCDs sharing a minimum alternate colors
+            k = list(_chips).index(chip)
+            a.axvline(
+                d.best.to_value(u.um),
+                color=color,
+                linewidth=0.8,
+                linestyle=(2 * k, (2, 2 * len(_chips) - 2)),
+            )
 
     for a in ax:
         a.set_xlabel(r"$\sigma_d$ ($\mu$m)")
@@ -72,7 +81,8 @@ $\sigma_d = \widthDepletedFuvOne$ $\mu$m on \FUV{}1, \widthDepletedFuvTwo\
 $\mu$m on \FUV{}2, \widthDepletedNuv\ $\mu$m on \NUV, and
 \widthDepletedSji\ $\mu$m on \SJI.
 (b) and (c) The mean $\sigma_\text{max}$ and $t_c$ of the same tracks at
-each $\sigma_d$, with the standard error of the mean shaded: the spread
+each $\sigma_d$, with the standard error of the mean shaded and the
+minimum of (a) on each \CCD\ dashed: the spread
 inside the depletion region trades against the field-free wedge, so
 $t_c$ falls steadily as $\sigma_d$ rises, fastest on \FUV{}1, while
 $\sigma_\text{max}$ rises by a few percent."""))
