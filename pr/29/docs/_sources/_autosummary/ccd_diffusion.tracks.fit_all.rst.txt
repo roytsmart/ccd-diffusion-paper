@@ -1,6 +1,0 @@
-fit\_all
-========
-
-.. currentmodule:: ccd_diffusion.tracks
-
-.. autofunction:: ccd_diffusion.tracks.fit_all
