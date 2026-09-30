@@ -9,6 +9,7 @@ __all__ = [
     "method",
 ]
 
+_name_example = "2014-11-27-84"
 """The track shown as the example."""
 
 _length_schematic = 20
@@ -52,20 +53,16 @@ def method() -> aastex.Figure:
     typical = tracks.summary("FUV2")
     tc_typical = typical.critical_depth[1]
     sm_typical = typical.width_max[1]
+    sd_typical = typical.width_depleted
     D = tracks.thickness.to_value(u.um)
     zf = tc_typical * D
     h = tracks.half_width
     L = _length_schematic
 
-    # the longest flat track on the FUV2 CCD in the roll -90 campaign
-    example = max(
-        (
-            f
-            for f in tracks.fits()
-            if f.flat and f.track.chip == "FUV2" and f.track.dataset == "2018may"
-        ),
-        key=lambda f: f.track.length,
-    )
+    # a long, straight, clean track from an 8 s campaign whose centerline
+    # crosses a column boundary well beyond t_c, the only place a
+    # sub-micron sigma_d changes the same-column probability
+    example = next(f for f in tracks.fits() if f.track.name == _name_example)
     track = example.track
 
     fig, ax = plt.subplots(
@@ -82,7 +79,7 @@ def method() -> aastex.Figure:
     ax_a.axhspan(zf, D, color="tab:blue", alpha=0.15, label="depleted")
     na.plt.plot(x, D * x / L, ax=ax_a, color="black", linewidth=1.5, label="particle")
     sample = na.linspace(0.5, L - 0.5, axis="sample", num=9)
-    sigma = tracks.width(sample / L, tc_typical, sm_typical)
+    sigma = tracks.width(sample / L, tc_typical, sm_typical, sd_typical)
     ax_a.errorbar(
         sample.ndarray,
         (D * sample / L).ndarray,
@@ -103,7 +100,7 @@ def method() -> aastex.Figure:
     ax_a.legend(loc="lower right", fontsize=6)
 
     # (b) the same track seen from above
-    sigma = tracks.width(x / L, tc_typical, sm_typical)
+    sigma = tracks.width(x / L, tc_typical, sm_typical, sd_typical)
     for k in range(-h, h + 1):
         ax_b.axhline(k + 0.5, color="0.85", linewidth=0.5)
     ax_b.fill_between(
@@ -162,8 +159,18 @@ def method() -> aastex.Figure:
     best = tracks.same_pixel_model(
         example, example.critical_depth, example.width_max, example.width_depleted
     ).ndarray
+    sharp = tracks.same_pixel_model(
+        example, example.critical_depth, example.width_max, 0 * u.um
+    ).ndarray
     measured = tracks.same_pixel(example).ndarray
     ax_d.plot(t[order], none[order], color="gray", linestyle="--", label="no diffusion")
+    ax_d.plot(
+        t[order],
+        sharp[order],
+        color="tab:red",
+        linestyle=":",
+        label=r"the same fit with $\sigma_d = 0$",
+    )
     ax_d.plot(
         t[order],
         best[order],
@@ -178,7 +185,7 @@ def method() -> aastex.Figure:
     ax_d.set_xlabel("fractional depth, $t = z / D$")
     ax_d.set_ylabel(r"same-column probability, $\sum_j f_j^2$")
     ax_d.set_title("(d) the diffusion signal along the track in (c)", fontsize=8)
-    ax_d.legend(fontsize=6, loc="lower left")
+    ax_d.legend(fontsize=6, loc="lower right")
 
     result = aastex.Figure("method", position="htb!")
     result.add_fig(fig, width=None)
@@ -188,16 +195,24 @@ How a glancing track measures the diffusion width against depth.
 at the gates ($z = D$) crosses the field-free layer first, where the charge
 it liberates diffuses until it reaches the depletion edge, so the lateral
 spread (red bars, to scale in pixels, at the median fit of the \FUV{}2
-tracks) is largest at the back surface and vanishes at $z = z_f$.
+tracks and its $\sigma_d$) is largest at the back surface and falls
+steeply to $z = z_f$; beyond it only the drift across the depletion region
+spreads the charge, by under a micron, narrowing to nothing at the gates.
 (b) Seen from above, the track is a wedge: about 0.4 pixels wide at one end
-and pixel-sharp beyond $t_c$.
+and a few hundredths of a pixel beyond $t_c$.
 (c) A proton track on the \FUV{}2 \CCD, in the coordinates of its parent
 image, with the fitted centerline dashed.
 (d) The probability that two electrons deposited in the same slice of that
 track are collected in the same column, $\sum_j f_j^2$ corrected for read
-noise, for every slice, against the best fit and a model with no
-diffusion, both evaluated at the fitted centerline.
-The dip near $t = 0.2$ is where the centerline crosses a pixel boundary; the
-diffusion signal is the gap between the measured points and the
-no-diffusion curve."""))
+noise, for every slice, against the best fit, the same fit with
+$\sigma_d = 0$, and a model with no diffusion, all evaluated at the fitted
+centerline.
+The dips where the no-diffusion curve falls below one are where the
+centerline crosses a column boundary; the diffusion signal is the gap
+between the measured points and that curve.
+Beyond $t_c$ the cloud is under a micron wide, a small fraction of a
+pixel, and changes $\sum_j f_j^2$ only where the centerline runs within a
+tenth of a pixel of a boundary, as it does near $t = 0.65$: there the
+measured dip follows the fit with $\sigma_d$ and is deeper and wider than
+the fit without it."""))
     return result
