@@ -1,0 +1,53 @@
+Observation
+===========
+
+.. currentmodule:: ccd_diffusion.tracks
+
+.. autoclass:: ccd_diffusion.tracks.Observation
+    :members:
+    :show-inheritance:
+    :inherited-members:
+    :undoc-members:
+    :member-order: groupwise
+
+    
+    
+    .. rubric:: Attributes
+
+    .. autosummary::
+    
+      ~Observation.frames
+      ~Observation.hours
+      ~Observation.off_limb
+      ~Observation.quiet
+      ~Observation.seconds
+      ~Observation.start
+      ~Observation.stop
+      ~Observation.useful
+      ~Observation.window
+      ~Observation.obsid
+      ~Observation.day
+      ~Observation.x
+      ~Observation.y
+      ~Observation.radius
+      ~Observation.roll
+      ~Observation.exposure
+      ~Observation.anomaly
+    
+    
+
+    
+    
+    .. rubric:: Methods
+
+    .. autosummary::
+    
+      ~Observation.__init__
+    
+    
+
+    
+    .. rubric:: Inheritance Diagram
+
+    .. inheritance-diagram:: ccd_diffusion.tracks.Observation
+    
