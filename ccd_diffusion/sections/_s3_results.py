@@ -26,6 +26,11 @@ Beyond $t_c$ the model-free profile does not go to zero but keeps a floor
 across the depletion region, about three quarters of a micron just past
 $t_c$ and a quarter micron near the gates, and the fits follow it: this
 floor is the $\sigma_d$ term of Equation~\ref{eq:width}.
+The third panel shows the kernel itself on \FUV{}2 at four depths,
+integrated over a pixel: the fits follow its core as it narrows from the
+back surface to the gates, while the stray charge discussed with
+Figure~\ref{fig:profile} lowers the measured peak by a few hundredths and
+raises the wings.
 
 \subsection{The spread inside the depletion region}
 
