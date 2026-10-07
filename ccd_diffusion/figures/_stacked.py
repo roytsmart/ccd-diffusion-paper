@@ -92,18 +92,21 @@ def stacked() -> aastex.Figure:
     for i, color in enumerate(colors):
         index = {tracks.axis_depth: i}
         t = float(k.depth[index].ndarray)
-        ax_c.errorbar(
-            centers,
+        ax_c.stairs(
             k.measured[index].ndarray,
-            k.error[index].ndarray,
-            fmt="o",
+            distance,
             color=color,
-            markersize=2,
             linewidth=0.8,
             label=f"$t = {t:g}$",
             zorder=3,
         )
-        ax_c.plot(centers, k.model[index].ndarray, color=color, linewidth=0.8)
+        ax_c.plot(
+            centers,
+            k.model[index].ndarray,
+            color=color,
+            linewidth=0.8,
+            linestyle="--",
+        )
         # the depth bin marked along the top of the stacked image
         ax_a.axvspan(t - half, t + half, ymin=0.96, color=color, linewidth=0)
     ax_c.set_xlim(-2, 2)
@@ -132,13 +135,13 @@ Lines: the average of the per-track fits of Equation~\ref{eq:width} on the
 same \CCD, which reproduces the model-free profile at every depth,
 including the floor of a few tenths of a micron beyond $t_c$ that the
 $\sigma_d$ term supplies.
-(c) The kernel itself, integrated over a pixel: the mean fraction of the
-charge of the \FUV{}2 slices in four depth bins, each a tenth of the
-thickness wide and marked along the top of (a), collected in a pixel whose
-center lies at the given offset from the fitted centerline, with its
-standard error.
-Lines: the same mean of the fractions the per-track fits predict for the
-same pixels.
+(c) The kernel itself, integrated over a pixel.
+Steps: the mean fraction of the charge of the \FUV{}2 slices in four depth
+bins, each a tenth of the thickness wide and marked along the top of (a),
+collected in a pixel whose center lies at the given offset from the fitted
+centerline.
+Dashed lines: the same mean of the fractions the per-track fits predict
+for the same pixels.
 The measured peak falls a few hundredths below the fits at every depth,
 including the depletion region where the fits are pixel-sharp, and the
 measured wings stand above them: this is the stray charge that separates
