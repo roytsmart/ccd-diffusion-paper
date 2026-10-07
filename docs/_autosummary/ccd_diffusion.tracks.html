@@ -411,6 +411,7 @@
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.export_frames.html">export_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.flat.html">flat</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.stack.html">stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.kernel.html">kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.widths.html">widths</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.pooled.html">pooled</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.save_depleted.html">save_depleted</a></li>
@@ -436,6 +437,7 @@
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.Component.html">Component</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.Image.html">Image</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.Stack.html">Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.Kernel.html">Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.Widths.html">Widths</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.Depleted.html">Depleted</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ccd_diffusion.tracks.Track.html">Track</a></li>
@@ -665,58 +667,61 @@ by running <code class="docutils literal notranslate"><span class="pre">python</
 <tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.stack.html#ccd_diffusion.tracks.stack" title="ccd_diffusion.tracks.stack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stack</span></code></a>(chip[, num_offset])</p></td>
 <td><p>Stack the flat tracks on the given CCD, placing every slice at its fractional depth and aligning it on its fitted centerline, with each pixel's charge spread uniformly over its own width.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.widths.html#ccd_diffusion.tracks.widths" title="ccd_diffusion.tracks.widths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">widths</span></code></a>(chip)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.kernel.html#ccd_diffusion.tracks.kernel" title="ccd_diffusion.tracks.kernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kernel</span></code></a>(chip[, num_distance])</p></td>
+<td><p>Measure the diffusion kernel integrated over a pixel at the depths <code class="xref py py-data docutils literal notranslate"><span class="pre">depths_kernel</span></code>, as the mean fraction of the charge of the slices in each depth bin collected in a pixel against the distance of the pixel's center from the fitted centerline.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.widths.html#ccd_diffusion.tracks.widths" title="ccd_diffusion.tracks.widths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">widths</span></code></a>(chip)</p></td>
 <td><p>Measure the diffusion width in each depth bin without a parametric model, by summing the misfit of every slice of every flat track on the given CCD over a grid of trial widths and minimizing in each bin.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.pooled.html#ccd_diffusion.tracks.pooled" title="ccd_diffusion.tracks.pooled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pooled</span></code></a>(chip, scans[, iterations])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.pooled.html#ccd_diffusion.tracks.pooled" title="ccd_diffusion.tracks.pooled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pooled</span></code></a>(chip, scans[, iterations])</p></td>
 <td><p>Choose the <span class="math notranslate nohighlight">\(\sigma_d\)</span> of a CCD by summing the misfits of its flat tracks over the grid of <span class="math notranslate nohighlight">\(\sigma_d\)</span> and taking the minimum.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.save_depleted.html#ccd_diffusion.tracks.save_depleted" title="ccd_diffusion.tracks.save_depleted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_depleted</span></code></a>(depleted)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.save_depleted.html#ccd_diffusion.tracks.save_depleted" title="ccd_diffusion.tracks.save_depleted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_depleted</span></code></a>(depleted)</p></td>
 <td><p>Write the pooled fits to <code class="docutils literal notranslate"><span class="pre">data/iris_depleted.csv</span></code>, where <a class="reference internal" href="ccd_diffusion.tracks.depleted.html#ccd_diffusion.tracks.depleted" title="ccd_diffusion.tracks.depleted"><code class="xref py py-func docutils literal notranslate"><span class="pre">depleted()</span></code></a> will find them.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.depleted.html#ccd_diffusion.tracks.depleted" title="ccd_diffusion.tracks.depleted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">depleted</span></code></a>(chip)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.depleted.html#ccd_diffusion.tracks.depleted" title="ccd_diffusion.tracks.depleted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">depleted</span></code></a>(chip)</p></td>
 <td><p>Load the pooled fit of <span class="math notranslate nohighlight">\(\sigma_d\)</span> on the given CCD from <code class="docutils literal notranslate"><span class="pre">data/iris_depleted.csv</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.load.html#ccd_diffusion.tracks.load" title="ccd_diffusion.tracks.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>([directory])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.load.html#ccd_diffusion.tracks.load" title="ccd_diffusion.tracks.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>([directory])</p></td>
 <td><p>Load the particle tracks extracted from the IRIS level-1 images.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.frames.html#ccd_diffusion.tracks.frames" title="ccd_diffusion.tracks.frames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frames</span></code></a>([directory])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.frames.html#ccd_diffusion.tracks.frames" title="ccd_diffusion.tracks.frames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frames</span></code></a>([directory])</p></td>
 <td><p>Load the list of IRIS level-1 frames searched for tracks.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.width.html#ccd_diffusion.tracks.width" title="ccd_diffusion.tracks.width"><code class="xref py py-obj docutils literal notranslate"><span class="pre">width</span></code></a>(depth, critical_depth, width_max[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.width.html#ccd_diffusion.tracks.width" title="ccd_diffusion.tracks.width"><code class="xref py py-obj docutils literal notranslate"><span class="pre">width</span></code></a>(depth, critical_depth, width_max[, ...])</p></td>
 <td><p>The standard deviation of the charge cloud, in pixels, for charge deposited at the given fractional depth.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.fractions.html#ccd_diffusion.tracks.fractions" title="ccd_diffusion.tracks.fractions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fractions</span></code></a>(position, width, slope)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.fractions.html#ccd_diffusion.tracks.fractions" title="ccd_diffusion.tracks.fractions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fractions</span></code></a>(position, width, slope)</p></td>
 <td><p>The fraction of each slice's charge expected in each of the <span class="math notranslate nohighlight">\(2 h + 1\)</span> pixels across the track.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.loss.html#ccd_diffusion.tracks.loss" title="ccd_diffusion.tracks.loss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loss</span></code></a>(track, position, width)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.loss.html#ccd_diffusion.tracks.loss" title="ccd_diffusion.tracks.loss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loss</span></code></a>(track, position, width)</p></td>
 <td><p>A robust misfit between the observed and modeled charge fractions, <span class="math notranslate nohighlight">\(\sum \ln(1 + r^2 / 2)\)</span>, where <span class="math notranslate nohighlight">\(r\)</span> is the residual in units of the read noise.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.scan.html#ccd_diffusion.tracks.scan" title="ccd_diffusion.tracks.scan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scan</span></code></a>(track)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.scan.html#ccd_diffusion.tracks.scan" title="ccd_diffusion.tracks.scan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scan</span></code></a>(track)</p></td>
 <td><p>Fit the diffusion model to a single track at every <span class="math notranslate nohighlight">\(\sigma_d\)</span>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.fit.html#ccd_diffusion.tracks.fit" title="ccd_diffusion.tracks.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(track[, width_depleted])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.fit.html#ccd_diffusion.tracks.fit" title="ccd_diffusion.tracks.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(track[, width_depleted])</p></td>
 <td><p>Fit the diffusion model to a single track at a given <span class="math notranslate nohighlight">\(\sigma_d\)</span>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.fit_all.html#ccd_diffusion.tracks.fit_all" title="ccd_diffusion.tracks.fit_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_all</span></code></a>(tracks)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.fit_all.html#ccd_diffusion.tracks.fit_all" title="ccd_diffusion.tracks.fit_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_all</span></code></a>(tracks)</p></td>
 <td><p>Fit the diffusion model to every given track, using one thread per CPU, choosing one <span class="math notranslate nohighlight">\(\sigma_d\)</span> per CCD by pooling the misfits of its flat tracks (see <a class="reference internal" href="ccd_diffusion.tracks.pooled.html#ccd_diffusion.tracks.pooled" title="ccd_diffusion.tracks.pooled"><code class="xref py py-func docutils literal notranslate"><span class="pre">ccd_diffusion.tracks.pooled()</span></code></a>).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.fits.html#ccd_diffusion.tracks.fits" title="ccd_diffusion.tracks.fits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fits</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.fits.html#ccd_diffusion.tracks.fits" title="ccd_diffusion.tracks.fits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fits</span></code></a>()</p></td>
 <td><p>Load the result of <a class="reference internal" href="ccd_diffusion.tracks.fit_all.html#ccd_diffusion.tracks.fit_all" title="ccd_diffusion.tracks.fit_all"><code class="xref py py-func docutils literal notranslate"><span class="pre">fit_all()</span></code></a> for every track returned by <a class="reference internal" href="ccd_diffusion.tracks.load.html#ccd_diffusion.tracks.load" title="ccd_diffusion.tracks.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">load()</span></code></a> from <code class="docutils literal notranslate"><span class="pre">data/iris_fits.csv</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.save.html#ccd_diffusion.tracks.save" title="ccd_diffusion.tracks.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(fits, depleted)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.save.html#ccd_diffusion.tracks.save" title="ccd_diffusion.tracks.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(fits, depleted)</p></td>
 <td><p>Write the given fits to <code class="docutils literal notranslate"><span class="pre">data/iris_fits.csv</span></code>, where <a class="reference internal" href="ccd_diffusion.tracks.fits.html#ccd_diffusion.tracks.fits" title="ccd_diffusion.tracks.fits"><code class="xref py py-func docutils literal notranslate"><span class="pre">fits()</span></code></a> will find them, and the pooled fits of <span class="math notranslate nohighlight">\(\sigma_d\)</span> to <code class="docutils literal notranslate"><span class="pre">data/iris_depleted.csv</span></code>, where <a class="reference internal" href="ccd_diffusion.tracks.depleted.html#ccd_diffusion.tracks.depleted" title="ccd_diffusion.tracks.depleted"><code class="xref py py-func docutils literal notranslate"><span class="pre">ccd_diffusion.tracks.depleted()</span></code></a> will.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.same_pixel.html#ccd_diffusion.tracks.same_pixel" title="ccd_diffusion.tracks.same_pixel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">same_pixel</span></code></a>(fit)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.same_pixel.html#ccd_diffusion.tracks.same_pixel" title="ccd_diffusion.tracks.same_pixel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">same_pixel</span></code></a>(fit)</p></td>
 <td><p>The measured probability that two charges from the same slice are collected in the same pixel column, <span class="math notranslate nohighlight">\(\sum_j f_j^2\)</span>, corrected for the read-noise bias <span class="math notranslate nohighlight">\(\sum_j \epsilon_j^2\)</span>, and NaN for a slice too faint to be <a class="reference internal" href="ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track.usable" title="ccd_diffusion.tracks.Track.usable"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Track.usable</span></code></a>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.same_pixel_model.html#ccd_diffusion.tracks.same_pixel_model" title="ccd_diffusion.tracks.same_pixel_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">same_pixel_model</span></code></a>(fit, critical_depth, width_max)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.same_pixel_model.html#ccd_diffusion.tracks.same_pixel_model" title="ccd_diffusion.tracks.same_pixel_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">same_pixel_model</span></code></a>(fit, critical_depth, width_max)</p></td>
 <td><p>The probability that two charges from the same slice are collected in the same pixel column predicted by the diffusion model for the best-fit centerline of the given track.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.profile.html#ccd_diffusion.tracks.profile" title="ccd_diffusion.tracks.profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">profile</span></code></a>(chip)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.profile.html#ccd_diffusion.tracks.profile" title="ccd_diffusion.tracks.profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">profile</span></code></a>(chip)</p></td>
 <td><p>Bin the measured and modeled same-pixel probabilities of every flat track on the given CCD by depth.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.summary.html#ccd_diffusion.tracks.summary" title="ccd_diffusion.tracks.summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summary</span></code></a>(chip)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.summary.html#ccd_diffusion.tracks.summary" title="ccd_diffusion.tracks.summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summary</span></code></a>(chip)</p></td>
 <td><p>Summarize the diffusion measurement on the given CCD.</p></td>
 </tr>
 </tbody>
@@ -746,25 +751,28 @@ by running <code class="docutils literal notranslate"><span class="pre">python</
 <tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Stack.html#ccd_diffusion.tracks.Stack" title="ccd_diffusion.tracks.Stack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stack</span></code></a>(chip, depth, offset, image)</p></td>
 <td><p>Every slice of every flat track on one CCD, aligned on its fitted centerline.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Widths.html#ccd_diffusion.tracks.Widths" title="ccd_diffusion.tracks.Widths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Widths</span></code></a>(chip, depth, best, lower, upper, fitted)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Kernel.html#ccd_diffusion.tracks.Kernel" title="ccd_diffusion.tracks.Kernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Kernel</span></code></a>(chip, depth, distance, measured, ...)</p></td>
+<td><p>The fraction of a slice's charge collected in a pixel against the distance of the pixel's center from the fitted centerline, in a few depth bins on one CCD.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Widths.html#ccd_diffusion.tracks.Widths" title="ccd_diffusion.tracks.Widths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Widths</span></code></a>(chip, depth, best, lower, upper, fitted)</p></td>
 <td><p>The diffusion width as a function of depth on one CCD.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Depleted.html#ccd_diffusion.tracks.Depleted" title="ccd_diffusion.tracks.Depleted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Depleted</span></code></a>(chip, width_depleted, misfit, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Depleted.html#ccd_diffusion.tracks.Depleted" title="ccd_diffusion.tracks.Depleted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Depleted</span></code></a>(chip, width_depleted, misfit, ...)</p></td>
 <td><p>The fit of <span class="math notranslate nohighlight">\(\sigma_d\)</span> pooled over the flat tracks on one CCD.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track" title="ccd_diffusion.tracks.Track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Track</span></code></a>(name, dataset, chip, fsn, slope, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Track.html#ccd_diffusion.tracks.Track" title="ccd_diffusion.tracks.Track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Track</span></code></a>(name, dataset, chip, fsn, slope, ...)</p></td>
 <td><p>A glancing particle track cut out of an IRIS level-1 image.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit" title="ccd_diffusion.tracks.Fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Fit</span></code></a>(track, width_depleted, orientation, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit" title="ccd_diffusion.tracks.Fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Fit</span></code></a>(track, width_depleted, orientation, ...)</p></td>
 <td><p>The result of fitting the diffusion model to a single track.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan" title="ccd_diffusion.tracks.Scan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Scan</span></code></a>(track, misfit, orientation, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan" title="ccd_diffusion.tracks.Scan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Scan</span></code></a>(track, misfit, orientation, ...)</p></td>
 <td><p>The fit of a single track at every <span class="math notranslate nohighlight">\(\sigma_d\)</span> on the grid <code class="xref py py-data docutils literal notranslate"><span class="pre">width_depleted</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Profile.html#ccd_diffusion.tracks.Profile" title="ccd_diffusion.tracks.Profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Profile</span></code></a>(chip, depth, num, measured, error, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Profile.html#ccd_diffusion.tracks.Profile" title="ccd_diffusion.tracks.Profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Profile</span></code></a>(chip, depth, num, measured, error, ...)</p></td>
 <td><p>The same-pixel probability as a function of depth for one CCD.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Summary.html#ccd_diffusion.tracks.Summary" title="ccd_diffusion.tracks.Summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Summary</span></code></a>(chip, num_tracks, num_flat, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ccd_diffusion.tracks.Summary.html#ccd_diffusion.tracks.Summary" title="ccd_diffusion.tracks.Summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Summary</span></code></a>(chip, num_tracks, num_flat, ...)</p></td>
 <td><p>The diffusion measurement for one CCD.</p></td>
 </tr>
 </tbody>

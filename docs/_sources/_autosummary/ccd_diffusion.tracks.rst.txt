@@ -54,6 +54,7 @@ tracks
       export_frames
       flat
       stack
+      kernel
       widths
       pooled
       save_depleted
@@ -90,6 +91,7 @@ tracks
       Component
       Image
       Stack
+      Kernel
       Widths
       Depleted
       Track

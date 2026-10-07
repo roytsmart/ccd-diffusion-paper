@@ -398,6 +398,10 @@
     <span class="s2">"flat"</span><span class="p">,</span>
     <span class="s2">"Stack"</span><span class="p">,</span>
     <span class="s2">"stack"</span><span class="p">,</span>
+    <span class="s2">"Kernel"</span><span class="p">,</span>
+    <span class="s2">"depths_kernel"</span><span class="p">,</span>
+    <span class="s2">"width_depth_kernel"</span><span class="p">,</span>
+    <span class="s2">"kernel"</span><span class="p">,</span>
     <span class="s2">"Widths"</span><span class="p">,</span>
     <span class="s2">"widths"</span><span class="p">,</span>
 <span class="p">]</span>
@@ -493,6 +497,111 @@
         <span class="n">depth</span><span class="o">=</span><span class="n">depth_bins_fine</span><span class="p">,</span>
         <span class="n">offset</span><span class="o">=</span><span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span><span class="n">edges_offset</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="s2">"offset"</span><span class="p">),</span>
         <span class="n">image</span><span class="o">=</span><span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span><span class="n">total</span> <span class="o">/</span> <span class="n">num</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="n">axis_depth</span><span class="p">,</span> <span class="s2">"offset"</span><span class="p">)),</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Kernel">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.Kernel.html#ccd_diffusion.tracks.Kernel">[docs]</a>
+<span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Kernel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The fraction of a slice's charge collected in a pixel against the</span>
+<span class="sd">    distance of the pixel's center from the fitted centerline, in a few</span>
+<span class="sd">    depth bins on one CCD.</span>
+<span class="sd">    """</span>
+
+    <span class="n">chip</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""The CCD."""</span>
+
+    <span class="n">depth</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+<span class="w">    </span><span class="sd">"""The center of each depth bin."""</span>
+
+    <span class="n">distance</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+<span class="w">    </span><span class="sd">"""The edges of the distance bins, in pixels from the fitted centerline."""</span>
+
+    <span class="n">measured</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+<span class="w">    </span><span class="sd">"""The mean measured fraction in each bin, with axes ``(depth, distance)``."""</span>
+
+    <span class="n">error</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+<span class="w">    </span><span class="sd">"""The standard error of :attr:`measured`."""</span>
+
+    <span class="n">model</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+<span class="w">    </span><span class="sd">"""The mean of the fractions the per-track fits predict for the same pixels."""</span></div>
+
+
+
+<span class="n">depths_kernel</span> <span class="o">=</span> <span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]),</span> <span class="n">axes</span><span class="o">=</span><span class="n">axis_depth</span><span class="p">)</span>
+<span class="sd">"""The centers of the depth bins of :func:`kernel`."""</span>
+
+<span class="n">width_depth_kernel</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="sd">"""The width of the depth bins of :func:`kernel`, as a fraction of the thickness."""</span>
+
+
+<div class="viewcode-block" id="kernel">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.kernel.html#ccd_diffusion.tracks.kernel">[docs]</a>
+<span class="nd">@functools</span><span class="o">.</span><span class="n">cache</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">kernel</span><span class="p">(</span><span class="n">chip</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">num_distance</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">28</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Kernel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Measure the diffusion kernel integrated over a pixel at the depths</span>
+<span class="sd">    :data:`depths_kernel`, as the mean fraction of the charge of the slices</span>
+<span class="sd">    in each depth bin collected in a pixel against the distance of the</span>
+<span class="sd">    pixel's center from the fitted centerline.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    chip</span>
+<span class="sd">        The CCD, ``FUV1``, ``FUV2``, ``NUV``, or ``SJI``.</span>
+<span class="sd">    num_distance</span>
+<span class="sd">        The number of distance bins across the cutout.</span>
+<span class="sd">    """</span>
+    <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">flat</span><span class="p">(</span><span class="n">chip</span><span class="p">):</span>
+        <span class="n">distance</span> <span class="o">=</span> <span class="n">_offsets</span> <span class="o">-</span> <span class="n">f</span><span class="o">.</span><span class="n">position</span>
+        <span class="n">fraction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">usable</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">fraction</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">fractions</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">slope</span><span class="p">)</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="n">na</span><span class="o">.</span><span class="n">shape_broadcasted</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">fraction</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">na</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">na</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">na</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span><span class="n">fraction</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">na</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+    <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">t</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">w</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">p</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">half_width</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">half_width</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">num_distance</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">digitize</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">keep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="n">num_distance</span><span class="p">)</span>
+
+    <span class="n">centers</span> <span class="o">=</span> <span class="n">depths_kernel</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">centers</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">num_distance</span><span class="p">)</span>
+    <span class="n">num</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">square</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">centers</span><span class="p">):</span>
+        <span class="n">mine</span> <span class="o">=</span> <span class="n">keep</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="n">c</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">width_depth_kernel</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="n">mine</span><span class="p">]</span>
+        <span class="n">num</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">minlength</span><span class="o">=</span><span class="n">num_distance</span><span class="p">)</span>
+        <span class="n">total</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">w</span><span class="p">[</span><span class="n">mine</span><span class="p">],</span> <span class="n">minlength</span><span class="o">=</span><span class="n">num_distance</span><span class="p">)</span>
+        <span class="n">square</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">mine</span><span class="p">]),</span> <span class="n">minlength</span><span class="o">=</span><span class="n">num_distance</span><span class="p">)</span>
+        <span class="n">predicted</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="n">mine</span><span class="p">],</span> <span class="n">minlength</span><span class="o">=</span><span class="n">num_distance</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_mean</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span> <span class="n">where</span><span class="o">=</span><span class="n">num</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">_mean</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+    <span class="n">variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">_mean</span><span class="p">(</span><span class="n">square</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">mean</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">variance</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span> <span class="n">where</span><span class="o">=</span><span class="n">num</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">axes</span> <span class="o">=</span> <span class="p">(</span><span class="n">axis_depth</span><span class="p">,</span> <span class="s2">"distance"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Kernel</span><span class="p">(</span>
+        <span class="n">chip</span><span class="o">=</span><span class="n">chip</span><span class="p">,</span>
+        <span class="n">depth</span><span class="o">=</span><span class="n">depths_kernel</span><span class="p">,</span>
+        <span class="n">distance</span><span class="o">=</span><span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="s2">"distance"</span><span class="p">),</span>
+        <span class="n">measured</span><span class="o">=</span><span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">),</span>
+        <span class="n">error</span><span class="o">=</span><span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">),</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span><span class="n">_mean</span><span class="p">(</span><span class="n">predicted</span><span class="p">),</span> <span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">),</span>
     <span class="p">)</span></div>
 
 
