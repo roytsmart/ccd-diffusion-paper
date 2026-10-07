@@ -76,6 +76,27 @@ def wavelength() -> aastex.Figure:
         sigma = _interpolated(z / D, w.depth.ndarray, w.best.ndarray.to_value(u.um))
         rms = np.sqrt(average(np.square(sigma)))
         ax.plot(nm, rms, color=color, label=chip)
+
+    # the median back-surface width of the per-track fits, marked at the left
+    # edge; CCDs sharing a value alternate dashes of their colors
+    width_max = {
+        chip: tracks.summary(chip).width_max[1].to_value(u.um)
+        for chip in _chips
+        if tracks.flat(chip)
+    }
+    for chip, value in width_max.items():
+        shared = [c for c, v in width_max.items() if np.isclose(v, value)]
+        k = shared.index(chip)
+        dash = 3
+        ax.axhline(
+            value,
+            xmax=0.05,
+            color=_chips[chip],
+            linewidth=2,
+            linestyle=(
+                (dash * k, (dash, dash * (len(shared) - 1))) if len(shared) > 1 else "-"
+            ),
+        )
     ax_length = ax.twinx()
     ax_length.plot(nm, length.ndarray.value, color="gray", linestyle=":", linewidth=0.8)
     ax_length.set_yscale("log")
@@ -123,8 +144,11 @@ square root of the squared width averaged over depth, weighted by the
 fraction of photons absorbed at each depth; photons that pass through the
 \thickness\ $\mu$m of silicon are not counted.
 Between 30 and 350 nm every photon is absorbed within 10 nm of the back
-surface, and the cloud has the back-surface width of
-Table~\ref{tab:tracks}.
+surface, and the cloud has the width of the first depth bin of
+Figure~\ref{fig:stacked}b.
+This lies below the median $\sigma_\text{max}$ of the per-track fits in
+Table~\ref{tab:tracks}, marked at the left edge, as the points of
+Figure~\ref{fig:stacked}b lie below the fits near the back surface.
 In the visible and in the soft X-rays the photons penetrate to the
 depletion region and the cloud narrows.
 Near the band gap silicon is nearly transparent, and the few photons
