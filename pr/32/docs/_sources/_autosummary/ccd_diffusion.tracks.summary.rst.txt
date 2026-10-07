@@ -1,0 +1,6 @@
+summary
+=======
+
+.. currentmodule:: ccd_diffusion.tracks
+
+.. autofunction:: ccd_diffusion.tracks.summary
