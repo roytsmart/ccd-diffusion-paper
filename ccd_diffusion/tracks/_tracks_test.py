@@ -280,6 +280,26 @@ def test_stack(chip: str):
 
 
 @pytest.mark.parametrize("chip", ["FUV1", "FUV2", "NUV", "SJI"])
+def test_kernel(chip: str):
+    result = ccd_diffusion.tracks.kernel(chip)
+    assert isinstance(result, ccd_diffusion.tracks.Kernel)
+    shape = {
+        ccd_diffusion.tracks.axis_depth: result.depth.size,
+        "distance": result.distance.size - 1,
+    }
+    for array in (result.measured, result.error, result.model):
+        assert array.shape == shape
+        assert np.all(np.isfinite(array))
+    # the fractions are a density per pixel, so they integrate to one
+    width = np.diff(result.distance, axis="distance")
+    for array in (result.measured, result.model):
+        assert np.allclose((array * width).sum("distance"), 1, atol=0.01)
+    # the peak is lower at the back surface than at the gates
+    peak = result.model.max("distance")
+    assert peak[dict(depth=0)] < peak[dict(depth=-1)]
+
+
+@pytest.mark.parametrize("chip", ["FUV1", "FUV2", "NUV", "SJI"])
 def test_widths(chip: str):
     result = ccd_diffusion.tracks.widths(chip)
     assert isinstance(result, ccd_diffusion.tracks.Widths)

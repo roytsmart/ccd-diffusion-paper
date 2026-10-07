@@ -26,11 +26,11 @@ def stacked() -> aastex.Figure:
     tracks = ccd_diffusion.tracks
 
     fig, ax = plt.subplots(
-        ncols=2,
-        figsize=(5.5, 2.7),
+        ncols=3,
+        figsize=(6.5, 2.5),
         constrained_layout=True,
     )
-    ax_a, ax_b = ax
+    ax_a, ax_b, ax_c = ax
 
     s = tracks.stack("FUV2")
     mappable = ax_a.imshow(
@@ -84,6 +84,37 @@ def stacked() -> aastex.Figure:
     handles, labels = ax_b.get_legend_handles_labels()
     fig.legend(handles, labels, loc="outside lower center", ncol=4, fontsize=6)
 
+    k = tracks.kernel("FUV2")
+    distance = k.distance.ndarray
+    centers = (distance[:-1] + distance[1:]) / 2
+    half = tracks.width_depth_kernel / 2
+    colors = plt.cm.viridis(np.linspace(0, 0.85, k.depth.size))
+    for i, color in enumerate(colors):
+        index = {tracks.axis_depth: i}
+        t = float(k.depth[index].ndarray)
+        ax_c.errorbar(
+            centers,
+            k.measured[index].ndarray,
+            k.error[index].ndarray,
+            fmt="o",
+            color=color,
+            markersize=2,
+            linewidth=0.8,
+            label=f"$t = {t:g}$",
+            zorder=3,
+        )
+        ax_c.plot(centers, k.model[index].ndarray, color=color, linewidth=0.8)
+        # the depth bin marked along the top of the stacked image
+        ax_a.axvspan(t - half, t + half, ymin=0.96, color=color, linewidth=0)
+    ax_c.set_xlim(-2, 2)
+    # headroom above the peaks for the legend
+    ax_c.set_ylim(-0.03, 1.4)
+    ax_c.set_yticks([0, 0.5, 1])
+    ax_c.set_xlabel("offset (pixels)")
+    ax_c.set_ylabel("charge fraction in pixel")
+    ax_c.set_title("(c) FUV2 at four depths", fontsize=8)
+    ax_c.legend(fontsize=6, loc="upper center", ncol=2)
+
     result = aastex.Figure("stacked", position="htb!")
     result.add_fig(fig, width=None)
     result.add_caption(aastex.NoEscape(r"""
@@ -100,5 +131,17 @@ minimum $M$.
 Lines: the average of the per-track fits of Equation~\ref{eq:width} on the
 same \CCD, which reproduces the model-free profile at every depth,
 including the floor of a few tenths of a micron beyond $t_c$ that the
-$\sigma_d$ term supplies."""))
+$\sigma_d$ term supplies.
+(c) The kernel itself, integrated over a pixel: the mean fraction of the
+charge of the \FUV{}2 slices in four depth bins, each a tenth of the
+thickness wide and marked along the top of (a), collected in a pixel whose
+center lies at the given offset from the fitted centerline, with its
+standard error.
+Lines: the same mean of the fractions the per-track fits predict for the
+same pixels.
+The measured peak falls a few hundredths below the fits at every depth,
+including the depletion region where the fits are pixel-sharp, and the
+measured wings stand above them: this is the stray charge that separates
+the mean from the median in Figure~\ref{fig:profile}, which the robust
+misfit ignores and the mean includes."""))
     return result

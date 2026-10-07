@@ -13,6 +13,10 @@ __all__ = [
     "flat",
     "Stack",
     "stack",
+    "Kernel",
+    "depths_kernel",
+    "width_depth_kernel",
+    "kernel",
     "Widths",
     "widths",
 ]
@@ -100,6 +104,105 @@ def stack(chip: str, num_offset: int = 28) -> Stack:
         depth=depth_bins_fine,
         offset=na.ScalarArray(edges_offset, axes="offset"),
         image=na.ScalarArray(total / num[:, np.newaxis], axes=(axis_depth, "offset")),
+    )
+
+
+@dataclasses.dataclass(eq=False)
+class Kernel:
+    """
+    The fraction of a slice's charge collected in a pixel against the
+    distance of the pixel's center from the fitted centerline, in a few
+    depth bins on one CCD.
+    """
+
+    chip: str
+    """The CCD."""
+
+    depth: na.AbstractScalarArray
+    """The center of each depth bin."""
+
+    distance: na.AbstractScalarArray
+    """The edges of the distance bins, in pixels from the fitted centerline."""
+
+    measured: na.AbstractScalarArray
+    """The mean measured fraction in each bin, with axes ``(depth, distance)``."""
+
+    error: na.AbstractScalarArray
+    """The standard error of :attr:`measured`."""
+
+    model: na.AbstractScalarArray
+    """The mean of the fractions the per-track fits predict for the same pixels."""
+
+
+depths_kernel = na.ScalarArray(np.array([0.05, 0.2, 0.35, 0.8]), axes=axis_depth)
+"""The centers of the depth bins of :func:`kernel`."""
+
+width_depth_kernel = 0.1
+"""The width of the depth bins of :func:`kernel`, as a fraction of the thickness."""
+
+
+@functools.cache
+def kernel(chip: str, num_distance: int = 28) -> Kernel:
+    """
+    Measure the diffusion kernel integrated over a pixel at the depths
+    :data:`depths_kernel`, as the mean fraction of the charge of the slices
+    in each depth bin collected in a pixel against the distance of the
+    pixel's center from the fitted centerline.
+
+    Parameters
+    ----------
+    chip
+        The CCD, ``FUV1``, ``FUV2``, ``NUV``, or ``SJI``.
+    num_distance
+        The number of distance bins across the cutout.
+    """
+    t, x, w, p = [], [], [], []
+    for f in flat(chip):
+        distance = _offsets - f.position
+        fraction = np.where(f.track.usable, f.track.fraction, np.nan)
+        model = fractions(f.position, f.width, f.track.slope)
+        shape = na.shape_broadcasted(distance, fraction, model)
+        t.append(na.broadcast_to(f.depth, shape).ndarray.ravel())
+        x.append(na.broadcast_to(distance, shape).ndarray.ravel())
+        w.append(na.broadcast_to(fraction, shape).ndarray.ravel())
+        p.append(na.broadcast_to(model, shape).ndarray.ravel())
+    t, x, w, p = (
+        np.concatenate(t),
+        np.concatenate(x),
+        np.concatenate(w),
+        np.concatenate(p),
+    )
+
+    edges = np.linspace(-half_width - 0.5, half_width + 0.5, num_distance + 1)
+    index = np.digitize(x, edges) - 1
+    keep = np.isfinite(w) & (index >= 0) & (index < num_distance)
+
+    centers = depths_kernel.ndarray
+    shape = (centers.size, num_distance)
+    num, total, square, predicted = (np.zeros(shape) for _ in range(4))
+    for k, c in enumerate(centers):
+        mine = keep & (np.abs(t - c) < width_depth_kernel / 2)
+        i = index[mine]
+        num[k] = np.bincount(i, minlength=num_distance)
+        total[k] = np.bincount(i, w[mine], minlength=num_distance)
+        square[k] = np.bincount(i, np.square(w[mine]), minlength=num_distance)
+        predicted[k] = np.bincount(i, p[mine], minlength=num_distance)
+
+    def _mean(a: np.ndarray) -> np.ndarray:
+        return np.divide(a, num, out=np.full(shape, np.nan), where=num > 0)
+
+    mean = _mean(total)
+    variance = np.clip(_mean(square) - np.square(mean), 0, None)
+    error = np.sqrt(np.divide(variance, num, out=np.full(shape, np.nan), where=num > 1))
+
+    axes = (axis_depth, "distance")
+    return Kernel(
+        chip=chip,
+        depth=depths_kernel,
+        distance=na.ScalarArray(edges, axes="distance"),
+        measured=na.ScalarArray(mean, axes=axes),
+        error=na.ScalarArray(error, axes=axes),
+        model=na.ScalarArray(_mean(predicted), axes=axes),
     )
 
 
