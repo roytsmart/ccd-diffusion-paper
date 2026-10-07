@@ -76,6 +76,26 @@ def wavelength() -> aastex.Figure:
         sigma = _interpolated(z / D, w.depth.ndarray, w.best.ndarray.to_value(u.um))
         rms = np.sqrt(average(np.square(sigma)))
         ax.plot(nm, rms, color=color, label=chip)
+
+    # the median back-surface width of the per-track fits, the model beside
+    # the measurement; CCDs sharing a value alternate dots of their colors
+    width_max = {
+        chip: tracks.summary(chip).width_max[1].to_value(u.um)
+        for chip in _chips
+        if tracks.flat(chip)
+    }
+    for chip, value in width_max.items():
+        shared = [c for c, v in width_max.items() if np.isclose(v, value)]
+        k = shared.index(chip)
+        step = 2
+        ax.axhline(
+            value,
+            color=_chips[chip],
+            linewidth=1,
+            linestyle=(step * k, (1, step * len(shared) - 1)),
+            # beneath the measured curves, which one of them can coincide with
+            zorder=1.5,
+        )
     ax_length = ax.twinx()
     ax_length.plot(nm, length.ndarray.value, color="gray", linestyle=":", linewidth=0.8)
     ax_length.set_yscale("log")
@@ -114,7 +134,7 @@ The width of the charge cloud a photon leaves in each \CCD, against the
 wavelength of the photon.
 The width is the standard deviation of the cloud.
 A photon is absorbed at a random depth, exponentially distributed with the
-absorption length of silicon (dotted, from the tabulated optical constants
+absorption length of silicon (gray dotted, from the tabulated optical constants
 \cite{Palik1985,Henke1993}), and the charge it liberates spreads by the
 width measured at that depth in Figure~\ref{fig:stacked}b, held at the
 value of its first bin up to the back surface.
@@ -123,8 +143,11 @@ square root of the squared width averaged over depth, weighted by the
 fraction of photons absorbed at each depth; photons that pass through the
 \thickness\ $\mu$m of silicon are not counted.
 Between 30 and 350 nm every photon is absorbed within 10 nm of the back
-surface, and the cloud has the back-surface width of
-Table~\ref{tab:tracks}.
+surface, and the cloud has the width of the first depth bin of
+Figure~\ref{fig:stacked}b.
+This lies below the median $\sigma_\text{max}$ of the per-track fits in
+Table~\ref{tab:tracks} (dotted in the color of each \CCD), as the points of
+Figure~\ref{fig:stacked}b lie below the fits near the back surface.
 In the visible and in the soft X-rays the photons penetrate to the
 depletion region and the cloud narrows.
 Near the band gap silicon is nearly transparent, and the few photons
