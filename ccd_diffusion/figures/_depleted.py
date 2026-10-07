@@ -74,7 +74,8 @@ def depleted() -> aastex.Figure:
     result.add_caption(aastex.NoEscape(r"""
 The spread inside the depletion region, $\sigma_d$ in
 Equation~\ref{eq:width}, which is shared by every track on a \CCD.
-(a) The misfit summed over the flat tracks on each \CCD\ at each
+(a) The misfit of Equation~\ref{eq:misfit} summed over the flat tracks on
+each \CCD\ at each
 $\sigma_d$, with each track refit in $t_c$, $\sigma_\text{max}$,
 orientation, and centerline, shown relative to its minimum, which lies at
 $\sigma_d = \widthDepletedFuvOne$ $\mu$m on \FUV{}1, \widthDepletedFuvTwo\

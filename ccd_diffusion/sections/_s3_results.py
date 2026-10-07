@@ -30,7 +30,8 @@ floor is the $\sigma_d$ term of Equation~\ref{eq:width}.
 \subsection{The spread inside the depletion region}
 
 Figure~\ref{fig:depleted} shows how $\sigma_d$ is determined.
-The misfit summed over the flat tracks on each \CCD\ has a sharp minimum,
+The misfit $M$ of Equation~\ref{eq:misfit} summed over the flat tracks on
+each \CCD\ has a sharp minimum,
 at $\sigma_d = \widthDepletedSji$ $\mu$m on \SJI\ and at
 \widthDepletedFuvOne\ $\mu$m on \FUV{}1, \FUV{}2, and \NUV, with the
 neighboring grid points a tenth of a micron away already disfavored by one

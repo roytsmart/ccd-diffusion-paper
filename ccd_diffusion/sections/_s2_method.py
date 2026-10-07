@@ -100,16 +100,25 @@ its orientation, by exhaustive search on a grid of 21 values in each of
 $t_c \in [0, 1]$ and $\sigma_\text{max} \in [0, 10]$ $\mu$m.
 At each grid point the offset and tilt of the centerline are adjusted, by
 up to 0.6 pixels and 0.03 pixels per row, to minimize a robust misfit,
-$\sum \ln(1 + r^2 / 2)$, where $r$ is the residual of the fraction of each
-slice's charge in each pixel in units of the read noise.
+\begin{equation} \label{eq:misfit}
+    M = \sum_i \sum_j \ln \left( 1 + \frac{r_{ij}^2}{2} \right),
+    \qquad
+    r_{ij} = \frac{f_{ij} - q_{ij}}{\epsilon_i},
+\end{equation}
+where $f_{ij}$ is the fraction of the charge of slice $i$ measured in pixel
+$j$ of the cutout, $q_{ij}$ the fraction the model puts there, and
+$\epsilon_i$ the read noise of a pixel divided by the charge of the slice,
+the uncertainty of a fraction from read noise alone, so that the brighter
+slices count for more.
 This is the negative log-likelihood of a Cauchy distribution rather than a
 Gaussian, so that a single stray pixel, from a delta ray or a second hit
-inside the cutout, cannot dominate the fit.
+inside the cutout, cannot dominate the fit, and differences in $M$ are
+what the thresholds below are stated in.
 $\sigma_d$ describes the drift field, which is a property of the \CCD\ and
 its bias rather than of any one track, and a single track constrains it
 only weakly, so it is fit to each \CCD\ as a whole.
 Every track is fit as above at each of 16 values of $\sigma_d$ from 0 to 1.5
-$\mu$m, the misfits of the flat tracks, defined next, are summed at each
+$\mu$m, the misfits $M$ of the flat tracks, defined next, are summed at each
 value, and the value that minimizes the sum is adopted for every track on
 that \CCD.
 Which tracks are flat depends on their fits, so the selection and
@@ -120,7 +129,7 @@ $\sigma_d$ are iterated to consistency, which takes one or two rounds.
 The useful tracks are those which cross the full thickness of the sensor at
 nearly constant energy loss.
 We kept only the tracks for which the fit constrains $t_c$ to within 0.15
-and improves on a model with no diffusion by at least ten units of misfit,
+and improves on a model with no diffusion by at least ten in $M$,
 for which the median charge per slice in the last third of the track is
 within 50\% of that in the first third, since a rise in the deposited
 charge along the track is the Bragg peak of a particle that stopped inside
