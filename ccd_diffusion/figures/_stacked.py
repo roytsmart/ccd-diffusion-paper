@@ -93,9 +93,10 @@ charge spread uniformly over its own width.
 The wedge is subtle: the wings at $t < 0.4$ carry a few percent of the
 charge.
 (b) Points: the diffusion width in each depth bin on each \CCD, found by
-summing the misfit of every slice in the bin over a grid of trial widths
-and minimizing, with no parametric model of the depth dependence; the
-error bars span the widths within two units of misfit of the minimum.
+summing the misfit of Equation~\ref{eq:misfit} over every slice in the
+bin on a grid of trial widths and minimizing, with no parametric model of
+the depth dependence; the error bars span the widths within two of the
+minimum $M$.
 Lines: the average of the per-track fits of Equation~\ref{eq:width} on the
 same \CCD, which reproduces the model-free profile at every depth,
 including the floor of a few tenths of a micron beyond $t_c$ that the
