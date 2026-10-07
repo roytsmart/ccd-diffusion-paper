@@ -463,6 +463,26 @@
         <span class="n">sigma</span> <span class="o">=</span> <span class="n">_interpolated</span><span class="p">(</span><span class="n">z</span> <span class="o">/</span> <span class="n">D</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">depth</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">best</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">))</span>
         <span class="n">rms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">average</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">sigma</span><span class="p">)))</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="n">rms</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">chip</span><span class="p">)</span>
+
+    <span class="c1"># the median back-surface width of the per-track fits, the model beside</span>
+    <span class="c1"># the measurement; CCDs sharing a value alternate dots of their colors</span>
+    <span class="n">width_max</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">chip</span><span class="p">:</span> <span class="n">tracks</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">chip</span><span class="p">)</span><span class="o">.</span><span class="n">width_max</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">chip</span> <span class="ow">in</span> <span class="n">_chips</span>
+        <span class="k">if</span> <span class="n">tracks</span><span class="o">.</span><span class="n">flat</span><span class="p">(</span><span class="n">chip</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">chip</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">width_max</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">shared</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">width_max</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">value</span><span class="p">)]</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">shared</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">chip</span><span class="p">)</span>
+        <span class="n">step</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span>
+            <span class="n">value</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">_chips</span><span class="p">[</span><span class="n">chip</span><span class="p">],</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">linestyle</span><span class="o">=</span><span class="p">(</span><span class="n">step</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">step</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">shared</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)),</span>
+            <span class="c1"># beneath the measured curves, which one of them can coincide with</span>
+            <span class="n">zorder</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="n">ax_length</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
     <span class="n">ax_length</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="n">length</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">":"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
     <span class="n">ax_length</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">"log"</span><span class="p">)</span>
@@ -501,7 +521,7 @@
 <span class="s2">wavelength of the photon.</span>
 <span class="s2">The width is the standard deviation of the cloud.</span>
 <span class="s2">A photon is absorbed at a random depth, exponentially distributed with the</span>
-<span class="s2">absorption length of silicon (dotted, from the tabulated optical constants</span>
+<span class="s2">absorption length of silicon (gray dotted, from the tabulated optical constants</span>
 <span class="s2">\cite{Palik1985,Henke1993}), and the charge it liberates spreads by the</span>
 <span class="s2">width measured at that depth in Figure~\ref{fig:stacked}b, held at the</span>
 <span class="s2">value of its first bin up to the back surface.</span>
@@ -510,8 +530,11 @@
 <span class="s2">fraction of photons absorbed at each depth; photons that pass through the</span>
 <span class="s2">\thickness\ $\mu$m of silicon are not counted.</span>
 <span class="s2">Between 30 and 350 nm every photon is absorbed within 10 nm of the back</span>
-<span class="s2">surface, and the cloud has the back-surface width of</span>
-<span class="s2">Table~\ref{tab:tracks}.</span>
+<span class="s2">surface, and the cloud has the width of the first depth bin of</span>
+<span class="s2">Figure~\ref{fig:stacked}b.</span>
+<span class="s2">This lies below the median $\sigma_\text</span><span class="si">{max}</span><span class="s2">$ of the per-track fits in</span>
+<span class="s2">Table~\ref{tab:tracks} (dotted in the color of each \CCD), as the points of</span>
+<span class="s2">Figure~\ref{fig:stacked}b lie below the fits near the back surface.</span>
 <span class="s2">In the visible and in the soft X-rays the photons penetrate to the</span>
 <span class="s2">depletion region and the cloud narrows.</span>
 <span class="s2">Near the band gap silicon is nearly transparent, and the few photons</span>
