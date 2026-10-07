@@ -487,16 +487,25 @@
 <span class="s2">$t_c \in [0, 1]$ and $\sigma_\text</span><span class="si">{max}</span><span class="s2"> \in [0, 10]$ $\mu$m.</span>
 <span class="s2">At each grid point the offset and tilt of the centerline are adjusted, by</span>
 <span class="s2">up to 0.6 pixels and 0.03 pixels per row, to minimize a robust misfit,</span>
-<span class="s2">$\sum \ln(1 + r^2 / 2)$, where $r$ is the residual of the fraction of each</span>
-<span class="s2">slice's charge in each pixel in units of the read noise.</span>
+<span class="s2">\begin</span><span class="si">{equation}</span><span class="s2"> \label{eq:misfit}</span>
+<span class="s2">    M = \sum_i \sum_j \ln \left( 1 + \frac{r_</span><span class="si">{ij}</span><span class="s2">^2}</span><span class="si">{2}</span><span class="s2"> \right),</span>
+<span class="s2">    \qquad</span>
+<span class="s2">    r_</span><span class="si">{ij}</span><span class="s2"> = \frac{f_</span><span class="si">{ij}</span><span class="s2"> - q_</span><span class="si">{ij}</span><span class="s2">}{\epsilon_i},</span>
+<span class="s2">\end</span><span class="si">{equation}</span>
+<span class="s2">where $f_</span><span class="si">{ij}</span><span class="s2">$ is the fraction of the charge of slice $i$ measured in pixel</span>
+<span class="s2">$j$ of the cutout, $q_</span><span class="si">{ij}</span><span class="s2">$ the fraction the model puts there, and</span>
+<span class="s2">$\epsilon_i$ the read noise of a pixel divided by the charge of the slice,</span>
+<span class="s2">the uncertainty of a fraction from read noise alone, so that the brighter</span>
+<span class="s2">slices count for more.</span>
 <span class="s2">This is the negative log-likelihood of a Cauchy distribution rather than a</span>
 <span class="s2">Gaussian, so that a single stray pixel, from a delta ray or a second hit</span>
-<span class="s2">inside the cutout, cannot dominate the fit.</span>
+<span class="s2">inside the cutout, cannot dominate the fit, and differences in $M$ are</span>
+<span class="s2">what the thresholds below are stated in.</span>
 <span class="s2">$\sigma_d$ describes the drift field, which is a property of the \CCD\ and</span>
 <span class="s2">its bias rather than of any one track, and a single track constrains it</span>
 <span class="s2">only weakly, so it is fit to each \CCD\ as a whole.</span>
 <span class="s2">Every track is fit as above at each of 16 values of $\sigma_d$ from 0 to 1.5</span>
-<span class="s2">$\mu$m, the misfits of the flat tracks, defined next, are summed at each</span>
+<span class="s2">$\mu$m, the misfits $M$ of the flat tracks, defined next, are summed at each</span>
 <span class="s2">value, and the value that minimizes the sum is adopted for every track on</span>
 <span class="s2">that \CCD.</span>
 <span class="s2">Which tracks are flat depends on their fits, so the selection and</span>
@@ -507,7 +516,7 @@
 <span class="s2">The useful tracks are those which cross the full thickness of the sensor at</span>
 <span class="s2">nearly constant energy loss.</span>
 <span class="s2">We kept only the tracks for which the fit constrains $t_c$ to within 0.15</span>
-<span class="s2">and improves on a model with no diffusion by at least ten units of misfit,</span>
+<span class="s2">and improves on a model with no diffusion by at least ten in $M$,</span>
 <span class="s2">for which the median charge per slice in the last third of the track is</span>
 <span class="s2">within 50\</span><span class="si">% o</span><span class="s2">f that in the first third, since a rise in the deposited</span>
 <span class="s2">charge along the track is the Bragg peak of a particle that stopped inside</span>
