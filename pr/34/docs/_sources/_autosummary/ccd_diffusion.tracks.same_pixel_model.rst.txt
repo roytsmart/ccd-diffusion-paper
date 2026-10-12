@@ -1,0 +1,6 @@
+same\_pixel\_model
+==================
+
+.. currentmodule:: ccd_diffusion.tracks
+
+.. autofunction:: ccd_diffusion.tracks.same_pixel_model

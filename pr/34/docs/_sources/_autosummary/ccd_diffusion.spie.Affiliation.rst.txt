@@ -1,0 +1,50 @@
+Affiliation
+===========
+
+.. currentmodule:: ccd_diffusion.spie
+
+.. autoclass:: ccd_diffusion.spie.Affiliation
+    :members:
+    :show-inheritance:
+    :inherited-members:
+    :undoc-members:
+    :member-order: groupwise
+
+    
+    
+    .. rubric:: Attributes
+
+    .. autosummary::
+    
+      ~Affiliation.begin_paragraph
+      ~Affiliation.end_paragraph
+      ~Affiliation.escape
+      ~Affiliation.latex_name
+      ~Affiliation.packages
+      ~Affiliation.separate_paragraph
+      ~Affiliation.key
+      ~Affiliation.name
+    
+    
+
+    
+    
+    .. rubric:: Methods
+
+    .. autosummary::
+    
+      ~Affiliation.__init__
+      ~Affiliation.dump
+      ~Affiliation.dump_packages
+      ~Affiliation.dumps
+      ~Affiliation.dumps_as_content
+      ~Affiliation.dumps_packages
+      ~Affiliation.generate_tex
+    
+    
+
+    
+    .. rubric:: Inheritance Diagram
+
+    .. inheritance-diagram:: ccd_diffusion.spie.Affiliation
+    

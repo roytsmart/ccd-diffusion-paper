@@ -1,0 +1,6 @@
+models
+======
+
+.. currentmodule:: ccd_diffusion.tables
+
+.. autofunction:: ccd_diffusion.tables.models

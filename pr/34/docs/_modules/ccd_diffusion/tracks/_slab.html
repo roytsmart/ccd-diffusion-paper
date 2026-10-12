@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ccd_diffusion.tracks._slab &#8212; ccd-diffusion-paper  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/browser.css?v=350d53bc" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
+
+    <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/ccd_diffusion/tracks/_slab';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../../_static/browser.js?v=818e93a2"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">ccd-diffusion-paper  documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../browser.html">
+    Track browser
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../frames.html">
+    Frame gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reports/tracks.html">
+    Charge diffusion from glancing particle tracks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../_autosummary/ccd_diffusion.html">
+    ccd_diffusion
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/roytsmart/ccd-diffusion-paper" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../browser.html">
+    Track browser
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../frames.html">
+    Frame gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reports/tracks.html">
+    Charge diffusion from glancing particle tracks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../_autosummary/ccd_diffusion.html">
+    ccd_diffusion
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/roytsmart/ccd-diffusion-paper" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">ccd_diffusion.tracks._slab</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for ccd_diffusion.tracks._slab</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""</span>
+<span class="sd">The charge cloud of the slab model as a mixture of Gaussians, and the</span>
+<span class="sd">compiled search that fits it to a track.</span>
+
+<span class="sd">The cloud of charge created in the field-free layer is that of</span>
+<span class="sd">:class:`optika.sensors.diffusion.SlabDiffusionModel`: the charge diffuses</span>
+<span class="sd">until it reaches the depletion region and is reflected at the back surface.</span>
+<span class="sd">That model gives it as a mixture of Gaussians, whose weights are the same at</span>
+<span class="sd">every depth and whose variances, at a given fraction of the way across the</span>
+<span class="sd">field-free layer, scale with the square of its thickness.</span>
+<span class="sd">So :func:`transit` evaluates the mixture once for a layer of unit thickness,</span>
+<span class="sd">and the fit scales its variances by :math:`\\sigma_\\text{max}^2`.</span>
+<span class="sd">"""</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numba</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.special</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">astropy.units</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">u</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">named_arrays</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">na</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">optika</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"axis_mixture"</span><span class="p">,</span>
+    <span class="s2">"transit"</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">axis_mixture</span> <span class="o">=</span> <span class="s2">"mixture"</span>
+<span class="sd">"""The logical axis of the Gaussians of the charge cloud."""</span>
+
+<span class="n">_model</span> <span class="o">=</span> <span class="n">optika</span><span class="o">.</span><span class="n">sensors</span><span class="o">.</span><span class="n">diffusion</span><span class="o">.</span><span class="n">SlabDiffusionModel</span><span class="p">(</span><span class="n">thickness_depletion</span><span class="o">=</span><span class="mi">0</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span>
+<span class="sd">"""A field-free layer of unit thickness with no depletion region beneath it."""</span>
+
+
+<div class="viewcode-block" id="transit">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.transit.html#ccd_diffusion.tracks.transit">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">transit</span><span class="p">(</span>
+    <span class="n">fraction</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">,</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">axis_mixture</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">,</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The charge cloud of charge created a given fraction of the way across</span>
+<span class="sd">    the field-free layer, from the back surface, as a mixture of Gaussians:</span>
+<span class="sd">    the variance of each Gaussian along one axis, in units of the square of</span>
+<span class="sd">    the thickness of the layer, and its weight.</span>
+
+<span class="sd">    The variance of the mixture is :math:`1 - x^2` at a fraction :math:`x`</span>
+<span class="sd">    of the way across, and it vanishes at the depletion region, :math:`x = 1`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fraction</span>
+<span class="sd">        The fraction of the way across the field-free layer, from zero at</span>
+<span class="sd">        the back surface to one at the depletion region.</span>
+<span class="sd">    axis</span>
+<span class="sd">        The logical axis of the Gaussians.</span>
+<span class="sd">    """</span>
+    <span class="n">variance</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="n">_model</span><span class="o">.</span><span class="n">mixture</span><span class="p">(</span>
+        <span class="n">depth</span><span class="o">=</span><span class="n">na</span><span class="o">.</span><span class="n">as_named_array</span><span class="p">(</span><span class="n">fraction</span><span class="p">)</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">,</span>
+        <span class="n">thickness_substrate</span><span class="o">=</span><span class="mi">1</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">,</span>
+        <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">variance</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">weight</span></div>
+
+
+
+<span class="n">_erf_density</span> <span class="o">=</span> <span class="mi">2048</span>
+<span class="sd">"""The number of values of the error function tabulated per unit argument."""</span>
+
+<span class="n">_erf_table</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">erf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">6</span> <span class="o">*</span> <span class="n">_erf_density</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">_erf_density</span><span class="p">)</span>
+<span class="sd">"""</span>
+<span class="sd">The error function from 0 to 6, beyond which it is one to double precision,</span>
+<span class="sd">interpolated linearly by :func:`_erf` to within :math:`3 \\times 10^{-8}`.</span>
+<span class="sd">"""</span>
+
+
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="s2">"always"</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_erf</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The error function, interpolated from :data:`_erf_table`, which is three</span>
+<span class="sd">    times faster than :func:`math.erf` in the search.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x</span>
+<span class="sd">        The argument.</span>
+<span class="sd">    table</span>
+<span class="sd">        :data:`_erf_table`.</span>
+<span class="sd">    """</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">_erf_density</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">table</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">table</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">result</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="o">-</span><span class="n">result</span>
+
+
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="s2">"always"</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_misfit_slice</span><span class="p">(</span>
+    <span class="n">fraction</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">error</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">position</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">scale</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">num</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">edges</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">table</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The misfit of one slice, :math:`\\sum_j \\ln(1 + r_j^2 / 2)`, for a</span>
+<span class="sd">    charge cloud that is a mixture of Gaussians.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fraction</span>
+<span class="sd">        The measured fraction of the charge of the slice in each pixel.</span>
+<span class="sd">    error</span>
+<span class="sd">        The uncertainty of a fraction from read noise.</span>
+<span class="sd">    position</span>
+<span class="sd">        The centerline position of the slice in pixels from the central</span>
+<span class="sd">        pixel.</span>
+<span class="sd">    scale</span>
+<span class="sd">        The reciprocal of :math:`\\sqrt{2}` times the standard deviation of</span>
+<span class="sd">        each Gaussian, in reciprocal pixels.</span>
+<span class="sd">    weight</span>
+<span class="sd">        The weight of each Gaussian.</span>
+<span class="sd">    num</span>
+<span class="sd">        The number of Gaussians.</span>
+<span class="sd">    edges</span>
+<span class="sd">        The pixel boundaries across the track.</span>
+<span class="sd">    table</span>
+<span class="sd">        :data:`_erf_table`.</span>
+<span class="sd">    model</span>
+<span class="sd">        Scratch space for the modeled fractions, one per pixel.</span>
+<span class="sd">    """</span>
+    <span class="n">num_pixel</span> <span class="o">=</span> <span class="n">edges</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_pixel</span><span class="p">):</span>
+        <span class="n">model</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">scale</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">weight</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="n">previous</span> <span class="o">=</span> <span class="n">_erf</span><span class="p">((</span><span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">position</span><span class="p">)</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_pixel</span><span class="p">):</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">_erf</span><span class="p">((</span><span class="n">edges</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">position</span><span class="p">)</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
+            <span class="n">model</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">current</span> <span class="o">-</span> <span class="n">previous</span><span class="p">)</span>
+            <span class="n">previous</span> <span class="o">=</span> <span class="n">current</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_pixel</span><span class="p">):</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">model</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="c1"># the differences of the error function are twice the fractions, so the</span>
+    <span class="c1"># floor on the total is twice that of `fractions`</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">total</span><span class="p">,</span> <span class="mf">2e-9</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_pixel</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="p">(</span><span class="n">fraction</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">model</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="n">total</span><span class="p">)</span> <span class="o">/</span> <span class="n">error</span>
+        <span class="n">result</span> <span class="o">+=</span> <span class="n">math</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="s2">"always"</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_misfit_slices</span><span class="p">(</span>
+    <span class="n">start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">bound</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">slices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">fraction</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">error</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">position</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">scale</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">num</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">edges</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">table</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    A given misfit plus that of the given slices of a track for one</span>
+<span class="sd">    centerline, or, once the sum so far reaches ``bound``, that partial sum.</span>
+
+<span class="sd">    Every slice adds to the misfit, so a centerline whose partial sum</span>
+<span class="sd">    reaches the least misfit found so far cannot have a smaller one, and the</span>
+<span class="sd">    rest of its slices need not be evaluated.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    start</span>
+<span class="sd">        The misfit of the other slices of the track.</span>
+<span class="sd">    bound</span>
+<span class="sd">        The sum at which to stop.</span>
+<span class="sd">    slices</span>
+<span class="sd">        The indices of the slices to add, in the order to add them.</span>
+<span class="sd">    fraction</span>
+<span class="sd">        The measured fractions, with axes ``(slice, pixel)``.</span>
+<span class="sd">    error</span>
+<span class="sd">        The uncertainty of a fraction of each slice from read noise.</span>
+<span class="sd">    position</span>
+<span class="sd">        The centerline position of each slice.</span>
+<span class="sd">    scale</span>
+<span class="sd">        The reciprocal of :math:`\\sqrt{2}` times the standard deviation of</span>
+<span class="sd">        each Gaussian of the cloud of each slice, with axes</span>
+<span class="sd">        ``(slice, mixture)``.</span>
+<span class="sd">    weight</span>
+<span class="sd">        The weight of each Gaussian of the cloud of each slice, with axes</span>
+<span class="sd">        ``(slice, mixture)``.</span>
+<span class="sd">    num</span>
+<span class="sd">        The number of Gaussians of the cloud of each slice.</span>
+<span class="sd">    edges</span>
+<span class="sd">        The pixel boundaries across the track.</span>
+<span class="sd">    table</span>
+<span class="sd">        :data:`_erf_table`.</span>
+<span class="sd">    model</span>
+<span class="sd">        Scratch space for the modeled fractions, one per pixel.</span>
+<span class="sd">    """</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">start</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">slices</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">total</span> <span class="o">&gt;=</span> <span class="n">bound</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">_misfit_slice</span><span class="p">(</span>
+            <span class="n">fraction</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">error</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">position</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">scale</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">weight</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">num</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">edges</span><span class="p">,</span>
+            <span class="n">table</span><span class="p">,</span>
+            <span class="n">model</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">total</span>
+
+
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="s2">"always"</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_clouds</span><span class="p">(</span>
+    <span class="n">o</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">b</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">slices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">blur</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">field_free</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">variance</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">depletion</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">width_max</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">width_depleted</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">scale</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">num</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Write the charge cloud of the given slices of a track at one point of</span>
+<span class="sd">    the grid, a mixture of Gaussians in the field-free layer and a single</span>
+<span class="sd">    Gaussian beyond it, into ``scale``, ``weights``, and ``num``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    o</span>
+<span class="sd">        The index of the orientation.</span>
+<span class="sd">    a</span>
+<span class="sd">        The index of :math:`t_c`.</span>
+<span class="sd">    b</span>
+<span class="sd">        The index of :math:`\\sigma_\\text{max}`.</span>
+<span class="sd">    d</span>
+<span class="sd">        The index of :math:`\\sigma_d`.</span>
+<span class="sd">    slices</span>
+<span class="sd">        The indices of the slices.</span>
+<span class="sd">    blur</span>
+<span class="sd">        The variance, in square pixels, of the uniform spread of the charge</span>
+<span class="sd">        along the tilted centerline within a slice.</span>
+<span class="sd">    field_free</span>
+<span class="sd">        Whether each slice lies in the field-free layer.</span>
+<span class="sd">    variance</span>
+<span class="sd">        The variance of each Gaussian of the cloud of each slice for a</span>
+<span class="sd">        field-free layer of unit thickness.</span>
+<span class="sd">    weight</span>
+<span class="sd">        The weight of each Gaussian.</span>
+<span class="sd">    depletion</span>
+<span class="sd">        The fraction of the depletion region crossed by the charge of each</span>
+<span class="sd">        slice.</span>
+<span class="sd">    width_max</span>
+<span class="sd">        The grid of :math:`\\sigma_\\text{max}` in pixels, with axes</span>
+<span class="sd">        ``(critical_depth, width_max)``, since a model may tie it to :math:`t_c`.</span>
+<span class="sd">    width_depleted</span>
+<span class="sd">        The grid of :math:`\\sigma_d` in pixels.</span>
+<span class="sd">    scale</span>
+<span class="sd">        Written with the reciprocal of :math:`\\sqrt{2}` times the standard</span>
+<span class="sd">        deviation of each Gaussian of each slice.</span>
+<span class="sd">    weights</span>
+<span class="sd">        Written with the weight of each Gaussian of each slice.</span>
+<span class="sd">    num</span>
+<span class="sd">        Written with the number of Gaussians of each slice.</span>
+<span class="sd">    """</span>
+    <span class="n">spread</span> <span class="o">=</span> <span class="n">width_depleted</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">square</span> <span class="o">=</span> <span class="n">width_max</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">slices</span><span class="p">:</span>
+        <span class="n">floor</span> <span class="o">=</span> <span class="n">spread</span> <span class="o">*</span> <span class="n">depletion</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">field_free</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="ow">and</span> <span class="n">square</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">num</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">size</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">variance</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">square</span> <span class="o">+</span> <span class="n">floor</span>
+                <span class="n">scale</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span> <span class="o">+</span> <span class="n">blur</span><span class="p">))</span>
+                <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">weight</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">num</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">scale</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">floor</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span> <span class="o">+</span> <span class="n">blur</span><span class="p">))</span>
+            <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nogil</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_misfit</span><span class="p">(</span>
+    <span class="n">fraction</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">error</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">position</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">index</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">blur</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">field_free</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">variance</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">depletion</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">width_max</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">width_depleted</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">offset</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">tilt</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">center_offset</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">center_tilt</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">margin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">prune</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">edges</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">table</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The misfit of the slab model to one track at every point of the grid of</span>
+<span class="sd">    orientation, :math:`t_c`, :math:`\\sigma_\\text{max}`, and</span>
+<span class="sd">    :math:`\\sigma_d`, minimized over every offset and tilt of the</span>
+<span class="sd">    centerline.</span>
+
+<span class="sd">    Returns the misfit, and the index of the offset and of the tilt which</span>
+<span class="sd">    minimize it, each with axes ``(orientation, critical_depth, width_max,</span>
+<span class="sd">    width_depleted)``.</span>
+
+<span class="sd">    The cloud of a slice beyond :math:`t_c` does not depend on</span>
+<span class="sd">    :math:`\\sigma_\\text{max}`, so the misfit of those slices is summed once</span>
+<span class="sd">    for each centerline and shared by every :math:`\\sigma_\\text{max}`.</span>
+
+<span class="sd">    A fit needs the misfit exactly only where it lies within ``margin`` of</span>
+<span class="sd">    the least misfit at the same :math:`\\sigma_d`, and at the point with no</span>
+<span class="sd">    diffusion at all, so the search runs in two passes.</span>
+<span class="sd">    The first starts at each grid point from a given centerline, the one</span>
+<span class="sd">    the Gaussian model prefers there, and steps to the best of its</span>
+<span class="sd">    neighbors until none is better.</span>
+<span class="sd">    This finds a small misfit quickly, so the least of them at each</span>
+<span class="sd">    :math:`\\sigma_d` bounds the least misfit there from above.</span>
+<span class="sd">    The second tries every other centerline, adding the slices of the</span>
+<span class="sd">    field-free layer brightest first and abandoning the centerline as soon</span>
+<span class="sd">    as the sum exceeds either the least misfit found so far at that grid</span>
+<span class="sd">    point or the bound plus ``margin``.</span>
+<span class="sd">    Every misfit under that sum is then exact, the least among them, and</span>
+<span class="sd">    every grid point within ``margin`` of it, while a grid point found to lie</span>
+<span class="sd">    beyond it keeps the misfit of the first pass, which is beyond it too.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fraction</span>
+<span class="sd">        The measured fractions, with axes ``(slice, pixel)``.</span>
+<span class="sd">    error</span>
+<span class="sd">        The uncertainty of a fraction of each slice from read noise.</span>
+<span class="sd">    position</span>
+<span class="sd">        The centerline position of each slice before the offset and tilt.</span>
+<span class="sd">    index</span>
+<span class="sd">        The index of each slice measured from the middle of the track.</span>
+<span class="sd">    blur</span>
+<span class="sd">        The variance, in square pixels, of the uniform spread of the charge</span>
+<span class="sd">        along the tilted centerline within a slice.</span>
+<span class="sd">    field_free</span>
+<span class="sd">        Whether each slice lies in the field-free layer, with axes</span>
+<span class="sd">        ``(orientation, critical_depth, slice)``.</span>
+<span class="sd">    variance</span>
+<span class="sd">        The variance of each Gaussian of the cloud of each slice for a</span>
+<span class="sd">        field-free layer of unit thickness, from :func:`transit`, with axes</span>
+<span class="sd">        ``(orientation, critical_depth, slice, mixture)``.</span>
+<span class="sd">    weight</span>
+<span class="sd">        The weight of each Gaussian.</span>
+<span class="sd">    depletion</span>
+<span class="sd">        The fraction of the depletion region crossed by the charge of each</span>
+<span class="sd">        slice, :math:`g(t)`, with axes ``(orientation, critical_depth, slice)``.</span>
+<span class="sd">    width_max</span>
+<span class="sd">        The grid of :math:`\\sigma_\\text{max}` in pixels, with axes</span>
+<span class="sd">        ``(critical_depth, width_max)``, since a model may tie it to :math:`t_c`.</span>
+<span class="sd">    width_depleted</span>
+<span class="sd">        The grid of :math:`\\sigma_d` in pixels.</span>
+<span class="sd">    offset</span>
+<span class="sd">        The grid of centerline offsets in pixels.</span>
+<span class="sd">    tilt</span>
+<span class="sd">        The grid of centerline tilts in pixels per slice.</span>
+<span class="sd">    center_offset</span>
+<span class="sd">        The index of the offset the search starts from at each grid point.</span>
+<span class="sd">    center_tilt</span>
+<span class="sd">        The index of the tilt the search starts from at each grid point.</span>
+<span class="sd">    margin</span>
+<span class="sd">        How far above the least misfit at each :math:`\\sigma_d` the misfit</span>
+<span class="sd">        must be exact.</span>
+<span class="sd">    prune</span>
+<span class="sd">        Whether to abandon centerlines, which changes nothing the fit uses</span>
+<span class="sd">        but the cost; without it every misfit is exact.</span>
+<span class="sd">    edges</span>
+<span class="sd">        The pixel boundaries across the track.</span>
+<span class="sd">    table</span>
+<span class="sd">        :data:`_erf_table`.</span>
+<span class="sd">    """</span>
+    <span class="n">num_orientation</span><span class="p">,</span> <span class="n">num_critical</span><span class="p">,</span> <span class="n">num_slice</span><span class="p">,</span> <span class="n">num_mixture</span> <span class="o">=</span> <span class="n">variance</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">num_max</span> <span class="o">=</span> <span class="n">width_max</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">num_depleted</span> <span class="o">=</span> <span class="n">width_depleted</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">num_offset</span> <span class="o">=</span> <span class="n">offset</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">num_tilt</span> <span class="o">=</span> <span class="n">tilt</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_orientation</span><span class="p">,</span> <span class="n">num_critical</span><span class="p">,</span> <span class="n">num_max</span><span class="p">,</span> <span class="n">num_depleted</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+    <span class="n">best_offset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+    <span class="n">best_tilt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+
+    <span class="n">brightest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">num_slice</span><span class="p">,</span> <span class="n">num_mixture</span><span class="p">))</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">num_slice</span><span class="p">,</span> <span class="n">num_mixture</span><span class="p">))</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">num_slice</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">edges</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">tried</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span> <span class="o">+</span> <span class="p">(</span><span class="n">num_offset</span><span class="p">,</span> <span class="n">num_tilt</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
+    <span class="n">shifted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">num_offset</span><span class="p">,</span> <span class="n">num_tilt</span><span class="p">,</span> <span class="n">num_slice</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_offset</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_tilt</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_slice</span><span class="p">):</span>
+                <span class="n">shifted</span><span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">position</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">offset</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+</span> <span class="n">tilt</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">*</span> <span class="n">index</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="c1"># the misfit of the slices beyond t_c, for every centerline</span>
+    <span class="n">deep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_orientation</span><span class="p">,</span> <span class="n">num_critical</span><span class="p">,</span> <span class="n">num_depleted</span><span class="p">,</span> <span class="n">num_offset</span><span class="p">,</span> <span class="n">num_tilt</span><span class="p">))</span>
+    <span class="c1"># the slices of the field-free layer, brightest first, and the number</span>
+    <span class="c1"># of them, for each orientation and t_c</span>
+    <span class="n">shallow</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">num_orientation</span><span class="p">,</span> <span class="n">num_critical</span><span class="p">,</span> <span class="n">num_slice</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+    <span class="n">num_shallow</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_orientation</span><span class="p">,</span> <span class="n">num_critical</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_orientation</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_critical</span><span class="p">):</span>
+            <span class="n">beyond</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">num_slice</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+            <span class="n">num_beyond</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">brightest</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">field_free</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">i</span><span class="p">]:</span>
+                    <span class="n">shallow</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">num_shallow</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">]]</span> <span class="o">=</span> <span class="n">i</span>
+                    <span class="n">num_shallow</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">beyond</span><span class="p">[</span><span class="n">num_beyond</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+                    <span class="n">num_beyond</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">beyond</span> <span class="o">=</span> <span class="n">beyond</span><span class="p">[:</span><span class="n">num_beyond</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_depleted</span><span class="p">):</span>
+                <span class="n">_clouds</span><span class="p">(</span>
+                    <span class="n">o</span><span class="p">,</span>
+                    <span class="n">a</span><span class="p">,</span>
+                    <span class="mi">0</span><span class="p">,</span>
+                    <span class="n">d</span><span class="p">,</span>
+                    <span class="n">beyond</span><span class="p">,</span>
+                    <span class="n">blur</span><span class="p">,</span>
+                    <span class="n">field_free</span><span class="p">,</span>
+                    <span class="n">variance</span><span class="p">,</span>
+                    <span class="n">weight</span><span class="p">,</span>
+                    <span class="n">depletion</span><span class="p">,</span>
+                    <span class="n">width_max</span><span class="p">,</span>
+                    <span class="n">width_depleted</span><span class="p">,</span>
+                    <span class="n">scale</span><span class="p">,</span>
+                    <span class="n">weights</span><span class="p">,</span>
+                    <span class="n">num</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_offset</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_tilt</span><span class="p">):</span>
+                        <span class="n">deep</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">_misfit_slices</span><span class="p">(</span>
+                            <span class="mf">0.0</span><span class="p">,</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
+                            <span class="n">beyond</span><span class="p">,</span>
+                            <span class="n">fraction</span><span class="p">,</span>
+                            <span class="n">error</span><span class="p">,</span>
+                            <span class="n">shifted</span><span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">],</span>
+                            <span class="n">scale</span><span class="p">,</span>
+                            <span class="n">weights</span><span class="p">,</span>
+                            <span class="n">num</span><span class="p">,</span>
+                            <span class="n">edges</span><span class="p">,</span>
+                            <span class="n">table</span><span class="p">,</span>
+                            <span class="n">model</span><span class="p">,</span>
+                        <span class="p">)</span>
+
+    <span class="c1"># the first pass, stepping from the given centerline to the best of its</span>
+    <span class="c1"># neighbors until none is better</span>
+    <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_orientation</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_critical</span><span class="p">):</span>
+            <span class="n">slices</span> <span class="o">=</span> <span class="n">shallow</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="p">:</span> <span class="n">num_shallow</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">]]</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_depleted</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_max</span><span class="p">):</span>
+                    <span class="n">_clouds</span><span class="p">(</span>
+                        <span class="n">o</span><span class="p">,</span>
+                        <span class="n">a</span><span class="p">,</span>
+                        <span class="n">b</span><span class="p">,</span>
+                        <span class="n">d</span><span class="p">,</span>
+                        <span class="n">slices</span><span class="p">,</span>
+                        <span class="n">blur</span><span class="p">,</span>
+                        <span class="n">field_free</span><span class="p">,</span>
+                        <span class="n">variance</span><span class="p">,</span>
+                        <span class="n">weight</span><span class="p">,</span>
+                        <span class="n">depletion</span><span class="p">,</span>
+                        <span class="n">width_max</span><span class="p">,</span>
+                        <span class="n">width_depleted</span><span class="p">,</span>
+                        <span class="n">scale</span><span class="p">,</span>
+                        <span class="n">weights</span><span class="p">,</span>
+                        <span class="n">num</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">best</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+                    <span class="n">c0</span> <span class="o">=</span> <span class="n">center_offset</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span>
+                    <span class="n">e0</span> <span class="o">=</span> <span class="n">center_tilt</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span>
+                    <span class="n">c1</span> <span class="o">=</span> <span class="n">c0</span>
+                    <span class="n">e1</span> <span class="o">=</span> <span class="n">e0</span>
+                    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">c0</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">c0</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">num_offset</span><span class="p">)):</span>
+                            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">e0</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">e0</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">num_tilt</span><span class="p">)):</span>
+                                <span class="k">if</span> <span class="n">tried</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">]:</span>
+                                    <span class="k">continue</span>
+                                <span class="n">tried</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                                <span class="n">m</span> <span class="o">=</span> <span class="n">_misfit_slices</span><span class="p">(</span>
+                                    <span class="n">deep</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">],</span>
+                                    <span class="n">best</span> <span class="k">if</span> <span class="n">prune</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
+                                    <span class="n">slices</span><span class="p">,</span>
+                                    <span class="n">fraction</span><span class="p">,</span>
+                                    <span class="n">error</span><span class="p">,</span>
+                                    <span class="n">shifted</span><span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">],</span>
+                                    <span class="n">scale</span><span class="p">,</span>
+                                    <span class="n">weights</span><span class="p">,</span>
+                                    <span class="n">num</span><span class="p">,</span>
+                                    <span class="n">edges</span><span class="p">,</span>
+                                    <span class="n">table</span><span class="p">,</span>
+                                    <span class="n">model</span><span class="p">,</span>
+                                <span class="p">)</span>
+                                <span class="k">if</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">best</span><span class="p">:</span>
+                                    <span class="n">best</span> <span class="o">=</span> <span class="n">m</span>
+                                    <span class="n">c1</span> <span class="o">=</span> <span class="n">c</span>
+                                    <span class="n">e1</span> <span class="o">=</span> <span class="n">e</span>
+                        <span class="k">if</span> <span class="n">c1</span> <span class="o">==</span> <span class="n">c0</span> <span class="ow">and</span> <span class="n">e1</span> <span class="o">==</span> <span class="n">e0</span><span class="p">:</span>
+                            <span class="k">break</span>
+                        <span class="n">c0</span> <span class="o">=</span> <span class="n">c1</span>
+                        <span class="n">e0</span> <span class="o">=</span> <span class="n">e1</span>
+                    <span class="n">result</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">best</span>
+                    <span class="n">best_offset</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">c1</span>
+                    <span class="n">best_tilt</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">e1</span>
+
+    <span class="c1"># the least misfit of the first pass at each sigma_d bounds the least</span>
+    <span class="c1"># misfit there from above</span>
+    <span class="n">bound</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">num_depleted</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">prune</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_depleted</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_orientation</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_critical</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_max</span><span class="p">):</span>
+                        <span class="n">bound</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">bound</span><span class="p">[</span><span class="n">d</span><span class="p">],</span> <span class="n">result</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span> <span class="o">+</span> <span class="n">margin</span><span class="p">)</span>
+
+    <span class="c1"># the second pass, trying every other centerline</span>
+    <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_orientation</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_critical</span><span class="p">):</span>
+            <span class="n">slices</span> <span class="o">=</span> <span class="n">shallow</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="p">:</span> <span class="n">num_shallow</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">]]</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_depleted</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_max</span><span class="p">):</span>
+                    <span class="n">_clouds</span><span class="p">(</span>
+                        <span class="n">o</span><span class="p">,</span>
+                        <span class="n">a</span><span class="p">,</span>
+                        <span class="n">b</span><span class="p">,</span>
+                        <span class="n">d</span><span class="p">,</span>
+                        <span class="n">slices</span><span class="p">,</span>
+                        <span class="n">blur</span><span class="p">,</span>
+                        <span class="n">field_free</span><span class="p">,</span>
+                        <span class="n">variance</span><span class="p">,</span>
+                        <span class="n">weight</span><span class="p">,</span>
+                        <span class="n">depletion</span><span class="p">,</span>
+                        <span class="n">width_max</span><span class="p">,</span>
+                        <span class="n">width_depleted</span><span class="p">,</span>
+                        <span class="n">scale</span><span class="p">,</span>
+                        <span class="n">weights</span><span class="p">,</span>
+                        <span class="n">num</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="c1"># the point with no diffusion at all sets the gain of</span>
+                    <span class="c1"># every fit, so it is found exactly however poor it is</span>
+                    <span class="n">none</span> <span class="o">=</span> <span class="n">o</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">0</span>
+                    <span class="n">limit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="k">if</span> <span class="n">none</span> <span class="k">else</span> <span class="n">bound</span><span class="p">[</span><span class="n">d</span><span class="p">]</span>
+                    <span class="n">best</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span>
+                    <span class="n">c1</span> <span class="o">=</span> <span class="n">best_offset</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span>
+                    <span class="n">e1</span> <span class="o">=</span> <span class="n">best_tilt</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_offset</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_tilt</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="n">tried</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">]:</span>
+                                <span class="k">continue</span>
+                            <span class="n">least</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">best</span><span class="p">,</span> <span class="n">limit</span><span class="p">)</span> <span class="k">if</span> <span class="n">prune</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+                            <span class="n">m</span> <span class="o">=</span> <span class="n">_misfit_slices</span><span class="p">(</span>
+                                <span class="n">deep</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">],</span>
+                                <span class="n">least</span><span class="p">,</span>
+                                <span class="n">slices</span><span class="p">,</span>
+                                <span class="n">fraction</span><span class="p">,</span>
+                                <span class="n">error</span><span class="p">,</span>
+                                <span class="n">shifted</span><span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">],</span>
+                                <span class="n">scale</span><span class="p">,</span>
+                                <span class="n">weights</span><span class="p">,</span>
+                                <span class="n">num</span><span class="p">,</span>
+                                <span class="n">edges</span><span class="p">,</span>
+                                <span class="n">table</span><span class="p">,</span>
+                                <span class="n">model</span><span class="p">,</span>
+                            <span class="p">)</span>
+                            <span class="k">if</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">(</span><span class="n">best</span><span class="p">,</span> <span class="n">least</span><span class="p">):</span>
+                                <span class="n">best</span> <span class="o">=</span> <span class="n">m</span>
+                                <span class="n">c1</span> <span class="o">=</span> <span class="n">c</span>
+                                <span class="n">e1</span> <span class="o">=</span> <span class="n">e</span>
+                    <span class="n">result</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">best</span>
+                    <span class="n">best_offset</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">c1</span>
+                    <span class="n">best_tilt</span><span class="p">[</span><span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">e1</span>
+
+    <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="n">best_offset</span><span class="p">,</span> <span class="n">best_tilt</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roy T. Smart, Charles C. Kankelborg.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

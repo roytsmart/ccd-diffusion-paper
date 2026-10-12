@@ -1,0 +1,50 @@
+Biography
+=========
+
+.. currentmodule:: ccd_diffusion.spie
+
+.. autoclass:: ccd_diffusion.spie.Biography
+    :members:
+    :show-inheritance:
+    :inherited-members:
+    :undoc-members:
+    :member-order: groupwise
+
+    
+    
+    .. rubric:: Attributes
+
+    .. autosummary::
+    
+      ~Biography.begin_paragraph
+      ~Biography.end_paragraph
+      ~Biography.escape
+      ~Biography.latex_name
+      ~Biography.packages
+      ~Biography.separate_paragraph
+      ~Biography.author
+      ~Biography.text
+    
+    
+
+    
+    
+    .. rubric:: Methods
+
+    .. autosummary::
+    
+      ~Biography.__init__
+      ~Biography.dump
+      ~Biography.dump_packages
+      ~Biography.dumps
+      ~Biography.dumps_as_content
+      ~Biography.dumps_packages
+      ~Biography.generate_tex
+    
+    
+
+    
+    .. rubric:: Inheritance Diagram
+
+    .. inheritance-diagram:: ccd_diffusion.spie.Biography
+    

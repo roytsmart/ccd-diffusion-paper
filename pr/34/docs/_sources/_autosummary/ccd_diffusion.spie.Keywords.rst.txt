@@ -1,0 +1,49 @@
+Keywords
+========
+
+.. currentmodule:: ccd_diffusion.spie
+
+.. autoclass:: ccd_diffusion.spie.Keywords
+    :members:
+    :show-inheritance:
+    :inherited-members:
+    :undoc-members:
+    :member-order: groupwise
+
+    
+    
+    .. rubric:: Attributes
+
+    .. autosummary::
+    
+      ~Keywords.begin_paragraph
+      ~Keywords.end_paragraph
+      ~Keywords.escape
+      ~Keywords.latex_name
+      ~Keywords.packages
+      ~Keywords.separate_paragraph
+      ~Keywords.keywords
+    
+    
+
+    
+    
+    .. rubric:: Methods
+
+    .. autosummary::
+    
+      ~Keywords.__init__
+      ~Keywords.dump
+      ~Keywords.dump_packages
+      ~Keywords.dumps
+      ~Keywords.dumps_as_content
+      ~Keywords.dumps_packages
+      ~Keywords.generate_tex
+    
+    
+
+    
+    .. rubric:: Inheritance Diagram
+
+    .. inheritance-diagram:: ccd_diffusion.spie.Keywords
+    

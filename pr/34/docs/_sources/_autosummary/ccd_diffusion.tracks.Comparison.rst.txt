@@ -1,0 +1,45 @@
+Comparison
+==========
+
+.. currentmodule:: ccd_diffusion.tracks
+
+.. autoclass:: ccd_diffusion.tracks.Comparison
+    :members:
+    :show-inheritance:
+    :inherited-members:
+    :undoc-members:
+    :member-order: groupwise
+
+    
+    
+    .. rubric:: Attributes
+
+    .. autosummary::
+    
+      ~Comparison.residual_rms
+      ~Comparison.chip
+      ~Comparison.num
+      ~Comparison.misfit
+      ~Comparison.better
+      ~Comparison.worse
+      ~Comparison.depth
+      ~Comparison.misfit_depth
+      ~Comparison.residual
+    
+    
+
+    
+    
+    .. rubric:: Methods
+
+    .. autosummary::
+    
+      ~Comparison.__init__
+    
+    
+
+    
+    .. rubric:: Inheritance Diagram
+
+    .. inheritance-diagram:: ccd_diffusion.tracks.Comparison
+    

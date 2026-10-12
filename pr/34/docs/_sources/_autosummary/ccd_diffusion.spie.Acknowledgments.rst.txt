@@ -1,0 +1,63 @@
+Acknowledgments
+===============
+
+.. currentmodule:: ccd_diffusion.spie
+
+.. autoclass:: ccd_diffusion.spie.Acknowledgments
+    :members:
+    :show-inheritance:
+    :inherited-members:
+    :undoc-members:
+    :member-order: groupwise
+
+    
+    
+    .. rubric:: Attributes
+
+    .. autosummary::
+    
+      ~Acknowledgments.begin_paragraph
+      ~Acknowledgments.content_separator
+      ~Acknowledgments.end_paragraph
+      ~Acknowledgments.escape
+      ~Acknowledgments.latex_name
+      ~Acknowledgments.omit_if_empty
+      ~Acknowledgments.packages
+      ~Acknowledgments.separate_paragraph
+    
+    
+
+    
+    
+    .. rubric:: Methods
+
+    .. autosummary::
+    
+      ~Acknowledgments.__init__
+      ~Acknowledgments.append
+      ~Acknowledgments.clear
+      ~Acknowledgments.copy
+      ~Acknowledgments.count
+      ~Acknowledgments.create
+      ~Acknowledgments.dump
+      ~Acknowledgments.dump_packages
+      ~Acknowledgments.dumps
+      ~Acknowledgments.dumps_as_content
+      ~Acknowledgments.dumps_content
+      ~Acknowledgments.dumps_packages
+      ~Acknowledgments.extend
+      ~Acknowledgments.generate_tex
+      ~Acknowledgments.index
+      ~Acknowledgments.insert
+      ~Acknowledgments.pop
+      ~Acknowledgments.remove
+      ~Acknowledgments.reverse
+      ~Acknowledgments.sort
+    
+    
+
+    
+    .. rubric:: Inheritance Diagram
+
+    .. inheritance-diagram:: ccd_diffusion.spie.Acknowledgments
+    

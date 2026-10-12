@@ -1,0 +1,6 @@
+same\_pixel\_ratio
+==================
+
+.. currentmodule:: ccd_diffusion.tracks
+
+.. autofunction:: ccd_diffusion.tracks.same_pixel_ratio

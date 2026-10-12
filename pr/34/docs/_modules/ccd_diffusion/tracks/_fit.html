@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ccd_diffusion.tracks._fit &#8212; ccd-diffusion-paper  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/browser.css?v=350d53bc" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
+
+    <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/ccd_diffusion/tracks/_fit';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../../../_static/browser.js?v=818e93a2"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">ccd-diffusion-paper  documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../browser.html">
+    Track browser
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../frames.html">
+    Frame gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reports/tracks.html">
+    Charge diffusion from glancing particle tracks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../_autosummary/ccd_diffusion.html">
+    ccd_diffusion
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/roytsmart/ccd-diffusion-paper" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../browser.html">
+    Track browser
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../frames.html">
+    Frame gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reports/tracks.html">
+    Charge diffusion from glancing particle tracks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../_autosummary/ccd_diffusion.html">
+    ccd_diffusion
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/roytsmart/ccd-diffusion-paper" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">ccd_diffusion.tracks._fit</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for ccd_diffusion.tracks._fit</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dataclasses</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">concurrent.futures</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.special</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">astropy.units</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">u</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">named_arrays</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">na</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ccd_diffusion</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._tracks</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">axis_slice</span><span class="p">,</span>
+    <span class="n">axis_pixel</span><span class="p">,</span>
+    <span class="n">half_width</span><span class="p">,</span>
+    <span class="n">width_pixel</span><span class="p">,</span>
+    <span class="n">thickness</span><span class="p">,</span>
+    <span class="n">Track</span><span class="p">,</span>
+    <span class="n">load</span><span class="p">,</span>
+    <span class="n">_directory_data</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._slab</span><span class="w"> </span><span class="kn">import</span> <span class="n">axis_mixture</span><span class="p">,</span> <span class="n">transit</span><span class="p">,</span> <span class="n">_misfit</span><span class="p">,</span> <span class="n">_erf_table</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"models"</span><span class="p">,</span>
+    <span class="s2">"axis_critical_depth"</span><span class="p">,</span>
+    <span class="s2">"axis_width_max"</span><span class="p">,</span>
+    <span class="s2">"axis_width_depleted"</span><span class="p">,</span>
+    <span class="s2">"axis_offset"</span><span class="p">,</span>
+    <span class="s2">"axis_tilt"</span><span class="p">,</span>
+    <span class="s2">"critical_depth"</span><span class="p">,</span>
+    <span class="s2">"critical_depth_maximum"</span><span class="p">,</span>
+    <span class="s2">"width_max"</span><span class="p">,</span>
+    <span class="s2">"width_depleted"</span><span class="p">,</span>
+    <span class="s2">"offset"</span><span class="p">,</span>
+    <span class="s2">"tilt"</span><span class="p">,</span>
+    <span class="s2">"width"</span><span class="p">,</span>
+    <span class="s2">"cloud"</span><span class="p">,</span>
+    <span class="s2">"fractions"</span><span class="p">,</span>
+    <span class="s2">"loss"</span><span class="p">,</span>
+    <span class="s2">"table"</span><span class="p">,</span>
+    <span class="s2">"Fit"</span><span class="p">,</span>
+    <span class="s2">"Scan"</span><span class="p">,</span>
+    <span class="s2">"scan"</span><span class="p">,</span>
+    <span class="s2">"fit"</span><span class="p">,</span>
+    <span class="s2">"fit_all"</span><span class="p">,</span>
+    <span class="s2">"fits"</span><span class="p">,</span>
+    <span class="s2">"save"</span><span class="p">,</span>
+    <span class="s2">"join_fits"</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">models</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"slab"</span><span class="p">,</span> <span class="s2">"gaussian"</span><span class="p">,</span> <span class="s2">"gaussian_quadratic"</span><span class="p">,</span> <span class="s2">"slab_tied"</span><span class="p">)</span>
+<span class="sd">"""</span>
+<span class="sd">The models of the charge cloud fit to every track.</span>
+
+<span class="sd">In each, the cloud of charge created in the field-free layer has a</span>
+<span class="sd">variance which falls from :math:`\\sigma_\\text{max}^2` at the back surface</span>
+<span class="sd">to zero at :math:`t_c`, plus the spread :math:`\\sigma_d^2 \\, g(t)` of the</span>
+<span class="sd">depletion region.</span>
+
+<span class="sd">``slab``</span>
+<span class="sd">    The model of the article: the cloud of charge that diffuses until it</span>
+<span class="sd">    reaches the depletion region and is reflected at the back surface, a</span>
+<span class="sd">    mixture of Gaussians whose variance falls as :math:`1 - (t / t_c)^2`.</span>
+<span class="sd">``gaussian``</span>
+<span class="sd">    The model the article compares it with: a single Gaussian whose</span>
+<span class="sd">    variance falls as :math:`1 - t / t_c`.</span>
+<span class="sd">``gaussian_quadratic``</span>
+<span class="sd">    A single Gaussian with the variance of the slab model, which separates</span>
+<span class="sd">    the shape of the cloud from the way its width falls with depth.</span>
+<span class="sd">``slab_tied``</span>
+<span class="sd">    The slab model with :math:`\\sigma_\\text{max}` tied to the thickness</span>
+<span class="sd">    of the field-free layer, :math:`t_c D`, as the physics of the slab has</span>
+<span class="sd">    it for a sensor of the nominal thickness :math:`D`, which leaves</span>
+<span class="sd">    :math:`t_c` the only parameter of each track.</span>
+
+<span class="sd">The last two are compared with the others in the documentation.</span>
+<span class="sd">"""</span>
+
+<span class="n">_shape</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">slab</span><span class="o">=</span><span class="s2">"slab"</span><span class="p">,</span>
+    <span class="n">gaussian</span><span class="o">=</span><span class="s2">"gaussian"</span><span class="p">,</span>
+    <span class="n">gaussian_quadratic</span><span class="o">=</span><span class="s2">"gaussian"</span><span class="p">,</span>
+    <span class="n">slab_tied</span><span class="o">=</span><span class="s2">"slab"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="sd">"""The shape of the cloud of each model, a mixture of Gaussians or a single one."""</span>
+
+<span class="n">_quadratic</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">slab</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">gaussian</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">gaussian_quadratic</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">slab_tied</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="sd">"""Whether the variance of each model falls as :math:`1 - (t / t_c)^2` rather than :math:`1 - t / t_c`."""</span>
+
+<span class="n">_tied</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">slab</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">gaussian</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">gaussian_quadratic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">slab_tied</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="sd">"""Whether each model ties :math:`\\sigma_\\text{max}` to :math:`t_c D`."""</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_check</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Raise an error unless the given model is one of :data:`models`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model</span>
+<span class="sd">        The name of the model.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">model</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"unknown model </span><span class="si">{</span><span class="n">model</span><span class="si">!r}</span><span class="s2">, expected one of </span><span class="si">{</span><span class="n">models</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+
+<span class="n">axis_critical_depth</span> <span class="o">=</span> <span class="s2">"critical_depth"</span>
+<span class="sd">"""The logical axis of the grid of fractional field-free thicknesses."""</span>
+
+<span class="n">axis_width_max</span> <span class="o">=</span> <span class="s2">"width_max"</span>
+<span class="sd">"""The logical axis of the grid of back-surface diffusion widths."""</span>
+
+<span class="n">axis_width_depleted</span> <span class="o">=</span> <span class="s2">"width_depleted"</span>
+<span class="sd">"""The logical axis of the grid of spreads acquired inside the depletion region."""</span>
+
+<span class="n">axis_offset</span> <span class="o">=</span> <span class="s2">"offset"</span>
+<span class="sd">"""The logical axis of the grid of centerline offsets."""</span>
+
+<span class="n">axis_tilt</span> <span class="o">=</span> <span class="s2">"tilt"</span>
+<span class="sd">"""The logical axis of the grid of centerline tilt corrections."""</span>
+
+<span class="n">_axis_orientation</span> <span class="o">=</span> <span class="s2">"orientation"</span>
+<span class="sd">"""The logical axis of the two orientations of a track, entering at its first slice or its last."""</span>
+
+<span class="n">critical_depth</span> <span class="o">=</span> <span class="n">na</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis_critical_depth</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">21</span><span class="p">)</span>
+<span class="sd">"""</span>
+<span class="sd">The grid of fractional field-free thicknesses, :math:`t_c = z_f / D`,</span>
+<span class="sd">searched by :func:`scan`.</span>
+<span class="sd">"""</span>
+
+<span class="n">width_max</span> <span class="o">=</span> <span class="n">na</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis_width_max</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">21</span><span class="p">)</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span>
+<span class="sd">"""The grid of back-surface diffusion widths, :math:`\\sigma_\\text{max}`, searched by :func:`scan`."""</span>
+
+<span class="n">width_depleted</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">na</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis_width_depleted</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">16</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span>
+<span class="p">)</span>
+<span class="sd">"""</span>
+<span class="sd">The grid of spreads acquired crossing the full depletion region,</span>
+<span class="sd">:math:`\\sigma_d`, searched by :func:`scan`: 0 to 1.5 micrometers in steps</span>
+<span class="sd">of 0.1, rounded so that a grid value read back from the data files</span>
+<span class="sd">compares equal. The pooled misfit of every CCD has its minimum near 0.75</span>
+<span class="sd">and climbs steeply on both sides, so the grid covers the answer with room</span>
+<span class="sd">to spare, and the step sets the resolution of the pooled value.</span>
+
+<span class="sd">Unlike :math:`t_c` and :math:`\\sigma_\\text{max}`, which are fit to each</span>
+<span class="sd">track, :math:`\\sigma_d` is a property of the drift field and is shared by</span>
+<span class="sd">every track on a CCD, so :func:`fit_all` chooses one value per CCD by</span>
+<span class="sd">pooling the misfit of its tracks.</span>
+<span class="sd">"""</span>
+
+<span class="n">_grid_width_depleted</span> <span class="o">=</span> <span class="n">width_depleted</span>
+<span class="sd">"""An alias of :data:`width_depleted` for methods whose parameters shadow it."""</span>
+
+<span class="n">critical_depth_maximum</span> <span class="o">=</span> <span class="mf">0.7</span>
+<span class="sd">"""The largest fitted :math:`t_c` for which a track counts as having crossed the sensor."""</span>
+
+<span class="n">offset</span> <span class="o">=</span> <span class="n">na</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis_offset</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="sd">"""The grid of centerline offsets (in pixels) marginalized over by :func:`scan`."""</span>
+
+<span class="n">tilt</span> <span class="o">=</span> <span class="n">na</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis_tilt</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="sd">"""The grid of centerline tilt corrections (in pixels per slice) marginalized over by :func:`scan`."""</span>
+
+<span class="n">_interval</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="sd">"""</span>
+<span class="sd">How far above the least misfit a grid point may lie and still count toward</span>
+<span class="sd">the range of :math:`t_c` and :math:`\\sigma_\\text{max}` a track allows.</span>
+<span class="sd">"""</span>
+
+<span class="n">_edges</span> <span class="o">=</span> <span class="n">na</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">half_width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">half_width</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis_pixel</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span>
+<span class="sd">"""The pixel boundaries across the track, in pixels from the central pixel."""</span>
+
+
+<div class="viewcode-block" id="width">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.width.html#ccd_diffusion.tracks.width">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">width</span><span class="p">(</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">,</span>
+    <span class="n">critical_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">,</span>
+    <span class="n">width_max</span><span class="p">:</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span> <span class="o">|</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">,</span>
+    <span class="n">width_depleted</span><span class="p">:</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span> <span class="o">|</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"slab"</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The standard deviation of the charge cloud, in pixels, for charge</span>
+<span class="sd">    deposited at the given fractional depth.</span>
+
+<span class="sd">    The variance is</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \\sigma^2(t) = \\sigma_\\text{max}^2 \\, w(t / t_c)</span>
+<span class="sd">        + \\sigma_d^2 \\, g(t),</span>
+
+<span class="sd">    where the first term applies only in the field-free layer, :math:`t &lt;</span>
+<span class="sd">    t_c`, with :math:`w(x) = 1 - x^2` in the slab model and :math:`1 - x`</span>
+<span class="sd">    in the Gaussian model (see :data:`models`), and :math:`g = 1` there,</span>
+<span class="sd">    since that charge drifts across the full depleted thickness, falling</span>
+<span class="sd">    linearly to zero at the gates, :math:`g = \\min[(1 - t) / (1 - t_c), 1]`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    depth</span>
+<span class="sd">        The fractional depth below the back surface, :math:`t = z / D`.</span>
+<span class="sd">    critical_depth</span>
+<span class="sd">        The fractional thickness of the field-free region, :math:`t_c`.</span>
+<span class="sd">    width_max</span>
+<span class="sd">        The width of the charge cloud at the back surface,</span>
+<span class="sd">        :math:`\\sigma_\\text{max}`.</span>
+<span class="sd">    width_depleted</span>
+<span class="sd">        The spread acquired crossing the full depletion region,</span>
+<span class="sd">        :math:`\\sigma_d`, zero in the field-free model.</span>
+<span class="sd">    model</span>
+<span class="sd">        One of :data:`models`.</span>
+<span class="sd">    """</span>
+    <span class="n">_check</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">tc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">critical_depth</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">depth</span> <span class="o">/</span> <span class="n">tc</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="n">_quadratic</span><span class="p">[</span><span class="n">model</span><span class="p">]</span> <span class="k">else</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">x</span>
+    <span class="n">wedge</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">depth</span> <span class="o">&lt;</span> <span class="n">critical_depth</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">field_free</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">width_max</span><span class="p">)</span> <span class="o">*</span> <span class="n">wedge</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">_depletion</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">critical_depth</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">field_free</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">width_depleted</span><span class="p">)</span> <span class="o">*</span> <span class="n">g</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">result</span> <span class="o">/</span> <span class="n">width_pixel</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span><span class="p">)</span><span class="o">.</span><span class="n">value</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_depletion</span><span class="p">(</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">,</span>
+    <span class="n">critical_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The fraction of the depletion region crossed by charge deposited at the</span>
+<span class="sd">    given fractional depth, :math:`g(t)`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    depth</span>
+<span class="sd">        The fractional depth below the back surface.</span>
+<span class="sd">    critical_depth</span>
+<span class="sd">        The fractional thickness of the field-free region.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">depth</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">critical_depth</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="cloud">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.cloud.html#ccd_diffusion.tracks.cloud">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cloud</span><span class="p">(</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">,</span>
+    <span class="n">critical_depth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">,</span>
+    <span class="n">width_max</span><span class="p">:</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span> <span class="o">|</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">,</span>
+    <span class="n">width_depleted</span><span class="p">:</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span> <span class="o">|</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"slab"</span><span class="p">,</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">axis_mixture</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">,</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The charge cloud of charge deposited at the given fractional depth as a</span>
+<span class="sd">    mixture of Gaussians: the standard deviation of each Gaussian, in</span>
+<span class="sd">    pixels, and its weight.</span>
+
+<span class="sd">    A Gaussian model is a mixture of one Gaussian, whose standard deviation</span>
+<span class="sd">    is :func:`width`.</span>
+<span class="sd">    A slab model is the mixture of</span>
+<span class="sd">    :class:`optika.sensors.diffusion.SlabDiffusionModel` for a field-free</span>
+<span class="sd">    layer of thickness :math:`\\sigma_\\text{max}`, a fraction</span>
+<span class="sd">    :math:`t / t_c` of the way across it, with the spread of the depletion</span>
+<span class="sd">    region added to every Gaussian.</span>
+<span class="sd">    Its variance is that of :func:`width`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    depth</span>
+<span class="sd">        The fractional depth below the back surface, :math:`t = z / D`.</span>
+<span class="sd">    critical_depth</span>
+<span class="sd">        The fractional thickness of the field-free region, :math:`t_c`.</span>
+<span class="sd">    width_max</span>
+<span class="sd">        The width of the charge cloud at the back surface,</span>
+<span class="sd">        :math:`\\sigma_\\text{max}`.</span>
+<span class="sd">    width_depleted</span>
+<span class="sd">        The spread acquired crossing the full depletion region,</span>
+<span class="sd">        :math:`\\sigma_d`.</span>
+<span class="sd">    model</span>
+<span class="sd">        One of :data:`models`.</span>
+<span class="sd">    axis</span>
+<span class="sd">        The logical axis of the Gaussians.</span>
+<span class="sd">    """</span>
+    <span class="n">_check</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">_shape</span><span class="p">[</span><span class="n">model</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"gaussian"</span><span class="p">:</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">width</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">critical_depth</span><span class="p">,</span> <span class="n">width_max</span><span class="p">,</span> <span class="n">width_depleted</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">w</span><span class="o">.</span><span class="n">add_axes</span><span class="p">(</span><span class="n">axis</span><span class="p">),</span> <span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">axes</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">tc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">critical_depth</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
+    <span class="n">fraction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">depth</span> <span class="o">&lt;</span> <span class="n">critical_depth</span><span class="p">,</span> <span class="n">depth</span> <span class="o">/</span> <span class="n">tc</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">variance</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="n">transit</span><span class="p">(</span><span class="n">fraction</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+    <span class="n">variance</span> <span class="o">=</span> <span class="n">variance</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">width_max</span><span class="p">)</span>
+    <span class="n">variance</span> <span class="o">=</span> <span class="n">variance</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">width_depleted</span><span class="p">)</span> <span class="o">*</span> <span class="n">_depletion</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">critical_depth</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">variance</span><span class="p">)</span> <span class="o">/</span> <span class="n">width_pixel</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">weight</span></div>
+
+
+
+<div class="viewcode-block" id="fractions">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.fractions.html#ccd_diffusion.tracks.fractions">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fractions</span><span class="p">(</span>
+    <span class="n">position</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">,</span>
+    <span class="n">slope</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The fraction of each slice's charge expected in each of the</span>
+<span class="sd">    :math:`2 h + 1` pixels across the track.</span>
+
+<span class="sd">    The charge deposited in a slice is spread uniformly along the tilted</span>
+<span class="sd">    centerline and diffuses as a Gaussian of the given width, or as a</span>
+<span class="sd">    mixture of such Gaussians, each of which is approximated by a Gaussian</span>
+<span class="sd">    of variance :math:`\\sigma^2 + m^2 / 12`, where :math:`m` is the slope</span>
+<span class="sd">    of the centerline.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    position</span>
+<span class="sd">        The centerline position of each slice in pixels from the central pixel.</span>
+<span class="sd">    width</span>
+<span class="sd">        The standard deviation of the charge cloud in pixels, or of each</span>
+<span class="sd">        Gaussian of the mixture along ``axis``.</span>
+<span class="sd">    slope</span>
+<span class="sd">        The tilt of the centerline in pixels per slice.</span>
+<span class="sd">    weight</span>
+<span class="sd">        The weight of each Gaussian of the mixture along ``axis``.</span>
+<span class="sd">    axis</span>
+<span class="sd">        The logical axis of the Gaussians of a mixture, :obj:`None` if the</span>
+<span class="sd">        cloud is a single Gaussian.</span>
+<span class="sd">    """</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">slope</span><span class="p">)</span> <span class="o">/</span> <span class="mi">12</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">_edges</span> <span class="o">-</span> <span class="n">position</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">s</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">cdf</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">erf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">cdf</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis_pixel</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">weight</span> <span class="o">*</span> <span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis_pixel</span><span class="p">),</span> <span class="mf">1e-9</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="loss">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.loss.html#ccd_diffusion.tracks.loss">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">loss</span><span class="p">(</span>
+    <span class="n">track</span><span class="p">:</span> <span class="n">Track</span><span class="p">,</span>
+    <span class="n">position</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    A robust misfit between the observed and modeled charge fractions,</span>
+<span class="sd">    :math:`\\sum \\ln(1 + r^2 / 2)`, where :math:`r` is the residual in</span>
+<span class="sd">    units of the read noise.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    track</span>
+<span class="sd">        The track to compare against.</span>
+<span class="sd">    position</span>
+<span class="sd">        The centerline position of each slice in pixels from the central pixel.</span>
+<span class="sd">    width</span>
+<span class="sd">        The standard deviation of the charge cloud in pixels, or of each</span>
+<span class="sd">        Gaussian of the mixture along ``axis``.</span>
+<span class="sd">    weight</span>
+<span class="sd">        The weight of each Gaussian of the mixture along ``axis``.</span>
+<span class="sd">    axis</span>
+<span class="sd">        The logical axis of the Gaussians of a mixture, :obj:`None` if the</span>
+<span class="sd">        cloud is a single Gaussian.</span>
+<span class="sd">    """</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">fractions</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">track</span><span class="o">.</span><span class="n">slope</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+    <span class="n">residual</span> <span class="o">=</span> <span class="p">(</span><span class="n">track</span><span class="o">.</span><span class="n">fraction</span> <span class="o">-</span> <span class="n">q</span><span class="p">)</span> <span class="o">/</span> <span class="n">track</span><span class="o">.</span><span class="n">error</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">residual</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">axis_slice</span><span class="p">,</span> <span class="n">axis_pixel</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="Fit">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.Fit.html#ccd_diffusion.tracks.Fit">[docs]</a>
+<span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Fit</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The result of fitting a model of the charge cloud to a single track."""</span>
+
+    <span class="n">track</span><span class="p">:</span> <span class="n">Track</span>
+<span class="w">    </span><span class="sd">"""The track that was fit."""</span>
+
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""The model of the charge cloud, one of :data:`models`."""</span>
+
+    <span class="n">width_depleted</span><span class="p">:</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span>
+<span class="w">    </span><span class="sd">"""The spread inside the depletion region, :math:`\\sigma_d`, shared by every track on the CCD."""</span>
+
+    <span class="n">orientation</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">    </span><span class="sd">"""``+1`` if the track enters the back surface at its first slice, ``-1`` if at its last."""</span>
+
+    <span class="n">critical_depth</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">"""The best-fit fractional thickness of the field-free region, :math:`t_c`."""</span>
+
+    <span class="n">width_max</span><span class="p">:</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span>
+<span class="w">    </span><span class="sd">"""The best-fit width of the charge cloud at the back surface."""</span>
+
+    <span class="n">offset</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">"""The best-fit centerline offset in pixels."""</span>
+
+    <span class="n">tilt</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">"""The best-fit centerline tilt correction in pixels per slice."""</span>
+
+    <span class="n">misfit</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">"""The :func:`loss` of the best fit."""</span>
+
+    <span class="n">gain</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">"""The decrease in :func:`loss` relative to a model with no diffusion at all."""</span>
+
+    <span class="n">critical_depth_min</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">"""The smallest :math:`t_c` within two units of :func:`loss` of the best fit."""</span>
+
+    <span class="n">critical_depth_max</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">    </span><span class="sd">"""The largest :math:`t_c` within two units of :func:`loss` of the best fit."""</span>
+
+    <span class="n">width_max_min</span><span class="p">:</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span>
+<span class="w">    </span><span class="sd">"""The smallest :math:`\\sigma_\\text{max}` within two units of :func:`loss` of the best fit."""</span>
+
+    <span class="n">width_max_max</span><span class="p">:</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span>
+<span class="w">    </span><span class="sd">"""The largest :math:`\\sigma_\\text{max}` within two units of :func:`loss` of the best fit."""</span>
+
+    <span class="n">width_depleted_preferred</span><span class="p">:</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span>
+<span class="w">    </span><span class="sd">"""The :math:`\\sigma_d` this track prefers on its own, ignoring the other tracks on the CCD."""</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">depth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The fractional depth of each slice, accounting for :attr:`orientation`."""</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">depth</span>
+        <span class="k">return</span> <span class="n">t</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">orientation</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">t</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The best-fit centerline position of each slice."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">position</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tilt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">index</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">width</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The best-fit standard deviation of the charge cloud of each slice in pixels."""</span>
+        <span class="k">return</span> <span class="n">width</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">critical_depth</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">width_max</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">width_depleted</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">predicted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The fraction of each slice's charge the best fit puts in each pixel."""</span>
+        <span class="n">w</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="n">cloud</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">critical_depth</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">width_max</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">width_depleted</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">fractions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">slope</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">axis_mixture</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tight</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Whether the track constrains :math:`t_c` to within 0.15."""</span>
+        <span class="n">gain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gain</span> <span class="o">&gt;</span> <span class="mi">10</span>
+        <span class="n">interval</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">critical_depth_max</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">critical_depth_min</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">0.15</span> <span class="o">+</span> <span class="mf">1e-6</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">gain</span> <span class="ow">and</span> <span class="n">interval</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bragg</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The ratio of the median charge per slice in the last third to that in the first third."""</span>
+        <span class="n">signal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="n">third</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span> <span class="o">//</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">signal</span><span class="p">[:</span><span class="n">third</span><span class="p">])</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="o">-</span><span class="n">third</span><span class="p">:])</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="nb">min</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">crossing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Whether the fit found a depleted end, :math:`t_c \\le` :data:`critical_depth_maximum`.</span>
+
+<span class="sd">        A particle that crossed the full thickness of the sensor is</span>
+<span class="sd">        pixel-sharp where it left through the gates. A feature that is wide</span>
+<span class="sd">        from end to end, which the fit describes with :math:`t_c` near one,</span>
+<span class="sd">        is not such a track: on the slit-jaw imager it is usually a spicule</span>
+<span class="sd">        or other structure at the limb that the mask let through.</span>
+<span class="sd">        """</span>
+        <span class="c1"># the grid point at 0.7 is a hair above 0.7 in binary, while a saved</span>
+        <span class="c1"># fit holds it rounded, so the boundary needs a tolerance to agree</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">critical_depth</span> <span class="o">&lt;=</span> <span class="n">critical_depth_maximum</span> <span class="o">+</span> <span class="mf">1e-6</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">flat</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Whether the track is :attr:`tight`, has no Bragg rise along its</span>
+<span class="sd">        length, and is :attr:`crossing`.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tight</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bragg</span> <span class="o">&lt;</span> <span class="mf">1.5</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">crossing</span></div>
+
+
+
+<div class="viewcode-block" id="Scan">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan">[docs]</a>
+<span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Scan</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The fit of a single track at every :math:`\\sigma_d` on the grid</span>
+<span class="sd">    :data:`width_depleted`.</span>
+
+<span class="sd">    Every attribute below :attr:`model` is an array over</span>
+<span class="sd">    :data:`axis_width_depleted`, holding the corresponding attribute of the</span>
+<span class="sd">    :class:`Fit` at that :math:`\\sigma_d`.</span>
+<span class="sd">    """</span>
+
+    <span class="n">track</span><span class="p">:</span> <span class="n">Track</span>
+<span class="w">    </span><span class="sd">"""The track that was fit."""</span>
+
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""The model of the charge cloud, one of :data:`models`."""</span>
+
+    <span class="n">misfit</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+<span class="w">    </span><span class="sd">"""The smallest :func:`loss` at each :math:`\\sigma_d`."""</span>
+
+    <span class="n">orientation</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+    <span class="n">critical_depth</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+    <span class="n">width_max</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+    <span class="n">offset</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+    <span class="n">tilt</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+    <span class="n">gain</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+    <span class="n">critical_depth_min</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+    <span class="n">critical_depth_max</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+    <span class="n">width_max_min</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+    <span class="n">width_max_max</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preferred</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The :math:`\\sigma_d` which minimizes :attr:`misfit`."""</span>
+        <span class="n">grid</span> <span class="o">=</span> <span class="n">_grid_width_depleted</span>
+        <span class="k">return</span> <span class="n">grid</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">misfit</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis_width_depleted</span><span class="p">)]</span><span class="o">.</span><span class="n">ndarray</span>
+
+<div class="viewcode-block" id="Scan.at">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.Scan.html#ccd_diffusion.tracks.Scan.at">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width_depleted</span><span class="p">:</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fit</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        The fit at the grid point nearest the given :math:`\\sigma_d`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        width_depleted</span>
+<span class="sd">            The spread inside the depletion region.</span>
+<span class="sd">        """</span>
+        <span class="n">grid</span> <span class="o">=</span> <span class="n">_grid_width_depleted</span>
+        <span class="n">nearest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">grid</span> <span class="o">-</span> <span class="n">width_depleted</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis_width_depleted</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="p">{</span><span class="n">axis_width_depleted</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">nearest</span><span class="p">[</span><span class="n">axis_width_depleted</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)}</span>
+        <span class="k">return</span> <span class="n">Fit</span><span class="p">(</span>
+            <span class="n">track</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">track</span><span class="p">,</span>
+            <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">width_depleted</span><span class="o">=</span><span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+            <span class="n">orientation</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orientation</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span>
+            <span class="n">critical_depth</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">critical_depth</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span>
+            <span class="n">width_max</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">width_max</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+            <span class="n">offset</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span>
+            <span class="n">tilt</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tilt</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span>
+            <span class="n">misfit</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">misfit</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span>
+            <span class="n">gain</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span>
+            <span class="n">critical_depth_min</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">critical_depth_min</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span>
+            <span class="n">critical_depth_max</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">critical_depth_max</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span>
+            <span class="n">width_max_min</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">width_max_min</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+            <span class="n">width_max_max</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">width_max_max</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+            <span class="n">width_depleted_preferred</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">preferred</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<span class="n">_width_step</span> <span class="o">=</span> <span class="mf">0.00125</span>
+<span class="sd">"""The spacing, in pixels, of the widths tabulated by :func:`table`."""</span>
+
+<span class="n">_width_table</span> <span class="o">=</span> <span class="n">na</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">"table"</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="nb">round</span><span class="p">(</span><span class="mf">0.85</span> <span class="o">/</span> <span class="n">_width_step</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="sd">"""</span>
+<span class="sd">The widths, in pixels, tabulated by :func:`table`, which reach past the</span>
+<span class="sd">widest model on the grids, :math:`\\sqrt{\\sigma_\\text{max}^2 + \\sigma_d^2}`</span>
+<span class="sd">at 13 :math:`\\mu`m pixels.</span>
+<span class="sd">"""</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">table</span><span class="p">(</span><span class="n">track</span><span class="p">:</span> <span class="n">Track</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The misfit of each slice of a track, on the nuisance grid of</span>
+<span class="sd">    :data:`offset` and :data:`tilt` and a fine grid of widths.</span>
+
+<span class="sd">    The misfit of the Gaussian model is the sum over slices of this table,</span>
+<span class="sd">    since each slice contributes through its centerline position and its</span>
+<span class="sd">    width alone, so :func:`scan` assembles every Gaussian model on its grids</span>
+<span class="sd">    from one table instead of evaluating :func:`loss` afresh.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    track</span>
+<span class="sd">        The track to tabulate.</span>
+<span class="sd">    """</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">position</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">tilt</span> <span class="o">*</span> <span class="n">track</span><span class="o">.</span><span class="n">index</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">fractions</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">_width_table</span><span class="p">,</span> <span class="n">track</span><span class="o">.</span><span class="n">slope</span><span class="p">)</span>
+    <span class="n">residual</span> <span class="o">=</span> <span class="p">(</span><span class="n">track</span><span class="o">.</span><span class="n">fraction</span> <span class="o">-</span> <span class="n">q</span><span class="p">)</span> <span class="o">/</span> <span class="n">track</span><span class="o">.</span><span class="n">error</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">residual</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis_pixel</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_grid_width_max</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The values of :math:`\\sigma_\\text{max}` searched for the given model,</span>
+<span class="sd">    with axes ``(critical_depth, width_max)``: the grid :data:`width_max` at</span>
+<span class="sd">    every :math:`t_c`, or :math:`t_c D` alone if the model ties the two.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model</span>
+<span class="sd">        One of :data:`models`.</span>
+<span class="sd">    """</span>
+    <span class="n">_check</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">_tied</span><span class="p">[</span><span class="n">model</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">critical_depth</span> <span class="o">*</span> <span class="n">thickness</span><span class="p">)</span><span class="o">.</span><span class="n">add_axes</span><span class="p">(</span><span class="n">axis_width_max</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">width_max</span> <span class="o">+</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">critical_depth</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_misfit_gaussian</span><span class="p">(</span><span class="n">track</span><span class="p">:</span> <span class="n">Track</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"gaussian"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The misfit of a Gaussian model to a track at every point of its grids</span>
+<span class="sd">    and of the nuisance grid, assembled from the :func:`table` of the track,</span>
+<span class="sd">    interpolated linearly in width.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    track</span>
+<span class="sd">        The track to fit.</span>
+<span class="sd">    model</span>
+<span class="sd">        One of the models of :data:`models` whose cloud is a single</span>
+<span class="sd">        Gaussian.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">_shape</span><span class="p">[</span><span class="n">model</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">"gaussian"</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"the cloud of the </span><span class="si">{</span><span class="n">model</span><span class="si">!r}</span><span class="s2"> model is not a Gaussian"</span><span class="p">)</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">_grid_width_max</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">misfit_slice</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="n">track</span><span class="p">)</span>
+    <span class="n">depth</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">depth</span>
+    <span class="n">index_slice</span> <span class="o">=</span> <span class="n">na</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">track</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis_slice</span><span class="p">)</span>
+    <span class="n">last</span> <span class="o">=</span> <span class="n">_width_table</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">2</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">orientation</span> <span class="ow">in</span> <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">depth</span> <span class="k">if</span> <span class="n">orientation</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">depth</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">tc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">critical_depth</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">sm</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[{</span><span class="n">axis_critical_depth</span><span class="p">:</span> <span class="n">a</span><span class="p">}]</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">width</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">tc</span><span class="p">,</span> <span class="n">sm</span><span class="p">,</span> <span class="n">width_depleted</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span> <span class="o">/</span> <span class="n">_width_step</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">w</span><span class="p">),</span> <span class="n">last</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="n">weight</span> <span class="o">=</span> <span class="n">w</span> <span class="o">-</span> <span class="n">k</span>
+            <span class="n">lo</span> <span class="o">=</span> <span class="n">misfit_slice</span><span class="p">[{</span><span class="n">axis_slice</span><span class="p">:</span> <span class="n">index_slice</span><span class="p">,</span> <span class="s2">"table"</span><span class="p">:</span> <span class="n">k</span><span class="p">}]</span>
+            <span class="n">hi</span> <span class="o">=</span> <span class="n">misfit_slice</span><span class="p">[{</span><span class="n">axis_slice</span><span class="p">:</span> <span class="n">index_slice</span><span class="p">,</span> <span class="s2">"table"</span><span class="p">:</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}]</span>
+            <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">lo</span> <span class="o">+</span> <span class="n">weight</span> <span class="o">*</span> <span class="p">(</span><span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis_slice</span><span class="p">))</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">na</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis_critical_depth</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">na</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">_axis_orientation</span><span class="p">)</span>
+
+
+<span class="n">_axes_model</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">_axis_orientation</span><span class="p">,</span>
+    <span class="n">axis_critical_depth</span><span class="p">,</span>
+    <span class="n">axis_width_max</span><span class="p">,</span>
+    <span class="n">axis_width_depleted</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="sd">"""The axes of the grid of models searched by :func:`scan`, in order."""</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_misfit_slab</span><span class="p">(</span>
+    <span class="n">track</span><span class="p">:</span> <span class="n">Track</span><span class="p">,</span>
+    <span class="n">center</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">],</span>
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"slab"</span><span class="p">,</span>
+    <span class="n">prune</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The misfit of a slab model to a track at every point of its grids,</span>
+<span class="sd">    minimized over every offset and tilt of the nuisance grid, and the index</span>
+<span class="sd">    of the best offset and tilt.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    track</span>
+<span class="sd">        The track to fit.</span>
+<span class="sd">    center</span>
+<span class="sd">        The index of the offset and of the tilt the search starts from at</span>
+<span class="sd">        each grid point, with the axes of :data:`_axes_model`.</span>
+<span class="sd">    model</span>
+<span class="sd">        One of the models of :data:`models` whose cloud is that of the slab.</span>
+<span class="sd">    prune</span>
+<span class="sd">        Whether to abandon a centerline once its partial sum over the slices</span>
+<span class="sd">        exceeds the least misfit found so far, which changes nothing but the</span>
+<span class="sd">        cost.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">_shape</span><span class="p">[</span><span class="n">model</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">"slab"</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"the cloud of the </span><span class="si">{</span><span class="n">model</span><span class="si">!r}</span><span class="s2"> model is not the slab's"</span><span class="p">)</span>
+    <span class="n">tc</span> <span class="o">=</span> <span class="n">critical_depth</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">track</span><span class="o">.</span><span class="n">depth</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">track</span><span class="o">.</span><span class="n">depth</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">tc</span> <span class="o">=</span> <span class="n">tc</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+    <span class="n">field_free</span> <span class="o">=</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">tc</span>
+    <span class="n">fraction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">field_free</span><span class="p">,</span> <span class="n">t</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">tc</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">axes</span> <span class="o">=</span> <span class="p">(</span><span class="n">_axis_orientation</span><span class="p">,</span> <span class="n">axis_critical_depth</span><span class="p">,</span> <span class="n">axis_slice</span><span class="p">)</span>
+    <span class="n">variance</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="n">transit</span><span class="p">(</span><span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span><span class="n">fraction</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">))</span>
+    <span class="n">variance</span> <span class="o">=</span> <span class="n">na</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span>
+        <span class="n">variance</span><span class="p">,</span>
+        <span class="p">{</span>
+            <span class="n">_axis_orientation</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">axis_critical_depth</span><span class="p">:</span> <span class="n">critical_depth</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
+            <span class="n">axis_slice</span><span class="p">:</span> <span class="n">track</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+            <span class="n">axis_mixture</span><span class="p">:</span> <span class="n">weight</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">_grid_width_max</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">plain</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">,</span> <span class="n">axes</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">pixels</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">/</span> <span class="n">width_pixel</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">_axes_model</span><span class="p">)</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+
+    <span class="n">misfit</span><span class="p">,</span> <span class="n">best_offset</span><span class="p">,</span> <span class="n">best_tilt</span> <span class="o">=</span> <span class="n">_misfit</span><span class="p">(</span>
+        <span class="n">fraction</span><span class="o">=</span><span class="n">plain</span><span class="p">(</span><span class="n">track</span><span class="o">.</span><span class="n">fraction</span><span class="p">,</span> <span class="p">(</span><span class="n">axis_slice</span><span class="p">,</span> <span class="n">axis_pixel</span><span class="p">)),</span>
+        <span class="n">error</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">track</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+        <span class="n">position</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">track</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+        <span class="n">index</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">track</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+        <span class="n">blur</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">track</span><span class="o">.</span><span class="n">slope</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">12</span><span class="p">,</span>
+        <span class="n">field_free</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">field_free</span><span class="p">),</span>
+        <span class="n">variance</span><span class="o">=</span><span class="n">plain</span><span class="p">(</span><span class="n">variance</span><span class="p">,</span> <span class="n">axes</span> <span class="o">+</span> <span class="p">(</span><span class="n">axis_mixture</span><span class="p">,)),</span>
+        <span class="n">weight</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+        <span class="n">depletion</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">_depletion</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">tc</span><span class="p">)),</span>
+        <span class="n">width_max</span><span class="o">=</span><span class="n">plain</span><span class="p">(</span><span class="n">pixels</span><span class="p">(</span><span class="n">grid</span><span class="p">),</span> <span class="p">(</span><span class="n">axis_critical_depth</span><span class="p">,</span> <span class="n">axis_width_max</span><span class="p">)),</span>
+        <span class="n">width_depleted</span><span class="o">=</span><span class="n">plain</span><span class="p">(</span><span class="n">pixels</span><span class="p">(</span><span class="n">width_depleted</span><span class="p">),</span> <span class="p">(</span><span class="n">axis_width_depleted</span><span class="p">,)),</span>
+        <span class="n">offset</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">offset</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+        <span class="n">tilt</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">tilt</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+        <span class="n">center_offset</span><span class="o">=</span><span class="n">index</span><span class="p">(</span><span class="n">center</span><span class="p">[</span><span class="n">axis_offset</span><span class="p">]),</span>
+        <span class="n">center_tilt</span><span class="o">=</span><span class="n">index</span><span class="p">(</span><span class="n">center</span><span class="p">[</span><span class="n">axis_tilt</span><span class="p">]),</span>
+        <span class="n">margin</span><span class="o">=</span><span class="n">_interval</span><span class="p">,</span>
+        <span class="n">prune</span><span class="o">=</span><span class="n">prune</span><span class="p">,</span>
+        <span class="n">edges</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">_edges</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+        <span class="n">table</span><span class="o">=</span><span class="n">_erf_table</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">nuisance</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">axis_offset</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span><span class="n">best_offset</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="n">_axes_model</span><span class="p">),</span>
+        <span class="n">axis_tilt</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span><span class="n">best_tilt</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="n">_axes_model</span><span class="p">),</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">na</span><span class="o">.</span><span class="n">ScalarArray</span><span class="p">(</span><span class="n">misfit</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="n">_axes_model</span><span class="p">),</span> <span class="n">nuisance</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_summarize</span><span class="p">(</span>
+    <span class="n">track</span><span class="p">:</span> <span class="n">Track</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">misfit</span><span class="p">:</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">,</span>
+    <span class="n">nuisance</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scan</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    The fit at every :math:`\\sigma_d` from the misfit at every point of the</span>
+<span class="sd">    grids, minimized over the centerline.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    track</span>
+<span class="sd">        The track that was fit.</span>
+<span class="sd">    model</span>
+<span class="sd">        The model of the charge cloud.</span>
+<span class="sd">    misfit</span>
+<span class="sd">        The misfit at every point of the grids, with the axes of</span>
+<span class="sd">        :data:`_axes_model`.</span>
+<span class="sd">    nuisance</span>
+<span class="sd">        The index of the offset and of the tilt which minimize the misfit at</span>
+<span class="sd">        every point of the grids.</span>
+<span class="sd">    """</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">_grid_width_max</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">axes_model</span> <span class="o">=</span> <span class="p">(</span><span class="n">axis_critical_depth</span><span class="p">,</span> <span class="n">axis_width_max</span><span class="p">,</span> <span class="n">_axis_orientation</span><span class="p">)</span>
+    <span class="n">v_best</span> <span class="o">=</span> <span class="n">misfit</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axes_model</span><span class="p">)</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">misfit</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axes_model</span><span class="p">)</span>
+
+    <span class="n">v_none</span> <span class="o">=</span> <span class="n">misfit</span><span class="p">[</span>
+        <span class="p">{</span>
+            <span class="n">_axis_orientation</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">axis_critical_depth</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">axis_width_max</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">axis_width_depleted</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+
+    <span class="c1"># the range of each parameter over the grid points within the interval</span>
+    <span class="c1"># of the best fit</span>
+    <span class="n">ok</span> <span class="o">=</span> <span class="n">misfit</span> <span class="o">&lt;</span> <span class="n">v_best</span> <span class="o">+</span> <span class="n">_interval</span>
+    <span class="n">inf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span>
+
+    <span class="k">return</span> <span class="n">Scan</span><span class="p">(</span>
+        <span class="n">track</span><span class="o">=</span><span class="n">track</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">misfit</span><span class="o">=</span><span class="n">v_best</span><span class="p">,</span>
+        <span class="n">orientation</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">index</span><span class="p">[</span><span class="n">_axis_orientation</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">critical_depth</span><span class="o">=</span><span class="n">critical_depth</span><span class="p">[</span><span class="n">index</span><span class="p">],</span>
+        <span class="n">width_max</span><span class="o">=</span><span class="n">grid</span><span class="p">[</span><span class="n">index</span><span class="p">],</span>
+        <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">[{</span><span class="n">axis_offset</span><span class="p">:</span> <span class="n">nuisance</span><span class="p">[</span><span class="n">axis_offset</span><span class="p">][</span><span class="n">index</span><span class="p">]}],</span>
+        <span class="n">tilt</span><span class="o">=</span><span class="n">tilt</span><span class="p">[{</span><span class="n">axis_tilt</span><span class="p">:</span> <span class="n">nuisance</span><span class="p">[</span><span class="n">axis_tilt</span><span class="p">][</span><span class="n">index</span><span class="p">]}],</span>
+        <span class="n">gain</span><span class="o">=</span><span class="n">v_none</span> <span class="o">-</span> <span class="n">v_best</span><span class="p">,</span>
+        <span class="n">critical_depth_min</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ok</span><span class="p">,</span> <span class="n">critical_depth</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axes_model</span><span class="p">),</span>
+        <span class="n">critical_depth_max</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ok</span><span class="p">,</span> <span class="n">critical_depth</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axes_model</span><span class="p">),</span>
+        <span class="n">width_max_min</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ok</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">inf</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axes_model</span><span class="p">),</span>
+        <span class="n">width_max_max</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ok</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="o">-</span><span class="n">inf</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axes_model</span><span class="p">),</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_scan_gaussian</span><span class="p">(</span><span class="n">track</span><span class="p">:</span> <span class="n">Track</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"gaussian"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span>
+    <span class="n">Scan</span><span class="p">,</span>
+    <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">],</span>
+<span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Fit a Gaussian model to a single track at every :math:`\\sigma_d`, and</span>
+<span class="sd">    give the index of the offset and of the tilt which minimize its misfit at</span>
+<span class="sd">    every grid point.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    track</span>
+<span class="sd">        The track to fit.</span>
+<span class="sd">    model</span>
+<span class="sd">        One of the models of :data:`models` whose cloud is a single</span>
+<span class="sd">        Gaussian.</span>
+<span class="sd">    """</span>
+    <span class="n">misfit</span> <span class="o">=</span> <span class="n">_misfit_gaussian</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+    <span class="n">nuisance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">misfit</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="n">axis_offset</span><span class="p">,</span> <span class="n">axis_tilt</span><span class="p">))</span>
+    <span class="n">nuisance</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">:</span> <span class="n">nuisance</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">(</span><span class="n">axis_offset</span><span class="p">,</span> <span class="n">axis_tilt</span><span class="p">)}</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">_summarize</span><span class="p">(</span>
+        <span class="n">track</span><span class="o">=</span><span class="n">track</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">misfit</span><span class="o">=</span><span class="n">misfit</span><span class="o">.</span><span class="n">min</span><span class="p">((</span><span class="n">axis_offset</span><span class="p">,</span> <span class="n">axis_tilt</span><span class="p">)),</span>
+        <span class="n">nuisance</span><span class="o">=</span><span class="n">nuisance</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="n">nuisance</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_scan_slab</span><span class="p">(</span>
+    <span class="n">track</span><span class="p">:</span> <span class="n">Track</span><span class="p">,</span>
+    <span class="n">center</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">na</span><span class="o">.</span><span class="n">AbstractScalarArray</span><span class="p">],</span>
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"slab"</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scan</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Fit a slab model to a single track at every :math:`\\sigma_d`, starting</span>
+<span class="sd">    the search for the centerline at each grid point from that of the</span>
+<span class="sd">    Gaussian model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    track</span>
+<span class="sd">        The track to fit.</span>
+<span class="sd">    center</span>
+<span class="sd">        The index of the offset and of the tilt which minimize the misfit of</span>
+<span class="sd">        the Gaussian model at every grid point.</span>
+<span class="sd">    model</span>
+<span class="sd">        One of the models of :data:`models` whose cloud is that of the slab.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">_tied</span><span class="p">[</span><span class="n">model</span><span class="p">]:</span>
+        <span class="c1"># start from the Gaussian's centerline at the grid point of</span>
+        <span class="c1"># sigma_max nearest the tied value</span>
+        <span class="n">step</span> <span class="o">=</span> <span class="n">width_max</span><span class="p">[{</span><span class="n">axis_width_max</span><span class="p">:</span> <span class="mi">1</span><span class="p">}]</span> <span class="o">-</span> <span class="n">width_max</span><span class="p">[{</span><span class="n">axis_width_max</span><span class="p">:</span> <span class="mi">0</span><span class="p">}]</span>
+        <span class="n">tied</span> <span class="o">=</span> <span class="n">_grid_width_max</span><span class="p">(</span><span class="n">model</span><span class="p">)[{</span><span class="n">axis_width_max</span><span class="p">:</span> <span class="mi">0</span><span class="p">}]</span>
+        <span class="n">nearest</span> <span class="o">=</span> <span class="p">(</span><span class="n">tied</span> <span class="o">/</span> <span class="n">step</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">nearest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">rint</span><span class="p">(</span><span class="n">nearest</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width_max</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">:</span> <span class="n">n</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">center</span><span class="p">[</span><span class="n">axis_offset</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">del</span> <span class="n">shape</span><span class="p">[</span><span class="n">axis_width_max</span><span class="p">]</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">na</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="n">shape</span><span class="p">),</span> <span class="n">axis_width_max</span><span class="p">:</span> <span class="n">nearest</span><span class="p">}</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">:</span> <span class="n">c</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">add_axes</span><span class="p">(</span><span class="n">axis_width_max</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">center</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="n">misfit</span><span class="p">,</span> <span class="n">nuisance</span> <span class="o">=</span> <span class="n">_misfit_slab</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_summarize</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">misfit</span><span class="p">,</span> <span class="n">nuisance</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_scan_models</span><span class="p">(</span><span class="n">track</span><span class="p">:</span> <span class="n">Track</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Scan</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Fit every model of :data:`models` to a single track at every</span>
+<span class="sd">    :math:`\\sigma_d`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    track</span>
+<span class="sd">        The track to fit.</span>
+<span class="sd">    """</span>
+    <span class="n">gaussian</span><span class="p">,</span> <span class="n">center</span> <span class="o">=</span> <span class="n">_scan_gaussian</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="s2">"gaussian"</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">gaussian</span><span class="o">=</span><span class="n">gaussian</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">_shape</span><span class="p">[</span><span class="n">model</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"gaussian"</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">model</span><span class="p">],</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_scan_gaussian</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">model</span><span class="p">]</span> <span class="o">=</span> <span class="n">_scan_slab</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">model</span><span class="p">:</span> <span class="n">result</span><span class="p">[</span><span class="n">model</span><span class="p">]</span> <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="p">}</span>
+
+
+<div class="viewcode-block" id="scan">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.scan.html#ccd_diffusion.tracks.scan">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">scan</span><span class="p">(</span><span class="n">track</span><span class="p">:</span> <span class="n">Track</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"slab"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scan</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Fit a model of the charge cloud to a single track at every</span>
+<span class="sd">    :math:`\\sigma_d`.</span>
+
+<span class="sd">    The grid of :data:`critical_depth`, :data:`width_max` (or</span>
+<span class="sd">    :math:`\\sigma_\\text{max} = t_c D` for a model that ties the two),</span>
+<span class="sd">    :data:`width_depleted`, and both track orientations is searched</span>
+<span class="sd">    exhaustively, and at each grid point the :func:`loss` is minimized over</span>
+<span class="sd">    the nuisance grid of :data:`offset` and :data:`tilt`.</span>
+<span class="sd">    The misfit of a Gaussian model is assembled from the :func:`table` of</span>
+<span class="sd">    the track, interpolated linearly in width.</span>
+<span class="sd">    That of a slab model is computed afresh, starting from the centerline</span>
+<span class="sd">    the Gaussian model prefers at the same grid point and abandoning a</span>
+<span class="sd">    centerline as soon as its partial sum over the slices exceeds a bound,</span>
+<span class="sd">    which leaves the least misfit, and every misfit within two of it, as</span>
+<span class="sd">    they would be if every centerline were tried in full.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    track</span>
+<span class="sd">        The track to fit.</span>
+<span class="sd">    model</span>
+<span class="sd">        One of :data:`models`.</span>
+<span class="sd">    """</span>
+    <span class="n">_check</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">_shape</span><span class="p">[</span><span class="n">model</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"gaussian"</span><span class="p">:</span>
+        <span class="n">result</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_scan_gaussian</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">center</span> <span class="o">=</span> <span class="n">_scan_gaussian</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="s2">"gaussian"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_scan_slab</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="fit">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.fit.html#ccd_diffusion.tracks.fit">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span>
+    <span class="n">track</span><span class="p">:</span> <span class="n">Track</span><span class="p">,</span>
+    <span class="n">width_depleted</span><span class="p">:</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"slab"</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fit</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Fit a model of the charge cloud to a single track at a given</span>
+<span class="sd">    :math:`\\sigma_d`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    track</span>
+<span class="sd">        The track to fit.</span>
+<span class="sd">    width_depleted</span>
+<span class="sd">        The spread inside the depletion region, which is shared by every</span>
+<span class="sd">        track on a CCD and is chosen by :func:`fit_all`.</span>
+<span class="sd">    model</span>
+<span class="sd">        One of :data:`models`.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">scan</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="n">width_depleted</span><span class="p">)</span></div>
+
+
+
+<span class="n">_path_fits</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">_directory_data</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">"iris_fits</span><span class="si">{</span><span class="s1">''</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'slab'</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'_'</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">model</span><span class="si">}</span><span class="s2">.csv"</span>
+    <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span>
+<span class="p">}</span>
+<span class="sd">"""</span>
+<span class="sd">The files holding the result of :func:`fit_all` for every track, one per</span>
+<span class="sd">model, ``iris_fits.csv`` for the slab model of the article.</span>
+<span class="sd">"""</span>
+
+<span class="n">_fields_fits</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"name"</span><span class="p">,</span>
+    <span class="s2">"width_depleted"</span><span class="p">,</span>
+    <span class="s2">"orientation"</span><span class="p">,</span>
+    <span class="s2">"critical_depth"</span><span class="p">,</span>
+    <span class="s2">"width_max"</span><span class="p">,</span>
+    <span class="s2">"offset"</span><span class="p">,</span>
+    <span class="s2">"tilt"</span><span class="p">,</span>
+    <span class="s2">"misfit"</span><span class="p">,</span>
+    <span class="s2">"gain"</span><span class="p">,</span>
+    <span class="s2">"critical_depth_min"</span><span class="p">,</span>
+    <span class="s2">"critical_depth_max"</span><span class="p">,</span>
+    <span class="s2">"width_max_min"</span><span class="p">,</span>
+    <span class="s2">"width_max_max"</span><span class="p">,</span>
+    <span class="s2">"width_depleted_preferred"</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="fit_all">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.fit_all.html#ccd_diffusion.tracks.fit_all">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fit_all</span><span class="p">(</span>
+    <span class="n">tracks</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Track</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Fit</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="s2">"ccd_diffusion.tracks.Depleted"</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Fit every model of :data:`models` to every given track, using one</span>
+<span class="sd">    process per CPU, choosing one :math:`\\sigma_d` per CCD and model by</span>
+<span class="sd">    pooling the misfits of its flat tracks (see</span>
+<span class="sd">    :func:`ccd_diffusion.tracks.pooled`).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tracks</span>
+<span class="sd">        The tracks to fit.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    For each model, the fit of every track, in the given order, and the</span>
+<span class="sd">    pooled fit of :math:`\\sigma_d` on every CCD.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">._depleted</span><span class="w"> </span><span class="kn">import</span> <span class="n">pooled</span>
+
+    <span class="c1"># processes rather than threads, since the search of the Gaussian model</span>
+    <span class="c1"># holds the interpreter for much of its time</span>
+    <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ProcessPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+        <span class="n">scans</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_scan_models</span><span class="p">,</span> <span class="n">tracks</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="mi">8</span><span class="p">))</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
+        <span class="n">fitted</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">depleted</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">chip</span> <span class="ow">in</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">chip</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tracks</span><span class="p">):</span>
+            <span class="n">mine</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">model</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">scans</span> <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="n">model</span><span class="p">]</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">chip</span> <span class="o">==</span> <span class="n">chip</span><span class="p">]</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">pooled</span><span class="p">(</span><span class="n">chip</span><span class="p">,</span> <span class="n">mine</span><span class="p">)</span>
+            <span class="n">depleted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">mine</span><span class="p">:</span>
+                <span class="n">fitted</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">best</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">model</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">fitted</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tracks</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">depleted</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<div class="viewcode-block" id="save">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.save.html#ccd_diffusion.tracks.save">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span>
+    <span class="n">fits</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Fit</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+    <span class="n">depleted</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="s2">"ccd_diffusion.tracks.Depleted"</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"slab"</span><span class="p">,</span>
+    <span class="n">directory</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Write the given fits to ``data/iris_fits.csv`` (or</span>
+<span class="sd">    ``data/iris_fits_gaussian.csv`` for the Gaussian model), where</span>
+<span class="sd">    :func:`fits` will find them, and the pooled fits of :math:`\\sigma_d` to</span>
+<span class="sd">    ``data/iris_depleted.csv`` (or ``data/iris_depleted_gaussian.csv``),</span>
+<span class="sd">    where :func:`ccd_diffusion.tracks.depleted` will.</span>
+
+<span class="sd">    Fitting every track takes a while, so the fits are stored in the</span>
+<span class="sd">    repository alongside the tracks and only recomputed by running</span>
+<span class="sd">    ``python -m ccd_diffusion.tracks fit``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fits</span>
+<span class="sd">        The fits to save, one per track returned by :func:`load`.</span>
+<span class="sd">    depleted</span>
+<span class="sd">        The pooled fit of :math:`\\sigma_d` on every CCD.</span>
+<span class="sd">    model</span>
+<span class="sd">        The model the fits are of, one of :data:`models`.</span>
+<span class="sd">    directory</span>
+<span class="sd">        Where to write the files instead, for fits of some of the CCDs that</span>
+<span class="sd">        :func:`join_fits` will join with the rest.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">._depleted</span><span class="w"> </span><span class="kn">import</span> <span class="n">save_depleted</span>
+
+    <span class="n">path</span> <span class="o">=</span> <span class="n">_path_fits</span><span class="p">[</span><span class="n">model</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span> <span class="o">/</span> <span class="n">path</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">fieldnames</span><span class="o">=</span><span class="n">_fields_fits</span><span class="p">)</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">fits</span><span class="p">:</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span>
+                <span class="nb">dict</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">width_depleted</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">width_depleted</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">orientation</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">orientation</span><span class="p">,</span>
+                    <span class="n">critical_depth</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">critical_depth</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">width_max</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">width_max</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">offset</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">offset</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">tilt</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">tilt</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">misfit</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">misfit</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">gain</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">gain</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">critical_depth_min</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">critical_depth_min</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">critical_depth_max</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">critical_depth_max</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">width_max_min</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">width_max_min</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">width_max_max</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">width_max_max</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">width_depleted_preferred</span><span class="o">=</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">width_depleted_preferred</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+    <span class="n">save_depleted</span><span class="p">(</span><span class="n">depleted</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">directory</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="join_fits">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.join_fits.html#ccd_diffusion.tracks.join_fits">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">join_fits</span><span class="p">(</span><span class="n">directories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Join the fits of separately fitted CCDs, each written by :func:`save`</span>
+<span class="sd">    to a directory of its own, into the package's data files, in the order</span>
+<span class="sd">    of :func:`load`.</span>
+
+<span class="sd">    Fitting the slab model to every track takes hours on a few cores, so the</span>
+<span class="sd">    ``data`` workflow fits each CCD in a job of its own, which it can do</span>
+<span class="sd">    since :math:`\\sigma_d` is pooled over the tracks of one CCD.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    directories</span>
+<span class="sd">        The directories written by :func:`save`, together holding every</span>
+<span class="sd">        track once.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">._depleted</span><span class="w"> </span><span class="kn">import</span> <span class="n">_path_depleted</span>
+
+    <span class="n">tracks</span> <span class="o">=</span> <span class="n">load</span><span class="p">()</span>
+    <span class="n">chips</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">chip</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tracks</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">rows_depleted</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">directory</span> <span class="ow">in</span> <span class="n">directories</span><span class="p">:</span>
+            <span class="n">directory</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">directory</span> <span class="o">/</span> <span class="n">_path_fits</span><span class="p">[</span><span class="n">model</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+                    <span class="n">rows</span><span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]]</span> <span class="o">=</span> <span class="n">r</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">directory</span> <span class="o">/</span> <span class="n">_path_depleted</span><span class="p">[</span><span class="n">model</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                <span class="n">fields_depleted</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">fieldnames</span>
+                <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+                    <span class="n">rows_depleted</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"chip"</span><span class="p">],</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="n">missing</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tracks</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"no </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2"> fit of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span><span class="si">}</span><span class="s2"> tracks, the first </span><span class="si">{</span><span class="n">missing</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">!r}</span><span class="s2">"</span>
+            <span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">_path_fits</span><span class="p">[</span><span class="n">model</span><span class="p">],</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">fieldnames</span><span class="o">=</span><span class="n">_fields_fits</span><span class="p">)</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tracks</span><span class="p">:</span>
+                <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">rows</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">_path_depleted</span><span class="p">[</span><span class="n">model</span><span class="p">],</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">fieldnames</span><span class="o">=</span><span class="n">fields_depleted</span><span class="p">)</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">chip</span> <span class="ow">in</span> <span class="n">chips</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rows_depleted</span><span class="p">[</span><span class="n">chip</span><span class="p">]:</span>
+                    <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="fits">
+<a class="viewcode-back" href="../../../_autosummary/ccd_diffusion.tracks.fits.html#ccd_diffusion.tracks.fits">[docs]</a>
+<span class="nd">@functools</span><span class="o">.</span><span class="n">cache</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fits</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"slab"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Fit</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Load the result of :func:`fit_all` for every track returned by</span>
+<span class="sd">    :func:`load` from ``data/iris_fits.csv`` (or</span>
+<span class="sd">    ``data/iris_fits_gaussian.csv`` for the Gaussian model).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model</span>
+<span class="sd">        One of :data:`models`.</span>
+<span class="sd">    """</span>
+    <span class="n">tracks</span> <span class="o">=</span> <span class="p">{</span><span class="n">track</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">track</span> <span class="k">for</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">load</span><span class="p">()}</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">_path_fits</span><span class="p">[</span><span class="n">model</span><span class="p">],</span> <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span>
+        <span class="n">Fit</span><span class="p">(</span>
+            <span class="n">track</span><span class="o">=</span><span class="n">tracks</span><span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]],</span>
+            <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">width_depleted</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"width_depleted"</span><span class="p">])</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">,</span>
+            <span class="n">orientation</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"orientation"</span><span class="p">]),</span>
+            <span class="n">critical_depth</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"critical_depth"</span><span class="p">]),</span>
+            <span class="n">width_max</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"width_max"</span><span class="p">])</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">,</span>
+            <span class="n">offset</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"offset"</span><span class="p">]),</span>
+            <span class="n">tilt</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"tilt"</span><span class="p">]),</span>
+            <span class="n">misfit</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"misfit"</span><span class="p">]),</span>
+            <span class="n">gain</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"gain"</span><span class="p">]),</span>
+            <span class="n">critical_depth_min</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"critical_depth_min"</span><span class="p">]),</span>
+            <span class="n">critical_depth_max</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"critical_depth_max"</span><span class="p">]),</span>
+            <span class="n">width_max_min</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"width_max_min"</span><span class="p">])</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">,</span>
+            <span class="n">width_max_max</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"width_max_max"</span><span class="p">])</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">,</span>
+            <span class="n">width_depleted_preferred</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"width_depleted_preferred"</span><span class="p">])</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">um</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rows</span>
+    <span class="p">)</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roy T. Smart, Charles C. Kankelborg.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

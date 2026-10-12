@@ -1,0 +1,42 @@
+figures
+=======
+
+.. automodule:: ccd_diffusion.figures
+
+    
+    
+    
+
+    
+    
+    .. rubric:: Functions
+
+    .. autosummary::
+      :toctree:
+      :template: function_custom.rst
+    
+      image
+      method
+      stacked
+      models
+      parameters
+      profile
+      depleted
+      gallery
+      azimuth
+      wavelength
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+

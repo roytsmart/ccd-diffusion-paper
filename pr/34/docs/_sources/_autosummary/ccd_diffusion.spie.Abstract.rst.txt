@@ -1,0 +1,63 @@
+Abstract
+========
+
+.. currentmodule:: ccd_diffusion.spie
+
+.. autoclass:: ccd_diffusion.spie.Abstract
+    :members:
+    :show-inheritance:
+    :inherited-members:
+    :undoc-members:
+    :member-order: groupwise
+
+    
+    
+    .. rubric:: Attributes
+
+    .. autosummary::
+    
+      ~Abstract.begin_paragraph
+      ~Abstract.content_separator
+      ~Abstract.end_paragraph
+      ~Abstract.escape
+      ~Abstract.latex_name
+      ~Abstract.omit_if_empty
+      ~Abstract.packages
+      ~Abstract.separate_paragraph
+    
+    
+
+    
+    
+    .. rubric:: Methods
+
+    .. autosummary::
+    
+      ~Abstract.__init__
+      ~Abstract.append
+      ~Abstract.clear
+      ~Abstract.copy
+      ~Abstract.count
+      ~Abstract.create
+      ~Abstract.dump
+      ~Abstract.dump_packages
+      ~Abstract.dumps
+      ~Abstract.dumps_as_content
+      ~Abstract.dumps_content
+      ~Abstract.dumps_packages
+      ~Abstract.extend
+      ~Abstract.generate_tex
+      ~Abstract.index
+      ~Abstract.insert
+      ~Abstract.pop
+      ~Abstract.remove
+      ~Abstract.reverse
+      ~Abstract.sort
+    
+    
+
+    
+    .. rubric:: Inheritance Diagram
+
+    .. inheritance-diagram:: ccd_diffusion.spie.Abstract
+    
