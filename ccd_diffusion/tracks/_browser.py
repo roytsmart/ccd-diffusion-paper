@@ -11,6 +11,8 @@ import PIL.Image
 import PIL.ImageDraw
 import astropy.units as u
 from ._tracks import (
+    axis_slice,
+    axis_pixel,
     half_width,
     width_pixel,
     charge_minimum,
@@ -83,6 +85,10 @@ def _record(fit: Fit, time: str) -> dict:
         core=fit.flat and core_range[0] < tc < core_range[1],
         charge=np.rint(track.charge.ndarray).astype(int).tolist(),
         position=np.round(track.position.ndarray, 3).tolist(),
+        predicted=np.round(
+            fit.predicted.transpose((axis_slice, axis_pixel)).ndarray, 4
+        ).tolist(),
+        width=np.round(fit.width.ndarray, 4).tolist(),
     )
 
 

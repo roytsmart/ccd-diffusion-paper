@@ -2,53 +2,16 @@
 //
 // Both pages are static: the build writes every track, its cutout, and its
 // fit to _static/browser/tracks.json and one rendered frame per camera and
-// campaign to _static/browser/frames/, and this script draws them. Nothing
-// here is computed in Python; the model fractions shown beside each cutout
-// are re-evaluated from the fit parameters in the same way as
-// ccd_diffusion.tracks.fractions, so that a discrepancy would be visible.
+// campaign to _static/browser/frames/, and this script draws them. The model
+// fractions and widths shown beside each cutout are those of the fit,
+// computed in Python by ccd_diffusion.tracks.Fit.predicted and
+// ccd_diffusion.tracks.Fit.width, since the slab model's charge cloud is a
+// mixture of Gaussians whose widths come from optika.
 
 (function () {
   const base = document.currentScript
     ? document.currentScript.src.replace(/[^/]*$/, "")
     : "_static/";
-
-  // ---- the model ----------------------------------------------------------
-
-  // Abramowitz and Stegun 7.1.26, good to 1.5e-7, plenty for a pixel fraction
-  function erf(x) {
-    const sign = x < 0 ? -1 : 1;
-    x = Math.abs(x);
-    const t = 1 / (1 + 0.3275911 * x);
-    const poly =
-      ((((1.061405429 * t - 1.453152027) * t + 1.421413741) * t - 0.284496736) *
-        t +
-        0.254829592) *
-      t;
-    return sign * (1 - poly * Math.exp(-x * x));
-  }
-
-  // the width of the charge cloud in pixels at fractional depth t
-  function widthPixels(t, tc, sm, sd, pixel) {
-    const wedge = t < tc ? Math.max(1 - t / Math.max(tc, 1e-6), 0) : 0;
-    const g = Math.min((1 - t) / Math.max(1 - tc, 1e-6), 1);
-    return Math.sqrt(sm * sm * wedge + sd * sd * g) / pixel;
-  }
-
-  // the fraction of a slice's charge in each of the 2h+1 pixels
-  function fractions(x, w, slope, h) {
-    const s = Math.sqrt(Math.max(w, 1e-3) ** 2 + (slope * slope) / 12);
-    const f = [];
-    let sum = 0;
-    let previous = erf((-h - 0.5 - x) / (s * Math.SQRT2)) / 2;
-    for (let j = 0; j < 2 * h + 1; j++) {
-      const edge = -h + 0.5 + j;
-      const cdf = erf((edge - x) / (s * Math.SQRT2)) / 2;
-      f.push(cdf - previous);
-      sum += cdf - previous;
-      previous = cdf;
-    }
-    return f.map((v) => v / Math.max(sum, 1e-9));
-  }
 
   // everything the detail view needs about one track, slice by slice
   function analyse(track, meta) {
@@ -61,8 +24,8 @@
       let t = (i + 0.5) / n;
       if (track.orientation < 0) t = 1 - t;
       const x = track.position[i] + track.offset + track.tilt * (i - n / 2);
-      const w = widthPixels(t, track.tc, track.sm, track.sd, meta.width_pixel);
-      const model = fractions(x, w, track.slope, h);
+      const w = track.width[i];
+      const model = track.predicted[i];
       const measured = charge.map((q) => q / Math.max(signal, 1e-9));
       const error = track.noise / Math.max(signal, 1e-9);
       const p = measured.reduce((a, f) => a + f * f, 0) - (2 * h + 1) * error * error;
