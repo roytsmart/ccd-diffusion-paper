@@ -128,10 +128,13 @@ summing the misfit of Equation~\ref{eq:misfit} over every slice in the
 bin on a grid of trial widths and minimizing, with no parametric model of
 the depth dependence; the error bars span the widths within two of the
 minimum $M$.
-Lines: the average of the per-track fits of Equation~\ref{eq:width} on the
-same \CCD, which reproduces the model-free profile at every depth,
-including the floor of a few tenths of a micron beyond $t_c$ that the
-$\sigma_d$ term supplies.
+Lines: the same procedure applied to the fractions the per-track fits of
+the slab model predict for the same slices, which follows the model-free
+profile at every depth, including the floor of a few tenths of a micron
+beyond $t_c$ that the $\sigma_d$ term supplies.
+The fits' cloud is not a Gaussian, so the width a Gaussian finds in it
+falls short of its standard deviation, Equation~\ref{eq:width}, most where
+the cloud has its narrow core, near the depletion region.
 (c) The kernel itself, integrated over a pixel: the mean fraction of the
 charge of the \FUV{}2 slices in four depth bins, each a tenth of the
 thickness wide and marked along the top of (a), collected in a pixel whose

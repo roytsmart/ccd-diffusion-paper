@@ -22,6 +22,11 @@ The width of the charge cloud at the back surface, the depth at which the
 field-free layer ends, the spread acquired drifting across the depletion
 region, and the probability that two electrons deposited at the same depth
 are collected in the same pixel are measured directly on each sensor.
+The tracks are fit better by the charge cloud of diffusion between a
+reflecting back surface and the depletion region than by a Gaussian, and
+the width of that cloud at the back surface implies sensors
+\thicknessFuvOne\ to \thicknessFuvTwo\ $\mu$m thick rather than the
+\thickness\ $\mu$m of the design.
 The field-free layer ends at \sjiCriticalDepth\ of the thickness on the
 Slit-Jaw Imager, where the cloud at the back surface is \sjiWidthMax\
 $\mu$m wide and the same-pixel probability is $\sjiSamePixel \pm

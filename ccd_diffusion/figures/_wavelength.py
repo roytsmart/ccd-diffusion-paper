@@ -28,22 +28,9 @@ _wavelength = na.geomspace(0.15, 1000, axis="wavelength", num=1001) * u.nm
 """The wavelengths plotted, the grid of the companion noise article."""
 
 
-def _interpolated(
-    depth: np.ndarray,
-    centers: np.ndarray,
-    values: np.ndarray,
-) -> np.ndarray:
-    """
-    A measured profile, given at the centers of its depth bins, at every
-    depth, linear between the centers and held at the first and last values
-    beyond them.
-    """
-    return np.interp(depth, centers, values)
-
-
 def wavelength() -> aastex.Figure:
     """
-    The diffusion width of a photon against its wavelength, from the measured
+    The diffusion width of a photon against its wavelength, from the fitted
     width profile of each CCD and the absorption length of silicon.
     """
     tracks = ccd_diffusion.tracks
@@ -70,32 +57,18 @@ def wavelength() -> aastex.Figure:
         constrained_layout=True,
     )
     for chip, color in _chips.items():
-        if not tracks.flat(chip):
+        flat = tracks.flat(chip)
+        if not flat:
             continue
-        w = tracks.widths(chip)
-        sigma = _interpolated(z / D, w.depth.ndarray, w.best.ndarray.to_value(u.um))
-        rms = np.sqrt(average(np.square(sigma)))
+        # the variance of the cloud at every depth, averaged over the fits
+        depth = na.ScalarArray(z / D, axes="depth")
+        tc = na.ScalarArray(np.array([f.critical_depth for f in flat]), axes="track")
+        sm = na.ScalarArray(u.Quantity([f.width_max for f in flat]), axes="track")
+        sigma = tracks.width(depth, tc, sm, tracks.depleted(chip).best)
+        variance = np.square(sigma * tracks.width_pixel).mean("track")
+        rms = np.sqrt(average(variance.ndarray.to_value(u.um**2)))
         ax.plot(nm, rms, color=color, label=chip)
 
-    # the median back-surface width of the per-track fits, the model beside
-    # the measurement; CCDs sharing a value alternate dots of their colors
-    width_max = {
-        chip: tracks.summary(chip).width_max[1].to_value(u.um)
-        for chip in _chips
-        if tracks.flat(chip)
-    }
-    for chip, value in width_max.items():
-        shared = [c for c, v in width_max.items() if np.isclose(v, value)]
-        k = shared.index(chip)
-        step = 2
-        ax.axhline(
-            value,
-            color=_chips[chip],
-            linewidth=1,
-            linestyle=(step * k, (1, step * len(shared) - 1)),
-            # beneath the measured curves, which one of them can coincide with
-            zorder=1.5,
-        )
     ax_length = ax.twinx()
     ax_length.plot(nm, length.ndarray.value, color="gray", linestyle=":", linewidth=0.8)
     ax_length.set_yscale("log")
@@ -132,22 +105,21 @@ def wavelength() -> aastex.Figure:
     result.add_caption(aastex.NoEscape(r"""
 The width of the charge cloud a photon leaves in each \CCD, against the
 wavelength of the photon.
-The width is the standard deviation of the cloud.
+The width is the standard deviation of the cloud along one axis.
 A photon is absorbed at a random depth, exponentially distributed with the
 absorption length of silicon (gray dotted, from the tabulated optical constants
-\cite{Palik1985,Henke1993}), and the charge it liberates spreads by the
-width measured at that depth in Figure~\ref{fig:stacked}b, held at the
-value of its first bin up to the back surface.
-The curve is the standard deviation of the cloud that results, which is the
-square root of the squared width averaged over depth, weighted by the
-fraction of photons absorbed at each depth; photons that pass through the
-\thickness\ $\mu$m of silicon are not counted.
+\cite{Palik1985,Henke1993}), and the charge it liberates spreads with the
+variance of Equation~\ref{eq:width} at that depth, averaged over the
+per-track fits of the slab model on each \CCD.
+The curve is the square root of that variance averaged over depth,
+weighted by the fraction of photons absorbed at each depth; photons that
+pass through the \thickness\ $\mu$m of silicon are not counted.
+The fits rather than the model-free widths of Figure~\ref{fig:stacked}b
+give it, since the width a single Gaussian finds in each depth bin falls
+short of the standard deviation of a cloud with exponential tails.
 Between 30 and 350 nm every photon is absorbed within 10 nm of the back
-surface, and the cloud has the width of the first depth bin of
-Figure~\ref{fig:stacked}b.
-This lies below the median $\sigma_\text{max}$ of the per-track fits in
-Table~\ref{tab:tracks} (dotted in the color of each \CCD), as the points of
-Figure~\ref{fig:stacked}b lie below the fits near the back surface.
+surface, where the variance of the cloud stops changing with depth, and
+the cloud has the root mean square $\sigma_\text{max}$ of the fits.
 In the visible and in the soft X-rays the photons penetrate to the
 depletion region and the cloud narrows.
 Near the band gap silicon is nearly transparent, and the few photons

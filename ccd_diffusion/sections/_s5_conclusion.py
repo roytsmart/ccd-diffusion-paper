@@ -15,5 +15,8 @@ On the \IRIS\ \CCD{}s they give the thickness of the field-free layer,
 the width of the charge cloud at the back surface, which differs by a
 fifth between four sensors of one design, and a spread of under a micron
 acquired inside the depletion region that a field-free kernel alone would
-miss.""")
+miss.
+They also give the shape of the cloud, which is that of charge diffusing
+between a reflecting back surface and the depletion region rather than a
+Gaussian, and whose scale implies sensors thinner than designed.""")
     return result

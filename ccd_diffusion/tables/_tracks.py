@@ -41,16 +41,21 @@ The flat tracks are those which constrain $t_c$ to within 0.15 and show no
 Bragg rise along their length.
 $\sigma_d$ is the spread inside the depletion region fit to each \CCD\ as a
 whole, and $t_c$ and $\sigma_\text{max}$ are the medians of the per-track
-fits at that $\sigma_d$, with the interquartile range in brackets.
+fits of the slab model at that $\sigma_d$, with the interquartile range in
+brackets, and $\bar\sigma_\text{max} / \bar t_c$, the mean
+$\sigma_\text{max}$ of the flat tracks divided by their mean $t_c$, is the
+thickness of the sensor they imply in $\mu$m, with its standard error.
 $p$ is the probability that two electrons deposited within $D / 10$ of the
-back surface are collected in the same column, and $\mathcal{P} = p^2$ is
-the corresponding probability that they are collected in the same pixel."""))
+back surface are collected in the same column, and $\mathcal{P}$ is the
+corresponding probability that they are collected in the same pixel,
+$p^2$ raised by the factor the slab model gives for a cloud that is not
+separable."""))
     result.append(pylatex.Command("label", "tab:tracks"))
     result.append(pylatex.Command("footnotesize"))
     # ten columns at the default column padding run past the text width
-    result.append(pylatex.NoEscape(r"\setlength{\tabcolsep}{3pt}"))
+    result.append(pylatex.NoEscape(r"\setlength{\tabcolsep}{2pt}"))
 
-    tabular = pylatex.Tabular("lrrrccccc", booktabs=False)
+    tabular = pylatex.Tabular("lrrrcccccc", booktabs=False)
     tabular.escape = False
     tabular.add_hline()
     tabular.add_row(
@@ -64,6 +69,7 @@ the corresponding probability that they are collected in the same pixel."""))
                 r"$\sigma_d$ ($\mu$m)",
                 "$t_c$",
                 r"$\sigma_\text{max}$ ($\mu$m)",
+                r"$\bar\sigma_\text{max} / \bar t_c$",
                 "$p$",
                 r"$\mathcal{P}$",
             )
@@ -85,6 +91,8 @@ the corresponding probability that they are collected in the same pixel."""))
             f"{s.width_depleted.to_value(u.um):.2f}",
             f"{tc[1]:.2f} [{tc[0]:.2f}, {tc[2]:.2f}]",
             f"{sm[1]:.1f} [{sm[0]:.1f}, {sm[2]:.1f}]",
+            f"${s.thickness.to_value(u.um):.1f} \\pm "
+            f"{s.thickness_error.to_value(u.um):.1f}$",
             f"${s.same_pixel_1d:.3f} \\pm {s.same_pixel_1d_error:.3f}$",
             f"${s.same_pixel:.3f} \\pm {s.same_pixel_error:.3f}$",
         ]

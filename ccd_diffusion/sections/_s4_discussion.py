@@ -33,6 +33,22 @@ thickness, which depends on the resistivity of the wafer and the applied
 bias; the same measurement on \AIA\ \CCD{}s, which are of the same
 design, would show whether such variation is common.
 
+The slab model ties the width of the cloud at the back surface to the
+thickness of the field-free layer, so the tracks measure the thickness of
+the sensor, and they find it thinner than designed:
+\thicknessFuvOne\ to \thicknessFuvTwo\ $\mu$m against \thickness, with
+\FUV{}1 thinnest.
+Fixing it at \thickness\ $\mu$m costs the fits more than the shape of the
+cloud gains them, so the tracks do not allow both the thickness of the
+design and a back surface that reflects all the charge reaching it.
+Either the sensors were thinned further than designed, or the back
+surface recombines part of the charge that reaches it
+\cite{Pavlov1999}, which removes the electrons that would have spread the
+farthest and narrows the cloud most where it is widest.
+The two could be told apart by a sensor of known thickness, or by the
+shape of the cloud near the back surface, which recombination changes and
+a thinner sensor does not.
+
 Figure~\ref{fig:wavelength} turns the kernel into the quantity an
 instrument designer needs, the width of the charge cloud of a photon, by
 averaging it over the depth at which a photon of each wavelength is

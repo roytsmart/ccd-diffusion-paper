@@ -86,5 +86,5 @@ each $\sigma_d$, with the standard error of the mean shaded and the
 minimum of (a) on each \CCD\ dashed: the spread
 inside the depletion region trades against the field-free wedge, so
 $t_c$ falls steadily as $\sigma_d$ rises, fastest on \FUV{}1, while
-$\sigma_\text{max}$ rises by a few percent."""))
+$\sigma_\text{max}$ rises by \widthMaxShiftHigh\% at most."""))
     return result

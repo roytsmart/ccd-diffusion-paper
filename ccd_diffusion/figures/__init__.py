@@ -5,6 +5,7 @@ The figures of the article, one module per figure.
 from ._image import image
 from ._method import method
 from ._stacked import stacked
+from ._models import models
 from ._parameters import parameters
 from ._profile import profile
 from ._depleted import depleted
@@ -16,6 +17,7 @@ __all__ = [
     "image",
     "method",
     "stacked",
+    "models",
     "parameters",
     "profile",
     "depleted",

@@ -69,29 +69,70 @@ the full thickness of the sensor, so the fractional depth of slice $i$ of
 an $N$-slice track is $t = (i + 1/2) / N$, up to the orientation of the
 track, and the charge deposited in each slice diffuses from a known depth.
 We model the charge in every slice as spread uniformly along the fitted
-centerline and diffused as a Gaussian whose variance has two parts,
-\begin{equation} \label{eq:width}
-    \sigma^2(t) = \sigma_\text{max}^2 \left( 1 - \frac{t}{t_c} \right)
-    + \sigma_d^2 \, g(t).
+centerline and diffused by a charge cloud with two parts.
+
+The first part is the field-free layer, which the charge of a slice
+crosses only if $t < t_c$, where $t_c = z_f / D$ is the fractional
+thickness of the layer.
+Charge created there diffuses until it reaches the edge of the depletion
+region, which collects it, while the back surface reflects it
+\cite{Pavlov1999}.
+In a layer $z_f$ thick, the fraction of the charge created a fraction
+$t / t_c$ of the way across it that arrives at an offset less than $y$
+along one axis is
+\begin{equation} \label{eq:slab}
+    F(y) = \frac{1}{2} + \frac{1}{\pi} \arctan \left[
+        \frac{\sinh (\pi y / 2 z_f)}{\cos (\pi t / 2 t_c)}
+    \right],
 \end{equation}
-The first part is the field-free layer.
-It applies only for $t < t_c$, where $t_c = z_f / D$ is the fractional
-thickness of the layer and $\sigma_\text{max}$ is the width of the charge
-cloud at the back surface, and it is the depth dependence of a random walk
-to an absorbing plane at $z_f$.
+whose variance falls from $z_f^2$ at the back surface to zero at the
+depletion region as $z_f^2 [1 - (t / t_c)^2]$.
+The cloud is not a Gaussian: it falls off exponentially, as
+$e^{-\pi |y| / 2 z_f}$, and near the depletion region, where most of the
+charge is collected at once but some wanders back toward the back surface
+first, it has a narrow core and broad wings.
+Equation~\ref{eq:slab} ties the width of the cloud at the back surface to
+the thickness of the layer, $\sigma_\text{max} = z_f = t_c D$.
+We leave $\sigma_\text{max}$ free instead, replacing $z_f$ by it in
+Equation~\ref{eq:slab}, so that the model has the same parameters as the
+Gaussian model below, and the ratio $\sigma_\text{max} / t_c$ measures the
+thickness of the sensor the fit implies.
 The second part is the depletion region.
 Charge that reaches the edge of the depletion region, whether it was
 deposited there or diffused there from the field-free layer, still has to
-drift to the gates and spreads a little as it does so.
+drift to the gates and spreads a little as it does so, which we model as a
+Gaussian of variance $\sigma_d^2 \, g(t)$.
 $\sigma_d$ is the spread acquired crossing the full depleted thickness, and
 $g(t) = \min[(1 - t) / (1 - t_c), 1]$ scales it with the distance drifted,
 so that it is one for all charge deposited in the field-free layer and
 falls linearly to zero at the gates.
+The variance of the cloud is then
+\begin{equation} \label{eq:width}
+    \sigma^2(t) = \sigma_\text{max}^2 \left[ 1 - \left( \frac{t}{t_c}
+    \right)^2 \right] + \sigma_d^2 \, g(t),
+\end{equation}
+where the first term applies only for $t < t_c$.
+Equation~\ref{eq:slab} convolved with the Gaussian has no closed form, so
+we evaluate the cloud as the mixture of eight Gaussians of the
+\texttt{optika} package \cite{optika}, whose variances scale as
+$\sigma_\text{max}^2$ and to each of which we add $\sigma_d^2 \, g(t)$;
+at a single depth it reproduces Equation~\ref{eq:slab} to about a part in
+a thousand of the charge.
 We work in fractional depth because we observe the length of a track in
 slices rather than the thickness of the sensor in microns, and the uniform
 spread along the tilted centerline within a slice is approximated by
-adding $m^2 / 12$ to the variance, where $m$ is the slope in pixels per
-row.
+adding $m^2 / 12$ to the variance of every Gaussian, where $m$ is the slope
+in pixels per row.
+
+To see what the shape of the cloud is worth, we also fit every track with
+a Gaussian whose variance is
+\begin{equation} \label{eq:gaussian}
+    \sigma^2(t) = \sigma_\text{max}^2 \left( 1 - \frac{t}{t_c} \right)
+    + \sigma_d^2 \, g(t),
+\end{equation}
+the depth dependence of the model of Janesick \cite{Janesick2001}, a random
+walk to an absorbing plane at $z_f$ with no reflecting back surface, with
+the same parameters searched on the same grids.
 
 The three parameters are not fit alike.
 $t_c$ and $\sigma_\text{max}$ describe the field-free layer, whose
