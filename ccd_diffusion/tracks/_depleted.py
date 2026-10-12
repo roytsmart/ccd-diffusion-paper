@@ -8,11 +8,12 @@ pooling the misfits of the flat tracks on that CCD over the grid
 import csv
 import dataclasses
 import functools
+import pathlib
 import numpy as np
 import astropy.units as u
 import named_arrays as na
 from ._tracks import _directory_data
-from ._fit import axis_width_depleted, width_depleted, Scan
+from ._fit import models, axis_width_depleted, width_depleted, Scan
 
 __all__ = [
     "Depleted",
@@ -131,19 +132,35 @@ def pooled(chip: str, scans: list[Scan], iterations: int = 10) -> Depleted:
     )
 
 
-_path_depleted = _directory_data / "iris_depleted.csv"
-"""The file holding the result of :func:`pooled` for every CCD."""
+_path_depleted = {
+    model: _directory_data
+    / f"iris_depleted{'' if model == 'slab' else '_' + model}.csv"
+    for model in models
+}
+"""
+The files holding the result of :func:`pooled` for every CCD, one per
+model, ``iris_depleted.csv`` for the slab model of the article.
+"""
 
 
-def save_depleted(depleted: tuple[Depleted, ...]) -> None:
+def save_depleted(
+    depleted: tuple[Depleted, ...],
+    model: str = "slab",
+    directory: None | pathlib.Path = None,
+) -> None:
     """
-    Write the pooled fits to ``data/iris_depleted.csv``, where
+    Write the pooled fits to ``data/iris_depleted.csv`` (or
+    ``data/iris_depleted_gaussian.csv`` for the Gaussian model), where
     :func:`depleted` will find them.
 
     Parameters
     ----------
     depleted
         The pooled fit of every CCD.
+    model
+        The model the fits are of, one of :data:`ccd_diffusion.tracks.models`.
+    directory
+        Where to write the file instead, for the fits of some of the CCDs.
     """
     fields = [
         "chip",
@@ -157,7 +174,10 @@ def save_depleted(depleted: tuple[Depleted, ...]) -> None:
         "width_max_mean",
         "width_max_error",
     ]
-    with open(_path_depleted, "w", newline="") as f:
+    path = _path_depleted[model]
+    if directory is not None:
+        path = pathlib.Path(directory) / path.name
+    with open(path, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fields)
         writer.writeheader()
         for d in depleted:
@@ -184,17 +204,20 @@ def save_depleted(depleted: tuple[Depleted, ...]) -> None:
 
 
 @functools.cache
-def depleted(chip: str) -> Depleted:
+def depleted(chip: str, model: str = "slab") -> Depleted:
     """
     Load the pooled fit of :math:`\\sigma_d` on the given CCD from
-    ``data/iris_depleted.csv``.
+    ``data/iris_depleted.csv`` (or ``data/iris_depleted_gaussian.csv`` for
+    the Gaussian model).
 
     Parameters
     ----------
     chip
         The CCD, ``FUV1``, ``FUV2``, ``NUV``, or ``SJI``.
+    model
+        One of :data:`ccd_diffusion.tracks.models`.
     """
-    with open(_path_depleted, newline="") as f:
+    with open(_path_depleted[model], newline="") as f:
         rows = [r for r in csv.DictReader(f) if r["chip"] == chip]
     if not rows:
         raise ValueError(f"no pooled fit for {chip!r}")

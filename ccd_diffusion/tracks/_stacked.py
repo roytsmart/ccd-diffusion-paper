@@ -4,7 +4,7 @@ import numpy as np
 import astropy.units as u
 import named_arrays as na
 from ._tracks import axis_slice, axis_pixel, half_width, width_pixel
-from ._fit import Fit, fits, width, fractions
+from ._fit import Fit, fits, fractions
 from ._samepix import axis_depth
 
 __all__ = [
@@ -24,14 +24,14 @@ __all__ = [
 depth_bins_fine = na.linspace(0, 1, axis=axis_depth, num=21)
 """The edges of the depth bins used by :func:`stack` and :func:`widths`."""
 
-widths_trial = na.linspace(0, 10, axis="width", num=41) * u.um
+widths_trial = na.linspace(0, 10, axis="width", num=201) * u.um
 """The trial widths searched by :func:`widths` in each depth bin."""
 
 _offsets = na.arange(-half_width, half_width + 1, axis=axis_pixel)
 """The offset of each pixel of a cutout from its central pixel."""
 
 
-def flat(chip: str) -> list[Fit]:
+def flat(chip: str, model: str = "slab") -> list[Fit]:
     """
     The fits of the flat tracks on the given CCD.
 
@@ -39,8 +39,10 @@ def flat(chip: str) -> list[Fit]:
     ----------
     chip
         The CCD, ``FUV1``, ``FUV2``, ``NUV``, or ``SJI``.
+    model
+        One of :data:`ccd_diffusion.tracks.models`.
     """
-    return [f for f in fits() if f.track.chip == chip and f.flat]
+    return [f for f in fits(model) if f.track.chip == chip and f.flat]
 
 
 @dataclasses.dataclass(eq=False)
@@ -160,7 +162,7 @@ def kernel(chip: str, num_distance: int = 28) -> Kernel:
     for f in flat(chip):
         distance = _offsets - f.position
         fraction = np.where(f.track.usable, f.track.fraction, np.nan)
-        model = fractions(f.position, f.width, f.track.slope)
+        model = f.predicted
         shape = na.shape_broadcasted(distance, fraction, model)
         t.append(na.broadcast_to(f.depth, shape).ndarray.ravel())
         x.append(na.broadcast_to(distance, shape).ndarray.ravel())
@@ -226,11 +228,16 @@ class Widths:
     """The largest width within two units of misfit of :attr:`best`."""
 
     fitted: na.AbstractScalarArray
-    """The mean of the per-track fitted width curves, including :math:`\\sigma_d`, in each bin."""
+    """
+    The width the same procedure finds in each bin when the fractions the
+    per-track fits predict take the place of the measured ones, so that the
+    fits are measured the way the slices are, whatever the shape of their
+    charge cloud.
+    """
 
 
 @functools.cache
-def widths(chip: str) -> Widths:
+def widths(chip: str, model: str = "slab") -> Widths:
     """
     Measure the diffusion width in each depth bin without a parametric model,
     by summing the misfit of every slice of every flat track on the given CCD
@@ -240,17 +247,22 @@ def widths(chip: str) -> Widths:
     ----------
     chip
         The CCD, ``FUV1``, ``FUV2``, ``NUV``, or ``SJI``.
+    model
+        The model whose fits supply the centerlines, the selection, and
+        :attr:`Widths.fitted`, one of :data:`ccd_diffusion.tracks.models`.
     """
     edges = depth_bins_fine.ndarray
     w = (widths_trial / width_pixel).to(u.dimensionless_unscaled).value
     nll = np.zeros((edges.size - 1, widths_trial.size))
-    for f in flat(chip):
+    nll_fitted = np.zeros_like(nll)
+    for f in flat(chip, model):
         q = fractions(f.position, w, f.track.slope)
-        r = (f.track.fraction - q) / f.track.error
-        v = np.log1p(np.square(r) / 2).sum(axis_pixel)
-        v = v * f.track.usable
         index = np.clip(np.digitize(f.depth.ndarray, edges) - 1, 0, nll.shape[0] - 1)
-        np.add.at(nll, index, v.transpose((axis_slice, "width")).ndarray)
+        for total, measured in ((nll, f.track.fraction), (nll_fitted, f.predicted)):
+            r = (measured - q) / f.track.error
+            v = np.log1p(np.square(r) / 2).sum(axis_pixel)
+            v = v * f.track.usable
+            np.add.at(total, index, v.transpose((axis_slice, "width")).ndarray)
 
     trial = widths_trial.ndarray
     best = trial[np.argmin(nll, axis=1)]
@@ -259,19 +271,11 @@ def widths(chip: str) -> Widths:
     upper = u.Quantity([trial[row].max() for row in ok])
 
     centers = na.ScalarArray((edges[:-1] + edges[1:]) / 2, axes=axis_depth)
-    curves = na.stack(
-        [
-            width(centers, f.critical_depth, f.width_max, f.width_depleted)
-            for f in flat(chip)
-        ],
-        axis="track",
-    )
-
     return Widths(
         chip=chip,
         depth=centers,
         best=na.ScalarArray(best, axes=axis_depth),
         lower=na.ScalarArray(lower, axes=axis_depth),
         upper=na.ScalarArray(upper, axes=axis_depth),
-        fitted=curves.mean("track") * width_pixel,
+        fitted=na.ScalarArray(trial[np.argmin(nll_fitted, axis=1)], axes=axis_depth),
     )

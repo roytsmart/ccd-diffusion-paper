@@ -16,9 +16,11 @@ classifiers = [
 dependencies = [
     "pylatex",
     "aastex~=0.7.0",
-    "optika~=2.2",
+    # the slab model of charge diffusion, until it is released in optika 4
+    "optika @ git+https://github.com/sun-data/optika.git@feature/diffusion-slab",
     "named-arrays",
     "scipy",
+    "numba",
 ]
 dynamic = ["version"]
 

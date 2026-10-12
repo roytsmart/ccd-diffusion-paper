@@ -1,7 +1,9 @@
+import concurrent.futures
 import pytest
 import numpy as np
 import astropy.units as u
 import named_arrays as na
+import optika
 import ccd_diffusion
 from . import _fit, _depleted
 
@@ -40,9 +42,10 @@ def test_frames():
         assert frame["saa"] in ("0", "1")
 
 
-def test_width():
+@pytest.mark.parametrize("model", ["slab", "gaussian"])
+def test_width(model: str):
     depth = na.linspace(0, 1, axis="t", num=11)
-    result = ccd_diffusion.tracks.width(depth, 0.4, 5 * u.um)
+    result = ccd_diffusion.tracks.width(depth, 0.4, 5 * u.um, model=model)
     assert result.shape == depth.shape
     assert result.unit is None
     assert result[dict(t=0)] == 5 * u.um / ccd_diffusion.tracks.width_pixel
@@ -50,19 +53,69 @@ def test_width():
     assert np.all(np.diff(result, axis="t") <= 0)
 
 
-def test_width_depleted():
+@pytest.mark.parametrize(
+    "model,wedge",
+    [("slab", 1 - 0.75**2), ("gaussian", 1 - 0.75)],
+)
+def test_width_depleted(model: str, wedge: float):
     depth = na.linspace(0, 1, axis="t", num=11)
     pixel = ccd_diffusion.tracks.width_pixel
-    result = ccd_diffusion.tracks.width(depth, 0.4, 5 * u.um, 1 * u.um)
+    result = ccd_diffusion.tracks.width(depth, 0.4, 5 * u.um, 1 * u.um, model)
     assert result.shape == depth.shape
     # the two spreads add in quadrature at the back surface
     assert np.isclose(result[dict(t=0)], np.sqrt(26) * u.um / pixel)
     # the field-free layer keeps the full depletion spread
-    assert np.isclose(result[dict(t=3)], np.sqrt(25 * 0.25 + 1) * u.um / pixel)
+    assert np.isclose(result[dict(t=3)], np.sqrt(25 * wedge + 1) * u.um / pixel)
     # which then falls linearly to zero at the gates
     assert result[dict(t=5)] > result[dict(t=8)] > 0
     assert result[dict(t=-1)] == 0
     assert np.all(np.diff(result, axis="t") <= 0)
+
+
+def test_width_unknown_model():
+    with pytest.raises(ValueError, match="unknown model"):
+        ccd_diffusion.tracks.width(0.1, 0.4, 5 * u.um, model="lorentzian")
+
+
+@pytest.mark.parametrize("model", ["slab", "gaussian"])
+def test_cloud(model: str):
+    tracks = ccd_diffusion.tracks
+    depth = na.linspace(0, 1, axis="t", num=21)
+    args = (depth, 0.4, 5 * u.um, 0.8 * u.um)
+    width, weight = tracks.cloud(*args, model=model)
+    assert np.allclose(weight.sum(tracks.axis_mixture), 1)
+    # the variance of the mixture is that of the model, except within a
+    # tenth of the field-free layer of the depletion region, where the slab's
+    # mixture misses the rare electrons that wander back toward the surface
+    variance = (weight * np.square(width)).sum(tracks.axis_mixture)
+    expected = np.square(tracks.width(*args, model=model))
+    away = (depth < 0.36) | (depth >= 0.4)
+    assert np.allclose(variance[away], expected[away], rtol=0.02)
+
+
+@pytest.mark.parametrize("depth", [0.05, 0.2, 0.35, 0.39, 0.6])
+def test_cloud_slab_is_optika(depth: float):
+    # the slab model with a free sigma_max is optika's model of a sensor
+    # sigma_max / t_c thick, so its pixel fractions are differences of
+    # optika's profile at the pixel edges
+    tracks = ccd_diffusion.tracks
+    tc = 0.4
+    sm = 5 * u.um
+    sd = 0.8 * u.um
+    thickness = sm / tc
+    model = optika.sensors.diffusion.SlabDiffusionModel(
+        thickness_depletion=(1 - tc) * thickness,
+        width_depletion=sd,
+    )
+    position = 0.17
+    t = na.ScalarArray(np.array([depth]), axes=tracks.axis_slice)
+    width, weight = tracks.cloud(t, tc, sm, sd)
+    result = tracks.fractions(position, width, 0, weight, tracks.axis_mixture)
+    edges = (tracks._fit._edges - position) * tracks.width_pixel
+    cdf = model.cdf(edges, depth * thickness, thickness)
+    expected = np.diff(cdf, axis=tracks.axis_pixel)
+    expected = expected / expected.sum(tracks.axis_pixel)
+    assert np.allclose(result, expected, atol=1e-6)
 
 
 @pytest.mark.parametrize("slope", [0, 0.3])
@@ -77,17 +130,20 @@ def test_fractions(slope: float):
 
 
 def _synthetic(
-    critical_depth: float, width_max: u.Quantity
+    critical_depth: float,
+    width_max: u.Quantity,
+    model: str = "slab",
 ) -> ccd_diffusion.tracks.Track:
+    tracks = ccd_diffusion.tracks
     length = 24
     signal = 20000
     noise = 5
-    axis_slice = ccd_diffusion.tracks.axis_slice
+    axis_slice = tracks.axis_slice
     depth = (na.arange(0, length, axis=axis_slice) + 0.5) / length
     position = 0.2 + 0 * depth
-    width = ccd_diffusion.tracks.width(depth, critical_depth, width_max)
-    charge = signal * ccd_diffusion.tracks.fractions(position, width, 0)
-    return ccd_diffusion.tracks.Track(
+    width, weight = tracks.cloud(depth, critical_depth, width_max, model=model)
+    charge = signal * tracks.fractions(position, width, 0, weight, tracks.axis_mixture)
+    return tracks.Track(
         name="synthetic",
         dataset="synthetic",
         chip="SJI",
@@ -103,10 +159,12 @@ def _synthetic(
     )
 
 
-def test_scan_synthetic():
-    track = _synthetic(0.4, 5 * u.um)
-    result = ccd_diffusion.tracks.scan(track)
+@pytest.mark.parametrize("model", ["slab", "gaussian"])
+def test_scan_synthetic(model: str):
+    track = _synthetic(0.4, 5 * u.um, model)
+    result = ccd_diffusion.tracks.scan(track, model)
     assert isinstance(result, ccd_diffusion.tracks.Scan)
+    assert result.model == model
     grid = ccd_diffusion.tracks.width_depleted
     assert result.misfit.shape == grid.shape
     # the track was made without any depletion spread, so it prefers none,
@@ -118,27 +176,58 @@ def test_scan_synthetic():
     assert misfit[-1] > 5 * misfit[0]
 
 
-def test_scan_matches_loss():
-    # the misfit assembled from the table agrees with the direct misfit of
-    # the best fit, on a real track whose read noise sets the tolerance
-    track = ccd_diffusion.tracks.flat("SJI")[0].track
-    result = ccd_diffusion.tracks.scan(track)
-    grid = ccd_diffusion.tracks.width_depleted.ndarray
+@pytest.mark.parametrize("model", ["slab", "gaussian"])
+def test_scan_matches_loss(model: str):
+    # the misfit of the search agrees with the direct misfit of the best
+    # fit, on a real track whose read noise sets the tolerance
+    tracks = ccd_diffusion.tracks
+    track = tracks.flat("SJI")[0].track
+    result = tracks.scan(track, model)
+    grid = tracks.width_depleted.ndarray
     for sd in (0 * u.um, 1 * u.um):
         best = result.at(sd)
-        direct = ccd_diffusion.tracks.loss(track, best.position, best.width)
+        width, weight = tracks.cloud(
+            best.depth, best.critical_depth, best.width_max, sd, model
+        )
+        direct = tracks.loss(track, best.position, width, weight, tracks.axis_mixture)
         i = int(np.argmin(np.abs(grid - sd)))
         assert float(direct.ndarray) == pytest.approx(
             float(result.misfit[dict(width_depleted=i)].ndarray), abs=0.5
         )
+        assert best.misfit == pytest.approx(float(direct.ndarray), abs=0.5)
 
 
-def test_fit_synthetic():
+def test_scan_slab_prunes_exactly():
+    # abandoning centerlines leaves the least misfit, and every misfit
+    # within two of it, as they are when every centerline is tried in full
+    tracks = ccd_diffusion.tracks
+    track = min(tracks.flat("FUV2"), key=lambda f: f.track.length).track
+    misfit = _fit._misfit_gaussian(track)
+    center = np.argmin(misfit, axis=(tracks.axis_offset, tracks.axis_tilt))
+    center = {a: center[a] for a in (tracks.axis_offset, tracks.axis_tilt)}
+    pruned, _ = _fit._misfit_slab(track, center, prune=True)
+    full, _ = _fit._misfit_slab(track, center, prune=False)
+    pruned, full = pruned.ndarray, full.ndarray
+    least = full.min(axis=(0, 1, 2), keepdims=True)
+    near = full < least + _fit._interval
+    near[0, 0, 0, 0] = True
+    assert np.array_equal(pruned[near], full[near])
+    assert np.all(pruned >= full)
+
+
+def test_scan_unknown_model():
+    with pytest.raises(ValueError, match="unknown model"):
+        ccd_diffusion.tracks.scan(_synthetic(0.4, 5 * u.um), "lorentzian")
+
+
+@pytest.mark.parametrize("model", ["slab", "gaussian"])
+def test_fit_synthetic(model: str):
     critical_depth = 0.4
     width_max = 5 * u.um
-    track = _synthetic(critical_depth, width_max)
-    result = ccd_diffusion.tracks.fit(track)
+    track = _synthetic(critical_depth, width_max, model)
+    result = ccd_diffusion.tracks.fit(track, model=model)
     assert isinstance(result, ccd_diffusion.tracks.Fit)
+    assert result.model == model
     assert result.width_depleted == 0 * u.um
     assert result.orientation == 1
     assert result.critical_depth == pytest.approx(critical_depth, abs=0.05)
@@ -153,48 +242,57 @@ def test_fit_synthetic():
     assert result.width_max_min <= result.width_max <= result.width_max_max
 
 
-def test_fits():
-    fits = ccd_diffusion.tracks.fits()
+@pytest.mark.parametrize("model", ["slab", "gaussian"])
+def test_fits(model: str):
+    fits = ccd_diffusion.tracks.fits(model)
     tracks = ccd_diffusion.tracks.load()
     assert len(fits) == len(tracks)
     assert [f.track.name for f in fits] == [t.name for t in tracks]
+    assert all(f.model == model for f in fits)
     assert sum(f.flat for f in fits) > 300
 
 
-def test_fit_matches_stored():
-    fits = {f.track.name: f for f in ccd_diffusion.tracks.fits()}
+@pytest.mark.parametrize("model", ["slab", "gaussian"])
+def test_fit_matches_stored(model: str):
+    fits = {f.track.name: f for f in ccd_diffusion.tracks.fits(model)}
     tracks = sorted(ccd_diffusion.tracks.load(), key=lambda t: t.length)[:3]
     for track in tracks:
         stored = fits[track.name]
-        result = ccd_diffusion.tracks.fit(track, stored.width_depleted)
+        result = ccd_diffusion.tracks.fit(track, stored.width_depleted, model)
         assert result.width_depleted == stored.width_depleted
         assert result.orientation == stored.orientation
         assert result.critical_depth == pytest.approx(stored.critical_depth, abs=1e-3)
         assert u.isclose(result.width_max, stored.width_max, atol=0.01 * u.um)
+        assert result.misfit == pytest.approx(stored.misfit, abs=1e-2)
         assert result.gain == pytest.approx(stored.gain, abs=1e-2)
 
 
-def test_save(monkeypatch, tmp_path):
-    stored = ccd_diffusion.tracks.fits()
+@pytest.mark.parametrize("model", ["slab", "gaussian"])
+def test_save(monkeypatch, tmp_path, model: str):
+    stored = ccd_diffusion.tracks.fits(model)
     chips = ("FUV1", "FUV2", "SJI")
-    pooled = tuple(ccd_diffusion.tracks.depleted(chip) for chip in chips)
-    monkeypatch.setattr(_fit, "_path_fits", tmp_path / "fits.csv")
-    monkeypatch.setattr(_depleted, "_path_depleted", tmp_path / "depleted.csv")
-    ccd_diffusion.tracks.save(stored, pooled)
+    pooled = tuple(ccd_diffusion.tracks.depleted(chip, model) for chip in chips)
+    monkeypatch.setitem(_fit._path_fits, model, tmp_path / "fits.csv")
+    monkeypatch.setitem(_depleted._path_depleted, model, tmp_path / "depleted.csv")
+    ccd_diffusion.tracks.save(stored, pooled, model)
     _fit.fits.cache_clear()
     _depleted.depleted.cache_clear()
     try:
-        reloaded = ccd_diffusion.tracks.fits()
-        reloaded_pooled = tuple(ccd_diffusion.tracks.depleted(chip) for chip in chips)
+        reloaded = ccd_diffusion.tracks.fits(model)
+        reloaded_pooled = tuple(
+            ccd_diffusion.tracks.depleted(chip, model) for chip in chips
+        )
     finally:
         _fit.fits.cache_clear()
         _depleted.depleted.cache_clear()
     assert len(reloaded) == len(stored)
     for a, b in zip(reloaded, stored):
         assert a.track is b.track
+        assert a.model == b.model
         assert a.width_depleted == b.width_depleted
         assert a.critical_depth == b.critical_depth
         assert a.width_max == b.width_max
+        assert a.misfit == b.misfit
         assert a.width_depleted_preferred == b.width_depleted_preferred
     for a, b in zip(reloaded_pooled, pooled):
         assert a.chip == b.chip
@@ -240,6 +338,18 @@ def test_summary(chip: str):
         result.critical_depth[0] <= result.critical_depth[1] <= result.critical_depth[2]
     )
     assert result.width_max[0] <= result.width_max[1] <= result.width_max[2]
+
+
+def test_same_pixel_ratio():
+    # a Gaussian cloud is separable, and the slab's, a mixture of separable
+    # Gaussians, puts two electrons in the same pixel more often than p^2
+    tracks = ccd_diffusion.tracks
+    args = (0.4, 5 * u.um, 0.8 * u.um)
+    assert tracks.same_pixel_ratio(*args, model="gaussian") == pytest.approx(1)
+    slab = tracks.same_pixel_ratio(*args, model="slab")
+    assert 1 < slab < 1.1
+    # deep in the depletion region the cloud is a single Gaussian again
+    assert tracks.same_pixel_ratio(*args, depth=0.9) == pytest.approx(1)
 
 
 def test_flat_requires_a_depleted_end():
@@ -339,7 +449,8 @@ def test_depleted(chip: str):
 
 def test_pooled():
     tracks = [f.track for f in ccd_diffusion.tracks.flat("SJI")][:12]
-    scans = [ccd_diffusion.tracks.scan(t) for t in tracks]
+    with concurrent.futures.ThreadPoolExecutor() as pool:
+        scans = list(pool.map(ccd_diffusion.tracks.scan, tracks))
     result = ccd_diffusion.tracks.pooled("SJI", scans)
     assert result.chip == "SJI"
     assert 0 < result.num <= len(tracks)

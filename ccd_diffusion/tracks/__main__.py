@@ -14,7 +14,8 @@ for a campaign from the data already in the package; and ``merge`` joins
 the directories either one wrote into the package's data files, which is
 how the ``data`` workflow handles every campaign in its own job.
 ``python -m ccd_diffusion.tracks fit`` refits every track and rewrites the
-fits.
+fits, or, with ``--chip`` and ``--output``, fits the tracks of some of the
+CCDs into a directory of their own, which ``fit --join`` joins with the rest.
 ``python -m ccd_diffusion.tracks browser`` writes every track and a frame
 from each camera of every campaign in the form the track browser of the
 documentation reads.
@@ -112,7 +113,24 @@ def main(argv: list[str]) -> None:
         "--output", type=pathlib.Path, help="write the candidates here as CSV"
     )
 
-    commands.add_parser("fit", help="refit every track")
+    fit = commands.add_parser("fit", help="refit every track")
+    fit.add_argument(
+        "--chip",
+        action="append",
+        choices=["FUV1", "FUV2", "NUV", "SJI"],
+        help="a CCD to fit; every CCD if not given",
+    )
+    fit.add_argument(
+        "--output",
+        type=pathlib.Path,
+        help="where to write the fits; the package's data directory if not given",
+    )
+    fit.add_argument(
+        "--join",
+        type=pathlib.Path,
+        nargs="+",
+        help="instead of fitting, join the --output directories of separate runs",
+    )
 
     browser = commands.add_parser(
         "browser", help="export the tracks and example frames for the documentation"
@@ -216,7 +234,16 @@ def main(argv: list[str]) -> None:
             tracks.save_search(found, args.output)
 
     elif args.command == "fit":
-        tracks.save(*tracks.fit_all(tracks.load()))
+        if args.join:
+            tracks.join_fits(args.join)
+        else:
+            chosen = tuple(
+                t for t in tracks.load() if args.chip is None or t.chip in args.chip
+            )
+            if args.output is not None:
+                args.output.mkdir(parents=True, exist_ok=True)
+            for model, (fits, depleted) in tracks.fit_all(chosen).items():
+                tracks.save(fits, depleted, model, args.output)
 
     elif args.command == "browser":
         num = tracks.export_tracks(args.output / "tracks.json")
