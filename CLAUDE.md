@@ -30,7 +30,7 @@ Run from this package directory:
 pip install -e .[test]          # install for development
 pytest                          # run tests; test_pdf compiles the LaTeX → PDF
 pytest ccd_diffusion/_document_test.py::test_pdf   # build the PDF specifically
-python -m ccd_diffusion.tracks fit      # refit every track with both models and rewrite tracks/data/iris_fits*.csv and iris_depleted*.csv (15 minutes on 48 threads, hours on a few)
+python -m ccd_diffusion.tracks fit      # refit every track with every model and rewrite tracks/data/iris_fits*.csv and iris_depleted*.csv (about 45 minutes on 48 threads, hours on a few)
 python -m ccd_diffusion.tracks fit --chip FUV2 --output out/FUV2   # fit one CCD's tracks into a directory of their own
 python -m ccd_diffusion.tracks fit --join out/*                    # join such directories into the package's fits
 python -m ccd_diffusion.tracks browser --output out   # write the track browser's JSON and rendered frames (fetches three frames per camera and campaign)
