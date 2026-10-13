@@ -43,7 +43,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: article
-          path: ccd_diffusion/ccd-diffusion.pdf
+          # with its formatted bibliography and the BibTeX files it was
+          # formatted from, which `pdf` publishes beside it
+          path: |
+            ccd_diffusion/ccd-diffusion.pdf
+            ccd_diffusion/ccd-diffusion.bbl
+            ccd_diffusion/*.bib
           if-no-files-found: error
       - name: Ask for the preview of a pull request the data workflow opened
         # GitHub does not run the `pdf` workflow after a run for a pull request

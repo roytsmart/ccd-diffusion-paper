@@ -135,6 +135,12 @@ campaign, and changing the finder fetches everything. The workflow
 approves the checks GitHub holds on the pull request it opened, so it
 needs no personal token.
 
+The `article` workflow builds the article on every push and pull request,
+and the `pdf` workflow publishes it at the link above for `main` and under
+`pr/N/` as a preview. Its formatted bibliography and BibTeX file are
+published beside it, as `ccd-diffusion.bbl` and `ccd-diffusion.bib`, for
+the cumulative References Cited of the dissertation that includes it.
+
 The `docs` workflow builds the documentation on every push and pull
 request and publishes it beside the article on GitHub Pages, under
 `docs/` for `main` and `pr/N/docs/` as a preview. The two slow parts,
