@@ -97,6 +97,12 @@ jobs:
             fi
             mkdir -p "pages/${DIR}"
             cp article/ccd-diffusion.pdf "pages/${DIR}/ccd-diffusion.pdf"
+            # the formatted bibliography, and the BibTeX files merged into one
+            # at a name that does not change, so that the dissertation which
+            # includes the article can gather its references into a
+            # cumulative list
+            cp article/ccd-diffusion.bbl "pages/${DIR}/ccd-diffusion.bbl"
+            for bib in article/*.bib; do cat "$bib"; echo; done > "pages/${DIR}/ccd-diffusion.bib"
             git -C pages config user.name "github-actions[bot]"
             git -C pages config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git -C pages add --all
