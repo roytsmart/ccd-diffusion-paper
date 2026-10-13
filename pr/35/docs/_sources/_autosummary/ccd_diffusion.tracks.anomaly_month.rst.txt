@@ -1,0 +1,6 @@
+anomaly\_month
+==============
+
+.. currentmodule:: ccd_diffusion.tracks
+
+.. autofunction:: ccd_diffusion.tracks.anomaly_month

@@ -1,0 +1,6 @@
+save\_frames
+============
+
+.. currentmodule:: ccd_diffusion.tracks
+
+.. autofunction:: ccd_diffusion.tracks.save_frames

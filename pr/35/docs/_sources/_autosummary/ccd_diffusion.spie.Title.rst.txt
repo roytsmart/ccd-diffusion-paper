@@ -1,0 +1,49 @@
+Title
+=====
+
+.. currentmodule:: ccd_diffusion.spie
+
+.. autoclass:: ccd_diffusion.spie.Title
+    :members:
+    :show-inheritance:
+    :inherited-members:
+    :undoc-members:
+    :member-order: groupwise
+
+    
+    
+    .. rubric:: Attributes
+
+    .. autosummary::
+    
+      ~Title.begin_paragraph
+      ~Title.end_paragraph
+      ~Title.escape
+      ~Title.latex_name
+      ~Title.packages
+      ~Title.separate_paragraph
+      ~Title.name
+    
+    
+
+    
+    
+    .. rubric:: Methods
+
+    .. autosummary::
+    
+      ~Title.__init__
+      ~Title.dump
+      ~Title.dump_packages
+      ~Title.dumps
+      ~Title.dumps_as_content
+      ~Title.dumps_packages
+      ~Title.generate_tex
+    
+    
+
+    
+    .. rubric:: Inheritance Diagram
+
+    .. inheritance-diagram:: ccd_diffusion.spie.Title
+    

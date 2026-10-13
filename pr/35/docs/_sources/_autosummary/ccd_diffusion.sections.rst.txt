@@ -1,0 +1,42 @@
+sections
+========
+
+.. automodule:: ccd_diffusion.sections
+
+    
+    
+    
+
+    
+    
+    .. rubric:: Functions
+
+    .. autosummary::
+      :toctree:
+      :template: function_custom.rst
+    
+      abstract
+      introduction
+      method
+      results
+      discussion
+      conclusion
+      gallery
+      disclosures
+      availability
+      acknowledgments
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+

@@ -1,0 +1,6 @@
+save\_depleted
+==============
+
+.. currentmodule:: ccd_diffusion.tracks
+
+.. autofunction:: ccd_diffusion.tracks.save_depleted
