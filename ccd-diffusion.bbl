@@ -1,0 +1,93 @@
+\begin{thebibliography}{10}
+
+\bibitem{Pavlov1999}
+G.~G. {Pavlov} and J.~A. {Nousek}, ``{Charge diffusion in CCD X-ray
+  detectors},'' {\em Nuclear Instruments and Methods in Physics Research A}
+  {\bf 428}, 348--366  (1999).
+
+\bibitem{Janesick2001}
+J.~R. {Janesick}, {\em {Scientific charge-coupled devices}}  (2001).
+
+\bibitem{Stern2004}
+R.~A. {Stern}, L.~{Shing}, P.~R. {Catura}, M.~D. {Morrison}, D.~W. {Duncan},
+  J.~R. {Lemen}, T.~{Eaton}, P.~J. {Pool}, R.~{Steward}, D.~M. {Walton}, and
+  A.~{Smith}, ``{Characterization of the flight CCD detectors for the GOES N
+  and O solar x-ray imagers},'' in {\em Telescopes and Instrumentation for
+  Solar Astrophysics},  S.~{Fineschi} and M.~A. {Gummin}, Eds., {\em Society of
+  Photo-Optical Instrumentation Engineers (SPIE) Conference Series} {\bf 5171},
+  77--88  (2004).
+
+\bibitem{Widenhorn2010}
+R.~Widenhorn, A.~Weber, M.~M. Blouke, A.~J. Bae, and E.~Bodegom, ``Charge
+  diffusion in the field-free region of charge-coupled devices,'' {\em Optical
+  Engineering} {\bf 49}(4), 044401  (2010).
+
+\bibitem{Fraser1994}
+G.~W. {Fraser}, A.~F. {Abbey}, A.~{Holland}, K.~{McCarthy}, A.~{Owens}, and
+  A.~{Wells}, ``{The X-ray energy response of silicon Part A. Theory},'' {\em
+  Nuclear Instruments and Methods in Physics Research A} {\bf 350}, 368--378
+  (1994).
+
+\bibitem{FisherLevine2015}
+M.~Fisher-Levine and A.~Nomerotski, ``Characterising {CCDs} with cosmic rays,''
+  {\em Journal of Instrumentation} {\bf 10}(08), C08006  (2015).
+
+\bibitem{DePontieu2014}
+B.~{De Pontieu}, A.~M. {Title}, J.~R. {Lemen}, G.~D. {Kushner}, D.~J. {Akin},
+  B.~{Allard}, T.~{Berger}, P.~{Boerner}, M.~{Cheung}, C.~{Chou}, J.~F.
+  {Drake}, D.~W. {Duncan}, S.~{Freeland}, G.~F. {Heyman}, C.~{Hoffman}, N.~E.
+  {Hurlburt}, R.~W. {Lindgren}, D.~{Mathur}, R.~{Rehse}, D.~{Sabolish},
+  R.~{Seguin}, C.~J. {Schrijver}, T.~D. {Tarbell}, J.~P. {W{\"u}lser}, C.~J.
+  {Wolfson}, C.~{Yanari}, J.~{Mudge}, N.~{Nguyen-Phuc}, R.~{Timmons}, R.~{van
+  Bezooijen}, I.~{Weingrod}, R.~{Brookner}, G.~{Butcher}, B.~{Dougherty},
+  J.~{Eder}, V.~{Knagenhjelm}, S.~{Larsen}, D.~{Mansir}, L.~{Phan}, P.~{Boyle},
+  P.~N. {Cheimets}, E.~E. {DeLuca}, L.~{Golub}, R.~{Gates}, E.~{Hertz},
+  S.~{McKillop}, S.~{Park}, T.~{Perry}, W.~A. {Podgorski}, K.~{Reeves},
+  S.~{Saar}, P.~{Testa}, H.~{Tian}, M.~{Weber}, C.~{Dunn}, S.~{Eccles}, S.~A.
+  {Jaeggli}, C.~C. {Kankelborg}, K.~{Mashburn}, N.~{Pust}, L.~{Springer},
+  R.~{Carvalho}, L.~{Kleint}, J.~{Marmie}, E.~{Mazmanian}, T.~M.~D. {Pereira},
+  S.~{Sawyer}, J.~{Strong}, S.~P. {Worden}, M.~{Carlsson}, V.~H. {Hansteen},
+  J.~{Leenaarts}, M.~{Wiesmann}, J.~{Aloise}, K.~C. {Chu}, R.~I. {Bush}, P.~H.
+  {Scherrer}, P.~{Brekke}, J.~{Martinez-Sykora}, B.~W. {Lites}, S.~W.
+  {McIntosh}, H.~{Uitenbroek}, T.~J. {Okamoto}, M.~A. {Gummin}, G.~{Auker},
+  P.~{Jerram}, P.~{Pool}, and N.~{Waltham}, ``{The Interface Region Imaging
+  Spectrograph (IRIS)},'' {\em Solar Physics} {\bf 289}, 2733--2779  (2014).
+
+\bibitem{Wulser2018}
+J.~P. {W{\"u}lser}, S.~{Jaeggli}, B.~{De Pontieu}, T.~{Tarbell}, P.~{Boerner},
+  S.~{Freeland}, W.~{Liu}, R.~{Timmons}, S.~{Brannon}, C.~{Kankelborg},
+  C.~{Madsen}, S.~{McKillop}, J.~{Prchlik}, S.~{Saar}, N.~{Schanche},
+  P.~{Testa}, P.~{Bryans}, and M.~{Wiesmann}, ``{Instrument Calibration of the
+  Interface Region Imaging Spectrograph (IRIS) Mission},'' {\em Solar Physics}
+  {\bf 293}, 149  (2018).
+
+\bibitem{Barth2003}
+J.~L. Barth, C.~S. Dyer, and E.~G. Stassinopoulos, ``Space, atmospheric, and
+  terrestrial radiation environments,'' {\em IEEE Transactions on Nuclear
+  Science} {\bf 50}(3), 466--482  (2003).
+
+\bibitem{Adriani2015}
+O.~Adriani, G.~C. Barbarino, G.~A. Bazilevskaya, {\em et~al.}, ``Trapped proton
+  fluxes at low {Earth} orbits measured by the {PAMELA} experiment,'' {\em The
+  Astrophysical Journal Letters} {\bf 799}(1), L4  (2015).
+
+\bibitem{Grosson2023}
+T.~A. Grosson and A.~Nomerotski, ``Fat cosmic ray tracks in charge-coupled
+  devices,'' {\em Journal of Astronomical Telescopes, Instruments, and Systems}
+  {\bf 9}(2), 028006  (2023).
+
+\bibitem{Palik1985}
+E.~D. Palik, {\em Handbook of Optical Constants of Solids}, Academic Press,
+  Orlando  (1985).
+
+\bibitem{Henke1993}
+B.~L. Henke, E.~M. Gullikson, and J.~C. Davis, ``X-ray interactions:
+  Photoabsorption, scattering, transmission, and reflection at {E} = 50-30,000
+  {eV}, {Z} = 1-92,'' {\em Atomic Data and Nuclear Data Tables} {\bf 54}(2),
+  181--342  (1993).
+
+\bibitem{Lasser2020}
+J.~{Lasser}, ``{Creating an executable paper is a journey through Open
+  Science},'' {\em Communications Physics} {\bf 3}, 143  (2020).
+
+\end{thebibliography}
