@@ -1,11 +1,13 @@
 import dataclasses
 import functools
 import numpy as np
+import scipy.special
 import astropy.units as u
 import named_arrays as na
 import ccd_diffusion
 from ._tracks import axis_pixel, half_width
-from ._fit import Fit, fits, width, fractions
+from ._slab import axis_mixture
+from ._fit import Fit, fits, cloud, fractions
 
 __all__ = [
     "axis_depth",
@@ -13,6 +15,7 @@ __all__ = [
     "depth_back",
     "same_pixel",
     "same_pixel_model",
+    "same_pixel_ratio",
     "Profile",
     "profile",
     "Summary",
@@ -55,8 +58,8 @@ def same_pixel_model(
 ) -> na.AbstractScalarArray:
     """
     The probability that two charges from the same slice are collected in the
-    same pixel column predicted by the diffusion model for the best-fit
-    centerline of the given track.
+    same pixel column predicted by the model of the given fit for its
+    best-fit centerline.
 
     Parameters
     ----------
@@ -69,9 +72,74 @@ def same_pixel_model(
     width_depleted
         The spread acquired crossing the depletion region.
     """
-    w = width(fit.depth, critical_depth, width_max, width_depleted)
-    q = fractions(fit.position, w, fit.track.slope)
+    w, weight = cloud(fit.depth, critical_depth, width_max, width_depleted, fit.model)
+    q = fractions(fit.position, w, fit.track.slope, weight, axis_mixture)
     return np.square(q).sum(axis_pixel)
+
+
+_landing = np.linspace(-0.5, 0.5, 101)
+"""Where in its pixel a photon lands, in pixels from the center of the pixel."""
+
+_edges_wide = np.arange(-half_width - 3, half_width + 4) + 0.5
+"""The boundaries of the pixels around the one a photon lands in, wide enough to hold its cloud."""
+
+
+def same_pixel_ratio(
+    critical_depth: float,
+    width_max: u.Quantity,
+    width_depleted: u.Quantity = 0 * u.um,
+    model: str = "slab",
+    depth: float = depth_back / 2,
+) -> float:
+    """
+    The probability that two electrons of a photon absorbed at the given
+    depth are collected in the same pixel, divided by the square of the
+    probability that they are collected in the same column, for a photon
+    landing anywhere in its pixel.
+
+    The cloud of a Gaussian model is the product of its profiles along the
+    two axes, so the ratio is one.
+    The cloud of the slab model is not: given the time an electron takes to
+    reach the depletion region its offsets along the two axes are
+    independent Gaussians, but a slow electron spreads along both, so the
+    cloud is a mixture of such products, from which each electron is drawn
+    independently.
+    For Gaussians :math:`k` and :math:`l` of the mixture with weights
+    :math:`w_k` and :math:`w_l`, let :math:`S_{kl}` be the probability that
+    two electrons drawn from them are collected in the same column; then
+    the probability for the same column is :math:`p = \\sum_{kl} w_k w_l
+    S_{kl}`, and that for the same pixel is :math:`\\sum_{kl} w_k w_l
+    S_{kl}^2`, which is never less than :math:`p^2`.
+
+    Parameters
+    ----------
+    critical_depth
+        The fractional thickness of the field-free region, :math:`t_c`.
+    width_max
+        The width of the charge cloud at the back surface.
+    width_depleted
+        The spread acquired crossing the depletion region.
+    model
+        One of :data:`ccd_diffusion.tracks.models`.
+    depth
+        The fractional depth at which the photon is absorbed.
+    """
+    width, weight = cloud(
+        na.ScalarArray(depth),
+        critical_depth,
+        width_max,
+        width_depleted,
+        model,
+    )
+    w = np.maximum(width.ndarray, 1e-3)
+    weight = np.broadcast_to(weight.ndarray, w.shape)
+    x = _edges_wide[np.newaxis, np.newaxis, :] - _landing[np.newaxis, :, np.newaxis]
+    cdf = scipy.special.erf(x / (np.sqrt(2) * w[:, np.newaxis, np.newaxis])) / 2
+    q = np.diff(cdf, axis=-1)
+    overlap = np.einsum("kpj,lpj->kl", q, q) / _landing.size
+    column = weight @ overlap @ weight
+    pixel = weight @ np.square(overlap) @ weight
+    return float(pixel / np.square(column))
 
 
 @dataclasses.dataclass(eq=False)
@@ -230,21 +298,46 @@ class Summary:
     width_max: u.Quantity
     """The 25th, 50th and 75th percentiles of the fitted :math:`\\sigma_\\text{max}`."""
 
+    thickness: u.Quantity
+    """
+    The thickness of the sensor implied by the fits of the slab model, whose
+    cloud at the back surface is as wide as the field-free layer is thick:
+    the mean :math:`\\sigma_\\text{max}` of the flat tracks divided by their
+    mean :math:`t_c`.
+
+    The ratio of each track alone lies on the lattice of the ratios of the
+    grid points, so the ratio of the means is the steadier estimate.
+    """
+
+    thickness_error: u.Quantity
+    """The standard error of :attr:`thickness`, from those of the two means."""
+
     same_pixel_1d: float
     """The measured same-pixel probability at the back surface along one axis."""
 
     same_pixel_1d_error: float
     """The standard error of :attr:`same_pixel_1d`."""
 
+    same_pixel_ratio: float
+    """
+    The same-pixel probability in two dimensions over the square of that
+    along one axis, from :func:`same_pixel_ratio` for the median fit of the
+    slab model at the back surface.
+    """
+
     @property
     def same_pixel(self) -> float:
-        """The measured same-pixel probability at the back surface in two dimensions."""
-        return self.same_pixel_1d**2
+        """
+        The measured same-pixel probability at the back surface in two
+        dimensions, the square of :attr:`same_pixel_1d` times
+        :attr:`same_pixel_ratio`.
+        """
+        return self.same_pixel_1d**2 * self.same_pixel_ratio
 
     @property
     def same_pixel_error(self) -> float:
         """The standard error of :attr:`same_pixel`."""
-        return 2 * self.same_pixel_1d * self.same_pixel_1d_error
+        return 2 * self.same_pixel_1d * self.same_pixel_1d_error * self.same_pixel_ratio
 
 
 @functools.cache
@@ -266,15 +359,33 @@ def summary(chip: str) -> Summary:
 
     tc = np.array([f.critical_depth for f in flat])
     sm = u.Quantity([f.width_max for f in flat])
+    thickness = sm.mean() / tc.mean()
+    thickness_error = (
+        thickness
+        * np.hypot(
+            sm.std() / sm.mean(),
+            tc.std() / tc.mean(),
+        )
+        / np.sqrt(len(flat))
+    )
+
+    width_depleted = ccd_diffusion.tracks.depleted(chip).best
+    critical_depth = tuple(np.percentile(tc, [25, 50, 75]))
+    width_max = np.percentile(sm, [25, 50, 75])
 
     return Summary(
         chip=chip,
         num_tracks=len(all_fits),
         num_flat=len(flat),
-        width_depleted=ccd_diffusion.tracks.depleted(chip).best,
-        critical_depth=tuple(np.percentile(tc, [25, 50, 75])),
+        width_depleted=width_depleted,
+        critical_depth=critical_depth,
         critical_depth_error=float(tc.std() / np.sqrt(len(tc))),
-        width_max=np.percentile(sm, [25, 50, 75]),
+        width_max=width_max,
+        thickness=thickness,
+        thickness_error=thickness_error,
         same_pixel_1d=float(measured[back].mean()),
         same_pixel_1d_error=float(measured[back].std() / np.sqrt(back.sum())),
+        same_pixel_ratio=same_pixel_ratio(
+            critical_depth[1], width_max[1], width_depleted
+        ),
     )

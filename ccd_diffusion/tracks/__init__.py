@@ -20,7 +20,12 @@ from ._tracks import (
     load,
     frames,
 )
+from ._slab import (
+    axis_mixture,
+    transit,
+)
 from ._fit import (
+    models,
     axis_critical_depth,
     axis_width_max,
     axis_width_depleted,
@@ -33,6 +38,7 @@ from ._fit import (
     offset,
     tilt,
     width,
+    cloud,
     fractions,
     loss,
     Fit,
@@ -42,6 +48,7 @@ from ._fit import (
     fit_all,
     fits,
     save,
+    join_fits,
 )
 from ._select import (
     url_catalog,
@@ -119,12 +126,17 @@ from ._depleted import (
     save_depleted,
     depleted,
 )
+from ._compare import (
+    Comparison,
+    comparison,
+)
 from ._samepix import (
     axis_depth,
     depth_bins,
     depth_back,
     same_pixel,
     same_pixel_model,
+    same_pixel_ratio,
     Profile,
     profile,
     Summary,
@@ -198,6 +210,8 @@ __all__ = [
     "kernel",
     "Widths",
     "widths",
+    "Comparison",
+    "comparison",
     "Depleted",
     "pooled",
     "save_depleted",
@@ -210,6 +224,9 @@ __all__ = [
     "Track",
     "load",
     "frames",
+    "axis_mixture",
+    "transit",
+    "models",
     "axis_critical_depth",
     "axis_width_max",
     "axis_width_depleted",
@@ -222,6 +239,7 @@ __all__ = [
     "offset",
     "tilt",
     "width",
+    "cloud",
     "fractions",
     "loss",
     "Fit",
@@ -231,11 +249,13 @@ __all__ = [
     "fit_all",
     "fits",
     "save",
+    "join_fits",
     "axis_depth",
     "depth_bins",
     "depth_back",
     "same_pixel",
     "same_pixel_model",
+    "same_pixel_ratio",
     "Profile",
     "profile",
     "Summary",

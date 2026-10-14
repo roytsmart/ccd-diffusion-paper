@@ -27,6 +27,13 @@ def test_export_tracks(tmp_path: pathlib.Path):
     assert len(columns["charge"][i][0]) == 2 * ccd_diffusion.tracks.half_width + 1
     assert np.allclose(columns["charge"][i], fits[i].track.charge.ndarray, atol=0.5)
     assert abs(columns["tc"][i] - fits[i].critical_depth) < 1e-3
+    predicted = np.array(columns["predicted"][i])
+    assert predicted.shape == (
+        fits[i].track.length,
+        2 * ccd_diffusion.tracks.half_width + 1,
+    )
+    assert np.allclose(predicted.sum(axis=1), 1, atol=1e-3)
+    assert len(columns["width"][i]) == fits[i].track.length
 
 
 def test_frame_choices():
